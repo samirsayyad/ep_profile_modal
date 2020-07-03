@@ -3,8 +3,8 @@
 		{
 			"name":"profile_modal",
 			"client_hooks":{
-				"postAceInit":"ep_profile_modal/static/js/horizontalLine",
-				"aceInitialized":"ep_profile_modal/static/js/horizontalLine"
+				"postAceInit":"ep_profile_modal/static/js/profileModal",
+				"aceInitialized":"ep_profile_modal/static/js/aceInitialized"
 			},
 			"hooks":{
 				"eejsBlock_editbarMenuRight":"ep_profile_modal/profile",
