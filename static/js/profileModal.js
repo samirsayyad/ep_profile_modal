@@ -5,6 +5,3 @@ exports.postAceInit = function (hook,context){
   	});
 }
 
-exports.aceInitialized= function (hook,context){
-	
-}
