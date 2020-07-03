@@ -1,0 +1,15 @@
+{
+	"parts":[
+		{
+			"name":"profile_modal",
+			"client_hooks":{
+
+			},
+			"hooks":{
+				"eejsBlock_editbarMenuRight":"ep_profile_modal/profile",
+				"eejsBlock_styles": "ep_profile_modal/profile"
+
+			}
+		}
+	]
+}

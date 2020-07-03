@@ -1,0 +1,23 @@
+{
+  "name": "ep_profile_modal",
+  "version": "1.0.0",
+  "description": "profile modal for Etherpad",
+  "main": "profile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samirsayyad/ep_profile_modal.git"
+  },
+  "keywords": [
+    "Etherpad",
+    "Profile"
+  ],
+  "author": "Samir Sayyad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samirsayyad/ep_profile_modal/issues"
+  },
+  "homepage": "https://github.com/samirsayyad/ep_profile_modal#readme"
+}
