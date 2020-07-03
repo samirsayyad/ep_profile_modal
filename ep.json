@@ -7,9 +7,7 @@
 				"aceInitialized":"ep_profile_modal/static/js/initialize"
 			},
 			"hooks":{
-				"eejsBlock_editbarMenuRight":"ep_profile_modal/profile",
-				"eejsBlock_styles": "ep_profile_modal/profile",
-				"eejsBlock_body": "ep_profile_modal/profile"
+				"eejsBlock_styles": "ep_profile_modal/profile"
 
 			}
 		}
