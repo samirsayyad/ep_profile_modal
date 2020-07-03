@@ -1,9 +1,22 @@
 #ep_profile_modal {
-    width : 150px;
-    height: 150px;
-    background-color: red;
+	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    width: 300px;
+    height: 300px;
     position: absolute;
-    top : 5%;
-    right : 5%;
+    top: 17%;
+    right: 2.5%;
     display: none;
+    overflow: hidden;
+    color: rgb(32, 33, 36);
+    z-index: 99999;
+	transform: translate(-50%, -100%);
+	transition: all .3s;
+	border-radius: 0 0 6px 6px;
+	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
+	border: 1px solid #e6e8e9;
+	font-size: 14px;
+}
+.ep_profile_modal-show {
+    transform: scale(1);
+    opacity: 1;
 }
