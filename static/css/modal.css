@@ -1,0 +1,9 @@
+#ep_profile_modal {
+    width : 150px;
+    height: 150px;
+    background-color: red;
+    position: absolute;
+    top : 5%;
+    right : 5%;
+    display: none;
+}
