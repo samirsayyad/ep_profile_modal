@@ -1,22 +1,26 @@
-#ep_profile_modal {
+.ep_profile_modal{
 	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 430px;
+    background-color: #fff;
     position: absolute;
     top: 17%;
-    right: 2.5%;
-    display: none;
-    overflow: hidden;
+    right: 2.3%;
+    visibility: hidden;
+        overflow: hidden;
     color: rgb(32, 33, 36);
-    z-index: 99999;
-	transform: translate(-50%, -100%);
+    z-index: 500;
 	transition: all .3s;
 	border-radius: 0 0 6px 6px;
 	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
 	border: 1px solid #e6e8e9;
-	font-size: 14px;
+    font-size: 14px;
+    transform: scale(.7);
+    opacity: 0;
+    transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
 }
 .ep_profile_modal-show {
     transform: scale(1);
     opacity: 1;
+    visibility: visible;
 }
