@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/samirsayyad/ep_profile_modal/issues"
   },
-  "homepage": "https://github.com/samirsayyad/ep_profile_modal#readme"
+  "homepage": "https://github.com/samirsayyad/ep_profile_modal#readme",
+  "dependencies": {
+    "gravatar": "^1.8.0"
+  }
 }
