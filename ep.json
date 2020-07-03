@@ -5,9 +5,11 @@
 			"client_hooks":{
 				"postAceInit":"ep_profile_modal/static/js/profileModal",
 				"aceInitialized":"ep_profile_modal/static/js/initialize"
+				
 			},
 			"hooks":{
-				"eejsBlock_styles": "ep_profile_modal/profile"
+				"eejsBlock_styles": "ep_profile_modal/profile",
+				"clientVars": "ep_profile_modal/profile"
 
 			}
 		}
