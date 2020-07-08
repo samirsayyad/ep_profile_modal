@@ -6,6 +6,11 @@ exports.eejsBlock_styles = function (hook_name, args, cb) {
     return cb();
 }
 
+exports.eejsBlock_body = function (hook_name, args, cb) {
+    args.content = args.content + eejs.require("ep_profile_modal/templates/profileModal.html", {}, module);
+    return cb();
+}
+
 exports.clientVars = function  (hook, context, callback){
     var httpsUrl = gravatar.url('samir.saiad@gmail.com', {protocol: 'https', s: '100'});
     var profile_url = gravatar.profile_url('samir.saiad@gmail.com', {protocol: 'https' });

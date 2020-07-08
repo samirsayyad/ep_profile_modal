@@ -9,8 +9,8 @@
 			},
 			"hooks":{
 				"eejsBlock_styles": "ep_profile_modal/profile",
-				"clientVars": "ep_profile_modal/profile"
-
+				"clientVars": "ep_profile_modal/profile",
+				"eejsBlock_body":"ep_profile_modal/profile"
 			}
 		}
 	]
