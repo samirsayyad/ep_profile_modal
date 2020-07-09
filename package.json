@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/samirsayyad/ep_profile_modal#readme",
   "dependencies": {
-    "gravatar": "^1.8.0"
+    "gravatar": "^1.8.0",
+    "node-fetch": "^2.6.0"
   }
 }

@@ -41,19 +41,59 @@
 
 .ep_profile_modal_section_image{
     width : 100%;
-    height: 20%;
-    border-bottom: 1px solid gray;
+    height: 30%;
+    padding-top: 5%;
 }
 
 
 .ep_profile_modal_section_info{
     width : 100%;
     height: 20%;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #e8eaed;
 }
 .ep_profile_modal_section_image_big{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 
+}
+.ep_profile_modal_section_info_name{
+    display: block;
+    text-align: center;
+    color: #202124;
+    font: 500 16px/22px Google Sans,Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    letter-spacing: .29px;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.ep_profile_modal_section_info_email{
+    color: #5f6368;
+    font: 400 14px/19px Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    letter-spacing: normal;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.ep_profile_modal_section_info_input{
+    display: block;
+    margin: auto;
+    margin-bottom: 2%;
+    background-color: white !important;
+    border: 1px solid #eee !important;
+}
+.ep_profile_modal_section_info_submit{
+    display: block;
+    margin: auto;
+    margin-bottom: 2%;
+    background-color: green !important;
+    border: 1px solid #eee !important;
+}
+.ep_profile_modal_section_info_correct{
+    width: 32px;
+    height: 32px;
 }

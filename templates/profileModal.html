@@ -1,7 +1,17 @@
-<div class='ep_profile_modal' id='ep_profile_modal'>
-    <div class="ep_profile_modal_section_image">
-        <img id='ep_profile_modal_section_image_big'  src="${profile_image_url}" />
-    </div>
-    <div class="ep_profile_modal_section_info"></div>
+<script id="ep_profile_modal_script" type="text/html">
 
-</div>
+    <div class='ep_profile_modal' id='ep_profile_modal'>
+        <div class="ep_profile_modal_section_image">
+            <img class='ep_profile_modal_section_image_big'  src="${profile_image_url}" />
+        </div>
+        <div class="ep_profile_modal_section_info">
+            <p class="ep_profile_modal_section_info_name">
+               ${(profile_json) ?  profile_json.displayName : ""}
+            </p>
+            <p class="ep_profile_modal_section_info_email">
+                ${(user_email) ? user_email : "" }
+             </p>
+        </div>
+
+    </div>
+</script>
