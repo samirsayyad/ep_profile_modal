@@ -10,6 +10,7 @@
 			"hooks":{
 				"eejsBlock_styles": "ep_profile_modal/profile",
 				"clientVars": "ep_profile_modal/profile",
+				"handleMessage": "ep_profile_modal/profile",
 				"eejsBlock_scripts":"ep_profile_modal/profile"
 			}
 		}

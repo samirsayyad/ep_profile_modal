@@ -1,10 +1,8 @@
 var eejs = require('ep_etherpad-lite/node/eejs/');
+var db = require('ep_etherpad-lite/node/db/DB');
 var gravatar = require('gravatar');
 const fetch = require('node-fetch');
-var user_email = 'asamir.saiad@gmail.com' ;
-var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
-var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
-var profile_json = null;
+
 var padMessageHandler = require("../../src/node/handler/PadMessageHandler");
 
 exports.eejsBlock_styles = function (hook_name, args, cb) {
@@ -20,18 +18,22 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 }
 
 exports.clientVars = async function  (hook, context, callback){
+  console.log(context.clientVars)
+  console.log(context.clientVars.userId)
+  var user_email = await db.get("email:"+context.clientVars.userId);
+  console.log("res : ", user_email)
 
-    //console.log(httpsUrl , "here")
-    
+  var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
+  var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
+  var profile_json = null;
+  profile_json = await fetch(profile_url) ;
+  profile_json = await profile_json.json()
+  console.log(profile_json  +  " jjjjjjjj")
 
-    profile_json = await fetch(profile_url) ;
-    profile_json = await profile_json.json()
-    console.log(profile_json  +  " jjjjjjjj")
-
-    if (profile_json !="User not found")
-        profile_json = profile_json.entry[0]
-    else
-        profile_json = null 
+  if (profile_json !="User not found")
+      profile_json = profile_json.entry[0]
+  else
+      profile_json = null 
     //console.log(profile_json.entry[0] +  " jjjjjjjj")
     return callback({
         ep_profile_modal: {
@@ -69,15 +71,8 @@ exports.handleMessage = async function(hook_name, context, callback){
   }
 
   var message = context.message.data;
-  if(message.action === 'ep_profile_modal_send_username'){
-    var msg = {
-      type: "COLLABROOM",
-      data: { 
-        type: "USERINFO_UPDATE",
-        userInfo: userInfo
-      }
-    };
-    sendToRoom(message, msg);
+  if(message.action === 'ep_profile_modal_send_email'){
+    db.set("email:"+message.userId, message.email);
   }
 
   if(isProfileMessage === true){
@@ -87,14 +82,3 @@ exports.handleMessage = async function(hook_name, context, callback){
   }
 }
 
-function sendToRoom(message, msg){
-    var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.
-    if(bufferAllows){
-      setTimeout(function(){ // This is bad..  We have to do it because ACE hasn't redrawn by the time the chat has arrived
-        padMessageHandler.handleCustomObjectMessage(msg, false, function(){
-          // TODO: Error handling.
-        })
-      }
-      , 100);
-    }
-  }

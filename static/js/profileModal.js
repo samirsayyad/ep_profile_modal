@@ -25,5 +25,23 @@ exports.postAceInit = function (hook,context){
 		}
 
 	  })
+
+
+
+	  $("#ep_profile_modal_email_listener").on('click',function(){
+		var email = $("#ep_profile_modal_email").val();
+		console.log(email, "we are going to")
+		if(email){
+			var message = {
+				type : 'ep_profile_modal',
+				action : "ep_profile_modal_send_email" ,
+				email : email ,
+				userId :  pad.getUserId() ,
+
+			  }
+			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+		}
+
+	  })
 }
 

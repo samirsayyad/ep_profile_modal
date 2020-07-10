@@ -12,8 +12,8 @@
                 </div>
             </div>
             <div class="ep_profile_modal_input_box">
-                <input type="text" class="ep_profile_modal_section_info_input" placeholder = "Email"> 
-                <div class="ep_profile_modal_section_info_correct_style">
+                <input  value="${(typeof ep_profile_modal.user_email !== 'undefined') ?  ep_profile_modal.user_email : null }"  id="ep_profile_modal_email" type="text" class="ep_profile_modal_section_info_input" placeholder = "Email"> 
+                <div id="ep_profile_modal_email_listener" class="ep_profile_modal_section_info_correct_style">
                     <img class="ep_profile_modal_section_info_correct" src="../static/plugins/ep_profile_modal/static/img/check.png">
                 </div>
             </div>
