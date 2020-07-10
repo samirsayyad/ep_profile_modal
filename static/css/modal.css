@@ -38,7 +38,9 @@
     border-radius: 50%;
     cursor: pointer;
 }
-
+#ep-profile-image:hover{
+    background-color: darkgray;
+}
 .ep_profile_modal_section_image{
     width : 100%;
     height: 30%;
@@ -48,8 +50,10 @@
 
 .ep_profile_modal_section_info{
     width : 100%;
-    height: 20%;
+    height: 21%;
     border-bottom: 1px solid #e8eaed;
+    display: inline-grid;
+    margin: auto;
 }
 .ep_profile_modal_section_image_big{
     width: 80px;
@@ -96,4 +100,21 @@
 .ep_profile_modal_section_info_correct{
     width: 32px;
     height: 32px;
+    /* border: 1.2px green solid; */
+
+}
+.ep_profile_modal_input_box {
+    display: inline-flex;
+    margin: auto;
+}
+.ep_profile_modal_section_info_correct_style{
+    /* border: 1px green solid; */
+    padding: 0.4%;
+    height: 36px;
+    width: 36px;
+    cursor: pointer;
+}
+.ep_profile_modal_section_info_correct:hover{
+    border: 0px;
+
 }

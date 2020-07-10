@@ -5,9 +5,19 @@
             <img class='ep_profile_modal_section_image_big'  src="../static/plugins/ep_profile_modal/static/img/user.png" />
         </div>
         <div class="ep_profile_modal_section_info">
-            <div><input type="text" class="ep_profile_modal_section_info_input" placeholder = "Username"> <img class="ep_profile_modal_section_info_correct" src="../static/plugins/ep_profile_modal/static/img/correct.png"></div>
-            <input type="text" class="ep_profile_modal_section_info_input" placeholder = "Email"> <img class="ep_profile_modal_section_info_correct" src="../static/plugins/ep_profile_modal/static/img/correct.png">
-            <input type="submit" class="ep_profile_modal_section_info_submit"  >
+            <div class="ep_profile_modal_input_box">
+                <input value="${(typeof userName !== 'undefined') ?  userName : null }" type="text" id="ep_profile_modal_username" class="ep_profile_modal_section_info_input" placeholder = "Username">
+                <div id="ep_profile_modal_username_listener" class="ep_profile_modal_section_info_correct_style">
+                    <img class="ep_profile_modal_section_info_correct" src="../static/plugins/ep_profile_modal/static/img/check.png">
+                </div>
+            </div>
+            <div class="ep_profile_modal_input_box">
+                <input type="text" class="ep_profile_modal_section_info_input" placeholder = "Email"> 
+                <div class="ep_profile_modal_section_info_correct_style">
+                    <img class="ep_profile_modal_section_info_correct" src="../static/plugins/ep_profile_modal/static/img/check.png">
+                </div>
+            </div>
+            
 
         </div>
 
