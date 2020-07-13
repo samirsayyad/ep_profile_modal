@@ -118,3 +118,23 @@
     border: 0px;
 
 }
+.userlist{
+    width : 16px;
+    height: 16px;
+    display: inline-grid;
+    margin: auto;
+    display: contents;
+}
+.userlist_img{
+    width : 16px;
+    height: 16px;
+    display: inline-grid;
+    margin: auto;
+}
+.userlist_count{
+    margin-right: 0.5%;
+    font-weight: 900;
+    font-size: 16pt;
+    color: #2678ff;
+    margin-top: 3px;
+}
