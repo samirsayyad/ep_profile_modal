@@ -18,7 +18,8 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 }
 
 exports.clientVars = async function  (hook, context, callback){
-  console.log(context.clientVars)
+  console.log(padMessageHandler)
+  //console.log(context.clientVars)
   console.log(context.clientVars.userId)
   var user_email = await db.get("email:"+context.clientVars.userId);
   var user_status = await db.get("status:"+context.clientVars.userId);
@@ -74,14 +75,27 @@ exports.handleMessage = async function(hook_name, context, callback){
   }
 
   var message = context.message.data;
-  if(message.action === 'ep_profile_modal_send_email'){
+  if(message.action === 'ep_profile_modal_login'){
     db.set("email:"+message.userId, message.email);
     db.set("status:"+message.userId, "2");
+
+    var httpsUrl = gravatar.url(message.email, {protocol: 'https', s: '200'});
+    var profile_url = gravatar.profile_url(message.email, {protocol: 'https' });
+    var message = {data:{
+      type:"CUSTOM",
+      action : 'USER_IMAGE',
+      httpsUrl : httpsUrl,
+      profile_url :  profile_url ,
+
+      }}
+      console.log(padMessageHandler.handleCustomObjectMessage(message ,padMessageHandler.sessioninfos ))
+
   }
   if(message.action === "ep_profile_modal_logout"){
     db.set("status:"+message.userId, "1");
   }
 
+  
   if(isProfileMessage === true){
     callback([null]);
   }else{
