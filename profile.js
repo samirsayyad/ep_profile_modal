@@ -21,6 +21,8 @@ exports.clientVars = async function  (hook, context, callback){
   console.log(context.clientVars)
   console.log(context.clientVars.userId)
   var user_email = await db.get("email:"+context.clientVars.userId);
+  var user_status = await db.get("status:"+context.clientVars.userId);
+
   console.log("res : ", user_email)
 
   var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
@@ -40,6 +42,7 @@ exports.clientVars = async function  (hook, context, callback){
             profile_image_url: httpsUrl,
             profile_json : profile_json  ,
             user_email : user_email ,
+            user_status : user_status 
         }
     });
 }
@@ -73,6 +76,10 @@ exports.handleMessage = async function(hook_name, context, callback){
   var message = context.message.data;
   if(message.action === 'ep_profile_modal_send_email'){
     db.set("email:"+message.userId, message.email);
+    db.set("status:"+message.userId, "2");
+  }
+  if(message.action === "ep_profile_modal_logout"){
+    db.set("status:"+message.userId, "1");
   }
 
   if(isProfileMessage === true){

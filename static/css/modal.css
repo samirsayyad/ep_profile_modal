@@ -24,7 +24,7 @@
     opacity: 1;
     visibility: visible;
 }
-#ep-profile-button{
+.ep-profile-button{
     height: 35px;
     width: 43px;
     /* background-color: #bbb; */

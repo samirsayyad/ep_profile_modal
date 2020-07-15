@@ -5,7 +5,8 @@ exports.postAceInit = function (hook,context){
 
 	console.log("samir",pad.collabClient.getConnectedUsers())
 	var hs = $('#ep-profile-button');
-	
+	var hs_ask = $('#ep-profile-button-ask');
+
 	hs.on('click', function(){
 		($('#ep_profile_modal').hasClass('ep_profile_modal-show'))?
 		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
@@ -14,6 +15,13 @@ exports.postAceInit = function (hook,context){
 
 	  });
 	  
+	hs_ask.on('click', function(){
+		($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))?
+		$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+		:
+		$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+
+	});
 	  $("#ep_profile_modal_username_listener").on('click',function(){
 		var username = $("#ep_profile_modal_username").val();
 		//console.log(username, "we are going to")
@@ -55,5 +63,37 @@ exports.postAceInit = function (hook,context){
 		}
 
 	  })
+
+
+	  $("#ep_profile_modal_signout").on('click',function(){
+		var message = {
+			type : 'ep_profile_modal',
+			action : "ep_profile_modal_logout" ,
+			email : $("#ep_profile_hidden_email").val() ,
+			userId :  pad.getUserId() ,
+
+		  }
+		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+		$("#ep-profile-image").attr("src","../static/plugins/ep_profile_modal/static/img/user.png");
+		$("#ep-profile-button").attr("id","ep-profile-button-ask");
+		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+		$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+
+	  })
+
+
+	// $('body').click(function (event) {
+	// 	// if(!$(event.target).closest('#ep-profile-button').length && !$(event.target).is('#ep-profile-button')
+	// 	// 	&& !$(event.target).closest('#ep-profile-button-ask').length && !$(event.target).is('#ep-profile-button-ask')
+	// 	// ) {
+	// 	// 	$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+	// 	// 	$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+	// 	// }
+
+
+	// });
+
+
 }
 
+ 
