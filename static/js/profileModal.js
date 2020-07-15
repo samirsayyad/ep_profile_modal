@@ -114,7 +114,7 @@ exports.postAceInit = function (hook,context){
 			var message = {
 				type : 'ep_profile_modal',
 				action : "ep_profile_modal_login" ,
-				email : $("#ep_profile_hidden_email").val() ,
+				email : email ,
 				userId :  pad.getUserId() ,
 	
 			  }

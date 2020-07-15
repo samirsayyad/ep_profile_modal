@@ -76,6 +76,7 @@ exports.handleMessage = async function(hook_name, context, callback){
 
   var message = context.message.data;
   if(message.action === 'ep_profile_modal_login'){
+    console.log(message)
     db.set("email:"+message.userId, message.email);
     db.set("status:"+message.userId, "2");
 
@@ -88,7 +89,7 @@ exports.handleMessage = async function(hook_name, context, callback){
       profile_url :  profile_url ,
 
       }}
-      console.log(padMessageHandler.handleCustomObjectMessage(message ,padMessageHandler.sessioninfos ))
+      //console.log(padMessageHandler.handleCustomObjectMessage(message ,padMessageHandler.sessioninfos ))
 
   }
   if(message.action === "ep_profile_modal_logout"){
