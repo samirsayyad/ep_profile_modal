@@ -7,17 +7,21 @@
         <div class="ep_profile_modal_section_info">
             <div class="ep_profile_modal_input_box">
                 <input value="${(typeof userName !== 'undefined') ?  userName : null }" type="text" id="ep_profile_modal_username" class="ep_profile_modal_section_info_input" placeholder = "Username">
-                <div id="ep_profile_modal_username_listener" class="ep_profile_modal_section_info_correct_style">
+                <!-- <div id="ep_profile_modal_username_listener" class="ep_profile_modal_section_info_correct_style">
                     <img class="ep_profile_modal_section_info_correct" src="../static/plugins/ep_profile_modal/static/img/check.png">
-                </div>
+                </div> -->
             </div>
             <div class="ep_profile_modal_input_box">
                 <input  value="${(typeof ep_profile_modal.user_email !== 'undefined') ?  ep_profile_modal.user_email : null }"  id="ep_profile_modal_email" type="text" class="ep_profile_modal_section_info_input" placeholder = "Email"> 
-                <div id="ep_profile_modal_email_listener" class="ep_profile_modal_section_info_correct_style">
+                <!-- <div id="ep_profile_modal_email_listener" class="ep_profile_modal_section_info_correct_style">
                     <img class="ep_profile_modal_section_info_correct" src="../static/plugins/ep_profile_modal/static/img/check.png">
-                </div>
+                </div> -->
             </div>
-            
+            <div class="ep_profile_modal_input_box">
+                <input  value="Submit"  id="ep_profile_modal_submit" type="button" class="ep_profile_modal_submit"> 
+
+            </div>
+
 
         </div>
 
