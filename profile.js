@@ -2,6 +2,7 @@ var eejs = require('ep_etherpad-lite/node/eejs/');
 var db = require('ep_etherpad-lite/node/db/DB');
 var gravatar = require('gravatar');
 const fetch = require('node-fetch');
+var socketio;
 
 var padMessageHandler = require("../../src/node/handler/PadMessageHandler");
 
@@ -18,7 +19,7 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 }
 
 exports.clientVars = async function  (hook, context, callback){
-  console.log(padMessageHandler)
+  //console.log(padMessageHandler)
   //console.log(context.clientVars)
   console.log(context.clientVars.userId)
   var user_email = await db.get("email:"+context.clientVars.userId);
@@ -53,6 +54,17 @@ exports.clientVars = async function  (hook, context, callback){
 */
 exports.handleMessage = async function(hook_name, context, callback){
     // Firstly ignore any request that aren't about chat
+    console.log(socketio.sockets.sockets[context.client.id] )
+    var msg = {
+      type: "COLLABROOM",
+      data: {
+        type: "ep_profile_modal",
+        action :"USER_IMAGE"
+      },
+    }
+    //socketio.sockets.sockets[context.client.id].send("aaaaaaaaaaaaa")
+    //socketio.sockets.sockets[context.client.id].json.send(msg);
+
     var isProfileMessage = false;
     if(context){
       if(context.message && context.message){
@@ -77,8 +89,8 @@ exports.handleMessage = async function(hook_name, context, callback){
   var message = context.message.data;
   if(message.action === 'ep_profile_modal_login'){
     console.log(message)
-    db.set("email:"+message.userId, message.email);
-    db.set("status:"+message.userId, "2");
+    db.setSub("email:"+message.userId, message.email);
+    db.setSub("status:"+message.userId, "2");
 
     var httpsUrl = gravatar.url(message.email, {protocol: 'https', s: '200'});
     var profile_url = gravatar.profile_url(message.email, {protocol: 'https' });
@@ -89,11 +101,12 @@ exports.handleMessage = async function(hook_name, context, callback){
       profile_url :  profile_url ,
 
       }}
-      //console.log(padMessageHandler.handleCustomObjectMessage(message ,padMessageHandler.sessioninfos ))
+      //console.log(padMessageHandler.handleCustomObjectMessage(message ,context.client.id ))
+
 
   }
   if(message.action === "ep_profile_modal_logout"){
-    db.set("status:"+message.userId, "1");
+    db.setSub("status:"+message.userId, "1");
   }
 
   
@@ -104,3 +117,8 @@ exports.handleMessage = async function(hook_name, context, callback){
   }
 }
 
+exports.socketio = function (hook, context, callback)
+{
+  socketio = context.io;
+  callback();
+};
