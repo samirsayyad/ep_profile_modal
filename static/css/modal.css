@@ -38,6 +38,7 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
 #ep-profile-image:hover{
     background-color: darkgray;
 }
@@ -56,6 +57,15 @@
     margin: auto;
 }
 .ep_profile_modal_section_image_big{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
+}
+.ep_profile_modal_section_image_big_ask{
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -132,6 +142,12 @@ width: 16px;
     margin: auto;
     margin-left: .25%;
     margin-top: 13px;
+}
+.userlist_img hide{
+    visibility: hidden;
+}
+.userlist_img show{
+    visibility: visible;
 }
 .userlist_count{
     margin-right: 0.5%;

@@ -2,15 +2,18 @@ var helper = require("./helper")
 
 exports.handleClientMessage_USER_NEWINFO = function(hook, context){
 	//console.log("salam samir ma ma ",context,hook,pad.collabClient.getConnectedUsers().length);
-	var usersListHTML = helper.createHTMLforUserList(44,pad.collabClient.getConnectedUsers())
+	// var usersListHTML = helper.createHTMLforUserList(44,pad.collabClient.getConnectedUsers())
+	console.log(context)
+	// $("#userlist").html(usersListHTML)
+	helper.increaseUserFromList(44,context.payload.userId)
 
-	$("#userlist").html(usersListHTML)
 }
 exports.handleClientMessage_USER_LEAVE = function(hook, context){
 	//console.log("salam samir ma ma ",context,hook,pad.collabClient.getConnectedUsers().length);
-	var usersListHTML = helper.createHTMLforUserList(44,pad.collabClient.getConnectedUsers())
-
-	$("#userlist").html(usersListHTML)
+	// var usersListHTML = helper.createHTMLforUserList(44,pad.collabClient.getConnectedUsers())
+	console.log(context)
+	// $("#userlist").html(usersListHTML)
+	helper.decreaseUserFromList(44,context.payload.userId)
 }
 exports.handleClientMessage_EP_PROFILE_IMAGE = function(hook, context){
 	console.log("asssssssssssssssssssssssssssssssssssss",hook,context)
