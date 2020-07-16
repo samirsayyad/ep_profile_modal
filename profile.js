@@ -54,14 +54,16 @@ exports.clientVars = async function  (hook, context, callback){
 */
 exports.handleMessage = async function(hook_name, context, callback){
     // Firstly ignore any request that aren't about chat
-    console.log(socketio.sockets.sockets[context.client.id] )
+    //console.log(socketio.sockets.sockets[context.client.id] )
     var msg = {
-      type: "COLLABROOM",
+      type: "CUSTOM",
       data: {
         type: "ep_profile_modal",
-        action :"USER_IMAGE"
+        action :"USER_IMAGE",
+        payload :{}
       },
     }
+
     //socketio.sockets.sockets[context.client.id].send("aaaaaaaaaaaaa")
     //socketio.sockets.sockets[context.client.id].json.send(msg);
 
@@ -94,19 +96,37 @@ exports.handleMessage = async function(hook_name, context, callback){
 
     var httpsUrl = gravatar.url(message.email, {protocol: 'https', s: '200'});
     var profile_url = gravatar.profile_url(message.email, {protocol: 'https' });
-    var message = {data:{
-      type:"CUSTOM",
-      action : 'USER_IMAGE',
-      httpsUrl : httpsUrl,
-      profile_url :  profile_url ,
+    // var message = {data:{
+    //   type:"CUSTOM",
+    //   action : 'USER_IMAGE',
+    //   httpsUrl : httpsUrl,
+    //   profile_url :  profile_url ,
 
-      }}
+    //   }}
       //console.log(padMessageHandler.handleCustomObjectMessage(message ,context.client.id ))
+      var msg = {
+        type: "COLLABROOM",
+        data: {
+          type: "ep_profile_modal",
+          action :"USER_IMAGE",
+        },
+      }
+      socketio.sockets.sockets[context.client.id].json.send(msg)
 
 
   }
   if(message.action === "ep_profile_modal_logout"){
     db.setSub("status:"+message.userId, "1");
+    var msg = {
+      type: "COLLABROOM",
+      data: {
+        type: "ep_profile_modal",
+        action :"USER_IMAGE",
+      },
+    }
+    socketio.sockets.sockets[context.client.id].json.send(msg)
+
+
   }
 
   
