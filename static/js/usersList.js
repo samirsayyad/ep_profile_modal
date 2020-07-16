@@ -12,3 +12,9 @@ exports.handleClientMessage_USER_LEAVE = function(hook, context){
 
 	$("#userlist").html(usersListHTML)
 }
+exports.handleClientMessage_EP_PROFILE_IMAGE = function(hook, context){
+
+	$("#ep-profile-image").attr("src",context.payload.data);
+	$(".ep_profile_modal_section_image_big").attr("src",context.payload.data);
+	console.log("asssssssssssssssssssssssssssssssssssss",hook,context)
+}
