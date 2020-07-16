@@ -185,3 +185,17 @@ width: 16px;
     height: 22px;
     margin-top: 5%; 
 }
+#ep_profile_modal_close_ask{
+    color : "black" ;
+    float: right;
+    margin-right: 2%;
+    font-size: 14pt;
+    cursor: pointer;
+}
+#ep_profile_modal_close{
+    color : "black" ;
+    float: right;
+    margin-right: 2%;
+    font-size: 14pt;
+    cursor: pointer;
+}
