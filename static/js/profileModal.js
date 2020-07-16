@@ -116,7 +116,8 @@ exports.postAceInit = function (hook,context){
 				action : "ep_profile_modal_login" ,
 				email : email ,
 				userId :  pad.getUserId() ,
-	
+				name: username,
+
 			  }
 			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
 

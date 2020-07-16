@@ -4,11 +4,11 @@
         <div class="ep_profile_modal_section_image">
             <img class='ep_profile_modal_section_image_big'  src="${ep_profile_modal.profile_image_url}" />
         </div>
-        <div class="ep_profile_modal_section_info">
-            <p class="ep_profile_modal_section_info_name">
-               ${(ep_profile_modal.profile_json) ?  ep_profile_modal.profile_json.displayName : ""}
+        <div class="ep_profile_modal_section_info_modal">
+            <p class="ep_profile_modal_section_info_name" id ="ep_profile_modal_section_info_name">
+               ${(ep_profile_modal.userName) ?  ep_profile_modal.userName : ""}
             </p>
-            <p class="ep_profile_modal_section_info_email">
+            <p class="ep_profile_modal_section_info_email" id ="ep_profile_modal_section_info_email">
                 ${(ep_profile_modal.user_email) ? ep_profile_modal.user_email : "" }
              </p>
         </div>

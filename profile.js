@@ -47,7 +47,8 @@ exports.clientVars = async function  (hook, context, callback){
             profile_image_url: httpsUrl,
             profile_json : profile_json  ,
             user_email : user_email ,
-            user_status : user_status 
+            user_status : user_status ,
+            userName : (context.clientVars.userName) ? context.clientVars.userName : "Anonymous"
         }
     });
 }
@@ -103,6 +104,8 @@ exports.handleMessage = async function(hook_name, context, callback){
             userId: message.userId ,
             from: message.userId,
             data:httpsUrl,
+            email : message.email ,
+            userName : message.name ,
             padId: padId,
 
           }

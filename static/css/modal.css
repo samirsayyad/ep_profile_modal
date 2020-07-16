@@ -159,3 +159,13 @@ width: 16px;
     border : 0 ;
     color : #fff;
 }
+.ep_profile_modal_signout{
+    width: 160px;
+    border: 0;
+    background-color: red;
+    color: white;
+    margin: auto;
+    display: flow-root;
+    height: 22px;
+    margin-top: 5%; 
+}
