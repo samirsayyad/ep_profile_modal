@@ -15,6 +15,7 @@ exports.eejsBlock_styles = function (hook_name, args, cb) {
 exports.eejsBlock_scripts = function (hook_name, args, cb) {
     args.content = args.content + eejs.require("ep_profile_modal/templates/profileModal.html", {}, module);
     args.content += eejs.require("ep_profile_modal/templates/askModal.html", {}, module);
+    args.content += eejs.require("ep_profile_modal/templates/userListModal.html", {}, module);
 
     return cb();
 }
@@ -37,7 +38,6 @@ exports.clientVars = async function  (hook, context, callback){
 
 
       // tell everybody that total user has been changed
-      //totalUserHasBeenChanged(pad_users.length)
         var msg = {
           type: "COLLABROOM",
           data: {
@@ -65,6 +65,24 @@ exports.clientVars = async function  (hook, context, callback){
 
   //* collect user If just enter to pad */
 
+  var all_users_list=[]
+  console.log("we are going to parse ",pad_users)
+  pad_users.forEach(async function(value ){
+    let temp_email = await db.get("ep_profile_modal_email:"+value);
+    let temp_status = await db.get("ep_profile_modal_status:"+value);
+    let temp_username = await db.get("ep_profile_modal_username:"+value);
+    console.log("we are going to parse ",temp_email)
+
+    let imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
+
+    all_users_list.push({
+      userId : value ,
+      email : temp_email ,
+      status : temp_status ,
+      userName : temp_username ,
+      imageUrl : imageUrl
+    })
+  })
 
   var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
   var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
@@ -84,7 +102,9 @@ exports.clientVars = async function  (hook, context, callback){
             user_email : user_email ,
             user_status : user_status ,
             userName : (context.clientVars.userName) ? context.clientVars.userName : "Anonymous" ,
-            contributed_authors_count : pad_users.length
+            contributed_authors_count : pad_users.length,
+            //contributed_authors : pad_users,
+            all_users_list : all_users_list
         }
     });
 }
@@ -121,6 +141,7 @@ exports.handleMessage = async function(hook_name, context, callback){
     console.log(context)
     db.set("ep_profile_modal_email:"+message.userId, message.email);
     db.set("ep_profile_modal_status:"+message.userId, "2");
+    db.set("ep_profile_modal_username:"+message.userId, message.name);
 
     var httpsUrl = gravatar.url(message.email, {protocol: 'https', s: '200'});
     var msg = {

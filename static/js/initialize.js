@@ -4,10 +4,18 @@ exports.aceInitialized = function(hook, context){
 
     console.log("user list ", pad.userList());
     var modal = $("#ep_profile_askmodal_script").tmpl(clientVars);
-    $("body").append(modal)
+    $("body").append(modal);
+    ///
     modal = $("#ep_profile_modal_script").tmpl(clientVars);
-    $("body").append(modal)
-    var usersListHTML = helper.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count,pad.collabClient.getConnectedUsers())
+    $("body").append(modal);
+
+    ///
+    modal = $("#ep_profile_modal_user_list_script").tmpl(clientVars);
+    $("body").append(modal);
+    
+
+    var onlineUsers = pad.collabClient.getConnectedUsers();
+    var usersListHTML = helper.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count,onlineUsers)
     if(clientVars.ep_profile_modal.profile_json == null || clientVars.ep_profile_modal.user_status == "1"){
         $("#pad_title").append("<div class='userlist' id='userlist'>"+usersListHTML+" </div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='../static/plugins/ep_profile_modal/static/img/user.png' /></div>")
         window.user_status = "out";
@@ -17,7 +25,6 @@ exports.aceInitialized = function(hook, context){
 
         }, 1000);
 
-        //$("#userList").append()
     }else{
         window.user_status = "login";
 
@@ -25,10 +32,7 @@ exports.aceInitialized = function(hook, context){
         
     }
 
+    helper.manageOnlineOfflineUsers(clientVars ,onlineUsers)
 
-
-
-    
-// &#8725; 
 }
 

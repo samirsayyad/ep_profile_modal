@@ -1,11 +1,19 @@
 exports.postAceInit = function (hook,context){
-	console.log("samir",pad )
+	// console.log("samir",pad )
 
-	console.log("samir",pad.collabClient )
+	// console.log("samir",pad.collabClient )
 
-	console.log("samir",pad.collabClient.getConnectedUsers())
-	var hs = $('#ep-profile-button');
-	hs.on('click', function(){
+	// console.log("samir",pad.collabClient.getConnectedUsers())
+
+
+	$("#userlist,#ep_profile_modal_user_list_close").on('click', function(){
+		($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show'))?
+			$('#ep_profile_modal_user_list').removeClass('ep_profile_modal-show')
+			:
+			$('#ep_profile_modal_user_list').addClass('ep_profile_modal-show')
+	})
+
+	$('#ep-profile-button').on('click', function(){
 		if ( window.user_status == "login"){
 			($('#ep_profile_modal').hasClass('ep_profile_modal-show'))?
 			$('#ep_profile_modal').removeClass('ep_profile_modal-show')

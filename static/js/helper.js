@@ -36,3 +36,31 @@ exports.decreaseUserFromList = function (userId){
 
 }
 
+
+
+exports.manageOnlineOfflineUsers = function (allVars ){
+
+    $.each(allVars.ep_profile_modal.all_users_list, function( key, value ) {
+        if (value.userId != allVars.userId){
+            var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl)
+            if (value.status == "2"){ // loginned
+                
+                $("#ep_profile_user_list_container").append(userListHtml);
+            }else{
+                $("#ep_profile_user_list_container_off").append(userListHtml);
+            }
+            
+        
+        }
+    })
+
+
+
+
+}
+
+function getHtmlOfUsersList(userId,username , img){
+    return "<div data-id=\"user_list_"+userId+"\" class=\"ep_profile_user_row\">"+
+    "<img src=\""+ img + "\" class=\"ep_profile_user_img\">"+
+    "<div class=\"ep_profile_user_username\"> "+username+" </div> </div>" ;
+}
