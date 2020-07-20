@@ -7,7 +7,8 @@
 				"aceInitialized":"ep_profile_modal/static/js/initialize",
 				"handleClientMessage_USER_NEWINFO": "ep_profile_modal/static/js/usersList",
 				"handleClientMessage_USER_LEAVE" :  "ep_profile_modal/static/js/usersList",
-				"handleClientMessage_EP_PROFILE_IMAGE" :  "ep_profile_modal/static/js/usersList"
+				"handleClientMessage_EP_PROFILE_IMAGE" :  "ep_profile_modal/static/js/usersList",
+				"handleClientMessage_CUSTOM": "ep_profile_modal/static/js/usersList"
 
 			},
 			"hooks":{
