@@ -64,10 +64,17 @@ exports.postAceInit = function (hook,context){
 		
 		var username = $("#ep_profile_modal_username").val();
 		var email = $("#ep_profile_modal_email").val();
+		if(email == "" || username == "" || !isEmail(email)){
 
-		if(email == "" || username == ""){
+			if (!isEmail(email) || email == "" ){
+				$("#ep_profile_modal_email").focus()
+				$('#ep_profile_modal_email').addClass('ep_profile_modal_validation_error')
+
+			}
 			return false;
 		}else{
+
+			$('#ep_profile_modal_email').removeClass('ep_profile_modal_validation_error')
 
 			window.user_status = "login"
 			pad.collabClient.updateUserInfo({
@@ -101,3 +108,14 @@ exports.handleClientMessage_USER_IMAGE = function(hook, context){
 	$("#ep-profile-image").attr({src:  context.message.user_image });
 
 }
+
+
+function isEmail(email) {
+	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	return regex.test(email);
+  }
+
+  function isUsername(username) {
+	var regex = /^([a-zA-Z0-9_.+-])/;
+	return regex.test(username);
+  }

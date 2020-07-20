@@ -46,6 +46,7 @@
     width : 100%;
     height: 30%;
     padding-top: 5%;
+    text-align: center;
 }
 
 
@@ -60,18 +61,18 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    margin-left: auto;
+    margin-left: 5.5%;
     margin-right: auto;
-    display: block;
+    /* display: block; */
 
 }
 .ep_profile_modal_section_image_big_ask{
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    margin-left: auto;
+    margin-left: 5.5%;
     margin-right: auto;
-    display: block;
+    /* display: block; */
 
 }
 .ep_profile_modal_section_info_name{
@@ -198,4 +199,7 @@ width: 16px;
     margin-right: 2%;
     font-size: 14pt;
     cursor: pointer;
+}
+.ep_profile_modal_validation_error {
+    border-color: red !important;
 }
