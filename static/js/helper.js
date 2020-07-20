@@ -19,7 +19,17 @@ exports.increaseUserFromList = function (userId){
     
     }
 
+    // $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").animate({opacity: 0}, 1000,"linear",function()
+    // {
+    //     //$("#ep_profile_user_list_container").append($(this))
+    //     $(this).appendTo("#ep_profile_user_list_container")
+
+    //    // $(this).remove();
+    // })
+
     //$("#userlist_count").text(total)
+
+    
 
 
 
@@ -33,17 +43,25 @@ exports.decreaseUserFromList = function (userId){
         }
     )
 
+    // .animate({opacity: 0}, 1000,"linear",function()
+    // {
+    //     //$("#ep_profile_user_list_container_off").append($(this))
+        
+    //    // $(this).remove();
+    // })
+    $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo("#ep_profile_user_list_container_off")
+
 
 }
 
 
 
-exports.manageOnlineOfflineUsers = function (allVars ){
+exports.manageOnlineOfflineUsers = function (allVars ,onlineUsers){
 
     $.each(allVars.ep_profile_modal.all_users_list, function( key, value ) {
         if (value.userId != allVars.userId){
             var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl)
-            if (value.status == "2"){ // loginned
+            if ( onlineUsers.indexOf(value.userId) ){ // loginned
                 
                 $("#ep_profile_user_list_container").append(userListHtml);
             }else{
@@ -53,8 +71,6 @@ exports.manageOnlineOfflineUsers = function (allVars ){
         
         }
     })
-
-
 
 
 }

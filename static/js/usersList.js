@@ -28,5 +28,19 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	  var totalUserCount = context.payload.totalUserCount;
 	  $("#userlist_count").text(totalUserCount)
 
+
+	}
+
+	if(context.payload.action == "newUserComeToList"){
+		if($(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").length){
+			$(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo("#ep_profile_user_list_container")
+		}else{
+			var userListHtml = helper.getHtmlOfUsersList(context.payload.newUserData.userId , context.payload.newUserData.userName ,context.payload.newUserData.imageUrl )
+			$("#ep_profile_user_list_container").append(userListHtml);
+
+		}
+		
 	}
   }
+
+

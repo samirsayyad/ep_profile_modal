@@ -122,13 +122,43 @@ exports.handleMessage = async function(hook_name, context, callback){
               if(context.message.data.type === 'ep_profile_modal'){
                 isProfileMessage = true;
               }
+              console.log(context.message.data.type)
+              if(context.message.type === 'COLLABROOM' && context.message.data.type === 'USER_NEWINFO'){
+                console.log("we are heeeeeeeeeeeeeeeeeeeeeeeeeklsknldKFSKJJ jlkkk km")
+                let temp_email = await db.get("ep_profile_modal_email:"+context.message.data.payload.userId);
+                let temp_status = await db.get("ep_profile_modal_status:"+context.message.data.payload.userId);
+                let temp_username = await db.get("ep_profile_modal_username:"+context.message.data.payload.userId);
+                let imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
+          
+                var msg = {
+                  type: "COLLABROOM",
+                  data: {
+                    type: "CUSTOM",
+                    payload : {
+                      padId: padId,
+                      action:"newUserComeToList",
+                      newUserData :{
+                        email : temp_email,
+                        status : temp_status ,
+                        userName : temp_username ,
+                        imageUrl : imageUrl ,
+                        userId : context.message.data.payload.userId
+                      }
+                    }
+                  },
+                }
+                sendToRoom(msg)
+              }
+
+              
+
             }
           }
         }
       }
     }
 
-
+ 
 
   
   if(!isProfileMessage){
