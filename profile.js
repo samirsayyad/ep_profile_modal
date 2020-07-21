@@ -212,6 +212,11 @@ exports.socketio = function (hook, context, callback)
   callback();
 };
 
+exports.clientReady = function(hook, message) {
+  console.log('Client has entered the pad' + message.padId + message);
+  console.log(message)
+};
+
 
 function sendToRoom( msg){
   var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.
