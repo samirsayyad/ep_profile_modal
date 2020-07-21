@@ -1,8 +1,6 @@
 exports.postAceInit = function (hook,context){
 	// console.log("samir",pad )
-
 	// console.log("samir",pad.collabClient )
-
 	// console.log("samir",pad.collabClient.getConnectedUsers())
 
 
@@ -59,7 +57,6 @@ exports.postAceInit = function (hook,context){
 		  }
 		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
 		$("#ep-profile-image").attr("src","../static/plugins/ep_profile_modal/static/img/user.png");
-		//$("#ep-profile-button").attr("id","ep-profile-button-ask");
 		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
 		$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
 
@@ -99,9 +96,6 @@ exports.postAceInit = function (hook,context){
 
 			  }
 			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
-
-			//$("#ep-profile-image").attr("src","../static/plugins/ep_profile_modal/static/img/user.png");
-			//$("#ep-profile-button-ask").attr("id","ep-profile-button");
 			$('#ep_profile_modal').addClass('ep_profile_modal-show')
 			$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
 		}
@@ -111,10 +105,7 @@ exports.postAceInit = function (hook,context){
 
  
 exports.handleClientMessage_USER_IMAGE = function(hook, context){
-	//console.log("salam samir ma ma ",context,hook,pad.collabClient.getConnectedUsers().length);
-
 	$("#ep-profile-image").attr({src:  context.message.user_image });
-
 }
 
 
