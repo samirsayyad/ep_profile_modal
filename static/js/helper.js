@@ -56,16 +56,35 @@ exports.decreaseUserFromList = function (userId){
 
 
 
-exports.manageOnlineOfflineUsers = function (allVars ,onlineUsers){
+exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , currentUserId){
 
-    $.each(allVars.ep_profile_modal.all_users_list, function( key, value ) {
-        if (value.userId != allVars.userId){
-            var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl)
-            if ( onlineUsers.indexOf(value.userId) ){ // loginned
-                
-                $("#ep_profile_user_list_container").append(userListHtml);
+    $.each(all_users_list, function( key, value ) {
+        console.log("vakue is ", value)
+        if (value.userId != currentUserId){
+            var result = $.grep(onlineUsers, function(e){ return e.userId == value.userId; });
+            console.log("inde of " , result )
+
+            if ( result.length ){ // loginned
+                if(!$(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").length)
+                {
+                    var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl)
+                    $("#ep_profile_user_list_container").append(userListHtml);
+
+                }else{
+                    $(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").appendTo("#ep_profile_user_list_container")
+                }
+
+
+
             }else{
-                $("#ep_profile_user_list_container_off").append(userListHtml);
+                if(!$(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").length)
+                {
+                    var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl)
+                    $("#ep_profile_user_list_container_off").append(userListHtml);
+
+                }else{
+                    $(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").appendTo("#ep_profile_user_list_container_off")
+                }
             }
             
         
@@ -75,8 +94,10 @@ exports.manageOnlineOfflineUsers = function (allVars ,onlineUsers){
 
 }
 
-function getHtmlOfUsersList(userId,username , img){
+var getHtmlOfUsersList = function(userId,username , img){
     return "<div data-id=\"user_list_"+userId+"\" class=\"ep_profile_user_row\">"+
     "<img src=\""+ img + "\" class=\"ep_profile_user_img\">"+
     "<div class=\"ep_profile_user_username\"> "+username+" </div> </div>" ;
 }
+
+exports.getHtmlOfUsersList = getHtmlOfUsersList;

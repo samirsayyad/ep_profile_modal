@@ -32,14 +32,22 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	}
 
 	if(context.payload.action == "newUserComeToList"){
-		if($(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").length){
-			$(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo("#ep_profile_user_list_container")
+		if($(".ep_profile_user_row[data-id=\"user_list_"+context.payload.newUserData.userId+"\"]").length){
+			$(".ep_profile_user_row[data-id=\"user_list_"+context.payload.newUserData.userId+"\"]").appendTo("#ep_profile_user_list_container")
 		}else{
 			var userListHtml = helper.getHtmlOfUsersList(context.payload.newUserData.userId , context.payload.newUserData.userName ,context.payload.newUserData.imageUrl )
 			$("#ep_profile_user_list_container").append(userListHtml);
 
 		}
 		
+	}
+
+
+	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
+		var onlineUsers = pad.collabClient.getConnectedUsers();
+		console.log(onlineUsers, "online users is ")
+		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
+
 	}
   }
 

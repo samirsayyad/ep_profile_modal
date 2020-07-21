@@ -1,12 +1,15 @@
 var eejs = require('ep_etherpad-lite/node/eejs/');
 var db = require('ep_etherpad-lite/node/db/DB');
+var async = require('../../src/node_modules/async');
+
 //var API = require('ep_etherpad-lite/node/db/API.js');
 var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
 var gravatar = require('gravatar');
 const fetch = require('node-fetch');
 var socketio;
 var padId;
-
+var clientId;
+const defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
 exports.eejsBlock_styles = function (hook_name, args, cb) {
     args.content = args.content + eejs.require("ep_profile_modal/templates/styles.html", {}, module);
     return cb();
@@ -21,15 +24,24 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 }
 
 exports.clientVars = async function  (hook, context, callback){
-  var padId = context.pad.id;
+  padId = context.pad.id;
   //console.log("all author list of pad ",padId, await API.listAuthorsOfPad(padId))
   var user_email = await db.get("ep_profile_modal_email:"+context.clientVars.userId);
   var user_status = await db.get("ep_profile_modal_status:"+context.clientVars.userId);
+  var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
+  var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
+  var profile_json = null;
+  profile_json = await fetch(profile_url) ;
+  profile_json = await profile_json.json()
+  if (profile_json !="User not found")
+      profile_json = profile_json.entry[0]
+  else
+      profile_json = null 
 
 
+  
 
-
-  //* collect user If just enter to pad */
+//* collect user If just enter to pad */
   var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
   if (pad_users){
     if (pad_users.indexOf(context.clientVars.userId) == -1){
@@ -57,62 +69,105 @@ exports.clientVars = async function  (hook, context, callback){
 
 
     }
-  }else{
-    pad_users = [ context.clientVars.userId ]
-    db.set("ep_profile_modal_contributed_"+padId , pad_users);
-  }
+    }else{
+      pad_users = [ context.clientVars.userId ]
+      db.set("ep_profile_modal_contributed_"+padId , pad_users);
+    }
 
 
-  //* collect user If just enter to pad */
-
-  var all_users_list=[]
-  console.log("we are going to parse ",pad_users)
-  pad_users.forEach(async function(value ){
-    let temp_email = await db.get("ep_profile_modal_email:"+value);
-    let temp_status = await db.get("ep_profile_modal_status:"+value);
-    let temp_username = await db.get("ep_profile_modal_username:"+value);
-    console.log("we are going to parse ",temp_email)
-
-    let imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
-
-    all_users_list.push({
-      userId : value ,
-      email : temp_email ,
-      status : temp_status ,
-      userName : temp_username ,
-      imageUrl : imageUrl
+    var all_users_list =[]
+    console.log("we are going to parse ",pad_users)
+    async.forEach(pad_users ,async function(value , cb ){
+      let temp_email = await db.get("ep_profile_modal_email:"+value);
+      let temp_status = await db.get("ep_profile_modal_status:"+value);
+      let temp_username = await db.get("ep_profile_modal_username:"+value);
+      console.log("we are going to parse ",temp_email)
+  
+      let temp_profile_url = gravatar.profile_url(temp_email, {protocol: 'https' });
+      temp_profile_json = await fetch(temp_profile_url) ;
+      temp_profile_json = await temp_profile_json.json()
+      if (temp_profile_json =="User not found"){
+        var temp_imageUrl = defaultImg
+  
+      }else{
+        var temp_imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
+  
+      }
+  
+      all_users_list.push({
+        userId : value ,
+        email : temp_email ,
+        status : temp_status ,
+        userName : temp_username ,
+        imageUrl : temp_imageUrl
+      })
+      console.log("res is in foreach ",all_users_list)
+      cb();
+  
+    },function(err){
+      console.log("we have access to list ? " , all_users_list)
+      var msg = {
+        type: "COLLABROOM",
+        data: {
+          type: "CUSTOM",
+          payload : {
+            padId: padId,
+            action:"EP_PROFILE_USERS_LIST",
+            list :all_users_list ,
+            userId : context.clientVars.userId
+          }
+        },
+      }
+      sendToRoom(msg)
     })
-  })
-
-  var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
-  var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
-  var profile_json = null;
-  profile_json = await fetch(profile_url) ;
-  profile_json = await profile_json.json()
 
 
-  if (profile_json !="User not found")
-      profile_json = profile_json.entry[0]
-  else
-      profile_json = null 
-    return callback({
-        ep_profile_modal: {
-            profile_image_url: httpsUrl,
-            profile_json : profile_json  ,
-            user_email : user_email ,
-            user_status : user_status ,
-            userName : (context.clientVars.userName) ? context.clientVars.userName : "Anonymous" ,
-            contributed_authors_count : pad_users.length,
-            //contributed_authors : pad_users,
-            all_users_list : all_users_list
+
+//* collect user If just enter to pad */
+
+
+  /*** new user coming*/
+  let temp_username = await db.get("ep_profile_modal_username:"+context.clientVars.userId);
+
+  var msg = {
+    type: "COLLABROOM",
+    data: {
+      type: "CUSTOM",
+      payload : {
+        padId: padId,
+        action:"newUserComeToList",
+        newUserData :{
+          email : user_email,
+          status : user_status ,
+          userName : temp_username ,
+          imageUrl :  (profile_json != null ) ?  httpsUrl : defaultImg,
+          userId : context.clientVars.userId
         }
-    });
+      }
+    },
+  }
+  sendToRoom(msg)
+
+/*** new user coming */
+
+
+  return callback({
+      ep_profile_modal: {
+          profile_image_url: (profile_json != null ) ?  httpsUrl : defaultImg,
+          profile_json : profile_json  ,
+          user_email : user_email ,
+          user_status : user_status ,
+          userName : (context.clientVars.userName) ? context.clientVars.userName : "Anonymous" ,
+          contributed_authors_count : pad_users.length,
+      }
+  });
 }
 
 /*
 * Handle incoming messages from clients
 */
 exports.handleMessage = async function(hook_name, context, callback){
+
     var isProfileMessage = false;
     if(context){
       if(context.message && context.message){
@@ -122,36 +177,6 @@ exports.handleMessage = async function(hook_name, context, callback){
               if(context.message.data.type === 'ep_profile_modal'){
                 isProfileMessage = true;
               }
-              console.log(context.message.data.type)
-              if(context.message.type === 'COLLABROOM' && context.message.data.type === 'USER_NEWINFO'){
-                console.log("we are heeeeeeeeeeeeeeeeeeeeeeeeeklsknldKFSKJJ jlkkk km")
-                let temp_email = await db.get("ep_profile_modal_email:"+context.message.data.payload.userId);
-                let temp_status = await db.get("ep_profile_modal_status:"+context.message.data.payload.userId);
-                let temp_username = await db.get("ep_profile_modal_username:"+context.message.data.payload.userId);
-                let imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
-          
-                var msg = {
-                  type: "COLLABROOM",
-                  data: {
-                    type: "CUSTOM",
-                    payload : {
-                      padId: padId,
-                      action:"newUserComeToList",
-                      newUserData :{
-                        email : temp_email,
-                        status : temp_status ,
-                        userName : temp_username ,
-                        imageUrl : imageUrl ,
-                        userId : context.message.data.payload.userId
-                      }
-                    }
-                  },
-                }
-                sendToRoom(msg)
-              }
-
-              
-
             }
           }
         }
@@ -212,9 +237,14 @@ exports.socketio = function (hook, context, callback)
   callback();
 };
 
-exports.clientReady = function(hook, message) {
+exports.clientReady = async function(hook, message) {
   console.log('Client has entered the pad' + message.padId + message);
   console.log(message)
+
+//  socketio.sockets.sockets[clientId].json.send(msg)
+
+
+
 };
 
 

@@ -32,7 +32,6 @@ exports.aceInitialized = function(hook, context){
         
     }
 
-    helper.manageOnlineOfflineUsers(clientVars ,onlineUsers)
 
 }
 
