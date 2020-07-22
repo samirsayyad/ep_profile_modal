@@ -96,7 +96,7 @@ exports.postAceInit = function (hook,context){
 
 			  }
 			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
-			$('#ep_profile_modal').addClass('ep_profile_modal-show')
+			//$('#ep_profile_modal').addClass('ep_profile_modal-show')
 			$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
 		}
 	})

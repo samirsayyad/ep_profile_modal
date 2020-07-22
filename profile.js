@@ -72,50 +72,8 @@ exports.clientVars = async function  (hook, context, callback){
       db.set("ep_profile_modal_contributed_"+padId , pad_users);
     }
 
-
-    var all_users_list =[]
-    async.forEach(pad_users ,async function(value , cb ){
-      let temp_email = await db.get("ep_profile_modal_email:"+value);
-      let temp_status = await db.get("ep_profile_modal_status:"+value);
-      let temp_username = await db.get("ep_profile_modal_username:"+value);
-      let temp_profile_url = gravatar.profile_url(temp_email, {protocol: 'https' });
-      temp_profile_json = await fetch(temp_profile_url) ;
-      temp_profile_json = await temp_profile_json.json()
-      if (temp_profile_json =="User not found"){
-        var temp_imageUrl = defaultImg
-  
-      }else{
-        var temp_imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
-  
-      }
-  
-      all_users_list.push({
-        userId : value ,
-        email : temp_email ,
-        status : temp_status ,
-        userName : (temp_username ) ? temp_username : defaultUserName,
-        imageUrl : temp_imageUrl
-      })
-
-      cb();
-  
-    },function(err){
-
-      var msg = {
-        type: "COLLABROOM",
-        data: {
-          type: "CUSTOM",
-          payload : {
-            padId: padId,
-            action:"EP_PROFILE_USERS_LIST",
-            list :all_users_list ,
-            userId : context.clientVars.userId
-          }
-        },
-      }
-      sendToRoom(msg)
-    })
-
+    sendUsersListToAllUsers(pad_users ,  context.clientVars.userId)
+    
 
 
 //* collect user If just enter to pad */
@@ -210,7 +168,10 @@ exports.handleMessage = async function(hook_name, context, callback){
     }
     socketio.sockets.sockets[context.client.id].json.send(msg)
 
+    var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
 
+    sendUsersListToAllUsers(pad_users,message.userId)
+    
   }
   if(message.action === "ep_profile_modal_logout"){
     db.set("ep_profile_modal_status:"+message.userId, "1");
@@ -245,4 +206,49 @@ function sendToRoom( msg){
     }
     , 100);
   }
+}
+function sendUsersListToAllUsers(pad_users,userId){
+  var all_users_list =[]
+  async.forEach(pad_users ,async function(value , cb ){
+    let temp_email = await db.get("ep_profile_modal_email:"+value);
+    let temp_status = await db.get("ep_profile_modal_status:"+value);
+    let temp_username = await db.get("ep_profile_modal_username:"+value);
+    let temp_profile_url = gravatar.profile_url(temp_email, {protocol: 'https' });
+    temp_profile_json = await fetch(temp_profile_url) ;
+    temp_profile_json = await temp_profile_json.json()
+    if (temp_profile_json =="User not found"){
+      var temp_imageUrl = defaultImg
+
+    }else{
+      var temp_imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
+
+    }
+
+    all_users_list.push({
+      userId : value ,
+      email : temp_email ,
+      status : temp_status ,
+      userName : (temp_username ) ? temp_username : defaultUserName,
+      imageUrl : temp_imageUrl
+    })
+
+    cb();
+
+  },function(err){
+
+    var msg = {
+      type: "COLLABROOM",
+      data: {
+        type: "CUSTOM",
+        payload : {
+          padId: padId,
+          action:"EP_PROFILE_USERS_LIST",
+          list :all_users_list ,
+          userId :userId // context.clientVars.userId
+        }
+      },
+    }
+    sendToRoom(msg)
+  })
+
 }

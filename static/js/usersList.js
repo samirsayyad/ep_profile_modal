@@ -12,6 +12,11 @@ exports.handleClientMessage_EP_PROFILE_IMAGE = function(hook, context){
 
 	$("#ep_profile_modal_section_info_email").text(context.payload.email);
 	$("#ep_profile_modal_section_info_name").text(context.payload.userName);
+	/////////////////// related to user list
+
+	
+
+
 }
 
 exports.handleClientMessage_CUSTOM = function(hook, context, cb){
