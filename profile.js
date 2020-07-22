@@ -24,17 +24,20 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 
 exports.clientVars = async function  (hook, context, callback){
   padId = context.pad.id;
+  var profile_json = null;
   var user_email = await db.get("ep_profile_modal_email:"+context.clientVars.userId);
   var user_status = await db.get("ep_profile_modal_status:"+context.clientVars.userId);
-  var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
-  var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
-  var profile_json = null;
-  profile_json = await fetch(profile_url) ;
-  profile_json = await profile_json.json()
-  if (profile_json !="User not found")
-      profile_json = profile_json.entry[0]
-  else
-      profile_json = null 
+  if(user_email){
+    var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
+    var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
+    profile_json = await fetch(profile_url) ;
+    profile_json = await profile_json.json()
+    if (profile_json !="User not found")
+        profile_json = profile_json.entry[0]
+    else
+        profile_json = null 
+  }
+
 
 
   
@@ -62,46 +65,11 @@ exports.clientVars = async function  (hook, context, callback){
         }
         sendToRoom(msg)
       // tell everybody that total user has been changed
-
-
-
-
     }
     }else{
       pad_users = [ context.clientVars.userId ]
       db.set("ep_profile_modal_contributed_"+padId , pad_users);
     }
-
-    sendUsersListToAllUsers(pad_users ,  context.clientVars.userId)
-    
-
-
-//* collect user If just enter to pad */
-
-
-  /*** new user coming*/
-  // let temp_username = await db.get("ep_profile_modal_username:"+context.clientVars.userId);
-
-  // var msg = {
-  //   type: "COLLABROOM",
-  //   data: {
-  //     type: "CUSTOM",
-  //     payload : {
-  //       padId: padId,
-  //       action:"newUserComeToList",
-  //       newUserData :{
-  //         email : user_email,
-  //         status : user_status ,
-  //         userName : temp_username ,
-  //         imageUrl :  (profile_json != null ) ?  httpsUrl : defaultImg,
-  //         userId : context.clientVars.userId
-  //       }
-  //     }
-  //   },
-  // }
-  // sendToRoom(msg)
-
-/*** new user coming */
 
 
   return callback({
@@ -150,31 +118,56 @@ exports.handleMessage = async function(hook_name, context, callback){
     db.set("ep_profile_modal_status:"+message.userId, "2");
     db.set("ep_profile_modal_username:"+message.userId, message.name);
 
-    var httpsUrl = gravatar.url(message.email, {protocol: 'https', s: '200'});
+    var profile_image = await checkUserExistInGravatar(message.email)
+    console.log("1",profile_image)
+
+    profile_image = (profile_image) ? profile_image : defaultImg
+    console.log("12",profile_image)
+    // var msg = {
+    //   type: "CUSTOM",
+    //   userId: message.userId ,
+    //   data: {
+    //     type: "EP_PROFILE_IMAGE",
+    //     payload : {
+    //       userId: message.userId ,
+    //       data:profile_image,
+    //       email : message.email ,
+    //       userName : message.name ,
+    //       padId: padId,
+
+    //     }
+    //   },
+    // }
+
     var msg = {
-      type: "CUSTOM",
-      userId: message.userId ,
+      type: "COLLABROOM",
       data: {
-        type: "EP_PROFILE_IMAGE",
+        type: "CUSTOM",
         payload : {
+          padId: padId,
+          action:"EP_PROFILE_USER_LOGIN_UPDATE",
           userId: message.userId ,
-          data:httpsUrl,
+          img:profile_image,
           email : message.email ,
           userName : message.name ,
           padId: padId,
-
         }
       },
     }
-    socketio.sockets.sockets[context.client.id].json.send(msg)
-
-    var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
-
-    sendUsersListToAllUsers(pad_users,message.userId)
+    sendToRoom(msg)
+    //socketio.sockets.sockets[context.client.id].json.send(msg)
+    // var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
+    // sendUsersListToAllUsers(pad_users,message.userId)
     
   }
   if(message.action === "ep_profile_modal_logout"){
     db.set("ep_profile_modal_status:"+message.userId, "1");
+  }
+
+  if(message.action === "ep_profile_modal_ready"){
+    var pad_users = await db.get("ep_profile_modal_contributed_"+ padId);
+    console.log(pad_users , "going to parse")
+    sendUsersListToAllUsers(pad_users)
   }
 
   if(isProfileMessage === true){
@@ -190,24 +183,35 @@ exports.socketio = function (hook, context, callback)
   callback();
 };
 
-// exports.clientReady = async function(hook, message) {
-//   console.log('Client has entered the pad' + message.padId + message);
-//   console.log(message)
-// };
+exports.clientReady = async function(hook, message) {
+  console.log('Client has entered the pad' + message.padId + message);
+  console.log(message)
+
+
+};
 
 
 function sendToRoom( msg){
+  console.log("er are sending ." ,msg)
   var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.
   if(bufferAllows){
     setTimeout(function(){ // This is bad..  We have to do it because ACE hasn't redrawn by the time the chat has arrived
-      padMessageHandler.handleCustomObjectMessage(msg, false, function(){
-        // TODO: Error handling.
-      })
+      try{
+        padMessageHandler.handleCustomObjectMessage(msg, false, function(error){
+          console.log(error)
+          // TODO: Error handling.
+        })
+      }catch(error){
+        console.log(error)
+
+      }
+      
     }
     , 100);
   }
 }
-function sendUsersListToAllUsers(pad_users,userId){
+
+async function sendUsersListToAllUsers(pad_users){
   var all_users_list =[]
   async.forEach(pad_users ,async function(value , cb ){
     let temp_email = await db.get("ep_profile_modal_email:"+value);
@@ -244,11 +248,28 @@ function sendUsersListToAllUsers(pad_users,userId){
           padId: padId,
           action:"EP_PROFILE_USERS_LIST",
           list :all_users_list ,
-          userId :userId // context.clientVars.userId
+          //userId :userId // context.clientVars.userId
         }
       },
     }
     sendToRoom(msg)
   })
 
+}
+
+
+async function checkUserExistInGravatar(user_email){
+  var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
+  var profile_json = null ;
+  var profile_img = false ;
+  profile_json = await fetch(profile_url) ;
+  profile_json = await profile_json.json()
+  
+  if (profile_json !="User not found"){
+    profile_img = gravatar.url(user_email, {protocol: 'https', s: '200'});
+    return profile_img
+  }else{
+    return false
+  }
+  
 }

@@ -29,6 +29,13 @@ exports.aceInitialized = function(hook, context){
         
     }
 
+
+    var message = {
+        type : 'ep_profile_modal',
+        action : "ep_profile_modal_ready" ,
+        userId :  pad.getUserId() ,
+      }
+    pad.collabClient.sendMessage(message); 
     
 
 
