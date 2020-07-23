@@ -15,18 +15,18 @@ exports.aceInitialized = function(hook, context){
 
     var onlineUsers = pad.collabClient.getConnectedUsers();
     var usersListHTML = helper.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count,onlineUsers)
-    if(clientVars.ep_profile_modal.user_status == "1"){
+    if(clientVars.ep_profile_modal.user_status == "2"){
+      
+        window.user_status = "login";
+        $("#pad_title").append("<div class='userlist' id='userlist'>"+usersListHTML+"</div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='"+clientVars.ep_profile_modal.profile_image_url+"' /></div>")
+        
+    }else{
         $("#pad_title").append("<div class='userlist' id='userlist'>"+usersListHTML+" </div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='../static/plugins/ep_profile_modal/static/img/user.png' /></div>")
         window.user_status = "out";
         setTimeout(function() { 
             $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
 
         }, 1000);
-
-    }else{
-        window.user_status = "login";
-        $("#pad_title").append("<div class='userlist' id='userlist'>"+usersListHTML+"</div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='"+clientVars.ep_profile_modal.profile_image_url+"' /></div>")
-        
     }
 
 
@@ -37,6 +37,15 @@ exports.aceInitialized = function(hook, context){
       }
     pad.collabClient.sendMessage(message); 
     
+
+    if (clientVars.ep_profile_modal.userName == "Anonymous")
+    {
+        pad.collabClient.updateUserInfo({
+        userId :  pad.getUserId() ,
+        name: "Anonymous",
+        colorId: "#b4b39a"
+        } )
+    }
 
 
 }
