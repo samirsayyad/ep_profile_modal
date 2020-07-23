@@ -114,31 +114,14 @@ exports.handleMessage = async function(hook_name, context, callback){
 
   var message = context.message.data;
   if(message.action === 'ep_profile_modal_login'){
-    db.set("ep_profile_modal_email:"+message.userId, message.email);
+    if (message.email)
+      db.set("ep_profile_modal_email:"+message.userId, message.email);
+      
     db.set("ep_profile_modal_status:"+message.userId, "2");
     db.set("ep_profile_modal_username:"+message.userId, message.name);
 
     var profile_image = await checkUserExistInGravatar(message.email)
-    console.log("1",profile_image)
-
     profile_image = (profile_image) ? profile_image : defaultImg
-    console.log("12",profile_image)
-    // var msg = {
-    //   type: "CUSTOM",
-    //   userId: message.userId ,
-    //   data: {
-    //     type: "EP_PROFILE_IMAGE",
-    //     payload : {
-    //       userId: message.userId ,
-    //       data:profile_image,
-    //       email : message.email ,
-    //       userName : message.name ,
-    //       padId: padId,
-
-    //     }
-    //   },
-    // }
-
     var msg = {
       type: "COLLABROOM",
       data: {
@@ -155,10 +138,7 @@ exports.handleMessage = async function(hook_name, context, callback){
       },
     }
     sendToRoom(msg)
-    //socketio.sockets.sockets[context.client.id].json.send(msg)
-    // var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
-    // sendUsersListToAllUsers(pad_users,message.userId)
-    
+   
   }
   if(message.action === "ep_profile_modal_logout"){
     db.set("ep_profile_modal_status:"+message.userId, "1");
@@ -166,7 +146,6 @@ exports.handleMessage = async function(hook_name, context, callback){
 
   if(message.action === "ep_profile_modal_ready"){
     var pad_users = await db.get("ep_profile_modal_contributed_"+ padId);
-    console.log(pad_users , "going to parse")
     sendUsersListToAllUsers(pad_users)
   }
 
@@ -183,22 +162,15 @@ exports.socketio = function (hook, context, callback)
   callback();
 };
 
-exports.clientReady = async function(hook, message) {
-  console.log('Client has entered the pad' + message.padId + message);
-  console.log(message)
-
-
-};
 
 
 function sendToRoom( msg){
-  console.log("er are sending ." ,msg)
   var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.
   if(bufferAllows){
     setTimeout(function(){ // This is bad..  We have to do it because ACE hasn't redrawn by the time the chat has arrived
       try{
         padMessageHandler.handleCustomObjectMessage(msg, false, function(error){
-          console.log(error)
+          //console.log(error)
           // TODO: Error handling.
         })
       }catch(error){

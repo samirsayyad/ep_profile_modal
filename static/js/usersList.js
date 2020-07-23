@@ -66,11 +66,9 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 		/////////////////// related to user list when user has been loginned
 		var online_anonymous_selector = helper.isThereOnlineAnonymous()
-		console.log("are we selectopr ? ",online_anonymous_selector )
 		if (online_anonymous_selector){
 			
 			if (helper.checkUserExistInOnlineAnonymous(online_anonymous_selector,context.payload.userId)){
-				console.log("we are going to decreaseFromOnlineAnonymous")
 				helper.decreaseFromOnlineAnonymous(online_anonymous_selector,context.payload.userId)
 			}
 		}

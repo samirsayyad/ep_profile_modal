@@ -69,9 +69,9 @@ exports.postAceInit = function (hook,context){
 		
 		var username = $("#ep_profile_modal_username").val();
 		var email = $("#ep_profile_modal_email").val();
-		if(email == "" || username == "" || !isEmail(email)){
+		if(username == "" || !isEmail(email)){
 
-			if (!isEmail(email) || email == "" ){
+			if (!isEmail(email)  ){
 				$("#ep_profile_modal_email").focus()
 				$('#ep_profile_modal_email').addClass('ep_profile_modal_validation_error')
 
@@ -111,7 +111,10 @@ exports.handleClientMessage_USER_IMAGE = function(hook, context){
 
 function isEmail(email) {
 	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-	return regex.test(email);
+	if(email=="")
+		return true
+	else
+		return regex.test(email);
   }
 
   function isUsername(username) {

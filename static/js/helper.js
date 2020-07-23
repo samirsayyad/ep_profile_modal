@@ -14,7 +14,6 @@ exports.increaseUserFromList = function (userId){
     if (!$(".userlist_img[data-id=\"user_"+userId+"\"]").length){
         var $image = $("<img data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" class='userlist_img' src='../static/plugins/ep_profile_modal/static/img/userlist.png' />");
         $image.prependTo("#usersIconList")
-        //$("#usersIconList").append($image)
         $image.hide().slideDown(200);
     
     }
@@ -47,8 +46,7 @@ exports.decreaseUserFromList = function (userId){
 
 
 exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , currentUserId){
-    //$('#ep_profile_user_list_container').empty();
-    //$("#ep_profile_user_list_container *:not('#ep_profile_modal_default_current')").remove();
+    
     var online_list_selector = $("#ep_profile_user_list_container") 
     var offline_list_selector = $("#ep_profile_user_list_container_off") 
 
@@ -56,8 +54,6 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
     $.each(all_users_list, function( key, value ) {
         //if (value.userId != currentUserId){
             var result = $.grep(onlineUsers, function(e){ return e.userId == value.userId; });
-            console.log(value , result , " in ast khodroye melli")
-
             if ( result.length ){ // online
                 if (value.userName == "Anonymous" ){
                     var selector_on = $(".ep_profile_user_row[data-id=\"user_list_on_Anonymous\"]") ;
@@ -76,9 +72,9 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                     if(!$(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").length)
                     {
                         var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl ,false)
-                        console.log(userListHtml , "in mire too")
+                        
                         try {
-                            console.log(online_list_selector.append(userListHtml) , "bebinim ke")
+                            online_list_selector.append(userListHtml)
                         }catch(error){
                             console.log(error)
                         }
@@ -102,7 +98,6 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
 
                         var ids_data_off = selector_off.attr("data-user-ids")
                         var ids_data_off_array = ids_data_off.split(',');
-                        console.log(ids_data_off_array)
                         ids_data_off_array.push(value.userId)
                         selector_off.attr("data-user-ids",ids_data_off_array.join(","))
 
@@ -154,7 +149,6 @@ var increaseToOnlineAnonymous = function(selector_on,userId){
     var anonymouseCount = selector_on.attr("data-anonymouseCount")
     var ids_data = selector_on.attr("data-user-ids")
     var ids_data_array = ids_data.split(',');
-    console.log(ids_data_array)
     if (ids_data_array.indexOf(userId) == -1){
         ids_data_array.push(userId)
         selector_on.attr("data-user-ids",ids_data_array.join(","))
@@ -205,7 +199,6 @@ var increaseToOfflineAnonymous = function(selector_off,userId){
 var decreaseFromOfflineAnonymous= function (selector_off,userId){
     var anonymouseCount = selector_off.attr("data-anonymouseCount")
     var ids_data = selector_off.attr("data-user-ids")
-    //ids_data.pop(userId)
 
     ids_data = $.grep(ids_data, function(value) {
         return value != userId;
@@ -256,7 +249,6 @@ var isThereOnlineAnonymous = function (){
 var checkUserExistInOnlineAnonymous = function(selector_on,userId){
     var ids_data = selector_on.attr("data-user-ids")
     var ids_data_array = ids_data.split(',');
-    console.log("result of  checkUserExistInOnlineAnonymous ", ids_data_array.indexOf(userId) , " is in " ,ids_data_array  , " and ", userId)
     if (ids_data_array.indexOf(userId) == -1){
         return false
     }else{

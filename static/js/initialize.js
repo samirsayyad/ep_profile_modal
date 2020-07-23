@@ -15,7 +15,7 @@ exports.aceInitialized = function(hook, context){
 
     var onlineUsers = pad.collabClient.getConnectedUsers();
     var usersListHTML = helper.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count,onlineUsers)
-    if(clientVars.ep_profile_modal.profile_json == null || clientVars.ep_profile_modal.user_status == "1"){
+    if(clientVars.ep_profile_modal.user_status == "1"){
         $("#pad_title").append("<div class='userlist' id='userlist'>"+usersListHTML+" </div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='../static/plugins/ep_profile_modal/static/img/user.png' /></div>")
         window.user_status = "out";
         setTimeout(function() { 
