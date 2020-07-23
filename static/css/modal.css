@@ -214,7 +214,7 @@ width: 16px;
     min-height: 160px;
     background-color: #fff;
     position: absolute;
-    top: 41px;
+    top: 6%;
     right: 2.3%;
     visibility: hidden;
         overflow: hidden;
@@ -260,6 +260,7 @@ width: 16px;
     float: left;
     padding-left: 5%;
     padding-top: 3%;
+    font-weight: bold;
  
 }
 .ep_profile_user_list_container{
