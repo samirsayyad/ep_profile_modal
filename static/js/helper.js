@@ -110,7 +110,7 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                         selector_off.attr("data-user-ids",ids_data_off_array.join(","))
 
                         selector_off.attr('data-anonymouseCount',new_anonymouseCount);
-                        selector_off.children(".ep_profile_user_username").text("Anonymous X"+new_anonymouseCount);
+                        selector_off.children(".ep_profile_user_username").text("Anonymous ×"+new_anonymouseCount);
                     }else{
                         createOfflineAnonymousElement(value.userId , value.imageUrl)
                     }
@@ -162,7 +162,7 @@ var increaseToOnlineAnonymous = function(selector_on,userId){
         selector_on.attr("data-user-ids",ids_data_array.join(","))
         var new_anonymouseCount= parseInt(anonymouseCount)+1
         selector_on.attr('data-anonymouseCount',new_anonymouseCount);
-        selector_on.children(".ep_profile_user_username").text("Anonymous X"+new_anonymouseCount);
+        selector_on.children(".ep_profile_user_username").text("Anonymous ×"+new_anonymouseCount);
     }
 
 }
@@ -181,7 +181,7 @@ var decreaseFromOnlineAnonymous = function (selector_on,userId){
     selector_on.attr("data-user-ids",ids_data_array.join(","))
     var new_anonymouseCount= parseInt(anonymouseCount)-1
     selector_on.attr('data-anonymouseCount',new_anonymouseCount);
-    (new_anonymouseCount > 1) ? selector_on.children(".ep_profile_user_username").text("Anonymous X"+new_anonymouseCount) : selector_on.children(".ep_profile_user_username").text("Anonymous");
+    (new_anonymouseCount > 1) ? selector_on.children(".ep_profile_user_username").text("Anonymous ×"+new_anonymouseCount) : selector_on.children(".ep_profile_user_username").text("Anonymous");
     if(new_anonymouseCount < 1){
         selector_on.remove()
     }
@@ -200,7 +200,7 @@ var increaseToOfflineAnonymous = function(selector_off,userId){
     selector_off.attr("data-user-ids",ids_data)
     var new_anonymouseCount= parseInt(anonymouseCount)+1
     selector_off.attr('data-anonymouseCount',new_anonymouseCount);
-    selector_off.children(".ep_profile_user_username").text("Anonymous X"+new_anonymouseCount);
+    selector_off.children(".ep_profile_user_username").text("Anonymous ×"+new_anonymouseCount);
 }
 
 
@@ -215,7 +215,7 @@ var decreaseFromOfflineAnonymous= function (selector_off,userId){
     selector_off.attr("data-user-ids",ids_data)
     var new_anonymouseCount= parseInt(anonymouseCount)-1
     selector_off.attr('data-anonymouseCount',new_anonymouseCount);
-    (new_anonymouseCount > 1) ? selector_off.children(".ep_profile_user_username").text("Anonymous X"+new_anonymouseCount) : selector_off.children(".ep_profile_user_username").text("Anonymous");
+    (new_anonymouseCount > 1) ? selector_off.children(".ep_profile_user_username").text("Anonymous ×"+new_anonymouseCount) : selector_off.children(".ep_profile_user_username").text("Anonymous");
     return new_anonymouseCount
 }
 
