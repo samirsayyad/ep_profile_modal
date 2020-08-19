@@ -117,7 +117,7 @@ function isEmail(email) {
 		return regex.test(email);
   }
 
-  function isUsername(username) {
-	var regex = /^([a-zA-Z0-9_.+-])/;
-	return regex.test(username);
-  }
+function isUsername(username) {
+var regex = /^([a-zA-Z0-9_.+-])/;
+return regex.test(username);
+}

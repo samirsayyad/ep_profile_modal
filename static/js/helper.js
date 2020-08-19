@@ -101,7 +101,7 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                 if (value.userName == "Anonymous" ){
                     var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous\"]") ;
                     if(selector_off.length){
-                        var anonymouseCount = selector_off.data("data-anonymouseCount")
+                        var anonymouseCount = selector_off.attr("data-anonymouseCount")
                         var new_anonymouseCount= parseInt(anonymouseCount)+1
 
                         var ids_data_off = selector_off.attr("data-user-ids")
