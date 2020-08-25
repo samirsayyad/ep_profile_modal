@@ -25,12 +25,12 @@
     visibility: visible !important;
 }
 .ep-profile-button{
-    height: 35px;
-    width: 43px;
+    /* height: 35px;
+    width: 43px; */
     /* background-color: #bbb; */
-    border-radius: 50%;
+    /* border-radius: 50%;
     display: inline-block;
-    margin-left: 1%;
+    margin-left: 1%; */
 }
 #ep-profile-image{
     height: 32px;
@@ -139,20 +139,15 @@
 
 }
 .userlist{
-/*    width : 16px;
-    height: 16px;*/
-/*    display: inline-grid;
-*/    margin: auto;
-    display: contents;
+    margin: auto;
+    display: flex;
     cursor: pointer;
+    padding-right: 5px;
 }
 .userlist_img{
-width: 16px;
-    height: 16px;
-    display: inline-grid;
+ 
     margin: auto;
-    margin-left: .25%;
-    margin-top: 13px;
+ 
 }
 .userlist_img hide{
     visibility: hidden;
@@ -161,23 +156,20 @@ width: 16px;
     visibility: visible;
 }
 .userlist_count{
-    margin-right: 0.5%;
+    padding-right: 10px;
     font-weight: 900;
-    font-size: 16pt;
+    font-size: 20pt;
     color: #2678ff;
-    margin-top: 3px;
-    display: contents;
-}
-#usersIconList{
-    display: contents;
+    padding-top: 4px;
+    padding-left: 5px;
 }
 .slash_profile{
-    margin-right: .5%;
+    padding-right: 1px;
     font-weight: 900;
     font-size: 16pt;
     color: #2678ff;
-    /* margin-top: 3px; */
-    margin-left: 0.5%;
+    padding-left: 1px;
+    padding-top: 5px;
 }
 .ep_profile_modal_submit{
     width : 160px;
@@ -281,4 +273,72 @@ width: 16px;
     border-top: 1px solid lightgray;
     color: gray;
 
+}
+.ep_profile_inlineAvatars{
+    display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding-right: 8px;
+    max-width: 220px;
+    padding-right: 24px;
+}
+
+.ep_profile_inlineAvatars .avatar,.ep_profile_inlineAvatars .avatarMore {
+	float:left;
+     margin: 0 -14px 0 0; 
+	position: relative;
+	transition: all 0.2s cubic-bezier(0,.71,.47,1.1);
+	background-color: #fff;
+	display: flex;
+	flex-direction: row;
+	width: 30px;
+	border: 2px solid #ddd;
+	height: 30px;
+	border-radius: 50%;
+	float: left;
+	overflow: hidden;
+}
+.ep_profile_inlineAvatars  .avatar img{
+	float: left;
+}
+.ep_profile_inlineAvatars:first-child{
+	margin: 0;
+}
+
+.ep_profile_inlineAvatars .avatar img{
+	width: 100%;
+	height: 100%;
+}
+
+.ep_profile_inlineAvatars .avatarMore{
+	display: none;
+}
+
+.ep_profile_inlineAvatars > .avatar:hover, .ep_profile_inlineAvatars .avatarMore:hover{
+	border-color: #2678ff;
+	z-index: 1;
+	transform: scale(1.2);
+}
+
+.ep_profile_inlineAvatars .avatarMore:active {
+	transform: scale(0.9);
+}
+
+.ep_profile_inlineAvatars .avatarMore {
+	border-style: dashed;
+	text-align: center;
+	order: -1;
+	margin-right: 5px;
+	font-family: Quicksand;
+	font-weight: bold;
+	background: transparent;
+	justify-content: center;
+	padding-right: 2px;
+	border-color: #333;
+	cursor: pointer;
+}
+.ep_profile_modal_header{
+    justify-content: flex-start;
+    display: flex;
+    margin-left: auto;
 }

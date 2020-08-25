@@ -1,9 +1,9 @@
 var defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
 
 exports.createHTMLforUserList = function (total , online){
-    var html = "<div id='usersIconList'>";
+    var html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
     $.each( online.reverse(), function( key, value ) {
-        html += "<img data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" class='userlist_img' src='../static/plugins/ep_profile_modal/static/img/userlist.png' />"
+        html += "<div class='avatar' data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><img src='../static/plugins/ep_profile_modal/static/img/user-blue.png' /></div>"
     });
     html += " </div>"
     return  html + "<span class='slash_profile'> &#8725; </span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + ""
@@ -11,8 +11,8 @@ exports.createHTMLforUserList = function (total , online){
 
 exports.increaseUserFromList = function (userId){
     
-    if (!$(".userlist_img[data-id=\"user_"+userId+"\"]").length){
-        var $image = $("<img data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" class='userlist_img' src='../static/plugins/ep_profile_modal/static/img/userlist.png' />");
+    if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){
+        var $image = $("<div class='avatar'  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><img src='../static/plugins/ep_profile_modal/static/img/user-blue.png' /></div>");
         $image.prependTo("#usersIconList")
         $image.hide().slideDown(200);
     
@@ -22,7 +22,7 @@ exports.increaseUserFromList = function (userId){
 
 exports.decreaseUserFromList = function (userId){
 
-    $(".userlist_img[data-id=\"user_"+userId+"\"]").animate({opacity: 0}, 1000,"linear",function()
+    $(".avatar[data-id=\"user_"+userId+"\"]").animate({opacity: 0}, 1000,"linear",function()
         {
             $(this).remove();
         }
