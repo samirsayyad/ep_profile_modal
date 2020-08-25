@@ -284,7 +284,7 @@
 	display: flex;
 	flex-direction: row;
 	width: 30px;
-	border: 2px solid #ddd;
+	border: 2px solid #fff;
 	height: 30px;
 	border-radius: 50%;
 	float: left;
@@ -326,7 +326,7 @@
 	background: transparent;
 	justify-content: center;
 	padding-right: 2px;
-	border-color: #333;
+	border-color: #fff;
 	cursor: pointer;
 }
 .ep_profile_modal_header{
