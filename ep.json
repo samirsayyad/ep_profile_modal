@@ -15,7 +15,9 @@
 				"clientVars": "ep_profile_modal/profile",
 				"handleMessage": "ep_profile_modal/profile",
 				"eejsBlock_scripts":"ep_profile_modal/profile",
-				"socketio": "ep_profile_modal/profile"
+				"socketio": "ep_profile_modal/profile",
+				"expressConfigure": "ep_profile_modal/profileServer:expressConfigure"
+
 			}
 		}
 	]

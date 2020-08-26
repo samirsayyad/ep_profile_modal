@@ -133,7 +133,6 @@ exports.handleMessage = async function(hook_name, context, callback){
           img:profile_image,
           email : message.email ,
           userName : message.name ,
-          padId: padId,
         }
       },
     }
@@ -142,6 +141,19 @@ exports.handleMessage = async function(hook_name, context, callback){
   }
   if(message.action === "ep_profile_modal_logout"){
     db.set("ep_profile_modal_status:"+message.userId, "1");
+    var msg = {
+      type: "COLLABROOM",
+      data: {
+        type: "CUSTOM",
+        payload : {
+          padId: padId,
+          action:"EP_PROFILE_USER_LOGOUT_UPDATE",
+          userId: message.userId ,
+
+        }
+      },
+    }
+    sendToRoom(msg)
   }
 
   if(message.action === "ep_profile_modal_ready"){

@@ -3,7 +3,7 @@ var defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
 exports.createHTMLforUserList = function (total , online){
     var html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
     $.each( online.reverse(), function( key, value ) {
-        html += "<div class='avatar' data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><img src='../static/plugins/ep_profile_modal/static/img/user-blue.png' /></div>"
+        html += "<div class='avatar' data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><img class='avatarImg' data-id=\"user_"+value.userId+"\"  src='/p/getUserProfileImage/"+value.userId+"' /></div>"
     });
     html += " </div>"
     return  html + "<span class='slash_profile'> &#8725; </span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + ""
@@ -12,7 +12,7 @@ exports.createHTMLforUserList = function (total , online){
 exports.increaseUserFromList = function (userId){
     
     if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){
-        var $image = $("<div class='avatar'  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><img src='../static/plugins/ep_profile_modal/static/img/user-blue.png' /></div>");
+        var $image = $("<div class='avatar'  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><img class='avatarImg' data-id=\"user_"+userId+"\" src='/p/getUserProfileImage/"+userId+"' /></div>");
         $image.prependTo("#usersIconList")
         $image.hide().slideDown(200);
     

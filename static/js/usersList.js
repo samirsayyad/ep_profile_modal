@@ -13,26 +13,26 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	if(context.payload.action == "totalUserHasBeenChanged"){
 	  var totalUserCount = context.payload.totalUserCount;
 	  $("#userlist_count").text(totalUserCount)
-
-
 	}
 
 	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
 		var onlineUsers = pad.collabClient.getConnectedUsers();
 		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
-
 	}
 
+	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
+		$(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]").attr("src","../static/plugins/ep_profile_modal/static/img/user-blue.png")
+	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
 
 		// change owner loginned img at top of page
 		if (current_user_id ==context.payload.userId){
 			$("#ep-profile-image").attr("src",context.payload.img);
 			$(".ep_profile_modal_section_image_big").attr("src",context.payload.img);
-	
 			$("#ep_profile_modal_section_info_email").text(context.payload.email);
 			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 		}
+		$(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]").attr("src",context.payload.img)
 
 		/////////////////// related to user list when user has been loginned
 		var online_anonymous_selector = helper.isThereOnlineAnonymous()
