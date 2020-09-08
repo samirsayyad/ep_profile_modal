@@ -137,7 +137,8 @@ exports.handleMessage = async function(hook_name, context, callback){
       },
     }
     sendToRoom(msg)
-   
+    sendToChat(message.userId ,padId,message.name)
+
   }
   if(message.action === "ep_profile_modal_logout"){
     db.set("ep_profile_modal_status:"+message.userId, "1");
@@ -194,7 +195,17 @@ function sendToRoom( msg){
     , 100);
   }
 }
+function sendToChat(authorID,padID , userName  ){
+  try{
+    let text = `has logged in.`
+    padMessageHandler.sendChatMessageToPadClients(new Date().valueOf(), authorID, text, padID ,"PLUGIN");
+ 
+  }catch(error){
+    console.log(error)
 
+  }
+
+}
 async function sendUsersListToAllUsers(pad_users){
   var all_users_list =[]
   async.forEach(pad_users ,async function(value , cb ){
