@@ -65,19 +65,25 @@ exports.postAceInit = function (hook,context){
 
 	// upload image profile
 	$("#profile_file").on('change', function(e) {
+		var userId= pad.getUserId()  ;
 		var fd = new FormData();
 		var files = $('#profile_file')[0].files[0];
 		fd.append('file',files);
 		$.ajax({
-			url: '/p/' + clientVars.padId + '/pluginfw/ep_profile_modal/upload/'+pad.getUserId() ,
+			url: '/p/' + clientVars.padId + '/pluginfw/ep_profile_modal/upload/'+userId ,
 			type: 'post',
 			data: fd,
 			contentType: false,
 			processData: false,
 			success: function(response){
-				console.log(response)
-			 }
-		})
+				if(response&&response.error==false ){
+					  if (response.type =="s3")
+						var image_url ='/p/getUserImage/'+response.fileName+'/'+userId 
+						
+ 					}
+				}
+			 })
+		
 	})
 
 	$("#ep_profile_modal_submit").on('click',function(){
