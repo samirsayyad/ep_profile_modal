@@ -40,8 +40,19 @@
     height: 30%;
     margin-top: 5%;
     text-align: center;
-}
+    cursor: pointer;
 
+}
+.lable_ep_profile_modal_section_image_big{
+    cursor: pointer;
+
+}
+.ep_profile_modal_file{
+    opacity: 0;
+    /* position: absolute; */
+    z-index: -1;
+    display: none;
+  }
 
 .ep_profile_modal_section_info{
     width : 100%;

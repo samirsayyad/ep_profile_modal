@@ -3,10 +3,15 @@
         <div id='ep_profile_modal_close'>&times;</div>
 
         <p class="ep_profile_modal_section_image">
-            <a href="https://gravatar.com" target="_blank">
+            <label class="lable_ep_profile_modal_section_image_big" for="profile_file">
                 <img class='ep_profile_modal_section_image_big'  src="${ep_profile_modal.profile_image_url}" />
-            </a>
+
+            </label>
+            <form  method="post" action="" enctype="multipart/form-data" id="ep_profile_modal_form">
+                <input accept="image/*" type="file" id="profile_file" class="ep_profile_modal_file" name="profile_file" /> 
+            </form>
             
+
         </p>
         <div class="ep_profile_modal_section_info_modal">
             <p class="ep_profile_modal_section_info_name" id ="ep_profile_modal_section_info_name">
