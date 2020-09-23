@@ -23,6 +23,7 @@
   "dependencies": {
     "gravatar": "^1.8.0",
     "node-fetch": "^2.6.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "sharp": "^0.26.1"
   }
 }

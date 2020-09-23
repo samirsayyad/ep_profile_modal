@@ -10,6 +10,7 @@ const mimetypes = require('mime-db');
 const url = require('url');
 const settings = require('ep_etherpad-lite/node/utils/Settings');
 const AWS = require('aws-sdk');
+const sharp = require('sharp');
 
 exports.expressConfigure = async function (hookName, context) {
     context.app.get('/p/getUserProfileImage/:userId/', async function (req, res, next) {
@@ -152,40 +153,46 @@ exports.expressConfigure = async function (hookName, context) {
                 busboy.emit('error', error);
             });
 
-
-            if (settings.ep_profile_modal.storage.type =="s3"){
-                var params_upload = {
-                    bucket: settings.ep_profile_modal.storage.bucket,
-                    Bucket: settings.ep_profile_modal.storage.bucket,
-                    Key: savedFilename, // File name you want to save as in S3
-                    Body: file
-                };
-                try{
-                    console.log(params_upload)
-                    s3.upload(params_upload, async function(err, data) {
-                        if (err)
-                            console.log(err, err.stack,"error")
-                        else   
-                            console.log(data);
+            sharp(ile)
+            .resize(250, 250)
+            .toFile(file)
+            .then(data => {
+                if (settings.ep_profile_modal.storage.type =="s3"){
+                    var params_upload = {
+                        bucket: settings.ep_profile_modal.storage.bucket,
+                        Bucket: settings.ep_profile_modal.storage.bucket,
+                        Key: savedFilename, // File name you want to save as in S3
+                        Body: file
+                    };
+                    try{
+                        console.log(params_upload)
     
-                        if (data){
-                            db.set("ep_profile_modal_image:"+userId , savedFilename);
-
-                            return res.status(201).json({"type":settings.ep_profile_modal.storage.type,"error":false,fileName :savedFilename ,fileType:fileType,data:data})
-                        }else{
-                            var msg =err.stack.substring(0, err.stack.indexOf('\n'))
-
-                            return res.status(201).json({"error": msg})
-                        }
-                        
-                    });
-                }catch(error){
-                    var msg = error.message.substring(0, error.message.indexOf('\n'))
-
-                    return res.status(201).json({"error":msg})
-
+                        s3.upload(params_upload, async function(err, data) {
+                            if (err)
+                                console.log(err, err.stack,"error")
+                            else   
+                                console.log(data);
+        
+                            if (data){
+                                db.set("ep_profile_modal_image:"+userId , savedFilename);
+    
+                                return res.status(201).json({"type":settings.ep_profile_modal.storage.type,"error":false,fileName :savedFilename ,fileType:fileType,data:data})
+                            }else{
+                                var msg =err.stack.substring(0, err.stack.indexOf('\n'))
+    
+                                return res.status(201).json({"error": msg})
+                            }
+                            
+                        });
+                    }catch(error){
+                        var msg = error.message.substring(0, error.message.indexOf('\n'))
+    
+                        return res.status(201).json({"error":msg})
+    
+                    }
                 }
-            }
+            })
+            
         })
         req.pipe(busboy);
 
