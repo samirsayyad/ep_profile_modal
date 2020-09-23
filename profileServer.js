@@ -101,6 +101,15 @@ exports.expressConfigure = async function (hookName, context) {
             s3ForcePathStyle: true, // needed with minio?
             signatureVersion: 'v4'
         });
+
+        console.log({
+            accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
+            secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
+            endpoint: settings.ep_profile_modal.storage.endPoint, 
+            s3ForcePathStyle: true, // needed with minio?
+            signatureVersion: 'v4'
+        })
+
         try {
             var busboy = new Busboy({
                 headers: req.headers,
@@ -151,6 +160,7 @@ exports.expressConfigure = async function (hookName, context) {
                     Body: file
                 };
                 try{
+                    console.log(params_upload)
                     s3.upload(params_upload, async function(err, data) {
                         if (err)
                             console.log(err, err.stack,"error")
