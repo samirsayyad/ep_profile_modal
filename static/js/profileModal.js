@@ -75,21 +75,36 @@ exports.postAceInit = function (hook,context){
 			data: fd,
 			contentType: false,
 			processData: false,
-			success: function(response){
-				if(response&&response.error==false ){
-					  if (response.type =="s3")
-						var image_url ='/p/getUserProfileImage/'+userId 
+			beforeSend: function() {
+				// setting a timeout
+				var image_url ='../static/plugins/ep_profile_modal/static/img/loading.gif'
 						$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
 						$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
 						var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
 						if (avatar.length){
 							avatar.attr("src", image_url +"?t=" + new Date().getTime());
 						}
-
- 					}
-				}
-			 })
-		
+			},
+			error: function(xhr) { // if error occured
+				var image_url ='/p/getUserProfileImage/'+userId 
+				$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
+						$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
+						var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
+						if (avatar.length){
+							avatar.attr("src", image_url +"?t=" + new Date().getTime());
+						}
+			},
+			success: function(response){
+				var image_url ='/p/getUserProfileImage/'+userId 
+						$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
+						$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
+						var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
+						if (avatar.length){
+							avatar.attr("src", image_url +"?t=" + new Date().getTime());
+						}
+			}
+			
+		})
 	})
 
 	$("#ep_profile_modal_submit").on('click',function(){
