@@ -78,7 +78,7 @@ exports.postAceInit = function (hook,context){
 			success: function(response){
 				if(response&&response.error==false ){
 					  if (response.type =="s3")
-						var image_url ='/p/getUserImage/'+userId 
+						var image_url ='/p/getUserProfileImage/'+userId 
 						$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
 						$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
 						var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
