@@ -54,10 +54,11 @@ exports.expressConfigure = async function (hookName, context) {
                 else
                     profile_json = null
             }
+            return res.redirect((profile_json != null ) ?  httpsUrl : defaultImg)
+
         }
 
 
-        return res.redirect((profile_json != null ) ?  httpsUrl : defaultImg)
     })
 
     // for uploaded image
