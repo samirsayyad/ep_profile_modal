@@ -1,5 +1,6 @@
 var db = require('ep_etherpad-lite/node/db/DB');
 const defaultImg = "/static/plugins/ep_profile_modal/static/img/user-blue.png"
+const defaultImgUserOff = "/static/plugins/ep_profile_modal/static/img/user.png"
 var gravatar = require('gravatar');
 const fetch = require('node-fetch');
 const Busboy = require('busboy');
@@ -56,7 +57,7 @@ exports.expressConfigure = async function (hookName, context) {
                 else
                     profile_json = null
             }
-            return res.redirect((profile_json != null ) ?  httpsUrl : defaultImg)
+            return res.redirect((profile_json != null ) ?  httpsUrl : ((user_status=="2") ? defaultImg:defaultImgUserOff ))
 
         }
 
@@ -136,10 +137,18 @@ exports.expressConfigure = async function (hookName, context) {
 
                 var finalBuffer = Buffer.concat(fileRead);
 
-                var newFile = await resizeImg(finalBuffer, {
-                    width: 128,
-                    height: 128
-                });
+                try {
+                    var newFile = await resizeImg(finalBuffer, {
+                        width: 128,
+                        height: 128
+                    });
+                }catch(error){
+                    var msg = error.message.substring(0, error.message.indexOf('\n'))
+
+                    return res.status(201).json({"error":msg})
+
+                }
+                
                 if (settings.ep_profile_modal.storage.type =="s3"){
                     var params_upload = {
                         bucket: settings.ep_profile_modal.storage.bucket,
