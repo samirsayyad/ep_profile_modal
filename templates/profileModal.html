@@ -4,7 +4,7 @@
 
         <p class="ep_profile_modal_section_image">
             <label class="lable_ep_profile_modal_section_image_big" for="profile_file">
-                <img class='ep_profile_modal_section_image_big'  src="/p/getUserProfileImage/${clientVars.userId}" />
+                <img class='ep_profile_modal_section_image_big'  src="/p/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}" />
 
             </label>
             <form  method="post" action="" enctype="multipart/form-data" id="ep_profile_modal_form">

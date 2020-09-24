@@ -44,6 +44,7 @@ exports.expressConfigure = async function (hookName, context) {
             
         }else{
             var user_status = await db.get("ep_profile_modal_status:"+req.params.userId);
+            console.log(user_status , "status")
             if(user_status=="2"){
                 var user_email = await db.get("ep_profile_modal_email:"+req.params.userId);
                 var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });

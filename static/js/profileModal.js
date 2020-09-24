@@ -47,16 +47,16 @@ exports.postAceInit = function (hook,context){
 
 
 	  $("#ep_profile_modal_signout").on('click',function(){
+		var userId = pad.getUserId()
 		window.user_status = "out";
 		var message = {
 			type : 'ep_profile_modal',
 			action : "ep_profile_modal_logout" ,
 			email : $("#ep_profile_hidden_email").val() ,
-			userId :  pad.getUserId() ,
+			userId :  userId ,
 
 		  }
 		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
-		$("#ep-profile-image").attr("src","../static/plugins/ep_profile_modal/static/img/user.png");
 		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
 		$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
 

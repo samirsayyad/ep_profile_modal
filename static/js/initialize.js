@@ -18,10 +18,10 @@ exports.aceInitialized = function(hook, context){
     if(clientVars.ep_profile_modal.user_status == "2"){
       
         window.user_status = "login";
-        $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+"</div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='/p/getUserProfileImage/"+clientVars.userId+"' /></div></div>")
+        $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+"</div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='/p/getUserProfileImage/"+clientVars.userId+"?t=" + new Date().getTime()+  "' /></div></div>")
         
     }else{
-        $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+" </div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='../static/plugins/ep_profile_modal/static/img/user.png' /></div></div>")
+        $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+" </div><div class='ep-profile-button' id='ep-profile-button'><img id='ep-profile-image'  src='/p/getUserProfileImage/"+clientVars.userId+"?t=" + new Date().getTime()+"' /></div></div>")
         window.user_status = "out";
         setTimeout(function() { 
             $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')

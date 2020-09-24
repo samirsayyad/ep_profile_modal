@@ -5,7 +5,7 @@
         <div id="ep_profile_user_list_container" class="ep_profile_user_list_container" >
 
             <div id="ep_profile_modal_default_current" data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
-                <img id="ep_profile_user_img" src="/p/getUserProfileImage/${clientVars.userId}" class="ep_profile_user_img">
+                <img id="ep_profile_user_img" src="/p/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}" class="ep_profile_user_img">
                 <div id="ep_profile_user_username" class="ep_profile_user_username"> ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } </div>
             </div>
 

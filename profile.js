@@ -71,10 +71,11 @@ exports.clientVars = async function  (hook, context, callback){
       db.set("ep_profile_modal_contributed_"+padId , pad_users);
     }
 
+    var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"t="+context.clientVars.serverTimestamp
 
   return callback({
       ep_profile_modal: {
-          profile_image_url: (profile_json != null ) ?  httpsUrl : defaultImg,
+          profile_image_url: (profile_json != null ) ?  httpsUrl : default_img,
           profile_json : profile_json  ,
           user_email : user_email ,
           user_status : user_status ,
@@ -120,8 +121,10 @@ exports.handleMessage = async function(hook_name, context, callback){
     db.set("ep_profile_modal_status:"+message.userId, "2");
     db.set("ep_profile_modal_username:"+message.userId, message.name);
 
+    var default_img ='/p/getUserProfileImage/'+message.userId+"t="+(new Date().getTime())
+
     var profile_image = await checkUserExistInGravatar(message.email)
-    profile_image = (profile_image) ? profile_image : defaultImg
+    profile_image = (profile_image) ? profile_image : default_img
     var msg = {
       type: "COLLABROOM",
       data: {
@@ -215,8 +218,10 @@ async function sendUsersListToAllUsers(pad_users){
     let temp_profile_url = gravatar.profile_url(temp_email, {protocol: 'https' });
     temp_profile_json = await fetch(temp_profile_url) ;
     temp_profile_json = await temp_profile_json.json()
+    var default_img ='/p/getUserProfileImage/'+value+"t="+(new Date().getTime())
+
     if (temp_profile_json =="User not found"){
-      var temp_imageUrl = defaultImg
+      var temp_imageUrl = default_img
 
     }else{
       var temp_imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
