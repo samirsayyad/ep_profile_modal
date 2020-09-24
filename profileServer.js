@@ -4,15 +4,12 @@ const defaultImgUserOff = "/static/plugins/ep_profile_modal/static/img/user.png"
 var gravatar = require('gravatar');
 const fetch = require('node-fetch');
 const Busboy = require('busboy');
-const StreamUpload = require('stream_upload');
 const    uuid = require('uuid');
 const    path = require('path');
-const mimetypes = require('mime-db');
-const url = require('url');
 const settings = require('ep_etherpad-lite/node/utils/Settings');
 const AWS = require('aws-sdk');
-const sharp = require('sharp');
 const resizeImg = require('resize-img');
+var sizeOf =  require('buffer-image-size');
 
 exports.expressConfigure = async function (hookName, context) {
     context.app.get('/p/getUserProfileImage/:userId/', async function (req, res, next) {
@@ -136,11 +133,18 @@ exports.expressConfigure = async function (hookName, context) {
 
 
                 var finalBuffer = Buffer.concat(fileRead);
-
+                var sizeImage = sizeOf(finalBuffer);
+                var selctedWidth = 128, selectedHeight = 128;
+                if (sizeImage){
+                    var result_resize = getBestImageReszie(sizeImage.width,sizeImage.height,128)
+                    console.log(sizeImage,result_resize)
+                    selctedWidth = result_resize.width
+                    selectedHeight = result_resize.height
+                }
                 try {
                     var newFile = await resizeImg(finalBuffer, {
-                        width: 128,
-                        height: 128
+                        width: selctedWidth ,
+                        height: selectedHeight
                     });
                 }catch(error){
                     var msg = error.message.substring(0, error.message.indexOf('\n'))
@@ -199,3 +203,20 @@ exports.expressConfigure = async function (hookName, context) {
 }
 
  
+const getBestImageReszie = (originalWidth, originalHeight,size) =>{
+    var ratio = originalWidth / originalHeight;
+    var targetWidth = targetHeight = Math.min(size, Math.max(originalWidth, originalHeight));
+
+
+
+    if (ratio < 1) {
+        targetWidth = targetHeight * ratio;
+    } else {
+        targetHeight = targetWidth / ratio;
+    }
+
+    srcWidth = originalWidth;
+    srcHeight = originalHeight;
+    srcX = srcY = 0;
+    return {width :targetWidth , height : targetHeight}
+}
