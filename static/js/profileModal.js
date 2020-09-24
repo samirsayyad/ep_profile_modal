@@ -69,6 +69,7 @@ exports.postAceInit = function (hook,context){
 		var fd = new FormData();
 		var files = $('#profile_file')[0].files[0];
 		fd.append('file',files);
+		if (!files) return;
 		$.ajax({
 			url: '/p/' + clientVars.padId + '/pluginfw/ep_profile_modal/upload/'+userId ,
 			type: 'post',
