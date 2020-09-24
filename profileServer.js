@@ -11,6 +11,7 @@ const url = require('url');
 const settings = require('ep_etherpad-lite/node/utils/Settings');
 const AWS = require('aws-sdk');
 const sharp = require('sharp');
+const resizeImg = require('resize-img');
 
 exports.expressConfigure = async function (hookName, context) {
     context.app.get('/p/getUserProfileImage/:userId/', async function (req, res, next) {
@@ -62,34 +63,6 @@ exports.expressConfigure = async function (hookName, context) {
 
     })
 
-    // for uploaded image
-    context.app.get('/p/getUserImage/:mediaId/:userId',async function (req, res, next) {
-        var s3  = new AWS.S3({
-            accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
-            secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
-            endpoint: settings.ep_profile_modal.storage.endPoint, 
-            s3ForcePathStyle: true, // needed with minio?
-            signatureVersion: 'v4'
-        });
-        try{
-            var params = { Bucket: settings.ep_profile_modal.storage.bucket, Key: `${req.params.userId}/${req.params.mediaId}`  };
-            s3.getObject(params, function(err, data) {
-                console.log("data going to be ", params ,data , err)
-                if (data ){
-                    res.writeHead(200, {'Content-Type': 'image/jpeg'});
-                    res.write(data.Body, 'binary');
-                    res.end(null, 'binary');
-                }else{
-                    res.end(null, 'binary');
-        
-                }
-                
-            });
-        }catch(error){
-            console.log("error",error)
-        }
-        
-      })
 
     // for upload user image  
     context.app.post('/p/:padId/pluginfw/ep_profile_modal/upload/:userId',async function (req, res, next) {
@@ -144,7 +117,7 @@ exports.expressConfigure = async function (hookName, context) {
         busboy.on('file', async function (fieldname, file, filename, encoding, mimetype) {
             var fileType = path.extname(filename)
             var fileTypeWithoutDot = fileType.substr(1);
-
+            var fileRead=[];
             var savedFilename = path.join(userId, newFileName + fileType);
             file.on('limit', function () {
                 return res.status(201).json({"error":"File is too large"})
@@ -152,17 +125,27 @@ exports.expressConfigure = async function (hookName, context) {
             file.on('error', function (error) {
                 busboy.emit('error', error);
             });
+            file.on('data', async function(chunk) {
 
-            sharp(ile)
-            .resize(250, 250)
-            .toFile(file)
-            .then(data => {
+                fileRead.push(chunk);
+
+              });
+            file.on('end', async function() {
+
+
+
+                var finalBuffer = Buffer.concat(fileRead);
+
+                var newFile = await resizeImg(finalBuffer, {
+                    width: 128,
+                    height: 128
+                });
                 if (settings.ep_profile_modal.storage.type =="s3"){
                     var params_upload = {
                         bucket: settings.ep_profile_modal.storage.bucket,
                         Bucket: settings.ep_profile_modal.storage.bucket,
                         Key: savedFilename, // File name you want to save as in S3
-                        Body: file
+                        Body: newFile
                     };
                     try{
                         console.log(params_upload)
@@ -191,8 +174,13 @@ exports.expressConfigure = async function (hookName, context) {
     
                     }
                 }
+
+
             })
-            
+
+         
+                
+             
         })
         req.pipe(busboy);
 
