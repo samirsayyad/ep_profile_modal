@@ -27,16 +27,16 @@ exports.clientVars = async function  (hook, context, callback){
   var profile_json = null;
   var user_email = await db.get("ep_profile_modal_email:"+context.clientVars.userId);
   var user_status = await db.get("ep_profile_modal_status:"+context.clientVars.userId);
-  if(user_email){
-    var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
-    var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
-    profile_json = await fetch(profile_url) ;
-    profile_json = await profile_json.json()
-    if (profile_json !="User not found")
-        profile_json = profile_json.entry[0]
-    else
-        profile_json = null 
-  }
+  // if(user_email){
+  //   var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
+  //   var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
+  //   profile_json = await fetch(profile_url) ;
+  //   profile_json = await profile_json.json()
+  //   if (profile_json !="User not found")
+  //       profile_json = profile_json.entry[0]
+  //   else
+  //       profile_json = null 
+  // }
 
 
 
@@ -75,7 +75,7 @@ exports.clientVars = async function  (hook, context, callback){
 
   return callback({
       ep_profile_modal: {
-          profile_image_url: (profile_json != null ) ?  httpsUrl : default_img,
+          profile_image_url: default_img,
           profile_json : profile_json  ,
           user_email : user_email ,
           user_status : user_status ,
@@ -123,8 +123,8 @@ exports.handleMessage = async function(hook_name, context, callback){
 
     var default_img ='/p/getUserProfileImage/'+message.userId+"t="+(new Date().getTime())
 
-    var profile_image = await checkUserExistInGravatar(message.email)
-    profile_image = (profile_image) ? profile_image : default_img
+    //var profile_image = await checkUserExistInGravatar(message.email)
+    //profile_image = (profile_image) ? profile_image : default_img
     var msg = {
       type: "COLLABROOM",
       data: {
@@ -133,7 +133,7 @@ exports.handleMessage = async function(hook_name, context, callback){
           padId: padId,
           action:"EP_PROFILE_USER_LOGIN_UPDATE",
           userId: message.userId ,
-          img:profile_image,
+          img:default_img,
           email : message.email ,
           userName : message.name ,
         }
@@ -215,25 +215,25 @@ async function sendUsersListToAllUsers(pad_users){
     let temp_email = await db.get("ep_profile_modal_email:"+value);
     let temp_status = await db.get("ep_profile_modal_status:"+value);
     let temp_username = await db.get("ep_profile_modal_username:"+value);
-    let temp_profile_url = gravatar.profile_url(temp_email, {protocol: 'https' });
-    temp_profile_json = await fetch(temp_profile_url) ;
-    temp_profile_json = await temp_profile_json.json()
+    // let temp_profile_url = gravatar.profile_url(temp_email, {protocol: 'https' });
+    // temp_profile_json = await fetch(temp_profile_url) ;
+    // temp_profile_json = await temp_profile_json.json()
     var default_img ='/p/getUserProfileImage/'+value+"t="+(new Date().getTime())
 
-    if (temp_profile_json =="User not found"){
-      var temp_imageUrl = default_img
+    // if (temp_profile_json =="User not found"){
+    //   var temp_imageUrl = default_img
 
-    }else{
-      var temp_imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
+    // }else{
+    //   var temp_imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
 
-    }
+    // }
 
     all_users_list.push({
       userId : value ,
       email : temp_email ,
       status : temp_status ,
       userName : (temp_username ) ? temp_username : defaultUserName,
-      imageUrl : temp_imageUrl
+      imageUrl : default_img
     })
 
     cb();
@@ -258,18 +258,18 @@ async function sendUsersListToAllUsers(pad_users){
 }
 
 
-async function checkUserExistInGravatar(user_email){
-  var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
-  var profile_json = null ;
-  var profile_img = false ;
-  profile_json = await fetch(profile_url) ;
-  profile_json = await profile_json.json()
+// async function checkUserExistInGravatar(user_email){
+//   var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
+//   var profile_json = null ;
+//   var profile_img = false ;
+//   profile_json = await fetch(profile_url) ;
+//   profile_json = await profile_json.json()
   
-  if (profile_json !="User not found"){
-    profile_img = gravatar.url(user_email, {protocol: 'https', s: '200'});
-    return profile_img
-  }else{
-    return false
-  }
+//   if (profile_json !="User not found"){
+//     profile_img = gravatar.url(user_email, {protocol: 'https', s: '200'});
+//     return profile_img
+//   }else{
+//     return false
+//   }
   
-}
+// }
