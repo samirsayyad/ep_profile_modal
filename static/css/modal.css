@@ -312,10 +312,9 @@
 }
 
 .ep_profile_inlineAvatars .avatar img{
-	/* width: 100%;
-    height: 100%; */
-    width: 30px;
-}
+	 width: 100%;
+    /*height: 100%; */
+ }
 
 .ep_profile_inlineAvatars .avatarMore{
 	display: none;
