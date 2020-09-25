@@ -21,42 +21,50 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	}
 
 	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId 
+		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"?t=" + new Date().getTime()
 		if (current_user_id ==context.payload.userId){
-			image_url ='/p/getUserProfileImage/'+current_user_id
-			$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
-			$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
-			$(".ep_profile_modal_section_image_big_ask").attr("src", image_url +"?t=" + new Date().getTime());
-
+			image_url ='/p/getUserProfileImage/'+current_user_id+"?t=" + new Date().getTime()
+			$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+			$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+			$("#ep-profile-image").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
+			});
+			
 			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
 		}
-		// $("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
-		// $(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
-		// $(".ep_profile_modal_section_image_big_ask").attr("src", image_url +"?t=" + new Date().getTime());
+		
 		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
 		if (avatar.length){
-			avatar.attr("src", image_url +"?t=" + new Date().getTime());
+			avatar.css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+			});
 		}
-
-		//$(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]").attr("src","../static/plugins/ep_profile_modal/static/img/user-blue.png")
 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId 
+		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"?t=" + new Date().getTime()
 
 		// change owner loginned img at top of page
 		if (current_user_id ==context.payload.userId){
 			image_url ='/p/getUserProfileImage/'+current_user_id
-			$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
-			$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
-			$(".ep_profile_modal_section_image_big_ask").attr("src", image_url +"?t=" + new Date().getTime());
+			$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+			$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+			$("#ep-profile-image").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
+			});
 			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 		}
 		//$(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]").attr("src",context.payload.img)
 		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
 		if (avatar.length){
-			avatar.attr("src", image_url +"?t=" + new Date().getTime());
+			avatar.css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+			});
 		}
 
 		/////////////////// related to user list when user has been loginned

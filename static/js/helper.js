@@ -1,18 +1,24 @@
 var defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
 
 exports.createHTMLforUserList = function (total , online){
+
     var html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
+    var style ;
     $.each( online.reverse(), function( key, value ) {
-        html += "<div class='avatar' data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><img class='avatarImg' data-id=\"user_"+value.userId+"\"  src='/p/getUserProfileImage/"+value.userId+"' /></div>"
+        style = "background: url(/p/getUserProfileImage/"+value.userId+") no-repeat 50% 50% ; background-size : 26px"
+
+        html += "<div class='avatar' data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
     });
     html += " </div>"
     return  html + "<span class='slash_profile'> &#8725; </span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + ""
 }
 
 exports.increaseUserFromList = function (userId){
-    
+    var style = "background: url(/p/getUserProfileImage/"+userId+") no-repeat 50% 50% ; background-size : 26px"
+
+
     if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){
-        var $image = $("<div class='avatar'  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><img class='avatarImg' data-id=\"user_"+userId+"\" src='/p/getUserProfileImage/"+userId+"' /></div>");
+        var $image = $("<div class='avatar'  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><div class='avatarImg' data-id=\"user_"+userId+"\" style='"+style+"'></div></div>");
         $image.prependTo("#usersIconList")
         $image.hide().slideDown(200);
     
@@ -138,13 +144,15 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
 }
 
 var getHtmlOfUsersList = function(userId,username , img , anonymous_handler){
+    var style = "background: url("+img+") no-repeat 50% 50% ; background-size : 20px"
+
     if (anonymous_handler && username=="Anonymous"){
         return "<div  data-user-ids='"+userId+"' data-anonymouseCount=\"1\" data-id=\"user_list_"+anonymous_handler+"\" class=\"ep_profile_user_row\">"+
-        "<img src=\""+ img + "\" class=\"ep_profile_user_img\">"+
+        "<div style='"+style+"' class=\"ep_profile_user_img\"></div>"+
         "<div class=\"ep_profile_user_username\"> "+username+" </div> </div>" ;
     }else{
         return "<div data-id=\"user_list_"+userId+"\" class=\"ep_profile_user_row\">"+
-        "<img src=\""+ img + "\" class=\"ep_profile_user_img\">"+
+        "<div style='"+style+"' class=\"ep_profile_user_img\"></div>"+
         "<div class=\"ep_profile_user_username\"> "+username+" </div> </div>" ;
     }
    
@@ -241,7 +249,10 @@ var createOnlineUserElementInUserList = function (userId,userName,img,currentUse
         }
     }else {
         user_selector.children(".ep_profile_user_username").text(userName);
-        user_selector.children(".ep_profile_user_img").attr("src",img);
+        user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+        "background-image":"url("+img+")" , "background-repeat":"no-repeat","background-size": "20px"
+        });
+        //attr("src",img);
 
     }
 

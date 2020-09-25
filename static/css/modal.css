@@ -26,7 +26,7 @@
 }
 
 #ep-profile-image{
-    /* height: 32px; */
+    height: 32px;
     width: 32px;
     border-radius: 50%;
     cursor: pointer;
@@ -37,7 +37,7 @@
 }
 .ep_profile_modal_section_image{
     width : 100%;
-    height: 35%;
+    height: 40%;
     margin-top: 5%;
     text-align: center;
     cursor: pointer;
@@ -49,7 +49,6 @@
 }
 .ep_profile_modal_file{
     opacity: 0;
-    /* position: absolute; */
     z-index: -1;
     display: none;
   }
@@ -57,34 +56,28 @@
 .ep_profile_modal_section_info{
     width : 100%;
     height: 33%;
-    /* border-bottom: 1px solid #e8eaed; */
     display: inline-grid;
     margin: auto;
     margin-top: 7%;
 
 }
 .ep_profile_modal_section_image_big{
-    /* width: 80px; */
-    /* height: 80px; */
     width:128px;
+    height:128px;
+    margin: auto;
     border-radius: 50%;
-    margin-left: 5.5%;
-    margin-right: auto;
-    /* margin-top: 2%; */
-    /* display: block; */
-    /* background-position: center center; */
-    /* background-size: cover; */
-
+}
+.avatarImg{
+    width : 26px ;
+    height: 26px    ;
 }
 .ep_profile_modal_section_image_big_ask{
-    width: 80px;
-    height: 80px;
+    width: 128px;
+    height: 128px;
     border-radius: 50%;
-    margin-left: 5.5%;
-    margin-right: auto;
-    margin-top : 2%
-    /* display: block; */
+    margin: auto;
 
+ 
 }
 .ep_profile_modal_section_info_name{
     display: block;
@@ -295,11 +288,9 @@
 	position: relative;
 	transition: all 0.2s cubic-bezier(0,.71,.47,1.1);
 	background-color: #fff;
-	/* display: flex; */
+	display: flex;
 	flex-direction: row;
-	width: 30px;
 	border: 2px solid #fff;
-	height: 30px;
 	border-radius: 50%;
 	float: left;
 	overflow: hidden;
@@ -312,8 +303,8 @@
 }
 
 .ep_profile_inlineAvatars .avatar img{
-	 width: 100%;
-    /*height: 100%; */
+	 width: 26px;
+    height: 26px;
  }
 
 .ep_profile_inlineAvatars .avatarMore{

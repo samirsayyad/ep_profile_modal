@@ -2,7 +2,7 @@ exports.postAceInit = function (hook,context){
 	// console.log("samir",pad )
 	// console.log("samir",pad.collabClient )
 	// console.log("samir",pad.collabClient.getConnectedUsers())
-
+	// /p/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}
 
 	$("#userlist,#ep_profile_modal_user_list_close").on('click', function(){
 		($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show'))?
@@ -79,30 +79,52 @@ exports.postAceInit = function (hook,context){
 			beforeSend: function() {
 				// setting a timeout
 				var image_url ='../static/plugins/ep_profile_modal/static/img/loading.gif'
-						$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
-						$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
-						var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
-						if (avatar.length){
-							avatar.attr("src", image_url +"?t=" + new Date().getTime());
-						}
+				$("#ep-profile-image").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
+				});
+				$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
+				if (avatar.length){
+					avatar.css({"background-position":"50% 50%",
+					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"});
+				}
+
+
+					
 			},
 			error: function(xhr) { // if error occured
-				var image_url ='/p/getUserProfileImage/'+userId 
-				$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
-						$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
-						var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
-						if (avatar.length){
-							avatar.attr("src", image_url +"?t=" + new Date().getTime());
-						}
+				var image_url ='/p/getUserProfileImage/'+userId +"?t=" + new Date().getTime();
+				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
+				if (avatar.length){
+					avatar.css({"background-position":"50% 50%",
+					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+					});
+				}
+				$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+				$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+				$("#ep-profile-image").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
+				});
 			},
 			success: function(response){
-				var image_url ='/p/getUserProfileImage/'+userId 
-						$("#ep-profile-image").attr("src", image_url +"?t=" + new Date().getTime());
-						$(".ep_profile_modal_section_image_big").attr("src", image_url +"?t=" + new Date().getTime());
-						var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
-						if (avatar.length){
-							avatar.attr("src", image_url +"?t=" + new Date().getTime());
-						}
+				var image_url ='/p/getUserProfileImage/'+userId +"?t=" + new Date().getTime();
+				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
+				if (avatar.length){
+					avatar.css({"background-position":"50% 50%",
+					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+					});
+				}
+				$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+				$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+				$("#ep-profile-image").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
+				});
+
 			}
 			
 		})
@@ -148,7 +170,11 @@ exports.postAceInit = function (hook,context){
 
  
 exports.handleClientMessage_USER_IMAGE = function(hook, context){
-	$("#ep-profile-image").attr({src:  context.message.user_image });
+	$("#ep-profile-image").css({"background-position":"50% 50%",
+	"background-image":"url("+context.message.user_image+")" , "background-repeat":"no-repeat","background-size": "32px"
+	});
+	
+	//attr({src:  context.message.user_image });
 }
 
 
