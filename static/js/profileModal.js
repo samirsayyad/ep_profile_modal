@@ -82,6 +82,8 @@ exports.postAceInit = function (hook,context){
 				$("#ep-profile-image").css({"background-position":"50% 50%",
 				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
 				});
+				$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
 				$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
 				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
 				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
@@ -169,13 +171,14 @@ exports.postAceInit = function (hook,context){
 }
 
  
-exports.handleClientMessage_USER_IMAGE = function(hook, context){
-	$("#ep-profile-image").css({"background-position":"50% 50%",
-	"background-image":"url("+context.message.user_image+")" , "background-repeat":"no-repeat","background-size": "32px"
-	});
+// exports.handleClientMessage_USER_IMAGE = function(hook, context){
+// 	console.log("=>>>>>> handleClientMessage_USER_IMAGE")
+// 	$("#ep-profile-image").css({"background-position":"50% 50%",
+// 	"background-image":"url("+context.message.user_image+")" , "background-repeat":"no-repeat","background-size": "32px"
+// 	});
 	
-	//attr({src:  context.message.user_image });
-}
+// 	//attr({src:  context.message.user_image });
+// }
 
 
 function isEmail(email) {

@@ -10,6 +10,7 @@ const settings = require('ep_etherpad-lite/node/utils/Settings');
 const AWS = require('aws-sdk');
 const resizeImg = require('resize-img');
 var sizeOf =  require('buffer-image-size');
+var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
 
 exports.expressConfigure = async function (hookName, context) {
     context.app.get('/p/getUserProfileImage/:userId/', async function (req, res, next) {
@@ -172,7 +173,18 @@ exports.expressConfigure = async function (hookName, context) {
         
                             if (data){
                                 db.set("ep_profile_modal_image:"+userId , savedFilename);
-    
+                                var msg = {
+                                    type: "COLLABROOM",
+                                    data: {
+                                      type: "CUSTOM",
+                                      payload : {
+                                        padId: padId,
+                                        action:"EP_PROFILE_USER_IMAGE_CHANGE",
+                                        userId: userId,
+                                      }
+                                    },
+                                  }
+                                sendToRoom(msg)
                                 return res.status(201).json({"type":settings.ep_profile_modal.storage.type,"error":false,fileName :savedFilename ,fileType:fileType,data:data})
                             }else{
                                 var msg =err.stack.substring(0, err.stack.indexOf('\n'))
@@ -221,3 +233,23 @@ const getBestImageReszie = (originalWidth, originalHeight,size) =>{
     srcX = srcY = 0;
     return {width :targetWidth , height : targetHeight}
 }
+
+
+const sendToRoom = (msg) =>{
+    var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.
+    if(bufferAllows){
+      setTimeout(function(){ // This is bad..  We have to do it because ACE hasn't redrawn by the time the chat has arrived
+        try{
+          padMessageHandler.handleCustomObjectMessage(msg, false, function(error){
+            //console.log(error)
+            // TODO: Error handling.
+          })
+        }catch(error){
+          console.log(error)
+  
+        }
+        
+      }
+      , 100);
+    }
+  }

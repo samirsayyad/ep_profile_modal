@@ -27,22 +27,8 @@ exports.clientVars = async function  (hook, context, callback){
   var profile_json = null;
   var user_email = await db.get("ep_profile_modal_email:"+context.clientVars.userId);
   var user_status = await db.get("ep_profile_modal_status:"+context.clientVars.userId);
-  // if(user_email){
-  //   var httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
-  //   var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
-  //   profile_json = await fetch(profile_url) ;
-  //   profile_json = await profile_json.json()
-  //   if (profile_json !="User not found")
-  //       profile_json = profile_json.entry[0]
-  //   else
-  //       profile_json = null 
-  // }
-
-
-
-  
-
-//* collect user If just enter to pad */
+  var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"t="+context.clientVars.serverTimestamp
+  //* collect user If just enter to pad */
   var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
   if (pad_users){
     if (pad_users.indexOf(context.clientVars.userId) == -1){
@@ -66,12 +52,11 @@ exports.clientVars = async function  (hook, context, callback){
         sendToRoom(msg)
       // tell everybody that total user has been changed
     }
-    }else{
-      pad_users = [ context.clientVars.userId ]
-      db.set("ep_profile_modal_contributed_"+padId , pad_users);
-    }
+  }else{
+    pad_users = [ context.clientVars.userId ]
+    db.set("ep_profile_modal_contributed_"+padId , pad_users);
+  }
 
-    var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"t="+context.clientVars.serverTimestamp
 
   return callback({
       ep_profile_modal: {
@@ -112,19 +97,14 @@ exports.handleMessage = async function(hook_name, context, callback){
     callback(false);
     return false;
   }
+  var default_img ='/p/getUserProfileImage/'+message.userId+"t="+(new Date().getTime())
 
   var message = context.message.data;
   if(message.action === 'ep_profile_modal_login'){
     if (message.email)
       db.set("ep_profile_modal_email:"+message.userId, message.email);
-      
     db.set("ep_profile_modal_status:"+message.userId, "2");
     db.set("ep_profile_modal_username:"+message.userId, message.name);
-
-    var default_img ='/p/getUserProfileImage/'+message.userId+"t="+(new Date().getTime())
-
-    //var profile_image = await checkUserExistInGravatar(message.email)
-    //profile_image = (profile_image) ? profile_image : default_img
     var msg = {
       type: "COLLABROOM",
       data: {
@@ -215,18 +195,7 @@ async function sendUsersListToAllUsers(pad_users){
     let temp_email = await db.get("ep_profile_modal_email:"+value);
     let temp_status = await db.get("ep_profile_modal_status:"+value);
     let temp_username = await db.get("ep_profile_modal_username:"+value);
-    // let temp_profile_url = gravatar.profile_url(temp_email, {protocol: 'https' });
-    // temp_profile_json = await fetch(temp_profile_url) ;
-    // temp_profile_json = await temp_profile_json.json()
     var default_img ='/p/getUserProfileImage/'+value+"t="+(new Date().getTime())
-
-    // if (temp_profile_json =="User not found"){
-    //   var temp_imageUrl = default_img
-
-    // }else{
-    //   var temp_imageUrl = gravatar.url(temp_email, {protocol: 'https', s: '200'});
-
-    // }
 
     all_users_list.push({
       userId : value ,

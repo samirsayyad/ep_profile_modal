@@ -19,7 +19,15 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		var onlineUsers = pad.collabClient.getConnectedUsers();
 		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
 	}
-
+	if(context.payload.action == "EP_PROFILE_USER_IMAGE_CHANGE"){ // when user A change image and user B want to know
+		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"?t=" + new Date().getTime()
+		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
+		if (avatar.length){
+			avatar.css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+			});
+		}
+	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
 		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"?t=" + new Date().getTime()
 		if (current_user_id ==context.payload.userId){
