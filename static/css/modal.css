@@ -295,7 +295,7 @@
 	position: relative;
 	transition: all 0.2s cubic-bezier(0,.71,.47,1.1);
 	background-color: #fff;
-	display: flex;
+	/* display: flex; */
 	flex-direction: row;
 	width: 30px;
 	border: 2px solid #fff;
