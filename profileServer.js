@@ -26,7 +26,7 @@ exports.expressConfigure = async function (hookName, context) {
                 signatureVersion: 'v4'
             });
             try{
-                var params = { Bucket: settings.ep_profile_modal.storage.bucket, Key: `${user_image}`  };
+                var params = { Bucket: settings.ep_profile_modal.storage.bucket, Key: `${user.image}`  };
                 s3.getObject(params, function(err, data) {
                     console.log("data going to be ", params ,data , err)
                     if (data ){
@@ -116,7 +116,7 @@ exports.expressConfigure = async function (hookName, context) {
             var fileType = path.extname(filename)
             var fileTypeWithoutDot = fileType.substr(1);
             var fileRead=[];
-            var savedFilename = path.join(userId, newFileName + fileType);
+            var savedFilename = path.join(userId,padId, newFileName + fileType);
             file.on('limit', function () {
                 return res.status(201).json({"error":"File is too large"})
             });
