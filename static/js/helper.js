@@ -1,11 +1,11 @@
 var defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
 
-exports.createHTMLforUserList = function (total , online){
+exports.createHTMLforUserList = function (total , online,padId){
 
     var html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
     var style ;
     $.each( online.reverse(), function( key, value ) {
-        style = "background: url(/p/getUserProfileImage/"+value.userId+") no-repeat 50% 50% ; background-size : 26px"
+        style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px"
 
         html += "<div class='avatar' data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
     });
@@ -13,8 +13,8 @@ exports.createHTMLforUserList = function (total , online){
     return  html + "<span class='slash_profile'> &#8725; </span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + ""
 }
 
-exports.increaseUserFromList = function (userId){
-    var style = "background: url(/p/getUserProfileImage/"+userId+") no-repeat 50% 50% ; background-size : 26px"
+exports.increaseUserFromList = function (userId,padId){
+    var style = "background: url(/p/getUserProfileImage/"+userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px"
 
 
     if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){

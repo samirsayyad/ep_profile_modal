@@ -13,11 +13,11 @@ var sizeOf =  require('buffer-image-size');
 var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
 
 exports.expressConfigure = async function (hookName, context) {
-    context.app.get('/p/getUserProfileImage/:userId/', async function (req, res, next) {
+    context.app.get('/p/getUserProfileImage/:userId/:padId', async function (req, res, next) {
         var profile_json = null;
         var httpsUrl = null;
-        var user_image = await db.get("ep_profile_modal_image:"+req.params.userId);
-        if (user_image){
+        var user = await db.get("ep_profile_modal:"+req.params.userId+"_"+req.params.padId) || {};
+        if (user.image){
             var s3  = new AWS.S3({
                 accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
                 secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
@@ -44,19 +44,17 @@ exports.expressConfigure = async function (hookName, context) {
             }
             
         }else{
-            var user_status = await db.get("ep_profile_modal_status:"+req.params.userId);
-            console.log(user_status , "status")
-            if(user_status=="2"){
-                var user_email = await db.get("ep_profile_modal_email:"+req.params.userId);
-                var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
+
+            if(user.status=="2"){
+                var profile_url = gravatar.profile_url(user.email, {protocol: 'https' });
                 profile_json = await fetch(profile_url) ;
                 profile_json = await profile_json.json()
                 if (profile_json !="User not found")
-                    httpsUrl = gravatar.url(user_email, {protocol: 'https', s: '200'});
+                    httpsUrl = gravatar.url(user.email, {protocol: 'https', s: '200'});
                 else
                     profile_json = null
             }
-            return res.redirect((profile_json != null ) ?  httpsUrl : ((user_status=="2") ? defaultImg:defaultImgUserOff ))
+            return res.redirect((profile_json != null ) ?  httpsUrl : ((user.status=="2") ? defaultImg:defaultImgUserOff ))
 
         }
 
@@ -173,6 +171,9 @@ exports.expressConfigure = async function (hookName, context) {
         
                             if (data){
                                 db.set("ep_profile_modal_image:"+userId , savedFilename);
+                                var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+                                    user.image = savedFilename
+                                await db.set("ep_profile_modal:"+userId+"_"+padId,user) ;
                                 var msg = {
                                     type: "COLLABROOM",
                                     data: {

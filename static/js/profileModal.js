@@ -96,7 +96,7 @@ exports.postAceInit = function (hook,context){
 					
 			},
 			error: function(xhr) { // if error occured
-				var image_url ='/p/getUserProfileImage/'+userId +"?t=" + new Date().getTime();
+				var image_url ='/p/getUserProfileImage/'+userId+"/"+ clientVars.padId +"?t=" + new Date().getTime();
 				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
 				if (avatar.length){
 					avatar.css({"background-position":"50% 50%",
@@ -112,7 +112,7 @@ exports.postAceInit = function (hook,context){
 				});
 			},
 			success: function(response){
-				var image_url ='/p/getUserProfileImage/'+userId +"?t=" + new Date().getTime();
+				var image_url ='/p/getUserProfileImage/'+userId+"/"+ clientVars.padId  +"?t=" + new Date().getTime();
 				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
 				if (avatar.length){
 					avatar.css({"background-position":"50% 50%",
@@ -160,7 +160,7 @@ exports.postAceInit = function (hook,context){
 				email : email ,
 				userId :  pad.getUserId() ,
 				name: username,
-
+				padId : pad.getPadId()
 			  }
 			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
 			//$('#ep_profile_modal').addClass('ep_profile_modal-show')

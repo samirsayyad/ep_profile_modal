@@ -1,10 +1,14 @@
 var helper = require("./helper")
 
 exports.handleClientMessage_USER_NEWINFO = function(hook, context){
-	helper.increaseUserFromList(context.payload.userId)
+	var padId = pad.getPadId()
+
+	helper.increaseUserFromList(context.payload.userId,padId)
 }
 exports.handleClientMessage_USER_LEAVE = function(hook, context){
-	helper.decreaseUserFromList(context.payload.userId)
+	var padId = pad.getPadId()
+
+	helper.decreaseUserFromList(context.payload.userId,padId)
 }
 
 exports.handleClientMessage_CUSTOM = function(hook, context, cb){
@@ -20,8 +24,8 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
 	}
 	if(context.payload.action == "EP_PROFILE_USER_IMAGE_CHANGE"){ // when user A change image and user B want to know
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"?t=" + new Date().getTime()
-		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
+		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
+		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"/"+context.payload.padId +"\"]")
 		if (avatar.length){
 			avatar.css({"background-position":"50% 50%",
 			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
@@ -29,9 +33,9 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		}
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"?t=" + new Date().getTime()
+		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
 		if (current_user_id ==context.payload.userId){
-			image_url ='/p/getUserProfileImage/'+current_user_id+"?t=" + new Date().getTime()
+			image_url ='/p/getUserProfileImage/'+current_user_id+"/"+context.payload.padId +"?t=" + new Date().getTime()
 			$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
 			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
 			$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
@@ -53,11 +57,11 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"?t=" + new Date().getTime()
+		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"/"+context.payload.padId +"?t=" + new Date().getTime()
 
 		// change owner loginned img at top of page
 		if (current_user_id ==context.payload.userId){
-			image_url ='/p/getUserProfileImage/'+current_user_id
+			image_url ='/p/getUserProfileImage/'+current_user_id+"/"+context.payload.padId 
 			$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
 			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
 			$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",

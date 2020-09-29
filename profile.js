@@ -2,11 +2,7 @@ var eejs = require('ep_etherpad-lite/node/eejs/');
 var db = require('ep_etherpad-lite/node/db/DB');
 var async = require('../../src/node_modules/async');
 var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
-var gravatar = require('gravatar');
-const fetch = require('node-fetch');
-var socketio;
 var padId;
-const defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
 const defaultUserName = "Anonymous"
 
 exports.eejsBlock_styles = function (hook_name, args, cb) {
@@ -25,9 +21,8 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 exports.clientVars = async function  (hook, context, callback){
   padId = context.pad.id;
   var profile_json = null;
-  var user_email = await db.get("ep_profile_modal_email:"+context.clientVars.userId);
-  var user_status = await db.get("ep_profile_modal_status:"+context.clientVars.userId);
-  var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"t="+context.clientVars.serverTimestamp
+  var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || {};
+  var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
   //* collect user If just enter to pad */
   var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
   if (pad_users){
@@ -61,10 +56,9 @@ exports.clientVars = async function  (hook, context, callback){
   return callback({
       ep_profile_modal: {
           profile_image_url: default_img,
-          profile_json : profile_json  ,
-          user_email : user_email ,
-          user_status : user_status ,
-          userName : (context.clientVars.userName) ? context.clientVars.userName : defaultUserName ,
+          user_email : user.email || "" ,
+          user_status : user.status || "1" ,
+          userName : user.userName || defaultUserName ,
           contributed_authors_count : pad_users.length,
       }
   });
@@ -97,20 +91,22 @@ exports.handleMessage = async function(hook_name, context, callback){
     callback(false);
     return false;
   }
-  var default_img ='/p/getUserProfileImage/'+message.userId+"t="+(new Date().getTime())
 
   var message = context.message.data;
+  var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
+  var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || {};
+
   if(message.action === 'ep_profile_modal_login'){
-    if (message.email)
-      db.set("ep_profile_modal_email:"+message.userId, message.email);
-    db.set("ep_profile_modal_status:"+message.userId, "2");
-    db.set("ep_profile_modal_username:"+message.userId, message.name);
+    
+    user.email = message.email || ""
+    user.status = "2"
+    user.username = message.name || ""
     var msg = {
       type: "COLLABROOM",
       data: {
         type: "CUSTOM",
         payload : {
-          padId: padId,
+          padId: message.padId ,
           action:"EP_PROFILE_USER_LOGIN_UPDATE",
           userId: message.userId ,
           img:default_img,
@@ -120,11 +116,11 @@ exports.handleMessage = async function(hook_name, context, callback){
       },
     }
     sendToRoom(msg)
-    sendToChat(message.userId ,padId,message.name)
+    sendToChat(message.userId ,message.padId ,message.name)
 
   }
   if(message.action === "ep_profile_modal_logout"){
-    db.set("ep_profile_modal_status:"+message.userId, "1");
+    user.status = "1";
     var msg = {
       type: "COLLABROOM",
       data: {
@@ -137,12 +133,15 @@ exports.handleMessage = async function(hook_name, context, callback){
         }
       },
     }
+
+    await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
+
     sendToRoom(msg)
   }
 
   if(message.action === "ep_profile_modal_ready"){
     var pad_users = await db.get("ep_profile_modal_contributed_"+ padId);
-    sendUsersListToAllUsers(pad_users)
+    sendUsersListToAllUsers(pad_users,padId)
   }
 
   if(isProfileMessage === true){
@@ -189,19 +188,17 @@ function sendToChat(authorID,padID , userName  ){
   }
 
 }
-async function sendUsersListToAllUsers(pad_users){
+async function sendUsersListToAllUsers(pad_users,padId){
   var all_users_list =[]
   async.forEach(pad_users ,async function(value , cb ){
-    let temp_email = await db.get("ep_profile_modal_email:"+value);
-    let temp_status = await db.get("ep_profile_modal_status:"+value);
-    let temp_username = await db.get("ep_profile_modal_username:"+value);
-    var default_img ='/p/getUserProfileImage/'+value+"t="+(new Date().getTime())
+    var user = await db.get("ep_profile_modal:"+value+"_"+padId) || {};
+    var default_img ='/p/getUserProfileImage/'+value+"/"+padId+"t="+(new Date().getTime())
 
     all_users_list.push({
       userId : value ,
-      email : temp_email ,
-      status : temp_status ,
-      userName : (temp_username ) ? temp_username : defaultUserName,
+      email : user.email||"" ,
+      status : user.status ||"1" ,
+      userName : user.name  || defaultUserName,
       imageUrl : default_img
     })
 
@@ -227,18 +224,3 @@ async function sendUsersListToAllUsers(pad_users){
 }
 
 
-// async function checkUserExistInGravatar(user_email){
-//   var profile_url = gravatar.profile_url(user_email, {protocol: 'https' });
-//   var profile_json = null ;
-//   var profile_img = false ;
-//   profile_json = await fetch(profile_url) ;
-//   profile_json = await profile_json.json()
-  
-//   if (profile_json !="User not found"){
-//     profile_img = gravatar.url(user_email, {protocol: 'https', s: '200'});
-//     return profile_img
-//   }else{
-//     return false
-//   }
-  
-// }

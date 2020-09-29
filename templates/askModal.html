@@ -6,7 +6,7 @@
         <div class="ep_profile_modal_section_image">
             <label class="lable_ep_profile_modal_section_image_big" for="profile_file">
 
-                <div class='ep_profile_modal_section_image_big_ask' style="background: url(/p/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%" ></div>
+                <div class='ep_profile_modal_section_image_big_ask' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%" ></div>
             </label>
             <form  method="post" action="" enctype="multipart/form-data" id="ep_profile_modal_form">
                 <input accept="image/*" type="file" id="profile_file" class="ep_profile_modal_file" name="profile_file" /> 
