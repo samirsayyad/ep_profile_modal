@@ -94,7 +94,7 @@ exports.handleMessage = async function(hook_name, context, callback){
 
   var message = context.message.data;
   var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
-  var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || {};
+  var user = await db.get("ep_profile_modal:"+message.userId+"_"+padId) || {};
 
   if(message.action === 'ep_profile_modal_login'){
     
