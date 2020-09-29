@@ -22,6 +22,7 @@ exports.clientVars = async function  (hook, context, callback){
   padId = context.pad.id;
   var profile_json = null;
   var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || {};
+  console.log(user,"|us","ep_profile_modal:"+context.clientVars.userId+"_"+padId)
   var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
   //* collect user If just enter to pad */
   var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
@@ -58,7 +59,7 @@ exports.clientVars = async function  (hook, context, callback){
           profile_image_url: default_img,
           user_email : user.email || "" ,
           user_status : user.status || "1" ,
-          userName : user.userName || defaultUserName ,
+          userName : user.username || defaultUserName ,
           contributed_authors_count : pad_users.length,
       }
   });
@@ -94,10 +95,9 @@ exports.handleMessage = async function(hook_name, context, callback){
 
   var message = context.message.data;
   var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
-  var user = await db.get("ep_profile_modal:"+message.userId+"_"+padId) || {};
+  var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
 
   if(message.action === 'ep_profile_modal_login'){
-    
     user.email = message.email || ""
     user.status = "2"
     user.username = message.name || ""
@@ -134,10 +134,12 @@ exports.handleMessage = async function(hook_name, context, callback){
       },
     }
 
-    await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
     sendToRoom(msg)
   }
+
+  await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
+
 
   if(message.action === "ep_profile_modal_ready"){
     var pad_users = await db.get("ep_profile_modal_contributed_"+ padId);
@@ -198,7 +200,7 @@ async function sendUsersListToAllUsers(pad_users,padId){
       userId : value ,
       email : user.email||"" ,
       status : user.status ||"1" ,
-      userName : user.name  || defaultUserName,
+      userName : user.username  || defaultUserName,
       imageUrl : default_img
     })
 

@@ -54,6 +54,7 @@ exports.postAceInit = function (hook,context){
 			action : "ep_profile_modal_logout" ,
 			email : $("#ep_profile_hidden_email").val() ,
 			userId :  userId ,
+			padId : pad.getPadId()
 
 		  }
 		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
