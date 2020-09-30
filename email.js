@@ -5,7 +5,7 @@ const settings = require('ep_etherpad-lite/node/utils/Settings');
 module.exports = {
     sendMail : async (message)=> {
         var params = settings.ep_profile_modal.email
-        return new Promise((resolve,reject)=>{
+        return new Promise(async(resolve,reject)=>{
             try {
               let transporter = nodemailer.createTransport({
                   host: params.smtp,

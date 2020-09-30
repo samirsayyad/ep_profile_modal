@@ -22,7 +22,6 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 
 exports.clientVars = async function  (hook, context, callback){
   padId = context.pad.id;
-  var profile_json = null;
   var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || {};
   console.log(user,"|us","ep_profile_modal:"+context.clientVars.userId+"_"+padId)
   var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
@@ -123,18 +122,24 @@ exports.handleMessage = async function(hook_name, context, callback){
     sendToChat(message.userId ,message.padId ,message.name)
     // email verification 
     if (message.email){
-      var generalUserEmail = await  db.get("ep_profile_modal_email:"+message.userId)  ; // for unique email per userId
+      var generalUserEmail = await db.get("ep_profile_modal_email:"+message.userId) || {}  ; // for unique email per userId
       if (generalUserEmail.verified != true){
-        var confirmCode =new Date().getTime() 
+        var confirmCode = new Date().getTime().toString()
         generalUserEmail.confirmationCode = confirmCode
         generalUserEmail.email = message.email
+        var html =`<p> Please click on below link</p><p> 
+        <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(message.userId).toString('base64')}/
+        ${Buffer.from(message.padId).toString('base64')}/
+        ${Buffer.from(confirmCode).toString('base64')}
+        '>Confirmation link</a> </p>`
 
+        console.log(html)
         emailService.sendMail({
           fromName : settings.ep_profile_modal.email.template.fromName,
           fromEmail : settings.ep_profile_modal.email.template.fromEmail,
           to : message.email ,
           subject : "docs.plus email confirmation",
-          html: `<p> Please click on below link</p><p> <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(message.userId).toString('base64')}/${Buffer.from(message.padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}'>Confirmation link</a> </p>`
+          html: html
         })
         .then(()=>{
         })
@@ -148,6 +153,7 @@ exports.handleMessage = async function(hook_name, context, callback){
 
 
     }
+    await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
   }
   if(message.action === "ep_profile_modal_logout"){
@@ -167,11 +173,12 @@ exports.handleMessage = async function(hook_name, context, callback){
 
 
     sendToRoom(msg)
+    await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
+
   }
 
-  await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
-
+///////////////////////////////////////
   if(message.action === "ep_profile_modal_ready"){
     var pad_users = await db.get("ep_profile_modal_contributed_"+ padId);
     sendUsersListToAllUsers(pad_users,padId)

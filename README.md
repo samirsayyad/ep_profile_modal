@@ -15,6 +15,8 @@ configuration :
         "baseFolder":"",
         "baseURL": ""
       },
+    "fileTypes": ["jpeg", "jpg", "bmp", "gif","png"  ],
+      "maxFileSize": 50000000
       "email":{
         "smtp" : "",
         "port" : "",
