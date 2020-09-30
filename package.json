@@ -25,6 +25,7 @@
     "gravatar": "^1.8.0",
     "image-size": "^0.9.1",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.11",
     "path": "^0.12.7",
     "resize-img": "^2.0.0",
     "sharp": "^0.26.1"
