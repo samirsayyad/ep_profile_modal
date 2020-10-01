@@ -41,7 +41,7 @@ exports.aceInitialized = function(hook, context){
     }
 
     if(clientVars.ep_profile_modal.form_passed !== true){
-        profileForm.showModal(clientVars)
+        profileForm.initModal(clientVars)
     }
 
 

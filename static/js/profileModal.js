@@ -4,6 +4,7 @@ exports.postAceInit = function (hook,context){
 	// console.log("samir",pad.collabClient.getConnectedUsers())
 	// /p/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}
 
+	
 	$("#userlist,#ep_profile_modal_user_list_close").on('click', function(){
 		($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show'))?
 			$('#ep_profile_modal_user_list').removeClass('ep_profile_modal-show')

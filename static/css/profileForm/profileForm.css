@@ -1,11 +1,31 @@
+.ep_profile_formModal_overlay{
+    position: fixed;
+    width: 100%; 
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 9998; 
+    cursor: pointer;
+    transform: scale(.7);
+    opacity: 0;
+    transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
+}
+.ep_profile_formModal_overlay_show {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 .ep_profile_formModal{
     font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     width: 350px;
-    height: 324px;
-    background-color: #fff;
+    height: 524px;
+    /* background-color: #fff; */
     position: absolute;
-    top: 114px;
-    right: 14.3%;
+    top: 30%;
+    left: 38%;
     visibility: hidden;
         overflow: hidden;
     color: rgb(32, 33, 36);
@@ -13,15 +33,129 @@
 	transition: all .3s;
 	border-radius: 0 0 6px 6px;
 	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
-	border: 1px solid #e6e8e9;
+	/* border: 1px solid #e6e8e9; */
     font-size: 14px;
     transform: scale(.7);
     opacity: 0;
     transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
+    z-index: 9999;
 }
-
 .ep_profile_formModal_show {
     transform: scale(1) !important;
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+#ep_profile_formModal_msform {
+	width: 100%;
+	text-align: center;
+	position: relative;
+}
+#ep_profile_formModal_msform fieldset {
+	background: white;
+	border: 0 none;
+	border-radius: 3px;
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+	padding: 20px 30px;
+	box-sizing: border-box;
+	width: 100%;
+	
+	
+	/*stacking fieldsets above each other*/
+	position: relative;
+}
+/*Hide all except first fieldset*/
+#ep_profile_formModal_msform fieldset:not(:first-of-type) {
+	display: none;
+}
+/*inputs*/
+#ep_profile_formModal_msform input, #msform textarea {
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	color: #2C3E50;
+	font-size: 13px;
+}
+/*buttons*/
+#ep_profile_formModal_msform .action-button {
+	width: 100px;
+	background: #27AE60;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 5px;
+}
+#ep_profile_formModal_msform .action-button:hover, #ep_profile_formModal_msform .action-button:focus {
+	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+/*headings*/
+.fs-title {
+	font-size: 15px;
+	text-transform: uppercase;
+	color: #2C3E50;
+	margin-bottom: 10px;
+}
+.fs-subtitle {
+	font-weight: normal;
+	font-size: 13px;
+	color: #666;
+	margin-bottom: 20px;
+}
+/*progressbar*/
+#progressbar {
+	margin-bottom: 30px;
+	overflow: hidden;
+	/*CSS counters to number the steps*/
+	counter-reset: step;
+}
+#progressbar li {
+	list-style-type: none;
+	color: white;
+	text-transform: uppercase;
+	font-size: 9px;
+	width: 33.33%;
+	float: left;
+	position: relative;
+}
+#progressbar li:before {
+	content: counter(step);
+	counter-increment: step;
+	width: 20px;
+	line-height: 20px;
+	display: block;
+	font-size: 10px;
+	color: #333;
+	background: white;
+	border-radius: 3px;
+	margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+	content: '';
+	width: 100%;
+	height: 2px;
+	background: white;
+	position: absolute;
+	left: -50%;
+	top: 9px;
+	z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+	/*connector not needed before the first step*/
+	content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+	background: #27AE60;
+	color: white;
+}
+
+
+
