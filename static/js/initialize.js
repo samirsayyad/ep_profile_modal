@@ -1,5 +1,7 @@
 
 var helper = require("./helper")
+var profileForm = require("./profileForm/main")
+
 exports.aceInitialized = function(hook, context){
     var userId = pad.getUserId()
     var modal = $("#ep_profile_askmodal_script").tmpl(clientVars);
@@ -37,5 +39,11 @@ exports.aceInitialized = function(hook, context){
         colorId: "#b4b39a"
         } )
     }
+
+    if(clientVars.ep_profile_modal.form_passed !== true){
+        profileForm.showModal(clientVars)
+    }
+
+
 }
 
