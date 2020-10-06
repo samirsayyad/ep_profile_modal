@@ -13,6 +13,12 @@ exports.initModal = function(clientVars){
 
         $(".next").click(function(){
             if(animating) return false;
+            if ($("#ep_profile_modalForm_name").val() == "") {
+                $("#ep_profile_modalForm_name").css({"border":"1px solid red"})
+                return false;
+            }
+            $("#ep_profile_modalForm_name").css({"border":"1px solid gray"})
+
             animating = true;
             
             current_fs = $(this).parent();
@@ -49,6 +55,13 @@ exports.initModal = function(clientVars){
             });
         });
 
+        $(".skip").click(function(){
+            $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
+            $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
+    
+            return false;
+
+        })
         $(".previous").click(function(){
             if(animating) return false;
             animating = true;
@@ -86,6 +99,9 @@ exports.initModal = function(clientVars){
 
         $(".submit").click(function(){
             return false;
+        })
+        $(".clear").click(function(){
+            
         })
 
 }

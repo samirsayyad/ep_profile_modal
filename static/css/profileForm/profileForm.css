@@ -80,6 +80,55 @@
 	font-size: 13px;
 }
 /*buttons*/
+.skip .action-button {
+	width: 100px;
+	background:none;
+	font-weight: bold;
+	color: black;
+	border: 0 none;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 5px;
+}
+#ep_profile_formModal_msform .skip-button {
+	width: 100px;
+	background:none;
+	font-weight: bold;
+	color: black;
+	border: 1px solid gray;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 21px;
+	
+}
+#ep_profile_formModal_msform .ep_profile_modal_section_image_big{
+	margin-bottom: 15px;
+}
+
+#ep_profile_formModal_msform .clear-button {
+	width: 100px;
+	background: red;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 21px;
+}
+#ep_profile_formModal_msform .upload-button {
+	width: 100px;
+	background: #2678ff;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 21px;
+}
 #ep_profile_formModal_msform .action-button {
 	width: 100px;
 	background: #27AE60;
@@ -89,7 +138,11 @@
 	border-radius: 1px;
 	cursor: pointer;
 	padding: 10px 5px;
-	margin: 10px 5px;
+	margin: 10px 21px;
+}
+#ep_profile_formModal_msform .skip-button:hover,#ep_profile_formModal_msform .upload-button:hover,#ep_profile_formModal_msform .clear-button:hover{
+	box-shadow: 0 0 0 2px white, 0 0 0 3px #ccc;
+
 }
 #ep_profile_formModal_msform .action-button:hover, #ep_profile_formModal_msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;

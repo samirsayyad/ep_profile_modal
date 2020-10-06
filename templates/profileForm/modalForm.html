@@ -3,7 +3,7 @@
     <div class='ep_profile_formModal_overlay' id="ep_profile_formModal_overlay"></div> 
     <div class='ep_profile_formModal' id='ep_profile_formModal'>
         <!-- multistep form -->
-        <form id="ep_profile_formModal_msform">
+        <form  method="post" action="" enctype="multipart/form-data"  id="ep_profile_formModal_msform">
             <!-- progressbar -->
             <!-- <ul id="progressbar">
             <li class="active">Account Setup</li>
@@ -12,31 +12,73 @@
             </ul> -->
         <!-- fieldsets -->
         <fieldset>
-            <h2 class="fs-title">Create your account</h2>
-            <h3 class="fs-subtitle">This is step 1</h3>
+            <h3 class="fs-subtitle">1/5</h3>
+            <h2 class="fs-title">Name</h2>
+
+            <h3 class="fs-subtitle">
+                A pseudonym is fine,
+                and you can change it later
+            </h3>
+            
+            <input type="text" id="ep_profile_modalForm_name" required="required" name="ep_profile_modal_name" placeholder="Name" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+
+        </fieldset>
+        <fieldset>
+            <h3 class="fs-subtitle">2/5</h3>
+            <h2 class="fs-title">Email</h2>
+
+            <h3 class="fs-subtitle">
+                Optional. We keep your email private,
+                but it allows collaborators to contact you
+            </h3>
             <input type="text" name="email" placeholder="Email" />
-            <input type="password" name="pass" placeholder="Password" />
-            <input type="password" name="cpass" placeholder="Confirm Password" />
+
+            <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
         <fieldset>
-            <h2 class="fs-title">Social Profiles</h2>
-            <h3 class="fs-subtitle">Your presence on the social network</h3>
-            <input type="text" name="twitter" placeholder="Twitter" />
-            <input type="text" name="facebook" placeholder="Facebook" />
-            <input type="text" name="gplus" placeholder="Google Plus" />
-            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <h3 class="fs-subtitle">3/5</h3>
+            <h2 class="fs-title">Picture</h2>
+
+       
+            <label class="lable_ep_profile_modal_section_image_big" for="profile_file">
+                <div class='ep_profile_modal_section_image_big' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%"  ></div>
+
+            </label>  
+            <input accept="image/*" type="file" id="profile_file" class="ep_profile_modal_file" name="profile_file" /> 
+            
+            <input type="button" name="upload" class="upload upload-button" value="Upload" />
+            <input type="button" name="clear" class="clear clear-button" value="Clear" />
+            
+            <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
         <fieldset>
-            <h2 class="fs-title">Personal Details</h2>
-            <h3 class="fs-subtitle">We will never sell it</h3>
-            <input type="text" name="fname" placeholder="First Name" />
-            <input type="text" name="lname" placeholder="Last Name" />
-            <input type="text" name="phone" placeholder="Phone" />
-            <textarea name="address" placeholder="Address"></textarea>
-            <input type="button" name="previous" class="previous action-button" value="Previous" />
-            <input type="submit" name="submit" class="submit action-button" value="Submit" />
+            <h3 class="fs-subtitle">4/5</h3>
+            <h2 class="fs-title">Homepage</h2>
+
+            <h3 class="fs-subtitle">
+                A website that's about you
+                e.g. your twitter profile page
+            </h3>
+            <input type="text" name="ep_profile_modal_homepage" placeholder="" />
+
+            <input type="button" name="skip" class="skip action-button" value="Skip" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+        </fieldset>
+        <fieldset>
+            <h3 class="fs-subtitle">5/5</h3>
+            <h2 class="fs-title">A few words about yourself</h2>
+
+            <h3 class="fs-subtitle">
+                The reason you're on this doc
+                e.g. job title, project, goal in life
+            </h3>
+            <textarea name="ep_profile_formModal_about_yourself" placeholder=""></textarea>
+
+            <input type="button" name="skip" class="skip action-button" value="Skip" />
+            <input type="submit" name="submit" class="submit action-button" value="Save" />
         </fieldset>
         </form>
 

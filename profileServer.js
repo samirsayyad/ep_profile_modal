@@ -33,31 +33,35 @@ exports.expressConfigure = async function (hookName, context) {
         var httpsUrl = null;
         var user = await db.get("ep_profile_modal:"+req.params.userId+"_"+req.params.padId) || {};
         if (user.image){
-            var s3  = new AWS.S3({
-                accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
-                secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
-                endpoint: settings.ep_profile_modal.storage.endPoint, 
-                s3ForcePathStyle: true, // needed with minio?
-                signatureVersion: 'v4'
-            });
-            try{
-                var params = { Bucket: settings.ep_profile_modal.storage.bucket, Key: `${user.image}`  };
-                s3.getObject(params, function(err, data) {
-                    console.log("data going to be ", params ,data , err)
-                    if (data ){
-                        res.writeHead(200, {'Content-Type': 'image/jpeg'});
-                        res.write(data.Body, 'binary');
-                        res.end(null, 'binary');
-                    }else{
-                        res.end(null, 'binary');
-            
-                    }
-                    
+            if(user.image !="reset"){
+                var s3  = new AWS.S3({
+                    accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
+                    secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
+                    endpoint: settings.ep_profile_modal.storage.endPoint, 
+                    s3ForcePathStyle: true, // needed with minio?
+                    signatureVersion: 'v4'
                 });
-            }catch(error){
-                console.log("error",error)
+                try{
+                    var params = { Bucket: settings.ep_profile_modal.storage.bucket, Key: `${user.image}`  };
+                    s3.getObject(params, function(err, data) {
+                        console.log("data going to be ", params ,data , err)
+                        if (data ){
+                            res.writeHead(200, {'Content-Type': 'image/jpeg'});
+                            res.write(data.Body, 'binary');
+                            res.end(null, 'binary');
+                        }else{
+                            res.end(null, 'binary');
+                
+                        }
+                        
+                    });
+                }catch(error){
+                    console.log("error",error)
+                }
+            }else{
+                return res.redirect((user.status=="2") ? defaultImg:defaultImgUserOff )
             }
-            
+           
         }else{
 
             if(user.status=="2"){
@@ -76,6 +80,16 @@ exports.expressConfigure = async function (hookName, context) {
 
     })
 
+    // for reset profile image
+    context.app.post('/p/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId',async function (req, res, next) {
+        var padId = req.params.padId;
+        var userId = req.params.userId;
+        db.set("ep_profile_modal_image:"+userId , "reset");
+        var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+            user.image = "reset"
+        await db.set("ep_profile_modal:"+userId+"_"+padId,user) ;
+        return res.redirect({"status":"ok"})
+    })
 
     // for upload user image  
     context.app.post('/p/:padId/pluginfw/ep_profile_modal/upload/:userId',async function (req, res, next) {
