@@ -5,6 +5,11 @@ var profileForm = require("./profileForm/main")
 exports.aceInitialized = function(hook, context){
     var userId = pad.getUserId()
     var modal = $("#ep_profile_askmodal_script").tmpl(clientVars);
+
+    if(clientVars.ep_profile_modal.form_passed !== true){
+        profileForm.initModal(clientVars)
+    }
+    //
     $("body").append(modal);
     ///
     modal = $("#ep_profile_modal_script").tmpl(clientVars);

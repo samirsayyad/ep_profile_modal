@@ -1,8 +1,8 @@
-exports.resetAllProfileImage = function (hook,context){
+exports.resetAllProfileImage = function (userId,padId){
     $.ajax({
-        url: '/p/' + clientVars.padId + '/pluginfw/ep_profile_modal/resetProfileImage/'+userId ,
-        type: 'post',
-        data: fd,
+        url: '/p/' + padId + '/pluginfw/ep_profile_modal/resetProfileImage/'+userId ,
+        type: 'get',
+        data: {},
         contentType: false,
         processData: false,
         beforeSend: function() {
@@ -25,7 +25,7 @@ exports.resetAllProfileImage = function (hook,context){
                 
         },
         error: function(xhr) { // if error occured
-            var image_url ='/p/getUserProfileImage/'+userId+"/"+ clientVars.padId  +"?t=" + new Date().getTime();
+            var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
             var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
             if (avatar.length){
                 avatar.css({"background-position":"50% 50%",
@@ -41,7 +41,7 @@ exports.resetAllProfileImage = function (hook,context){
             });
         },
         success: function(response){
-            var image_url ='/p/getUserProfileImage/'+userId+"/"+ clientVars.padId  +"?t=" + new Date().getTime();
+            var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
             var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
             if (avatar.length){
                 avatar.css({"background-position":"50% 50%",

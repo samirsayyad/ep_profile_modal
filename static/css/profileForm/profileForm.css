@@ -68,6 +68,9 @@
 #ep_profile_formModal_msform fieldset:not(:first-of-type) {
 	display: none;
 }
+.lable_ep_profile_FormModal_section_image_big{
+	width : 100px
+}
 /*inputs*/
 #ep_profile_formModal_msform input, #msform textarea {
 	padding: 15px;
@@ -119,15 +122,18 @@
 	margin: 10px 21px;
 }
 #ep_profile_formModal_msform .upload-button {
-	width: 100px;
-	background: #2678ff;
-	font-weight: bold;
-	color: white;
-	border: 0 none;
-	border-radius: 1px;
-	cursor: pointer;
-	padding: 10px 5px;
-	margin: 10px 21px;
+    width: 100px;
+    background: #2678ff;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 8px 5px;
+    margin: 10px 21px;
+    font-size: 13px;
+    float: left;
+    height: 35px;
 }
 #ep_profile_formModal_msform .action-button {
 	width: 100px;

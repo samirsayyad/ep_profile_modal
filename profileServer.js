@@ -13,13 +13,13 @@ var sizeOf =  require('buffer-image-size');
 var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
 
 exports.expressConfigure = async function (hookName, context) {
+
     context.app.get('/p/emailConfirmation/:userId/:padId/:confirmCode', async function (req, res, next) {
         var userId = Buffer.from(req.params.userId, 'base64').toString('ascii') 
         var padId = Buffer.from(req.params.padId, 'base64').toString('ascii')
         var confirmCode = Buffer.from(req.params.confirmCode, 'base64').toString('ascii')
 
         var user = await db.get("ep_profile_modal_email:"+userId) || {};
-        console.log(user , userId,padId , confirmCode)
         if (user.confirmationCode === confirmCode){
             user.confirmationCode = 0
             user.verified = true 
@@ -81,14 +81,15 @@ exports.expressConfigure = async function (hookName, context) {
     })
 
     // for reset profile image
-    context.app.post('/p/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId',async function (req, res, next) {
+    context.app.get('/p/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId',async function (req, res, next) {
         var padId = req.params.padId;
         var userId = req.params.userId;
         db.set("ep_profile_modal_image:"+userId , "reset");
         var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
             user.image = "reset"
         await db.set("ep_profile_modal:"+userId+"_"+padId,user) ;
-        return res.redirect({"status":"ok"})
+        return res.status(201).json({"status":"ok"})
+
     })
 
     // for upload user image  

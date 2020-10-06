@@ -24,7 +24,6 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
 exports.clientVars = async function  (hook, context, callback){
   padId = context.pad.id;
   var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || {};
-  console.log(user,"|us","ep_profile_modal:"+context.clientVars.userId+"_"+padId)
   var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
   //* collect user If just enter to pad */
   var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
@@ -63,6 +62,9 @@ exports.clientVars = async function  (hook, context, callback){
           user_status : user.status || "1" ,
           userName : user.username || defaultUserName ,
           contributed_authors_count : pad_users.length,
+          about : user.about || "",
+          homepage : user.homepage || "" ,
+          form_passed : user.form_passed || false ,
       }
   });
 }
@@ -94,10 +96,21 @@ exports.handleMessage = async function(hook_name, context, callback){
     callback(false);
     return false;
   }
-
   var message = context.message.data;
   var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
   var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
+
+  if(message.action ==="ep_profile_modal_info"){
+        user.about = message.data.ep_profile_formModal_about_yourself
+        user.email =  message.data.ep_profile_modalForm_email
+        user.homepage =  message.data.ep_profile_modal_homepage
+        user.username =  message.data.ep_profile_modal_name
+        user.status = "2"
+        user.form_passed = true
+    await db.set("ep_profile_modal:"+message.userId+"_"+message.padId,user) ;
+  }
+
+
 
   if(message.action === 'ep_profile_modal_login'){
 
@@ -116,6 +129,7 @@ exports.handleMessage = async function(hook_name, context, callback){
           img:default_img,
           email : message.email ,
           userName : message.name ,
+
         }
       },
     }

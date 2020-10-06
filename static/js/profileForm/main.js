@@ -1,4 +1,6 @@
 
+var shared = require("../shared")
+
 exports.initModal = function(clientVars){
 
         var modal = $("#ep_profile_formModal_script").tmpl(clientVars);
@@ -55,7 +57,7 @@ exports.initModal = function(clientVars){
             });
         });
 
-        $(".skip").click(function(){
+        $(".skip , #ep_profile_formModal_overlay").click(function(){
             $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
             $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
     
@@ -98,10 +100,34 @@ exports.initModal = function(clientVars){
         });
 
         $(".submit").click(function(){
+            $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
+            $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
+            var $form = $("#ep_profile_formModal_msform");
+            var data = getFormData($form);
+            var message = {
+				type : 'ep_profile_modal',
+				action : "ep_profile_modal_info" ,
+				userId :  pad.getUserId() ,
+				data: data,
+				padId : pad.getPadId()
+			  }
+			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
             return false;
         })
         $(".clear").click(function(){
-            
+            console.log("has been called",$(this).attr("data-userId"),$(this).attr("data-padId"))
+            shared.resetAllProfileImage($(this).attr("data-userId"),$(this).attr("data-padId"))
         })
 
+}
+
+function getFormData($form){
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function(n, i){
+        indexed_array[n['name']] = n['value'];
+    });
+
+    return indexed_array;
 }
