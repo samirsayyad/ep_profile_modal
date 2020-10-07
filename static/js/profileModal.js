@@ -1,3 +1,5 @@
+var helper = require("./helper")
+
 exports.postAceInit = function (hook,context){
 	// console.log("samir",pad )
 	// console.log("samir",pad.collabClient )
@@ -150,12 +152,12 @@ exports.postAceInit = function (hook,context){
 
 			$('#ep_profile_modal_email').removeClass('ep_profile_modal_validation_error')
 
-			window.user_status = "login"
-			pad.collabClient.updateUserInfo({
-				userId :  pad.getUserId() ,
-				name: username,
-				colorId: "#b4b39a"
-			} )
+			//window.user_status = "login"
+			// pad.collabClient.updateUserInfo({
+			// 	userId :  pad.getUserId() ,
+			// 	name: username,
+			// 	colorId: "#b4b39a"
+			// } )
 			var message = {
 				type : 'ep_profile_modal',
 				action : "ep_profile_modal_login" ,
@@ -166,9 +168,13 @@ exports.postAceInit = function (hook,context){
 			  }
 			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
 			//$('#ep_profile_modal').addClass('ep_profile_modal-show')
-			$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
-			$("#ep_profile_modal_section_info_email").text(email)
-			$("#ep_profile_modal_section_info_name").text(username)
+			helper.userLogin({
+				email : email,
+				username : username,
+			})
+			// $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+			// $("#ep_profile_modal_section_info_email").text(email)
+			// $("#ep_profile_modal_section_info_name").text(username)
 		}
 	})
 

@@ -288,6 +288,34 @@ var moveOnlineUserToOffline =  function(userElemenet) {
 var removeUserElementInUserList = function(userId){
     $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").remove()
 }
+var userLogin = function(data){
+    window.user_status = "login"
+    $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+    $("#ep_profile_modal_section_info_email").text(data.email)
+    $("#ep_profile_modal_section_info_name").text(data.username)
+    pad.collabClient.updateUserInfo({
+        userId :  pad.getUserId() ,
+        name: data.username,
+        colorId: "#b4b39a"
+    })
+
+}
+var refreshUserImage = function (userId ,padId ){
+    var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
+    var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
+    if (avatar.length){
+        avatar.css({"background-position":"50% 50%",
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+        });
+    }
+    $(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
+    "background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+    $(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
+    "background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+    $("#ep-profile-image").css({"background-position":"50% 50%",
+    "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
+    });
+}
 
 exports.removeUserElementInUserList = removeUserElementInUserList
 exports.createOnlineAnonymousElement = createOnlineAnonymousElement ;
@@ -297,3 +325,5 @@ exports.createOnlineUserElementInUserList = createOnlineUserElementInUserList;
 exports.increaseToOnlineAnonymous = increaseToOnlineAnonymous;
 exports.getHtmlOfUsersList = getHtmlOfUsersList;
 exports.decreaseFromOnlineAnonymous =decreaseFromOnlineAnonymous;
+exports.userLogin =userLogin;
+exports.refreshUserImage =refreshUserImage;

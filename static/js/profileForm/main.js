@@ -1,5 +1,6 @@
 
 var shared = require("../shared")
+var helper = require("../helper")
 
 exports.initModal = function(clientVars){
 
@@ -14,11 +15,74 @@ exports.initModal = function(clientVars){
         var animating; //flag to prevent quick multi-click glitches
 
         $(".next").click(function(){
+            console.log("clicked")
             if(animating) return false;
-            if ($("#ep_profile_modalForm_name").val() == "") {
-                $("#ep_profile_modalForm_name").css({"border":"1px solid red"})
-                return false;
+            current_fs = $(this).parent();
+            next_fs = $(this).parent().next();
+            var currentSection = current_fs.attr("data-section")
+            if (currentSection=="name"){
+                if ($("#ep_profile_modalForm_name").val() == "") {
+                    $("#ep_profile_modalForm_name").css({"border":"1px solid red"})
+                    return false;
+                }
+                $("#ep_profile_modalForm_name").css({"border":"1px solid gray"})
+
             }
+            if (currentSection=="email"){
+                var userEmail = $("#ep_profile_modalForm_email").val()
+                if (!shared.isEmail(userEmail) || userEmail==""){
+                    $("#ep_profile_modalForm_email").css({"border":"1px solid red"})
+                    return false;
+                }
+                $("#ep_profile_modalForm_email").css({"border":"1px solid gray"})
+            }
+
+            if (currentSection=="homepage"){
+                var userLink = $("#ep_profile_modal_homepage").val()
+                console.log(shared.IsValid(userLink))
+                if (!shared.IsValid(userLink) || userLink==""){
+                    $("#ep_profile_modal_homepage").css({"border":"1px solid red"})
+                    return false;
+                }
+                $("#ep_profile_modal_homepage").css({"border":"1px solid gray"})
+            }
+
+            animating = true;
+
+            
+            //activate next step on progressbar using the index of next_fs
+            //$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+            
+            //show the next fieldset
+            next_fs.show(); 
+            //hide the current fieldset with style
+            current_fs.animate({opacity: 0}, {
+                step: function(now, mx) {
+                    //as the opacity of current_fs reduces to 0 - stored in "now"
+                    //1. scale current_fs down to 80%
+                    scale = 1 - (1 - now) * 0.2;
+                    //2. bring next_fs from the right(50%)
+                    left = (now * 50)+"%";
+                    //3. increase opacity of next_fs to 1 as it moves in
+                    opacity = 1 - now;
+                    current_fs.css({
+                'transform': 'scale('+scale+')',
+                'position': 'absolute'
+            });
+                    next_fs.css({'left': left, 'opacity': opacity});
+                }, 
+                duration: 800, 
+                complete: function(){
+                    current_fs.hide();
+                    animating = false;
+                }, 
+                //this comes from the custom easing plugin
+                easing: 'easeInOutBack'
+            });
+        });
+
+        $(".skip").click(function(){
+            if(animating) return false;
             $("#ep_profile_modalForm_name").css({"border":"1px solid gray"})
 
             animating = true;
@@ -57,10 +121,12 @@ exports.initModal = function(clientVars){
             });
         });
 
-        $(".skip , #ep_profile_formModal_overlay").click(function(){
+
+        $(".close , #ep_profile_formModal_overlay").click(function(){
             $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
             $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
-    
+            $('#ep_profile_formModal_overlay').css({"display":"none"})
+
             return false;
 
         })
@@ -102,6 +168,8 @@ exports.initModal = function(clientVars){
         $(".submit").click(function(){
             $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
             $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
+            $('#ep_profile_formModal_overlay').css({"display":"none"})
+            
             var $form = $("#ep_profile_formModal_msform");
             var data = getFormData($form);
             var message = {
@@ -111,7 +179,17 @@ exports.initModal = function(clientVars){
 				data: data,
 				padId : pad.getPadId()
 			  }
-			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+            pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+
+            var username = $("#ep_profile_modalForm_name").val()
+
+			helper.userLogin({
+				email : $("#ep_profile_modalForm_email").val(),
+				username : username,
+            })
+            helper.refreshUserImage( pad.getUserId() , pad.getPadId())
+            // sync profile section to up 
+            
             return false;
         })
         $(".clear").click(function(){

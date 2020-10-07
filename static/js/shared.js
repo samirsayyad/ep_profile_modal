@@ -60,3 +60,17 @@ exports.resetAllProfileImage = function (userId,padId){
         
     })
 }
+
+exports.isEmail = function(email) {
+	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	if(email=="")
+		return true
+	else
+		return regex.test(email);
+}
+
+exports.IsValid = function (url){
+    var pattern = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
+    return pattern.test(url);
+}
+

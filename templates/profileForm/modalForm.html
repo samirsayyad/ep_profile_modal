@@ -11,12 +11,12 @@
             <li>Personal Details</li>
             </ul> -->
         <!-- fieldsets -->
-        <fieldset>
+        <fieldset data-section="name">
             <h3 class="fs-subtitle">1/5</h3>
             <h2 class="fs-title">Name</h2>
 
             <h3 class="fs-subtitle">
-                A pseudonym is fine,
+                A pseudonym is fine,<br>
                 and you can change it later
             </h3>
             
@@ -24,15 +24,15 @@
             <input type="button" name="next" class="next action-button" value="Next" />
 
         </fieldset>
-        <fieldset>
+        <fieldset  data-section="email">
             <h3 class="fs-subtitle">2/5</h3>
             <h2 class="fs-title">Email</h2>
 
             <h3 class="fs-subtitle">
-                Optional. We keep your email private,
+                Optional. We keep your email private,<br>
                 but it allows collaborators to contact you
             </h3>
-            <input type="text" name="ep_profile_modalForm_email" placeholder="Email"  value="${(typeof clientVars.ep_profile_modal.user_email !== 'undefined') ?  clientVars.ep_profile_modal.user_email : null }"  />
+            <input type="text" id="ep_profile_modalForm_email" name="ep_profile_modalForm_email" placeholder="Email"  value="${(typeof clientVars.ep_profile_modal.user_email !== 'undefined') ?  clientVars.ep_profile_modal.user_email : null }"  />
 
             <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
@@ -57,15 +57,15 @@
             <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
-        <fieldset>
+        <fieldset data-section="homepage">
             <h3 class="fs-subtitle">4/5</h3>
             <h2 class="fs-title">Homepage</h2>
 
             <h3 class="fs-subtitle">
-                A website that's about you
+                A website that's about you<br>
                 e.g. your twitter profile page
             </h3>
-            <input type="text" name="ep_profile_modal_homepage" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : null }" placeholder="" />
+            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modal_homepage" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : null }" placeholder="" />
 
             <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
@@ -75,12 +75,12 @@
             <h2 class="fs-title">A few words about yourself</h2>
 
             <h3 class="fs-subtitle">
-                The reason you're on this doc
+                The reason you're on this doc<br>
                 e.g. job title, project, goal in life
             </h3>
             <textarea name="ep_profile_formModal_about_yourself" placeholder="">${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : "" }</textarea>
 
-            <input type="button" name="skip" class="skip skip-button" value="Skip" />
+            <input type="button" name="skip" class="close skip-button" value="Skip" />
             <input type="submit" name="submit"  data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}"  class="submit action-button" value="Save" />
         </fieldset>
         </form>
