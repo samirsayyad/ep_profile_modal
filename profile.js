@@ -106,7 +106,7 @@ exports.handleMessage = async function(hook_name, context, callback){
         user.homepage =  message.data.ep_profile_modal_homepage
         user.username =  message.data.ep_profile_modal_name
         user.status = "2"
-        user.form_passed = true
+        user.form_passed = (user.about=="" || user.email=="" || user.homepage==""|| user.username=="" || user.image=="" ) ? false : true
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId,user) ;
   }
 
