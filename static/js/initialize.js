@@ -1,6 +1,7 @@
 
 var helper = require("./helper")
 var profileForm = require("./profileForm/main")
+var usersProfileSection = require("./userProfileSection/userProfileSection")
 
 exports.aceInitialized = function(hook, context){
     var userId = pad.getUserId()
@@ -9,6 +10,11 @@ exports.aceInitialized = function(hook, context){
     if(clientVars.ep_profile_modal.form_passed !== true){
         profileForm.initModal(clientVars)
     }
+
+    /// user profile section
+    usersProfileSection.initiate(clientVars)
+    /// user profile section
+
     //
     $("body").append(modal);
     ///

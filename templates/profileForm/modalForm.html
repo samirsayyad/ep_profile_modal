@@ -20,9 +20,11 @@
                 and you can change it later
             </h3>
             
+
             <input type="text" id="ep_profile_modalForm_name" required="required" name="ep_profile_modal_name" placeholder="Name" value="${(typeof clientVars.ep_profile_modal.userName !== 'undefined' && clientVars.ep_profile_modal.userName!='Anonymous') ?  clientVars.ep_profile_modal.userName : null }" />
             <input type="button" name="next" class="next action-button" value="Next" />
 
+     
         </fieldset>
         <fieldset  data-section="email">
             <h3 class="fs-subtitle">2/5</h3>
@@ -33,9 +35,10 @@
                 but it allows collaborators to contact you
             </h3>
             <input type="text" id="ep_profile_modalForm_email" name="ep_profile_modalForm_email" placeholder="Email"  value="${(typeof clientVars.ep_profile_modal.user_email !== 'undefined') ?  clientVars.ep_profile_modal.user_email : null }"  />
-
-            <input type="button" name="skip" class="skip skip-button" value="Skip" />
-            <input type="button" name="next" class="next action-button" value="Next" />
+ 
+                <input type="button" name="skip" class="skip skip-button" value="Skip" />
+                <input type="button" name="next" class="next action-button" value="Next" />
+ 
         </fieldset>
         <fieldset>
             <h3 class="fs-subtitle">3/5</h3>
@@ -43,16 +46,20 @@
 
        
             <label class="lable_ep_profile_modal_section_image_big" for="profile_file">
-                <div class='ep_profile_modal_section_image_big' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%"  ></div>
-
+                <div class='ep_profile_modal_section_image_big' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%;background-size: 96px"  ></div>
             </label>  
             <label class="lable_ep_profile_modalForm_button" for="profile_file">
                 <div class="upload upload-button" >Upload</div>
             </label>
-
             <input accept="image/*" type="file" id="profile_file" class="ep_profile_modal_file" name="profile_file" /> 
             
-            <input type="button" name="clear" data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}" class="clear clear-button" value="Clear" />
+            <label class="lable_ep_profile_modalForm_clear_button">
+                
+                <div data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}" class="clear clear-button" >
+                    Clear
+                </div>
+
+            </label>
             
             <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
@@ -78,7 +85,7 @@
                 The reason you're on this doc<br>
                 e.g. job title, project, goal in life
             </h3>
-            <textarea name="ep_profile_formModal_about_yourself" placeholder="">${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : "" }</textarea>
+            <input  type="text" name="ep_profile_formModal_about_yourself" placeholder="" value="${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : '' }" />
 
             <input type="button" name="skip" class="close skip-button" value="Skip" />
             <input type="submit" name="submit"  data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}"  class="submit action-button" value="Save" />
