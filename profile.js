@@ -6,6 +6,8 @@ var padId;
 const defaultUserName = "Anonymous"
 const emailService = require("./email")
 const settings = require('ep_etherpad-lite/node/utils/Settings');
+var gravatar = require('gravatar');
+const fetch = require('node-fetch');
 
 exports.eejsBlock_styles = function (hook_name, args, cb) {
     args.content = args.content + eejs.require("ep_profile_modal/templates/styles.html", {}, module);
@@ -100,14 +102,22 @@ exports.handleMessage = async function(hook_name, context, callback){
   var message = context.message.data;
   var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
   var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
-
+  var form_passed = true
   if(message.action ==="ep_profile_modal_info"){
         user.about = message.data.ep_profile_formModal_about_yourself
         user.email =  message.data.ep_profile_modalForm_email
         user.homepage =  message.data.ep_profile_modal_homepage
         user.username =  message.data.ep_profile_modal_name
         user.status = "2"
-        user.form_passed = (user.about=="" || user.email=="" || user.homepage==""|| user.username=="" || user.image=="" ) ? false : true
+        if (!user.image){
+          var profile_url = gravatar.profile_url(user.email, {protocol: 'https' });
+          profile_json = await fetch(profile_url) ;
+          profile_json = await profile_json.json()
+          if (profile_json !="User not found")
+            form_passed = false
+        }
+        form_passed = (user.about=="" || user.email=="" || user.homepage==""|| user.username=="" )? false : form_passed
+        user.form_passed =form_passed
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId,user) ;
   }
 
