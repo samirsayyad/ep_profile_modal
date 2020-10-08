@@ -17,6 +17,7 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
     args.content += eejs.require("ep_profile_modal/templates/askModal.html", {}, module);
     args.content += eejs.require("ep_profile_modal/templates/userListModal.html", {}, module);
     args.content += eejs.require("ep_profile_modal/templates/profileForm/modalForm.html", {}, module);
+    args.content += eejs.require("ep_profile_modal/templates/userProfileSection/userProfileSection.html", {}, module);
 
     return cb();
 }
