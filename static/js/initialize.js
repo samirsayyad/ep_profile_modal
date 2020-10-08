@@ -1,7 +1,7 @@
 
 var helper = require("./helper")
 var profileForm = require("./profileForm/main")
-var usersProfileSection = require("./usersProfileSection/usersProfileSection")
+var usersProfileSection = require("./userProfileSection/userProfileSection")
 
 exports.aceInitialized = function(hook, context){
     var userId = pad.getUserId()
