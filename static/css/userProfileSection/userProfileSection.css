@@ -1,7 +1,7 @@
 .ep_profile_users_profile{
 	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     width: 350px;
-    height: 324px;
+    height: 130px;
     background-color: #fff;
     position: absolute;
     top: 114px;
@@ -27,27 +27,49 @@
 .ep_profile_users_profile_userImage {
     width:128px;
     height:128px;
-    margin: auto;
-    border-radius: 50%;
+    /* margin: auto; */
+    /* border-radius: 50%; */
+    float: right;
+    /* margin: 2px; */
+
 }
 .ep_profile_users_profile_close{
-    color : "black" ;
+    color: white;
     float: right;
     margin-right: 2%;
     font-size: 14pt;
     cursor: pointer;
-}
-.ep_profile_users_profile_userDesc{
-    width : 100%;
-    border-top: 1px solid gray;
+    position: absolute;
+    right: 0;
+
     
 }
+.ep_profile_users_profile_userDesc{
+    /* width : 100%; */
+    /* border-top: 1px solid gray; */
+    /* float: left; */
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
 .ep_profile_users_profile_email{
-    text-align: center;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14pt;
+    color: black;
+    margin-bottom: 5px;
+
 }
 .ep_profile_users_profile_desc{
-    text-align: center;
+    text-align: left;
+    font-style: italic;
+
 }
 .ep_profile_users_profile_homepage{
-    text-align: center;
+    text-align: left;
+    position: absolute;
+    bottom: 16px;
+    /* left: 0; */
+    
+
 }

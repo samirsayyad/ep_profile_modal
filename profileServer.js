@@ -14,6 +14,13 @@ var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler
 
 exports.expressConfigure = async function (hookName, context) {
 
+    context.app.get('/p/getUserInfo/:userId/:padId/', async function (req, res, next) {
+        var padId = req.params.padId;
+        var userId = req.params.userId;
+        var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+        return res.status(201).json({"user":user})
+
+    })
     context.app.get('/p/emailConfirmation/:userId/:padId/:confirmCode', async function (req, res, next) {
         var userId = Buffer.from(req.params.userId, 'base64').toString('ascii') 
         var padId = Buffer.from(req.params.padId, 'base64').toString('ascii')

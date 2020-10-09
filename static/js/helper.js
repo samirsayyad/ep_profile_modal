@@ -18,7 +18,7 @@ exports.increaseUserFromList = function (userId,padId){
 
 
     if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){
-        var $image = $("<div class='avatar' onClick='ep_profile_show_user("+userId+","+padId+")'  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><div class='avatarImg' data-id=\"user_"+userId+"\" style='"+style+"'></div></div>");
+        var $image = $("<div class='avatar' data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><div class='avatarImg' data-id=\"user_"+userId+"\" style='"+style+"'></div></div>");
         $image.prependTo("#usersIconList")
         $image.hide().slideDown(200);
     

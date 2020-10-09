@@ -102,8 +102,9 @@ exports.handleMessage = async function(hook_name, context, callback){
   var message = context.message.data;
   var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
   var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
-  var form_passed = true
+
   if(message.action ==="ep_profile_modal_info"){
+    var form_passed = true
         user.about = message.data.ep_profile_formModal_about_yourself
         user.email =  message.data.ep_profile_modalForm_email
         user.homepage =  message.data.ep_profile_modal_homepage
@@ -146,6 +147,7 @@ exports.handleMessage = async function(hook_name, context, callback){
     }
     sendToRoom(msg)
     sendToChat(message.userId ,message.padId ,message.name)
+
     // email verification 
     if (message.email){
       var generalUserEmail = await db.get("ep_profile_modal_email:"+message.userId) || {}  ; // for unique email per userId
@@ -223,7 +225,9 @@ exports.socketio = function (hook, context, callback)
   callback();
 };
 
-
+function emailConfirmationSend(){
+  
+}
 
 function sendToRoom( msg){
   var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.
@@ -265,7 +269,9 @@ async function sendUsersListToAllUsers(pad_users,padId){
       email : user.email||"" ,
       status : user.status ||"1" ,
       userName : user.username  || defaultUserName,
-      imageUrl : default_img
+      imageUrl : default_img , 
+      about : user.about || "",
+      homepage : user.homepage || "" ,
     })
 
     cb();
