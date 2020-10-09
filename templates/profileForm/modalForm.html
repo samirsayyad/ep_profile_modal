@@ -72,7 +72,7 @@
                 A website that's about you<br>
                 e.g. your twitter profile page
             </h3>
-            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modal_homepage" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : null }" placeholder="" />
+            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modal_homepage" placeholder="https://" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : 'https://' }"   />
 
             <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
