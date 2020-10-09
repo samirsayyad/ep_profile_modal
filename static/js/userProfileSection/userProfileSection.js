@@ -24,12 +24,19 @@ exports.initiateListeners = function(){
             },
             success: function(response){
                 console.log(response)
+                var image_url ='/p/getUserProfileImage/'+userId+"/"+ pad.getPadId() +"?t=" + new Date().getTime();
+
                 $("#ep_profile_users_profile_name").text(response.user.username)
                 $("#ep_profile_users_profile_about").text(response.user.about)
                 $("#ep_profile_users_profile_homepage").attr({"href":response.user.homepage})
                 $("#ep_profile_users_profile_homepage").text(response.user.homepage)
 
                 $('#ep_profile_users_profile').addClass('ep_profile_formModal_show')
+
+
+                $("#ep_profile_users_profile_userImage").css({"background-position":"50% 50%",
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+				});
             }
         })
     })
