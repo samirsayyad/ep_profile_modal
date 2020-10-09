@@ -7,7 +7,7 @@ exports.createHTMLforUserList = function (total , online,padId){
     $.each( online.reverse(), function( key, value ) {
         style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px"
 
-        html += "<div class='avatar' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
+        html += "<div class='avatar' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div data-userId=\""+value.userId+"\"  class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
     });
     html += " </div>"
     return  html + "<span class='slash_profile'> &#8725; </span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + ""
@@ -18,7 +18,7 @@ exports.increaseUserFromList = function (userId,padId){
 
 
     if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){
-        var $image = $("<div class='avatar' data-userId=\""+userId+"\"  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><div class='avatarImg' data-id=\"user_"+userId+"\" style='"+style+"'></div></div>");
+        var $image = $("<div class='avatar' data-userId=\""+userId+"\"  data-id=\"user_"+userId+"\" id=\"user_"+userId+"\" ><div class='avatarImg' data-userId=\""+userId+"\"  data-id=\"user_"+userId+"\" style='"+style+"'></div></div>");
         $image.prependTo("#usersIconList")
         $image.hide().slideDown(200);
     
@@ -289,6 +289,7 @@ var removeUserElementInUserList = function(userId){
     $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").remove()
 }
 var userLogin = function(data){
+    
     window.user_status = "login"
     $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
     $("#ep_profile_modal_section_info_email").text(data.email)

@@ -172,6 +172,8 @@ exports.initModal = function(clientVars){
         });
 
         $(".submit").click(function(){
+            var userId = pad.getUserId() 
+            var padId =  pad.getPadId()
             $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
             $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
             $('#ep_profile_formModal_overlay').css({"display":"none"})
@@ -181,9 +183,9 @@ exports.initModal = function(clientVars){
             var message = {
 				type : 'ep_profile_modal',
 				action : "ep_profile_modal_info" ,
-				userId :  pad.getUserId() ,
+				userId :  userId,
 				data: data,
-				padId : pad.getPadId()
+				padId : padId
 			  }
             pad.collabClient.sendMessage(message);  // Send the chat position message to the server
 
@@ -193,13 +195,14 @@ exports.initModal = function(clientVars){
 				email : $("#ep_profile_modalForm_email").val(),
 				username : username,
             })
-            helper.refreshUserImage( pad.getUserId() , pad.getPadId())
+            setTimeout(function() { 
+                helper.refreshUserImage(userId , padId)
+            }, 2200);
             // sync profile section to up 
             
             return false;
         })
         $(".clear").click(function(){
-            console.log("has been called",$(this).attr("data-userId"),$(this).attr("data-padId"))
             shared.resetAllProfileImage($(this).attr("data-userId"),$(this).attr("data-padId"))
         })
 
