@@ -8,7 +8,7 @@ exports.initiate = function(clientVars){
 
 exports.initiateListeners = function(){
     $(".avatar").on("click",function(){
-        console.log("we clicked")
+        
     })
 
     $("#ep_profile_users_profile_close").on("click",function(){

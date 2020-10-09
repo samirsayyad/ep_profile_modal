@@ -9,7 +9,7 @@ exports.postAceInit = function (hook,context){
 
 	usersProfileSection.initiateListeners()
 	
-	$("#userlist,#ep_profile_modal_user_list_close").on('click', function(){
+	$("#userlist_count,#ep_profile_modal_user_list_close").on('click', function(){
 		($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show'))?
 			$('#ep_profile_modal_user_list').removeClass('ep_profile_modal-show')
 			:
