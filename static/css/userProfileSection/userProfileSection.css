@@ -1,0 +1,53 @@
+.ep_profile_users_profile{
+	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    width: 350px;
+    height: 324px;
+    background-color: #fff;
+    position: absolute;
+    top: 114px;
+    right: 100px;
+    visibility: hidden;
+        overflow: hidden;
+    color: rgb(32, 33, 36);
+    z-index: 500;
+	transition: all .3s;
+	border-radius: 0 0 6px 6px;
+	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
+	border: 1px solid #e6e8e9;
+    font-size: 14px;
+    transform: scale(.7);
+    opacity: 0;
+    transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
+}
+.ep_profile_users_profile_show {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.ep_profile_users_profile_userImage {
+    width:128px;
+    height:128px;
+    margin: auto;
+    border-radius: 50%;
+}
+.ep_profile_users_profile_close{
+    color : "black" ;
+    float: right;
+    margin-right: 2%;
+    font-size: 14pt;
+    cursor: pointer;
+}
+.ep_profile_users_profile_userDesc{
+    width : 100%;
+    border-top: 1px solid gray;
+    
+}
+.ep_profile_users_profile_email{
+    text-align: center;
+}
+.ep_profile_users_profile_desc{
+    text-align: center;
+}
+.ep_profile_users_profile_homepage{
+    text-align: center;
+}

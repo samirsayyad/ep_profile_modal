@@ -113,7 +113,7 @@ exports.handleMessage = async function(hook_name, context, callback){
           var profile_url = gravatar.profile_url(user.email, {protocol: 'https' });
           profile_json = await fetch(profile_url) ;
           profile_json = await profile_json.json()
-          if (profile_json !="User not found")
+          if (profile_json =="User not found")
             form_passed = false
         }
         form_passed = (user.about=="" || user.email=="" || user.homepage==""|| user.username=="" )? false : form_passed

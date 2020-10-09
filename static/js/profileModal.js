@@ -1,4 +1,5 @@
 var helper = require("./helper")
+var usersProfileSection = require("./userProfileSection/userProfileSection")
 
 exports.postAceInit = function (hook,context){
 	// console.log("samir",pad )
@@ -6,6 +7,7 @@ exports.postAceInit = function (hook,context){
 	// console.log("samir",pad.collabClient.getConnectedUsers())
 	// /p/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}
 
+	usersProfileSection.initiateListeners()
 	
 	$("#userlist,#ep_profile_modal_user_list_close").on('click', function(){
 		($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show'))?
