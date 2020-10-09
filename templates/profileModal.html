@@ -21,6 +21,18 @@
             <p class="ep_profile_modal_section_info_email" id ="ep_profile_modal_section_info_email">
                 ${(ep_profile_modal.user_email) ? ep_profile_modal.user_email : "" }
              </p>
+<!-- 
+             <p class="ep_profile_modal_section_info_email" id ="ep_profile_modal_section_info_email">
+                ${(ep_profile_modal.about) ? ep_profile_modal.about : "" }
+             </p>
+
+             <p class="ep_profile_users_profile_homepage" >
+                <a id="ep_profile_users_profile_homepage" href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '' }">
+                    ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" }
+
+                </a>
+            </p> -->
+
         </div>
         <input type="hidden" id="ep_profile_hidden_email" value="${ep_profile_modal.user_email}" />
         <input  value="Sign Out" id="ep_profile_modal_signout" type="button" class="ep_profile_modal_signout" /> 

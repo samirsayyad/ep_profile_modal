@@ -32,9 +32,12 @@ exports.aceInitialized = function(hook, context){
     }else{
         $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+" </div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image'  style='"+style+"' /></div></div>")
         window.user_status = "out";
-        setTimeout(function() { 
-            $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
-        }, 1000);
+        if (clientVars.ep_profile_modal.form_passed == true){
+            setTimeout(function() { 
+                $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+            }, 1000);
+        }
+
     }
     var message = {
         type : 'ep_profile_modal',
