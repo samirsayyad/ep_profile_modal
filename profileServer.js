@@ -40,39 +40,39 @@ exports.expressConfigure = async function (hookName, context) {
         var profile_json = null;
         var httpsUrl = null;
         var user = await db.get("ep_profile_modal:"+req.params.userId+"_"+req.params.padId) || {};
-        if (user.image){
-            if(user.image !="reset"){
-                var s3  = new AWS.S3({
-                    accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
-                    secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
-                    endpoint: settings.ep_profile_modal.storage.endPoint, 
-                    s3ForcePathStyle: true, // needed with minio?
-                    signatureVersion: 'v4'
-                });
-                try{
-                    var params = { Bucket: settings.ep_profile_modal.storage.bucket, Key: `${user.image}`  };
-                    s3.getObject(params, function(err, data) {
-                        console.log("data going to be ", params ,data , err)
-                        if (data ){
-                            res.writeHead(200, {'Content-Type': 'image/jpeg'});
-                            res.write(data.Body, 'binary');
-                            res.end(null, 'binary');
-                        }else{
-                            res.end(null, 'binary');
-                
-                        }
-                        
-                    });
-                }catch(error){
-                    console.log("error",error)
-                }
-            }else{
-                return res.redirect((user.status=="2") ? defaultImg:defaultImgUserOff )
-            }
-           
-        }else{
 
-            if(user.status=="2"){
+        if(user.status=="2"){ // logged in
+            if (user.image){
+                if(user.image !="reset"){
+                    var s3  = new AWS.S3({
+                        accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
+                        secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
+                        endpoint: settings.ep_profile_modal.storage.endPoint, 
+                        s3ForcePathStyle: true, // needed with minio?
+                        signatureVersion: 'v4'
+                    });
+                    try{
+                        var params = { Bucket: settings.ep_profile_modal.storage.bucket, Key: `${user.image}`  };
+                        s3.getObject(params, function(err, data) {
+                            console.log("data going to be ", params ,data , err)
+                            if (data ){
+                                res.writeHead(200, {'Content-Type': 'image/jpeg'});
+                                res.write(data.Body, 'binary');
+                                res.end(null, 'binary');
+                            }else{
+                                res.end(null, 'binary');
+                    
+                            }
+                            
+                        });
+                    }catch(error){
+                        console.log("error",error)
+                    }
+                }else{
+                    return res.redirect(defaultImg )
+                }
+               
+            }else{
                 var profile_url = gravatar.profile_url(user.email, {protocol: 'https' });
                 profile_json = await fetch(profile_url) ;
                 profile_json = await profile_json.json()
@@ -80,10 +80,15 @@ exports.expressConfigure = async function (hookName, context) {
                     httpsUrl = gravatar.url(user.email, {protocol: 'https', s: '200'});
                 else
                     profile_json = null
+            
+                return res.redirect((profile_json != null ) ?  httpsUrl : defaultImg )
+    
             }
-            return res.redirect((profile_json != null ) ?  httpsUrl : ((user.status=="2") ? defaultImg:defaultImgUserOff ))
+        }else{
+            return res.redirect(defaultImgUserOff)
 
         }
+      
 
 
     })
