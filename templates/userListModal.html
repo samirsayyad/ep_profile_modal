@@ -3,10 +3,125 @@
         <div id='ep_profile_modal_user_list_close'>&times;</div>
 
         <div id="ep_profile_user_list_container" class="ep_profile_user_list_container" >
-
             <div id="ep_profile_modal_default_current" data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
-                <div id="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 20px"  class="ep_profile_user_img"></div>
-                <div id="ep_profile_user_username" class="ep_profile_user_username"> ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } </div>
+       
+                <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px" ></div>
+        
+                <div class="ep_profile_user_list_profile_userDesc">
+        
+                    <p class="ep_profile_user_list_username">
+                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                    </p>
+                    <p class="ep_profile_user_list_profile_desc">
+                        ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
+
+                    </p>
+                    <p class="ep_profile_user_list_profile_homepage" >
+                        <a href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '#'} "> ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" } 
+                        </a>
+                    </p>
+        
+                </div>
+            </div>
+            <div id="ep_profile_modal_default_current" data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
+       
+                <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px" ></div>
+        
+                <div class="ep_profile_user_list_profile_userDesc">
+        
+                    <p class="ep_profile_user_list_username">
+                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                    </p>
+                    <p class="ep_profile_user_list_profile_desc">
+                        ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
+
+                    </p>
+                    <p class="ep_profile_user_list_profile_homepage" >
+                        <a href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '#'} "> ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" } 
+                        </a>
+                    </p>
+        
+                </div>
+            </div>
+            <div id="ep_profile_modal_default_current" data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
+       
+                <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px" ></div>
+        
+                <div class="ep_profile_user_list_profile_userDesc">
+        
+                    <p class="ep_profile_user_list_username">
+                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                    </p>
+                    <p class="ep_profile_user_list_profile_desc">
+                        ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
+
+                    </p>
+                    <p class="ep_profile_user_list_profile_homepage" >
+                        <a href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '#'} "> ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" } 
+                        </a>
+                    </p>
+        
+                </div>
+            </div>
+            <div id="ep_profile_modal_default_current" data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
+       
+                <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px" ></div>
+        
+                <div class="ep_profile_user_list_profile_userDesc">
+        
+                    <p class="ep_profile_user_list_username">
+                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                    </p>
+                    <p class="ep_profile_user_list_profile_desc">
+                        ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
+
+                    </p>
+                    <p class="ep_profile_user_list_profile_homepage" >
+                        <a href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '#'} "> ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" } 
+                        </a>
+                    </p>
+        
+                </div>
+            </div>
+            <div id="ep_profile_modal_default_current" data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
+       
+                <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px" ></div>
+        
+                <div class="ep_profile_user_list_profile_userDesc">
+        
+                    <p class="ep_profile_user_list_username">
+                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                    </p>
+                    <p class="ep_profile_user_list_profile_desc">
+                        ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
+
+                    </p>
+                    <p class="ep_profile_user_list_profile_homepage" >
+                        <a href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '#'} "> ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" } 
+                        </a>
+                    </p>
+        
+                </div>
+            </div>
+            <div id="ep_profile_modal_default_current" data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
+       
+                <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px" ></div>
+        
+                <div class="ep_profile_user_list_profile_userDesc">
+        
+                    <p class="ep_profile_user_list_username">
+                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                    </p>
+                    <p class="ep_profile_user_list_profile_desc">
+                        ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
+
+                    </p>
+                    <p class="ep_profile_user_list_profile_homepage" >
+                        <a href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '#'} "> ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" } 
+                        </a>
+                    </p>
+        
+                </div>
             </div>
 
         </div>

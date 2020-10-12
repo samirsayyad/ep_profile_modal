@@ -9,6 +9,13 @@ exports.postAceInit = function (hook,context){
 
 	usersProfileSection.initiateListeners()
 	
+	$("#ep_profile_modal_save").on("click",function(){
+		var username = $("#ep_profile_modal-username").val();
+		var email = $("#ep_profile_modal-email").val();
+		var about = $("#ep_profile_modal-about").val();
+		var homepage = $("#ep_profile_modal-homepage").val();
+	})
+
 	$("#userlist_count,#ep_profile_modal_user_list_close").on('click', function(){
 		($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show'))?
 			$('#ep_profile_modal_user_list').removeClass('ep_profile_modal-show')
