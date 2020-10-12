@@ -16,6 +16,41 @@ exports.postAceInit = function (hook,context){
 			$('#ep_profile_modal_user_list').addClass('ep_profile_modal-show')
 	})
 
+	$("#ep_profile_modal_verification").on("click",function(){
+		var verificationStatus = $(this).attr("data-verification-status")
+		var oldText = $(this).text()
+		if(verificationStatus != "true"){
+			$.ajax({
+				url: '/p/' + pad.getPadId() + '/pluginfw/ep_profile_modal/sendVerificationEmail/'+pad.getUserId() ,
+				type: 'get',
+				data: {},
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					// setting a timeout
+					var image_url ='../static/plugins/ep_profile_modal/static/img/loading.gif'
+
+					$("#ep_profile_modal_verification").text("Sending...")
+						
+				},
+				error: function(xhr) { // if error occured
+					$("#ep_profile_modal_verification").text("Error")
+					setTimeout(function() { 
+						$("#ep_profile_modal_verification").text(oldText)
+					}, 2000);
+
+				},
+				success: function(response){
+					$("#ep_profile_modal_verification").text("Verification email has been sent.")
+					$("#ep_profile_modal_verification").attr("data-verification-status","true")
+				}
+				
+			})
+	
+		}
+		return false;
+	})
+
 	$('#ep-profile-button').on('click', function(){
 		if ( window.user_status == "login"){
 			($('#ep_profile_modal').hasClass('ep_profile_modal-show'))?
@@ -154,12 +189,12 @@ exports.postAceInit = function (hook,context){
 
 			$('#ep_profile_modal_email').removeClass('ep_profile_modal_validation_error')
 
-			//window.user_status = "login"
-			// pad.collabClient.updateUserInfo({
-			// 	userId :  pad.getUserId() ,
-			// 	name: username,
-			// 	colorId: "#b4b39a"
-			// } )
+			window.user_status = "login"
+			pad.collabClient.updateUserInfo({
+				userId :  pad.getUserId() ,
+				name: username,
+				colorId: "#b4b39a"
+			} )
 			var message = {
 				type : 'ep_profile_modal',
 				action : "ep_profile_modal_login" ,
@@ -181,18 +216,7 @@ exports.postAceInit = function (hook,context){
 	})
 
 }
-
  
-// exports.handleClientMessage_USER_IMAGE = function(hook, context){
-// 	console.log("=>>>>>> handleClientMessage_USER_IMAGE")
-// 	$("#ep-profile-image").css({"background-position":"50% 50%",
-// 	"background-image":"url("+context.message.user_image+")" , "background-repeat":"no-repeat","background-size": "32px"
-// 	});
-	
-// 	//attr({src:  context.message.user_image });
-// }
-
-
 function isEmail(email) {
 	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 	if(email=="")

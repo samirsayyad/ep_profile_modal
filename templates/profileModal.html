@@ -15,28 +15,46 @@
 
         </div>
         <div class="ep_profile_modal_section_info_modal">
-            <p class="ep_profile_modal_section_info_name" id ="ep_profile_modal_section_info_name">
-               ${(ep_profile_modal.userName) ?  ep_profile_modal.userName : ""}
-            </p>
-            <p class="ep_profile_modal_section_info_email" id ="ep_profile_modal_section_info_email">
-                ${(ep_profile_modal.user_email) ? ep_profile_modal.user_email : "" }
-             </p>
-<!-- 
-             <p class="ep_profile_modal_section_info_email" id ="ep_profile_modal_section_info_email">
-                ${(ep_profile_modal.about) ? ep_profile_modal.about : "" }
-             </p>
 
-             <p class="ep_profile_users_profile_homepage" >
-                <a id="ep_profile_users_profile_homepage" href="${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : '' }">
-                    ${(ep_profile_modal.homepage) ? ep_profile_modal.homepage : "" }
+            <div class="ep_profile_modal-form-lable-section">
+                <span class="ep_profile_modal-form-lable" >Name</span>
+                <input type="text" value="${(ep_profile_modal.userName) ?  ep_profile_modal.userName : ''}" id="ep_profile_modal-username" placeholder="" class="ep_profile_modal-content">
 
-                </a>
-            </p> -->
+            </div>
+            <div class="ep_profile_modal-form-lable-section">
+                <span class="ep_profile_modal-form-lable" style="margin-left: 5px;" >Bio</span>
+                <input type="text"  value="${(ep_profile_modal.about) ?  ep_profile_modal.about : ''}" id="ep_profile_modal-username" placeholder="" class="ep_profile_modal-content">
+
+            </div>
+            <div class="ep_profile_modal-form-lable-section">
+                <span class="ep_profile_modal-form-lable" >Homepage</span>
+                <input type="text"  value="${(ep_profile_modal.homepage) ?  ep_profile_modal.homepage : ''}" id="ep_profile_modal-username" placeholder="" class="ep_profile_modal-content">
+
+            </div>
+            <div class="ep_profile_modal-form-lable-section">
+                <span class="ep_profile_modal-form-lable" >Email</span>
+                <input type="text"  value="${(ep_profile_modal.user_email) ?  ep_profile_modal.user_email : ''}" id="ep_profile_modal-username" placeholder="" class="ep_profile_modal-content">
+
+            </div>
+            <div class="ep_profile_modal-form-lable-section-left">
+                <a href="#" id="ep_profile_modal_verification" data-verification-status="${ep_profile_modal.verified}" class="ep_profile_modal_verification"> ${(ep_profile_modal.verified) ?  `Verified` : `Send verification email`}</a>
+            </div>
+
+            <div class="ep_profile_modal-form-lable-section-left">
+                <input type="checkbox" id="ep_profile_modal_push_notification" name="push_notification" checked="${(ep_profile_modal.push_notification) ?  ep_profile_modal.push_notification : true }">
+                <label for="ep_profile_modal_push_notification">Push notification</label><br>            
+            </div>
+
 
         </div>
-        <input type="hidden" id="ep_profile_hidden_email" value="${ep_profile_modal.user_email}" />
-        <input  value="Sign Out" id="ep_profile_modal_signout" type="button" class="ep_profile_modal_signout" /> 
+        <div class="ep_profile_modal-form-lable-section">
+            <input type="hidden" id="ep_profile_hidden_email" value="${ep_profile_modal.user_email}" />
+            <input  value="Sign Out" id="ep_profile_modal_signout" type="button" class="ep_profile_modal_signout" /> 
+            <input  value="Save"  id="ep_profile_modal_save" type="button" class="ep_profile_modal_save"> 
+    
+        </div>
 
-        
+
+
     </div>
 </script>

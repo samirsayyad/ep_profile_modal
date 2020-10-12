@@ -68,6 +68,8 @@ exports.clientVars = async function  (hook, context, callback){
           about : user.about || "",
           homepage : user.homepage || "" ,
           form_passed : user.form_passed || false ,
+          verified : user.verified || false ,
+
       }
   });
 }
@@ -109,6 +111,9 @@ exports.handleMessage = async function(hook_name, context, callback){
         user.email =  message.data.ep_profile_modalForm_email
         user.homepage =  message.data.ep_profile_modal_homepage
         user.username =  message.data.ep_profile_modal_name
+        user.createDate = (user.createDate) ? user.createDate : new Date() ;
+        user.updateDate = new Date() ;
+
         user.status = "2"
         if (!user.image){
           var profile_url = gravatar.profile_url(user.email, {protocol: 'https' });
@@ -126,7 +131,8 @@ exports.handleMessage = async function(hook_name, context, callback){
 
   if(message.action === 'ep_profile_modal_login'){
 
-    
+    user.createDate = (user.createDate) ? user.createDate : new Date() ;
+    user.updateDate = new Date() ;
     user.email = message.email || ""
     user.status = "2"
     user.username = message.name || ""
@@ -186,6 +192,8 @@ exports.handleMessage = async function(hook_name, context, callback){
   }
   if(message.action === "ep_profile_modal_logout"){
     user.status = "1";
+    user.lastLogoutDate = new Date();
+
     var msg = {
       type: "COLLABROOM",
       data: {

@@ -31,6 +31,8 @@ exports.expressConfigure = async function (hookName, context) {
         if (user.confirmationCode === confirmCode){
             user.confirmationCode = 0
             user.verified = true 
+            user.updateDate = new Date()
+            user.verifiedDate = new Date()
             db.set("ep_profile_modal_email:"+userId,user) 
         }
         return res.redirect(`/${padId}`)
@@ -93,6 +95,19 @@ exports.expressConfigure = async function (hookName, context) {
 
     })
 
+    // for sending email validation
+    context.app.get('/p/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId',async function (req, res, next) {
+        var padId = req.params.padId;
+        var userId = req.params.userId;
+        db.set("ep_profile_modal_image:"+userId , "reset");
+        var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+            user.image = "reset"
+            user.updateDate = new Date()
+
+        await db.set("ep_profile_modal:"+userId+"_"+padId,user) ;
+        return res.status(201).json({"status":"ok"})
+
+    })
     // for reset profile image
     context.app.get('/p/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId',async function (req, res, next) {
         var padId = req.params.padId;
@@ -216,6 +231,8 @@ exports.expressConfigure = async function (hookName, context) {
                                 db.set("ep_profile_modal_image:"+userId , savedFilename);
                                 var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
                                     user.image = savedFilename
+                                    user.updateDate = new Date()
+
                                 await db.set("ep_profile_modal:"+userId+"_"+padId,user) ;
                                 var msg = {
                                     type: "COLLABROOM",

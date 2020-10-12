@@ -1,7 +1,7 @@
 .ep_profile_modal{
 	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     width: 350px;
-    height: 324px;
+    height: 537px;
     background-color: #fff;
     position: absolute;
     top: 114px;
@@ -18,6 +18,7 @@
     transform: scale(.7);
     opacity: 0;
     transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
+    
 }
 .ep_profile_modal-show {
     transform: scale(1) !important;
@@ -37,7 +38,7 @@
 }
 .ep_profile_modal_section_image{
     width : 100%;
-    height: 40%;
+    height: 128px;
     margin-top: 5%;
     text-align: center;
     cursor: pointer;
@@ -179,15 +180,28 @@
     color : #fff;
 }
 .ep_profile_modal_signout{
-    width: 160px;
+    width: 85px;
     height: 32px !important;
     border: 0;
     background-color: red;
     color: white;
     margin: auto;
+    float: left;
     display: flow-root;
-    height: 22px;
-    margin-top: 17%; 
+    margin-left: 65px;
+    
+}
+.ep_profile_modal_save{
+    width: 85px;
+    height: 32px !important;
+    border: 0;
+    background-color: green;
+    color: white;
+    margin: auto;
+    float: right;
+    display: flow-root;
+    margin-right: 65px;
+    
 }
 #ep_profile_modal_close_ask{
     color : "black" ;
@@ -338,4 +352,57 @@
     justify-content: flex-start;
     display: flex;
     margin-left: auto;
+}
+
+
+.ep_profile_modal-form-lable-section{
+    width:auto;
+    text-align: center;
+    margin-top: 15px;
+
+  }
+
+  .ep_profile_modal-form-lable-section-left{
+    width: auto;
+    text-align: left;
+    margin-bottom: 15px;
+    padding-left: 65px;
+ 
+
+  }
+  .ep_profile_modal-form-lable-section .ep_profile_modal-form-lable{
+    margin-left: 8px;
+    margin-top: 4px;
+    position: absolute;
+    width: 30px;
+    text-align: center;
+    font-weight: 700;
+    /* color: #0074fd; */
+  }
+  .ep_profile_modal-form-lable-section .ep_profile_modal-form-lable-disabled{
+    
+    margin-left: 8px;
+    margin-top: 4px;
+    position: absolute;
+    width: 30px;
+    text-align: center;
+    font-weight: 700;
+    color : gray;
+  }
+  .ep_profile_modal-content{
+    width: 220px;
+    border: 1px solid gray !important;
+    padding-left: 10px!important;
+    padding-top: 24px!important;
+    padding-bottom: 0!important;
+    padding-right: 0!important;
+    height: 51px;
+    margin: 0 !important;
+    background-color: white !important;
+
+  }
+.ep_profile_modal_verification{
+    text-decoration: underline;
+    color : gray;
+    font-style: italic;
 }
