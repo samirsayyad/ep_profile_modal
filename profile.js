@@ -56,7 +56,46 @@ exports.clientVars = async function  (hook, context, callback){
     pad_users = [ context.clientVars.userId ]
     db.set("ep_profile_modal_contributed_"+padId , pad_users);
   }
+  //* collect user If just enter to pad */
 
+  var datetime = new Date();
+  db.set("ep_profile_modal_last_seen_"+padId+"_"+context.clientVars.userId , {
+    "last_seen_timestamp" : datetime.getTime(),
+    "last_seen_date" : datetime.toISOString().slice(0,10) ,
+  });
+
+
+  // new collecting users
+  var new_contributed_users = await db.get("ep_profile_modal_new_contributed_"+padId);
+  console.log(new_contributed_users,"new_contributed_users")
+  if(new_contributed_users){
+    var lastUserIndex = new_contributed_users.findIndex(i => i.userId ===context.clientVars.userId );
+    if(lastUserIndex !== -1){
+      new_contributed_users[lastUserIndex].data.last_seen_timestamp = datetime.getTime()
+      new_contributed_users[lastUserIndex].data.last_seen_date = datetime.toISOString().slice(0,10) 
+    }else{
+      new_contributed_users.push({
+        userId : context.clientVars.userId,
+        data : {
+          "last_seen_timestamp" : datetime.getTime(),
+          "last_seen_date" : datetime.toISOString().slice(0,10) ,
+        }
+      })
+    }
+  }else{
+    new_contributed_users = new Array()
+    new_contributed_users.push({
+      userId : context.clientVars.userId,
+      data : {
+        "last_seen_timestamp" : datetime.getTime(),
+        "last_seen_date" : datetime.toISOString().slice(0,10) ,
+      }
+    })
+  }
+  
+  db.set("ep_profile_modal_new_contributed_"+padId,new_contributed_users);
+
+  // new collecting users
 
   return callback({
       ep_profile_modal: {
@@ -65,6 +104,7 @@ exports.clientVars = async function  (hook, context, callback){
           user_status : user.status || "1" ,
           userName : user.username || defaultUserName ,
           contributed_authors_count : pad_users.length,
+          contributed_users : new_contributed_users ,
           about : user.about || "",
           homepage : user.homepage || "" ,
           form_passed : user.form_passed || false ,
