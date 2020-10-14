@@ -8,7 +8,7 @@
                 <div class='ep_profile_modal_section_image_big' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%"  ></div>
 
             </label>  
-            <form  method="post" action="" enctype="multipart/form-data" id="ep_profile_modal_form">
+            <form  method="post" action="" enctype="multipart/form-data" >
                 <input accept="image/*" type="file" id="profile_file" class="ep_profile_modal_file" name="profile_file" /> 
             </form>
             
@@ -28,7 +28,7 @@
             </div>
             <div class="ep_profile_modal-form-lable-section">
                 <span class="ep_profile_modal-form-lable" >Homepage</span>
-                <input type="text"  value="${(ep_profile_modal.homepage) ?  ep_profile_modal.homepage : ''}" id="ep_profile_modal-homepage" placeholder="" class="ep_profile_modal-content">
+                <input type="text"  value="${(ep_profile_modal.homepage !=='#') ?  ep_profile_modal.homepage : ''}" id="ep_profile_modal-homepage" placeholder="" class="ep_profile_modal-content">
 
             </div>
             <div class="ep_profile_modal-form-lable-section">

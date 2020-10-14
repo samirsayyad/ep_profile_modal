@@ -59,43 +59,58 @@ exports.clientVars = async function  (hook, context, callback){
   //* collect user If just enter to pad */
 
   var datetime = new Date();
-  db.set("ep_profile_modal_last_seen_"+padId+"_"+context.clientVars.userId , {
-    "last_seen_timestamp" : datetime.getTime(),
-    "last_seen_date" : datetime.toISOString().slice(0,10) ,
-  });
+  user.last_seen_timestamp = datetime.getTime()
+  user.last_seen_date = datetime.toISOString().slice(0,10) 
+  db.set("ep_profile_modal:"+context.clientVars.userId+"_"+padId,user)
+
+  // var todayDate =  datetime.toISOString().slice(0,10) 
+  // db.set("ep_profile_modal_last_seen_"+padId+"_"+context.clientVars.userId , {
+  //   "last_seen_timestamp" : datetime.getTime(),
+  //   "last_seen_date" :todayDate ,
+  // });
 
 
-  // new collecting users
-  var new_contributed_users = await db.get("ep_profile_modal_new_contributed_"+padId);
-  console.log(new_contributed_users,"new_contributed_users")
-  if(new_contributed_users){
-    var lastUserIndex = new_contributed_users.findIndex(i => i.userId ===context.clientVars.userId );
-    if(lastUserIndex !== -1){
-      new_contributed_users[lastUserIndex].data.last_seen_timestamp = datetime.getTime()
-      new_contributed_users[lastUserIndex].data.last_seen_date = datetime.toISOString().slice(0,10) 
-    }else{
-      new_contributed_users.push({
-        userId : context.clientVars.userId,
-        data : {
-          "last_seen_timestamp" : datetime.getTime(),
-          "last_seen_date" : datetime.toISOString().slice(0,10) ,
-        }
-      })
-    }
-  }else{
-    new_contributed_users = new Array()
-    new_contributed_users.push({
-      userId : context.clientVars.userId,
-      data : {
-        "last_seen_timestamp" : datetime.getTime(),
-        "last_seen_date" : datetime.toISOString().slice(0,10) ,
-      }
-    })
-  }
+  // // new collecting users
+  // var new_contributed_users = await db.get("ep_profile_modal_new_contributed_"+padId);
+  // console.log(new_contributed_users,"new_contributed_users")
+  // if(new_contributed_users){
+  //   var lastUserIndex = new_contributed_users.findIndex(i => i.userId ===context.clientVars.userId );
+  //   if(lastUserIndex !== -1){
+  //     new_contributed_users[lastUserIndex].data.last_seen_timestamp = datetime.getTime()
+  //     new_contributed_users[lastUserIndex].data.last_seen_date = todayDate
+  //   }else{
+  //     new_contributed_users.push({
+  //       userId : context.clientVars.userId,
+  //       data : {
+  //         "last_seen_timestamp" : datetime.getTime(),
+  //         "last_seen_date" : todayDate ,
+  //       }
+  //     })
+  //   }
+  // }else{
+  //   new_contributed_users = new Array()
+  //   new_contributed_users.push({
+  //     userId : context.clientVars.userId,
+  //     data : {
+  //       "last_seen_timestamp" : datetime.getTime(),
+  //       "last_seen_date" : todayDate ,
+  //     }
+  //   })
+  // }
   
-  db.set("ep_profile_modal_new_contributed_"+padId,new_contributed_users);
+  // db.set("ep_profile_modal_new_contributed_"+padId,new_contributed_users);
+  // // new collecting users
 
-  // new collecting users
+  // trying for make array date base
+  // var newArrayDate ={
+  // }
+  // new_contributed_users.forEach((value,index,array)=>{
+  //   newArrayDate[value.data.last_seen_date] = newArrayDate[value.data.last_seen_date] || []
+  //   newArrayDate[value.data.last_seen_date].push(value.userId)
+  // })
+  // trying for make array date base
+
+
 
   return callback({
       ep_profile_modal: {
@@ -104,11 +119,13 @@ exports.clientVars = async function  (hook, context, callback){
           user_status : user.status || "1" ,
           userName : user.username || defaultUserName ,
           contributed_authors_count : pad_users.length,
-          contributed_users : new_contributed_users ,
+          //contributed_users : new_contributed_users ,
+          //contributed_users_per_date : newArrayDate,
           about : user.about || "",
-          homepage : user.homepage || "" ,
+          homepage : user.homepage || "#" ,
           form_passed : user.form_passed || false ,
           verified : user.verified || false ,
+          //today : todayDate
 
       }
   });
@@ -319,7 +336,8 @@ async function sendUsersListToAllUsers(pad_users,padId){
       userName : user.username  || defaultUserName,
       imageUrl : default_img , 
       about : user.about || "",
-      homepage : user.homepage || "" ,
+      homepage : user.homepage || "#" ,
+      last_seen_date : user.last_seen_date || "" ,
     })
 
     cb();
