@@ -63,6 +63,9 @@ exports.clientVars = async function  (hook, context, callback){
   user.last_seen_date = datetime.toISOString().slice(0,10) 
   db.set("ep_profile_modal:"+context.clientVars.userId+"_"+padId,user)
 
+
+
+
   // var todayDate =  datetime.toISOString().slice(0,10) 
   // db.set("ep_profile_modal_last_seen_"+padId+"_"+context.clientVars.userId , {
   //   "last_seen_timestamp" : datetime.getTime(),
@@ -70,35 +73,7 @@ exports.clientVars = async function  (hook, context, callback){
   // });
 
 
-  // // new collecting users
-  // var new_contributed_users = await db.get("ep_profile_modal_new_contributed_"+padId);
-  // console.log(new_contributed_users,"new_contributed_users")
-  // if(new_contributed_users){
-  //   var lastUserIndex = new_contributed_users.findIndex(i => i.userId ===context.clientVars.userId );
-  //   if(lastUserIndex !== -1){
-  //     new_contributed_users[lastUserIndex].data.last_seen_timestamp = datetime.getTime()
-  //     new_contributed_users[lastUserIndex].data.last_seen_date = todayDate
-  //   }else{
-  //     new_contributed_users.push({
-  //       userId : context.clientVars.userId,
-  //       data : {
-  //         "last_seen_timestamp" : datetime.getTime(),
-  //         "last_seen_date" : todayDate ,
-  //       }
-  //     })
-  //   }
-  // }else{
-  //   new_contributed_users = new Array()
-  //   new_contributed_users.push({
-  //     userId : context.clientVars.userId,
-  //     data : {
-  //       "last_seen_timestamp" : datetime.getTime(),
-  //       "last_seen_date" : todayDate ,
-  //     }
-  //   })
-  // }
-  
-  // db.set("ep_profile_modal_new_contributed_"+padId,new_contributed_users);
+
   // // new collecting users
 
   // trying for make array date base
@@ -275,6 +250,53 @@ exports.handleMessage = async function(hook_name, context, callback){
   if(message.action === "ep_profile_modal_ready"){
     var pad_users = await db.get("ep_profile_modal_contributed_"+ padId);
     sendUsersListToAllUsers(pad_users,padId)
+
+    var datetime = new Date();
+    var _timestamp = datetime.getTime()
+    var _date = datetime.toISOString().slice(0,10) 
+    ////// store pads of users
+    var pads_of_user = await db.get("ep_profile_modal_pads_of_user_"+ message.userId) || [];
+    var lastUserIndex = pads_of_user.findIndex(i => i.padId === padId );
+    if(lastUserIndex !== -1 ){
+      pads_of_user[lastUserIndex].data.last_seen_date = _date
+      pads_of_user[lastUserIndex].data.last_seen_timestamp = _timestamp
+    }else{
+      pads_of_user.push({
+      padId :padId,
+        data : {
+          "last_seen_timestamp" :_timestamp,
+          "last_seen_date" : _date ,
+          "created_at_timestamp" :_timestamp,
+          "created_at_date" : _date ,
+        }
+      })
+    }
+    db.set("ep_profile_modal_pads_of_user_"+ message.userId,pads_of_user)
+    ////// store pads of users
+
+
+
+    ///// store users in new way 
+    // new collecting users
+    var new_contributed_users = await db.get("ep_profile_modal_new_contributed_"+padId) || [];
+    var lastUserIndex = new_contributed_users.findIndex(i => i.userId ===message.userId );
+    if(lastUserIndex !== -1){
+      new_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp
+      new_contributed_users[lastUserIndex].data.last_seen_date = _date
+    }else{
+      new_contributed_users.push({
+        userId : context.clientVars.userId,
+        data : {
+          "last_seen_timestamp" :_timestamp,
+          "last_seen_date" : _date ,
+          "created_at_timestamp" :_timestamp,
+          "created_at_date" : _date ,
+        }
+      })
+    }
+   
+    db.set("ep_profile_modal_new_contributed_"+padId,new_contributed_users);
+    //// store users in new way
   }
 
   if(isProfileMessage === true){
