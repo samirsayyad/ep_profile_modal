@@ -106,6 +106,6 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 	}
 
-  }
+}
 
 

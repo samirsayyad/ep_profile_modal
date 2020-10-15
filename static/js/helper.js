@@ -35,24 +35,23 @@ exports.decreaseUserFromList = function (userId){
     )
 
     var selector_user = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ;
-
     if(selector_user.length){
-        //moveOnlineUserToOffline(selector_user) /move to offline list
-        selector_user.animate({opacity: 0}, 1000,"linear",function()
-        {
-            $(this).remove();
-        }
-    )
+        moveOnlineUserToOffline(selector_user) 
+        // selector_user.animate({opacity: 0}, 1000,"linear",function()
+        // {
+        //     $(this).remove();
+        // }
+        //)
     }else{
         var selector_on = $(".ep_profile_user_row[data-id=\"user_list_on_Anonymous\"]") ;
         if(selector_on.length){
             var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous\"]") ;
             decreaseFromOnlineAnonymous(selector_on,userId)
-            // if(selector_off.length){
-            //     increaseToOfflineAnonymous(selector_off,userId)
-            // }else{
-            //     createOfflineAnonymousElement(userId,defaultImg,null,null)
-            // }
+            if(selector_off.length){
+                increaseToOfflineAnonymous(selector_off,userId)
+            }else{
+                createOfflineAnonymousElement(userId,defaultImg,null,null)
+            }
         }
         else{
             $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo("#ep_profile_user_list_container_off")
@@ -329,8 +328,16 @@ var createOnlineAnonymousElement = function(userId , userName , imageUrl){
 }
 
 var moveOnlineUserToOffline =  function(userElemenet) {
-    var offline_list_selector = $("#ep_profile_user_list_container_off") 
-    offline_list_selector.append(userElemenet)
+    var offline_list_selector = $("#ep_profile_user_list_offline_today") 
+    if(offline_list_selector.length){
+        offline_list_selector.append(userElemenet)
+    }else{
+        var offline_container = $("#ep_profile_user_list_container_off") 
+        offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_today'> <p class='ep_profile_user_date_title'> "+getCustomeFormatDate("today")+ "</p> </div>" );
+        offline_list_selector = $("#ep_profile_user_list_offline_today") 
+        offline_list_selector.append(userElemenet)
+
+    }
 }
 
 var removeUserElementInUserList = function(userId){
