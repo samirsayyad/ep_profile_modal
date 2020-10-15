@@ -37,17 +37,22 @@ exports.decreaseUserFromList = function (userId){
     var selector_user = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ;
 
     if(selector_user.length){
-        moveOnlineUserToOffline(selector_user)
+        //moveOnlineUserToOffline(selector_user) /move to offline list
+        selector_user.animate({opacity: 0}, 1000,"linear",function()
+        {
+            $(this).remove();
+        }
+    )
     }else{
         var selector_on = $(".ep_profile_user_row[data-id=\"user_list_on_Anonymous\"]") ;
         if(selector_on.length){
             var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous\"]") ;
             decreaseFromOnlineAnonymous(selector_on,userId)
-            if(selector_off.length){
-                increaseToOfflineAnonymous(selector_off,userId)
-            }else{
-                createOfflineAnonymousElement(userId,defaultImg,null,null)
-            }
+            // if(selector_off.length){
+            //     increaseToOfflineAnonymous(selector_off,userId)
+            // }else{
+            //     createOfflineAnonymousElement(userId,defaultImg,null,null)
+            // }
         }
         else{
             $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo("#ep_profile_user_list_container_off")
@@ -145,7 +150,13 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                         {
                             var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl,false)
                             console.log("offline not ano",userListHtml)
-                            offline_list_selector.append(userListHtml);
+                            var selector_offlines_date = $("#ep_profile_user_list_offline_"+value.last_seen_date)
+                            if(selector_offlines_date.length){
+                                selector_offlines_date.append(userListHtml);
+                            }else{
+                                $("#ep_profile_user_list_container_off").append("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_"+
+                                value.last_seen_date+"'> <p class='ep_profile_user_date_title'> "+getCustomeFormatDate(value.last_seen_date)+ "</p> "+userListHtml+"</div>" );
+                            }
         
                         }else{
                             $(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").appendTo(offline_list_selector)
@@ -359,8 +370,9 @@ var getMonthName = function(monthNumber) {
     return months[monthNumber - 1];
 }
 var getCustomeFormatDate = function(date) {
+    if (date == "today" || date == "yesterday" ) return "Last seen "+date;
     date = date.split("-");
-    return date[2] + " " + getMonthName(date[1]) + " " + date[0]
+    return "Last seen "+ date[2] + " " + getMonthName(date[1]) + " " + date[0]
 }
 exports.removeUserElementInUserList = removeUserElementInUserList
 exports.createOnlineAnonymousElement = createOnlineAnonymousElement ;

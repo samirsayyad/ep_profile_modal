@@ -347,6 +347,12 @@ function sendToChat(authorID,padID , userName  ){
 }
 async function sendUsersListToAllUsers(pad_users,padId){
   var all_users_list =[]
+
+  var datetime = new Date();
+  var today = datetime.toISOString().slice(0,10) 
+  var yesterday = new Date(datetime)
+  yesterday.setDate(yesterday.getDate() - 1)
+  yesterday = yesterday.toISOString().slice(0,10) 
   async.forEach(pad_users ,async function(value , cb ){
     var user = await db.get("ep_profile_modal:"+value+"_"+padId) || {};
     var default_img ='/p/getUserProfileImage/'+value+"/"+padId+"?t="+(new Date().getTime())
@@ -359,12 +365,17 @@ async function sendUsersListToAllUsers(pad_users,padId){
       imageUrl : default_img , 
       about : user.about || "",
       homepage : user.homepage || "" ,
-      last_seen_date : user.last_seen_date || "" ,
+      last_seen_date :(( user.last_seen_date == today) ? "today" : ( user.last_seen_date == yesterday) ? "yesterday" : user.last_seen_date ) || "" ,
+      last_seen_timestamp : user.last_seen_timestamp || 0 ,
+
     })
 
     cb();
 
   },function(err){
+
+
+    all_users_list.sort((a,b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); 
 
     var msg = {
       type: "COLLABROOM",
@@ -374,7 +385,8 @@ async function sendUsersListToAllUsers(pad_users,padId){
           padId: padId,
           action:"EP_PROFILE_USERS_LIST",
           list :all_users_list ,
-          //userId :userId // context.clientVars.userId
+
+
         }
       },
     }

@@ -21,6 +21,7 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
 		var onlineUsers = pad.collabClient.getConnectedUsers();
+		console.log("pay;lpad", context.payload)
 		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
 	}
 	if(context.payload.action == "EP_PROFILE_USER_IMAGE_CHANGE"){ // when user A change image and user B want to know
