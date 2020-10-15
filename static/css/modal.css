@@ -242,15 +242,17 @@
     transform: scale(.7);
     opacity: 0;
     transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
-    padding-bottom: 2%;
+    /* padding-bottom: 2%; */
     overflow-y: scroll;
 }
 #ep_profile_modal_user_list_close{
-    color : black ;
+    color: black;
     float: right;
-    margin-right: 2%;
+    /* margin-right: 2%; */
     font-size: 14pt;
     cursor: pointer;
+    position: absolute;
+    right: 5px;
 }
 .ep_profile_user_row{
 
@@ -263,15 +265,21 @@
 .ep_profile_user_list_date_title{
     width: 100%;
     /* height: 40px; */
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
     /* padding-left: 10px; */
-    padding-top: 10px;
-    margin-bottom: 5px;
+    /* padding-top: 10px; */
+    /* margin-bottom: 5px; */
 }
 .ep_profile_user_date_title{
     width: 100%;
-     border-bottom: 1px solid gray;
- 
+    border-bottom: 1px solid gray;
+    color: black;
+    font-weight: bold;
+    padding-left: 11px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    padding-top: 5px;
+
 }
 .ep_profile_user_list_global_title{
     width: 100%;
@@ -285,8 +293,10 @@
 
     float: right;
     height: 128px;
-    width: 128px;
+    width: 140px;
     /* border-radius: 50%; */
+    border-left: 1px solid gray;
+    /* margin-left: -4px; */
 
 }
 .ep_profile_user_username{
@@ -325,9 +335,9 @@
 
 }
 .ep_profile_user_list_container_off{
-    margin-top: 5%;
+    /* margin-top: 5%;
     padding-top: 4%;
-    border-top: 1px solid lightgray;
+    border-top: 1px solid lightgray; */
     color: gray;
 
 }

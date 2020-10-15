@@ -97,7 +97,7 @@ exports.clientVars = async function  (hook, context, callback){
           //contributed_users : new_contributed_users ,
           //contributed_users_per_date : newArrayDate,
           about : user.about || "",
-          homepage : user.homepage || "#" ,
+          homepage : user.homepage || "" ,
           form_passed : user.form_passed || false ,
           verified : user.verified || false ,
           //today : todayDate
@@ -349,7 +349,7 @@ async function sendUsersListToAllUsers(pad_users,padId){
   var all_users_list =[]
   async.forEach(pad_users ,async function(value , cb ){
     var user = await db.get("ep_profile_modal:"+value+"_"+padId) || {};
-    var default_img ='/p/getUserProfileImage/'+value+"/"+padId+"t="+(new Date().getTime())
+    var default_img ='/p/getUserProfileImage/'+value+"/"+padId+"?t="+(new Date().getTime())
 
     all_users_list.push({
       userId : value ,
@@ -358,7 +358,7 @@ async function sendUsersListToAllUsers(pad_users,padId){
       userName : user.username  || defaultUserName,
       imageUrl : default_img , 
       about : user.about || "",
-      homepage : user.homepage || "#" ,
+      homepage : user.homepage || "" ,
       last_seen_date : user.last_seen_date || "" ,
     })
 
