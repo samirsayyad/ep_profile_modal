@@ -167,8 +167,8 @@ exports.handleMessage = async function(hook_name, context, callback){
               action:"EP_PROFILE_USER_LOGIN_UPDATE",
               userId: message.userId ,
               img:default_img,
-              email : message.email ,
-              userName : message.name ,
+              email : user.email ,
+              userName : user.username ,
               user : user
             }
           },
@@ -307,7 +307,7 @@ exports.handleMessage = async function(hook_name, context, callback){
       new_contributed_users[lastUserIndex].data.last_seen_date = _date
     }else{
       new_contributed_users.push({
-        userId : context.clientVars.userId,
+        userId : message.userId,
         data : {
           "last_seen_timestamp" :_timestamp,
           "last_seen_date" : _date ,
