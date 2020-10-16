@@ -32,6 +32,14 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
 			});
 		}
+
+		var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+context.payload.userId+"\"]") ; 
+		if(user_selector.length)
+		{
+			user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+			});
+		} 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
 		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
@@ -79,6 +87,14 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
 			});
 		}
+
+		// var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+context.payload.userId+"\"]") ; 
+		// if(user_selector.length)
+		// {
+		// 	user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+		// 	"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+		// 	});
+		// } 
 
 		/////////////////// related to user list when user has been loginned
 		var online_anonymous_selector = helper.isThereOnlineAnonymous()

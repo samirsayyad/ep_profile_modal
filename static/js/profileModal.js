@@ -139,8 +139,13 @@ exports.postAceInit = function (hook,context){
 					avatar.css({"background-position":"50% 50%",
 					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"});
 				}
-
-
+				var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+				if(user_selector.length)
+				{
+					user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+					});
+				} 
 					
 			},
 			error: function(xhr) { // if error occured
@@ -158,6 +163,13 @@ exports.postAceInit = function (hook,context){
 				$("#ep-profile-image").css({"background-position":"50% 50%",
 				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
 				});
+				var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+				if(user_selector.length)
+				{
+					user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+					});
+				} 
 			},
 			success: function(response){
 				var image_url ='/p/getUserProfileImage/'+userId+"/"+ clientVars.padId  +"?t=" + new Date().getTime();
@@ -174,6 +186,13 @@ exports.postAceInit = function (hook,context){
 				$("#ep-profile-image").css({"background-position":"50% 50%",
 				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
 				});
+				var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+				if(user_selector.length)
+				{
+					user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+					});
+				} 
 
 			}
 			

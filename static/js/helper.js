@@ -26,7 +26,7 @@ exports.increaseUserFromList = function (userId,padId){
 
 }
 
-exports.decreaseUserFromList = function (userId){
+exports.decreaseUserFromList = function (userId,padId){
 
     $(".avatar[data-id=\"user_"+userId+"\"]").animate({opacity: 0}, 1000,"linear",function()
         {
@@ -45,7 +45,7 @@ exports.decreaseUserFromList = function (userId){
     }else{
         var selector_on = $(".ep_profile_user_row[data-id=\"user_list_on_Anonymous\"]") ;
         if(selector_on.length){
-            var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous\"]") ;
+            var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous_today\"]") ;
             decreaseFromOnlineAnonymous(selector_on,userId)
             if(selector_off.length){
                 increaseToOfflineAnonymous(selector_off,userId)
@@ -54,9 +54,29 @@ exports.decreaseUserFromList = function (userId){
             }
         }
         else{
-            $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo("#ep_profile_user_list_container_off")
+            var offline_list_selector = $("#ep_profile_user_list_offline_today") 
+            if(offline_list_selector.length){
+                offline_list_selector.append($(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]"))
+            }else{
+                var offline_container = $("#ep_profile_user_list_container_off") 
+                offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_today'> <p class='ep_profile_user_date_title'> "+getCustomeFormatDate("today")+ "</p> </div>" );
+                offline_list_selector = $("#ep_profile_user_list_offline_today") 
+                $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo(offline_list_selector)
+        
+            }
+            //$(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo("#ep_profile_user_list_container_off")
         }
     }
+
+    //user img update
+    var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
+    var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+    if(user_selector.length)
+    {
+        user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+        });
+    } 
 
     
 
@@ -275,7 +295,18 @@ var increaseToOfflineAnonymous = function(selector_off,userId){
 var createOfflineAnonymousElement = function (userId,img,about,homepage){
     var userListHtml = getHtmlOfUsersList(userId ,"Anonymous" , img,"off_Anonymous",about,homepage)
     console.log("createOfflineAnonymousElement",userListHtml)
-    $("#ep_profile_user_list_container_off").append(userListHtml);
+    
+    //$("#ep_profile_user_list_container_off").append(userListHtml);
+    var offline_list_selector = $("#ep_profile_user_list_offline_today") 
+    if(offline_list_selector.length){
+        offline_list_selector.append(userListHtml)
+    }else{
+        var offline_container = $("#ep_profile_user_list_container_off") 
+        offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_today'> <p class='ep_profile_user_date_title'> "+getCustomeFormatDate("today")+ "</p> </div>" );
+        offline_list_selector = $("#ep_profile_user_list_offline_today") 
+        offline_list_selector.append(userListHtml)
+
+    }
 }
 
 
@@ -296,7 +327,7 @@ var createOnlineUserElementInUserList = function (userId,userName,img,currentUse
     }else {
         user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text(userName);
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+img+")" , "background-repeat":"no-repeat","background-size": "20px"
+        "background-image":"url("+img+")" , "background-repeat":"no-repeat","background-size": "128px"
         });
         //attr("src",img);
 
@@ -371,6 +402,14 @@ var refreshUserImage = function (userId ,padId ){
     $("#ep-profile-image").css({"background-position":"50% 50%",
     "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
     });
+
+    var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+    if(user_selector.length)
+    {
+        user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+        });
+    } 
 }
 var getMonthName = function(monthNumber) {
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

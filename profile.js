@@ -156,6 +156,27 @@ exports.handleMessage = async function(hook_name, context, callback){
         }
         form_passed = (user.about=="" || user.email=="" || user.homepage==""|| user.username=="" )? false : form_passed
         user.form_passed =form_passed
+
+        //send everybody
+        var msg = {
+          type: "COLLABROOM",
+          data: {
+            type: "CUSTOM",
+            payload : {
+              padId: message.padId ,
+              action:"EP_PROFILE_USER_LOGIN_UPDATE",
+              userId: message.userId ,
+              img:default_img,
+              email : message.email ,
+              userName : message.name ,
+              user : user
+            }
+          },
+        }
+        sendToRoom(msg)
+
+
+
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId,user) ;
   }
 
@@ -179,6 +200,7 @@ exports.handleMessage = async function(hook_name, context, callback){
           img:default_img,
           email : message.email ,
           userName : message.name ,
+          user : user
 
         }
       },
