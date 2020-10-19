@@ -1,13 +1,22 @@
 
 var shared = require("../shared")
 var helper = require("../helper")
-
+exports.showModal = function(){
+    $('#ep_profile_formModal').addClass('ep_profile_formModal_show')
+    $('#ep_profile_formModal_overlay').addClass('ep_profile_formModal_overlay_show')
+    $('#ep_profile_formModal_overlay').css({"display":"block"})
+}
+exports.resetModal = function(){
+    console.log()
+    var fieldsets = $("#ep_profile_formModal_msform fieldset") ;
+    fieldsets.each(function(index){
+        if (index==0) $(this).show(); else $(this).hide();    
+    })
+}
 exports.initModal = function(clientVars){
 
         var modal = $("#ep_profile_formModal_script").tmpl(clientVars);
         $("body").append(modal);
-        $('#ep_profile_formModal').addClass('ep_profile_formModal_show')
-        $('#ep_profile_formModal_overlay').addClass('ep_profile_formModal_overlay_show')
 
         //jQuery time
         var current_fs, next_fs, previous_fs; //fieldsets

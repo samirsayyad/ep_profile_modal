@@ -1,6 +1,7 @@
 var helper = require("./helper")
 var usersProfileSection = require("./userProfileSection/userProfileSection")
 var shared = require("./shared")
+var profileForm = require("./profileForm/main")
 
 exports.postAceInit = function (hook,context){
 	// console.log("samir",pad )
@@ -124,10 +125,14 @@ exports.postAceInit = function (hook,context){
 			$('#ep_profile_modal').addClass('ep_profile_modal-show')
 	
 		}else{
-			($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))?
-			$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
-			:
-			$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+			// ($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))?
+			// $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+			// :
+			// $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+			profileForm.resetModal()
+
+			profileForm.showModal()
+
 		}
 
 

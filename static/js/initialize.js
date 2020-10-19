@@ -7,8 +7,11 @@ exports.aceInitialized = function(hook, context){
     var userId = pad.getUserId()
     var modal = $("#ep_profile_askmodal_script").tmpl(clientVars);
 
+    profileForm.initModal(clientVars)
+
     if(clientVars.ep_profile_modal.form_passed !== true){
-        profileForm.initModal(clientVars)
+        profileForm.showModal()
+
     }
 
     /// user profile section
