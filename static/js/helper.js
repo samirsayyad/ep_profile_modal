@@ -170,7 +170,7 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                     }else{
                         if(!$(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").length)
                         {
-                            var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl,false)
+                            var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl,false,value.about,value.homepage)
                             console.log("offline not ano",userListHtml)
                             var selector_offlines_date = $("#ep_profile_user_list_offline_"+value.last_seen_date)
                             if(selector_offlines_date.length){
