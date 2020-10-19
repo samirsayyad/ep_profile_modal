@@ -2,6 +2,37 @@
     <div class='ep_profile_modal_user_list' id='ep_profile_modal_user_list'>
         <div id='ep_profile_modal_user_list_close'>&times;</div>
 
-     <div id="ep_profile_user_list_container" class="ep_profile_user_list_container"><div class="ep_profile_user_list_date_title" id="ep_profile_user_list_date_title">                 <p class="ep_profile_user_date_title"> Contributors </p>             </div><div class="ep_profile_user_list_date_title" id="ep_profile_user_list_offline_today"> <p class="ep_profile_user_date_title"> Last seen today</p> <div data-user-ids="a.Ym0QxTJOuLUXsYCu,a.Ym0QxTJOuLUXsYCu" data-anonymousecount="2" data-id="user_list_off_Anonymous_today" class="ep_profile_user_row"><div style="background: url(/p/getUserProfileImage/a.Ym0QxTJOuLUXsYCu/demo3?t=1603118613873) no-repeat 50% 50% ; background-size : 128px" class="ep_profile_user_img"></div><div class="ep_profile_user_list_profile_userDesc"><p class="ep_profile_user_list_username">Anonymous ×2</p><p class="ep_profile_user_list_profile_desc"></p><p class="ep_profile_user_list_profile_homepage"><a target="_blank" class="ep_profile_user_list_profile_homepage_link" href=""></a></p></div> </div></div><div data-anonymousecount="1" data-user-ids="a.wjDzHzgBnt2AcbZi" data-id="user_list_a.wjDzHzgBnt2AcbZi" class="ep_profile_user_row">                         <div class="ep_profile_user_img" style="background: url(&quot;/p/getUserProfileImage/a.wjDzHzgBnt2AcbZi/demo3t=1603118632910&quot;) 50% 50% / 128px no-repeat;"></div>                          <div class="ep_profile_user_list_profile_userDesc">                              <p class="ep_profile_user_list_username">Sam Sam</p>                     <p class="ep_profile_user_list_profile_desc">Nobody</p>                     <p class="ep_profile_user_list_profile_homepage">                         <a target="_blank" href="https://twitter.com/samir.sayyad "> https://twitter.com/samir.sayyad                          </a>                     </p>                          </div>             </div>                                                 <div data-id="user_list_a.f62GCz2aTkN74pK8" class="ep_profile_user_row"><div style="background: url(&quot;/p/getUserProfileImage/a.f62GCz2aTkN74pK8/demo3?t=1603118847204&quot;) 50% 50% / 128px no-repeat;" class="ep_profile_user_img"></div><div class="ep_profile_user_list_profile_userDesc"><p class="ep_profile_user_list_username">Edward Saperia</p><p class="ep_profile_user_list_profile_desc">Testing it out!</p><p class="ep_profile_user_list_profile_homepage"><a target="_blank" class="ep_profile_user_list_profile_homepage_link" href="https://twitter.com/edsaperia">https://twitter.com/edsaperia</a></p></div> </div><div data-id="user_list_a.SMX7DysjfQw1E3pX" class="ep_profile_user_row"><div style="background: url(/p/getUserProfileImage/a.SMX7DysjfQw1E3pX/demo3t=1603118215488) no-repeat 50% 50% ; background-size : 128px" class="ep_profile_user_img"></div><div class="ep_profile_user_list_profile_userDesc"><p class="ep_profile_user_list_username">Hossein</p><p class="ep_profile_user_list_profile_desc"></p><p class="ep_profile_user_list_profile_homepage"><a target="_blank" class="ep_profile_user_list_profile_homepage_link" href=""></a></p></div> </div><div data-id="user_list_a.toIiruYfrcrTseO4" class="ep_profile_user_row"><div style="background: url(/p/getUserProfileImage/a.toIiruYfrcrTseO4/demo3t=1603118126210) no-repeat 50% 50% ; background-size : 128px" class="ep_profile_user_img"></div><div class="ep_profile_user_list_profile_userDesc"><p class="ep_profile_user_list_username">samir 1</p><p class="ep_profile_user_list_profile_desc">Knock Knock</p><p class="ep_profile_user_list_profile_homepage"><a target="_blank" class="ep_profile_user_list_profile_homepage_link" href="https://api-dev-samir-docs-plus-nwspk.onultima.com/demo3">https://api-dev-samir-docs-plus-nwspk.onultima.com/demo3</a></p></div> </div></div>
+        <div id="ep_profile_user_list_container" class="ep_profile_user_list_container" >
+            <div class="ep_profile_user_list_date_title" id="ep_profile_user_list_date_title">
+                <p class='ep_profile_user_date_title'> Contributors </p>
+            </div>
+            <div data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
+       
+                <div class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px" ></div>
+        
+                <div class="ep_profile_user_list_profile_userDesc">
+        
+                    <p class="ep_profile_user_list_username">
+                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                    </p>
+                    <p class="ep_profile_user_list_profile_desc">
+                        ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
+
+                    </p>
+                    <p class="ep_profile_user_list_profile_homepage" >
+                        <a target="_blank" href="${ep_profile_modal.homepage} "> ${(ep_profile_modal.homepage !=="#") ? ep_profile_modal.homepage : "" } 
+                        </a>
+                    </p>
+        
+                </div>
+            </div>
+            
+
+        </div>
+
+
+        <div id="ep_profile_user_list_container_off" class="ep_profile_user_list_container_off" >
+
+        </div>
     </div>
 </script>
