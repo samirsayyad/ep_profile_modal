@@ -32,8 +32,10 @@ exports.initiateListeners = function(){
             success: function(response){
                 console.log(response)
                 var image_url ='/p/getUserProfileImage/'+userId+"/"+padId +"?t=" + new Date().getTime();
-
-                $("#ep_profile_users_profile_name").text(response.user.username)
+                var username= response.user.username
+                if (username ==null || username =="")
+                    username = "Anonymous"
+                $("#ep_profile_users_profile_name").text(username)
                 $("#ep_profile_users_profile_desc").text(response.user.about)
                 $("#ep_profile_users_profile_homepage").attr({"href":response.user.homepage})
                 $("#ep_profile_users_profile_homepage").text(response.user.homepage)

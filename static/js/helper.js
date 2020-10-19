@@ -313,16 +313,20 @@ var createOfflineAnonymousElement = function (userId,img,about,homepage){
 }
 
 
-var createOnlineUserElementInUserList = function (userId,userName,img,currentUserId){
+var createOnlineUserElementInUserList = function (userId,userName,img,currentUserId , user){
 
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
     if(!user_selector.length)
     {
-        var userListHtml = getHtmlOfUsersList(userId ,userName, img,false)
+        var userListHtml = getHtmlOfUsersList(userId ,userName, img,false,user.about , user.homepage)
         console.log("createOnlineUserElementInUserList",userListHtml)
         if (userId == currentUserId){ // it is owner 
-            $("#ep_profile_user_list_container").prepend(userListHtml);
-    
+            var titleOfContributors = $("#ep_profile_user_list_date_title")
+            if(titleOfContributors.length){
+                $(userListHtml).insertAfter(titleOfContributors)
+            }else{
+                $("#ep_profile_user_list_container").prepend(userListHtml);
+            }
         }else{
             $("#ep_profile_user_list_container").append(userListHtml);
     
@@ -355,8 +359,8 @@ var checkUserExistInOnlineAnonymous = function(selector_on,userId){
     }
 }
 
-var createOnlineAnonymousElement = function(userId , userName , imageUrl){
-    var userListHtml = getHtmlOfUsersList(userId ,userName ,  imageUrl,"on_Anonymous")
+var createOnlineAnonymousElement = function(userId , userName , imageUrl,user){
+    var userListHtml = getHtmlOfUsersList(userId ,userName ,  imageUrl,"on_Anonymous",user.about , user.homepage)
     console.log("createOnlineAnonymousElement",userListHtml)
     online_list_selector.append(userListHtml);
 }

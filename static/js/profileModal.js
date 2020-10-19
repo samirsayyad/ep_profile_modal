@@ -1,5 +1,6 @@
 var helper = require("./helper")
 var usersProfileSection = require("./userProfileSection/userProfileSection")
+var shared = require("./shared")
 
 exports.postAceInit = function (hook,context){
 	// console.log("samir",pad )
@@ -10,10 +11,67 @@ exports.postAceInit = function (hook,context){
 	usersProfileSection.initiateListeners()
 	
 	$("#ep_profile_modal_save").on("click",function(){
-		var username = $("#ep_profile_modal-username").val();
-		var email = $("#ep_profile_modal-email").val();
-		var about = $("#ep_profile_modal-about").val();
-		var homepage = $("#ep_profile_modal-homepage").val();
+		var userId = pad.getUserId() 
+		var padId =  pad.getPadId()
+		var username = $("#ep_profile_modal-username");
+		var email = $("#ep_profile_modal-email");
+		var about = $("#ep_profile_modal-about");
+		var homepage = $("#ep_profile_modal-homepage");
+		var pushNotification = $("#ep_profile_modal_push_notification").checked;
+		//validations
+		if (username.val() == "") {
+			username.css({"border":"1px solid red"})
+			return false;
+		}
+		username.css({"border":"1px solid gray"})
+
+		var userEmail =email.val()
+		if (!shared.isEmail(userEmail) || userEmail==""){
+			email.css({"border":"1px solid red"})
+			return false;
+		}
+		email.css({"border":"1px solid gray"})
+
+		var userLink = homepage.val()
+		console.log(shared.IsValid(userLink))
+		if (!shared.IsValid(userLink) || userLink==""){
+			homepage.css({"border":"1px solid red"})
+			return false;
+		}
+		homepage.css({"border":"1px solid gray"})
+	
+		//validations
+
+		var $form = $("#ep_profile_modal_one");
+		var data = shared.getFormData($form);
+
+		var message = {
+			type : 'ep_profile_modal',
+			action : "ep_profile_modal_info" ,
+			userId :  userId,
+			data: data,
+			padId : padId
+		  }
+		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+		pad.collabClient.updateUserInfo({
+			userId : padId,
+			name: username.val(),
+			colorId: "#b4b39a"
+		})
+
+		////
+		if ( window.user_status == "login"){
+			($('#ep_profile_modal').hasClass('ep_profile_modal-show'))?
+			$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+			:
+			$('#ep_profile_modal').addClass('ep_profile_modal-show')
+	
+		}else{
+			($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))?
+			$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+			:
+			$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+		}
 	})
 
 	$("#userlist_count,#ep_profile_modal_user_list_close").on('click', function(){

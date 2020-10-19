@@ -103,7 +103,7 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 			
 				helper.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
 			}else{
-				helper.createOnlineAnonymousElement(context.payload.userId,context.payload.userName,context.payload.img)
+				helper.createOnlineAnonymousElement(context.payload.userId,context.payload.userName,context.payload.img,context.payload.user)
 			}
 
 			helper.removeUserElementInUserList(context.payload.userId)
@@ -115,9 +115,15 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 					helper.decreaseFromOnlineAnonymous(online_anonymous_selector,context.payload.userId)
 				}
 			}
-			helper.createOnlineUserElementInUserList(context.payload.userId,context.payload.userName,context.payload.img ,current_user_id )
+			helper.createOnlineUserElementInUserList(context.payload.userId,context.payload.userName,context.payload.img ,current_user_id  , context.payload.user)
 		}
 
+
+
+		// profileModal.html
+
+		
+		// profileModal.html
 
 
 	}
