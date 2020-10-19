@@ -1,5 +1,5 @@
 var helper = require("./helper")
-
+var syncData = require("./syncData")
 exports.handleClientMessage_USER_NEWINFO = function(hook, context){
 	var padId = pad.getPadId()
 
@@ -79,6 +79,9 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
 			});
 			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
+
+			syncData.syncAllFormsData(context.payload.userId , context.payload.user)
+
 		}
 		//$(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]").attr("src",context.payload.img)
 		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
@@ -124,6 +127,7 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 		
 		// profileModal.html
+
 
 
 	}
