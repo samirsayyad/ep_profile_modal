@@ -35,10 +35,13 @@ exports.initiateListeners = function(){
                 var username= response.user.username
                 if (username ==null || username =="")
                     username = "Anonymous"
+                var about = response.user.about || ""
+                var homepage = response.user.homepage || ""
+                
                 $("#ep_profile_users_profile_name").text(username)
-                $("#ep_profile_users_profile_desc").text(response.user.about)
-                $("#ep_profile_users_profile_homepage").attr({"href":response.user.homepage})
-                $("#ep_profile_users_profile_homepage").text(response.user.homepage)
+                $("#ep_profile_users_profile_desc").text(about)
+                $("#ep_profile_users_profile_homepage").attr({"href":homepage})
+                $("#ep_profile_users_profile_homepage").text(homepage)
 
                 $('#ep_profile_users_profile').addClass('ep_profile_formModal_show')
 

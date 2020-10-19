@@ -178,7 +178,6 @@ exports.initModal = function(clientVars){
         function nextHandler(current_fs,next_fs){
             console.log("clicked")
             if(animating) return false;
-            animating = true;
 
             var currentSection = current_fs.attr("data-section")
             if (currentSection=="name"){
@@ -211,6 +210,7 @@ exports.initModal = function(clientVars){
             if (currentSection=="image"){
                 uploadImg()
             }
+
 
             animating = true;
             current_fs.hide();

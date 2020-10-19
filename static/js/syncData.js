@@ -16,10 +16,10 @@ exports.syncAllFormsData = function (userId,data){
 
     // profile card 
 
-        $("#ep_profile_users_profile_name").text(data.username)
-        $("#ep_profile_users_profile_desc").text(data.about)
-        $("#ep_profile_users_profile_homepage").attr({"href":data.homepage})
-        $("#ep_profile_users_profile_homepage").text(data.homepage)
+        // $("#ep_profile_users_profile_name").text(data.username)
+        // $("#ep_profile_users_profile_desc").text(data.about)
+        // $("#ep_profile_users_profile_homepage").attr({"href":data.homepage})
+        // $("#ep_profile_users_profile_homepage").text(data.homepage)
 
     // profile card 
 
