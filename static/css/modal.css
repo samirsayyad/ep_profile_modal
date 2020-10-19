@@ -258,7 +258,8 @@
 
     /* padding-left: 10%;
     padding-right: 10%; */
-    height: 130px;
+    min-height: 130px;
+    height: auto;
     /* padding-top: 5px; */
     border-bottom: 1px solid gray;
 }
@@ -332,7 +333,8 @@
     text-align: left;
     word-break: break-all;
     margin-top: 20px;
-
+    height: 39px;
+    overflow: hidden;
 }
 .ep_profile_user_list_container_off{
     /* margin-top: 5%;
