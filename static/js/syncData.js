@@ -24,14 +24,14 @@ exports.syncAllFormsData = function (userId,data){
     // profile card 
 
     // profile modal
-        $("#ep_profile_modal-username").text(data.username)
-        $("#ep_profile_modal-about").text(data.about)
-        $("#ep_profile_modal-homepage").text(data.homepage)
-        $("#ep_profile_modal-email").text(data.homepage)
-        if(data.push_notification == false)
-            $("#ep_profile_modal_push_notification").attr('checked','')
-        else
-            $("#ep_profile_modal_push_notification").attr('checked','checked')
+        $("#ep_profile_modal-username").val(data.username)
+        $("#ep_profile_modal-about").val(data.about)
+        $("#ep_profile_modal-homepage").val(data.homepage)
+        $("#ep_profile_modal-email").val(data.homepage)
+        // if(data.push_notification == false)
+        //     $("#ep_profile_modal_push_notification").attr('checked','')
+        // else
+        //     $("#ep_profile_modal_push_notification").attr('checked','checked')
 
     // profile modal
 

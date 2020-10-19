@@ -17,7 +17,7 @@ exports.postAceInit = function (hook,context){
 		var email = $("#ep_profile_modal-email");
 		var about = $("#ep_profile_modal-about");
 		var homepage = $("#ep_profile_modal-homepage");
-		var pushNotification = $("#ep_profile_modal_push_notification").checked;
+		//var pushNotification = $("#ep_profile_modal_push_notification").checked;
 		//validations
 		if (username.val() == "") {
 			username.css({"border":"1px solid red"})

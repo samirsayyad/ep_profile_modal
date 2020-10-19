@@ -40,18 +40,18 @@
                 <input type="button" name="next" class="next action-button" value="Next" />
  
         </fieldset>
-        <fieldset>
+        <fieldset  data-section="image">
             <h3 class="fs-subtitle">3/5</h3>
             <h2 class="fs-title">Picture</h2>
 
        
-            <label class="lable_ep_profile_modal_section_image_big" for="profile_file">
-                <div class='ep_profile_modal_section_image_big' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%;background-size: 96px"  ></div>
+            <label class="lable_ep_profile_modal_section_image_big" for="profile_file_modal">
+                <div id="profile_modal_selected_image" class='ep_profile_modal_section_image_big' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%;background-size: 96px"  ></div>
             </label>  
-            <label class="lable_ep_profile_modalForm_button" for="profile_file">
+            <label class="lable_ep_profile_modalForm_button" for="profile_file_modal">
                 <div class="upload upload-button" >Upload</div>
             </label>
-            <input accept="image/*" type="file" id="profile_file" class="ep_profile_modal_file" name="profile_file" /> 
+            <input accept="image/*" type="file" id="profile_file_modal" class="ep_profile_modal_file" name="profile_file_modal" /> 
             
             <label class="lable_ep_profile_modalForm_clear_button">
                 

@@ -209,7 +209,7 @@ var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,abou
             "<p class='ep_profile_user_list_username'>" + username + "</p>" +
             "<p class='ep_profile_user_list_profile_desc'>" +  about   + "</p>" +
             "<p class='ep_profile_user_list_profile_homepage'>"+ 
-            "<a  class='ep_profile_user_list_profile_homepage_link'  href='"+ homepage  +"'>" + homepage + "</a>" +"</p>" +
+            "<a target='_blank'  class='ep_profile_user_list_profile_homepage_link'  href='"+ homepage  +"'>" + homepage + "</a>" +"</p>" +
              "</div> </div>") ;
     }else{
 
@@ -219,7 +219,7 @@ var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,abou
             "<p class='ep_profile_user_list_username'>" + username + "</p>" +
             "<p class='ep_profile_user_list_profile_desc'>" +  about + "</p>" +
             "<p class='ep_profile_user_list_profile_homepage'>"+ 
-            "<a class='ep_profile_user_list_profile_homepage_link' href='"+homepage+"'>" + homepage+ "</a>" +"</p>" +
+            "<a target='_blank'  class='ep_profile_user_list_profile_homepage_link' href='"+homepage+"'>" + homepage+ "</a>" +"</p>" +
             "</div> </div>") ;
     }
    
