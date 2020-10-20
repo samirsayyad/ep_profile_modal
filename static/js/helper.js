@@ -384,9 +384,9 @@ var removeUserElementInUserList = function(userId){
 var userLogin = function(data){
     
     window.user_status = "login"
-    $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
-    $("#ep_profile_modal_section_info_email").text(data.email)
-    $("#ep_profile_modal_section_info_name").text(data.username)
+    //$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+    //$("#ep_profile_modal_section_info_email").text(data.email)
+    //$("#ep_profile_modal_section_info_name").text(data.username)
     pad.collabClient.updateUserInfo({
         userId :  pad.getUserId() ,
         name: data.username,

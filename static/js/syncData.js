@@ -37,3 +37,10 @@ exports.syncAllFormsData = function (userId,data){
 
 
 }
+
+exports.resetProfileModalFields = function(){
+    $("#ep_profile_modal-username").val("")
+    $("#ep_profile_modal-about").val("")
+    $("#ep_profile_modal-homepage").val("")
+    $("#ep_profile_modal-email").val("")
+}

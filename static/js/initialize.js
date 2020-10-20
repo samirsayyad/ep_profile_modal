@@ -37,7 +37,10 @@ exports.aceInitialized = function(hook, context){
         window.user_status = "out";
         if (clientVars.ep_profile_modal.form_passed == true){
             setTimeout(function() { 
-                $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+                profileForm.showModal()
+
+                //$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+
             }, 1000);
         }
 

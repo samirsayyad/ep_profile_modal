@@ -1,8 +1,7 @@
-var helper = require("./helper")
 var usersProfileSection = require("./userProfileSection/userProfileSection")
 var shared = require("./shared")
 var profileForm = require("./profileForm/main")
-
+var syncData = require("./syncData")
 exports.postAceInit = function (hook,context){
 	// console.log("samir",pad )
 	// console.log("samir",pad.collabClient )
@@ -62,17 +61,23 @@ exports.postAceInit = function (hook,context){
 
 		////
 		if ( window.user_status == "login"){
-			($('#ep_profile_modal').hasClass('ep_profile_modal-show'))?
-			$('#ep_profile_modal').removeClass('ep_profile_modal-show')
-			:
-			$('#ep_profile_modal').addClass('ep_profile_modal-show')
+			if($('#ep_profile_modal').hasClass('ep_profile_modal-show')){
+				$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+			}
+			else{
+				$('#ep_profile_modal').addClass('ep_profile_modal-show')
+				$("#online_ep_profile_modal_status").show()
+				$("#offline_ep_profile_modal_status").hide()
+			}
+			
 	
-		}else{
-			($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))?
-			$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
-			:
-			$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
 		}
+		// else{
+		// 	($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))?
+		// 	$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+		// 	:
+		// 	$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+		// }
 	})
 
 	$("#userlist_count,#ep_profile_modal_user_list_close").on('click', function(){
@@ -117,12 +122,17 @@ exports.postAceInit = function (hook,context){
 		return false;
 	})
 
+
 	$('#ep-profile-button').on('click', function(){
 		if ( window.user_status == "login"){
-			($('#ep_profile_modal').hasClass('ep_profile_modal-show'))?
-			$('#ep_profile_modal').removeClass('ep_profile_modal-show')
-			:
-			$('#ep_profile_modal').addClass('ep_profile_modal-show')
+			if($('#ep_profile_modal').hasClass('ep_profile_modal-show')){
+				$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+			}
+			else{
+				$('#ep_profile_modal').addClass('ep_profile_modal-show')
+				$("#online_ep_profile_modal_status").show()
+				$("#offline_ep_profile_modal_status").hide()
+			}
 	
 		}else{
 			// ($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))?
@@ -169,8 +179,12 @@ exports.postAceInit = function (hook,context){
 		  }
 		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
 		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
-		$('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
-
+		$("#online_ep_profile_modal_status").hide()
+		$("#offline_ep_profile_modal_status").show()
+		// $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+		syncData.resetProfileModalFields()
+		$('#ep_profile_modal').addClass('ep_profile_modal-show')
+		
 	  })
 
 
@@ -266,55 +280,16 @@ exports.postAceInit = function (hook,context){
 		
 		var username = $("#ep_profile_modal_username").val();
 		var email = $("#ep_profile_modal_email").val();
-		if(username == "" || !isEmail(email)){
 
-			if (!isEmail(email)  ){
-				$("#ep_profile_modal_email").focus()
-				$('#ep_profile_modal_email').addClass('ep_profile_modal_validation_error')
+		shared.loginByEmailAndUsername(username , email)
 
-			}
-			return false;
-		}else{
-
-			$('#ep_profile_modal_email').removeClass('ep_profile_modal_validation_error')
-
-			window.user_status = "login"
-			pad.collabClient.updateUserInfo({
-				userId :  pad.getUserId() ,
-				name: username,
-				colorId: "#b4b39a"
-			} )
-			var message = {
-				type : 'ep_profile_modal',
-				action : "ep_profile_modal_login" ,
-				email : email ,
-				userId :  pad.getUserId() ,
-				name: username,
-				padId : pad.getPadId()
-			  }
-			pad.collabClient.sendMessage(message);  // Send the chat position message to the server
-			//$('#ep_profile_modal').addClass('ep_profile_modal-show')
-			helper.userLogin({
-				email : email,
-				username : username,
-			})
-			// $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
-			// $("#ep_profile_modal_section_info_email").text(email)
-			// $("#ep_profile_modal_section_info_name").text(username)
-		}
 	})
 
+	$("#ep_profile_modal_login").on('click', function(){
+		var username = $("#ep_profile_modal-username").val();
+		var email = $("#ep_profile_modal-email").val();
+
+		shared.loginByEmailAndUsername(username , email)
+	})
 }
  
-function isEmail(email) {
-	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-	if(email=="")
-		return true
-	else
-		return regex.test(email);
-  }
-
-function isUsername(username) {
-var regex = /^([a-zA-Z0-9_.+-])/;
-return regex.test(username);
-}
