@@ -290,6 +290,8 @@ exports.postAceInit = function (hook,context){
 		var email = $("#ep_profile_modal-email").val();
 
 		shared.loginByEmailAndUsername(username , email)
+		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+
 	})
 }
  
