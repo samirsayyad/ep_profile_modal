@@ -98,32 +98,32 @@ exports.expressConfigure = async function (hookName, context) {
         var userId = req.params.userId;
         var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
 
-        if (message.email){
-            var generalUserEmail = await db.get("ep_profile_modal_email:"+message.userId) || {}  ; // for unique email per userId
+        if (user.email){
+            var generalUserEmail = await db.get("ep_profile_modal_email:"+userId) || {}  ; // for unique email per userId
             if (generalUserEmail.verified != true){
               var confirmCode = new Date().getTime().toString()
               generalUserEmail.confirmationCode = confirmCode
-              generalUserEmail.email = message.email
+              generalUserEmail.email = user.email
               var html =`<p> Please click on below link</p><p> 
-              <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(message.userId).toString('base64')}/
-              ${Buffer.from(message.padId).toString('base64')}/
+              <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/
+              ${Buffer.from(padId).toString('base64')}/
               ${Buffer.from(confirmCode).toString('base64')}
               '>Confirmation link</a> </p>`
       
               console.log(html)
               emailService.sendMail({
-                to : message.email ,
+                to : user.email ,
                 subject : "docs.plus email confirmation",
                 html: html
               })
               .then((data)=>{
-                  console.log(data,"from email")
+                  console.log(data,"from email",data.messageId)
               })
               .catch((err)=>{
-                console.log(err,"from email")
+                console.log(err.message,"error from email")
               })
       
-              db.set("ep_profile_modal_email:"+message.userId, generalUserEmail) 
+              db.set("ep_profile_modal_email:"+userId, generalUserEmail) 
           }
       
       

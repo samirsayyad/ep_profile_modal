@@ -8,7 +8,7 @@ module.exports = {
         return new Promise(async(resolve,reject)=>{
             try {
               var settings = await db.get("ep_profile_modal_settings") || {};
-
+              console.log(message,settings)
               let transporter = nodemailer.createTransport({
                   host: settings.settingsEmailSmtp,
                   port: settings.settingsEmailPort,

@@ -223,8 +223,6 @@ exports.handleMessage = async function(hook_name, context, callback){
 
         console.log(html)
         emailService.sendMail({
-          fromName : settings.ep_profile_modal.email.template.fromName,
-          fromEmail : settings.ep_profile_modal.email.template.fromEmail,
           to : message.email ,
           subject : "docs.plus email confirmation",
           html: html
