@@ -35,6 +35,10 @@ exports.expressConfigure = async function (hookName, context) {
             user.updateDate = new Date()
             user.verifiedDate = new Date()
             db.set("ep_profile_modal_email:"+userId,user) 
+
+            var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+            user.verified = true 
+            db.set("ep_profile_modal:"+userId+"_"+padId,user)
         }
         return res.redirect(`/${padId}`)
 
