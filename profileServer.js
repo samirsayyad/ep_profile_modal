@@ -105,10 +105,7 @@ exports.expressConfigure = async function (hookName, context) {
               generalUserEmail.confirmationCode = confirmCode
               generalUserEmail.email = user.email
               var html =`<p> Please click on below link</p><p> 
-              <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/
-              ${Buffer.from(padId).toString('base64')}/
-              ${Buffer.from(confirmCode).toString('base64')}
-              '>Confirmation link</a> </p>`
+              <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}'>Confirmation link</a> </p>`
       
               console.log(html)
               emailService.sendMail({
