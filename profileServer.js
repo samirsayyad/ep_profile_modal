@@ -11,6 +11,7 @@ const AWS = require('aws-sdk');
 const resizeImg = require('resize-img');
 var sizeOf =  require('buffer-image-size');
 var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
+const emailService = require("./email")
 
 exports.expressConfigure = async function (hookName, context) {
 
@@ -115,10 +116,11 @@ exports.expressConfigure = async function (hookName, context) {
                 subject : "docs.plus email confirmation",
                 html: html
               })
-              .then(()=>{
+              .then((data)=>{
+                  console.log(data,"from email")
               })
               .catch((err)=>{
-                console.log(err)
+                console.log(err,"from email")
               })
       
               db.set("ep_profile_modal_email:"+message.userId, generalUserEmail) 
