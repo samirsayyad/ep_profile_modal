@@ -95,12 +95,38 @@ exports.expressConfigure = async function (hookName, context) {
     context.app.get('/p/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId',async function (req, res, next) {
         var padId = req.params.padId;
         var userId = req.params.userId;
-        db.set("ep_profile_modal_image:"+userId , "reset");
         var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
-            user.image = "reset"
-            user.updateDate = new Date()
 
-        await db.set("ep_profile_modal:"+userId+"_"+padId,user) ;
+        if (message.email){
+            var generalUserEmail = await db.get("ep_profile_modal_email:"+message.userId) || {}  ; // for unique email per userId
+            if (generalUserEmail.verified != true){
+              var confirmCode = new Date().getTime().toString()
+              generalUserEmail.confirmationCode = confirmCode
+              generalUserEmail.email = message.email
+              var html =`<p> Please click on below link</p><p> 
+              <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(message.userId).toString('base64')}/
+              ${Buffer.from(message.padId).toString('base64')}/
+              ${Buffer.from(confirmCode).toString('base64')}
+              '>Confirmation link</a> </p>`
+      
+              console.log(html)
+              emailService.sendMail({
+                to : message.email ,
+                subject : "docs.plus email confirmation",
+                html: html
+              })
+              .then(()=>{
+              })
+              .catch((err)=>{
+                console.log(err)
+              })
+      
+              db.set("ep_profile_modal_email:"+message.userId, generalUserEmail) 
+          }
+      
+      
+      
+        }
         return res.status(201).json({"status":"ok"})
 
     })

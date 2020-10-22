@@ -21,7 +21,7 @@ module.exports = {
               
                 // send mail with defined transport object
                 let info = await transporter.sendMail({
-                  from: `${message.fromName} <${message.fromEmail}>`, // sender address
+                  from: `${settings.settingsEmailFromName} <${settings.settingsEmailFromEmail}>`, // sender address
                   to: message.to, // list of receivers
                   subject: message.subject, // Subject line
                   //text: message.text,"Hello world?", // plain text body
