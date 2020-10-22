@@ -132,7 +132,12 @@ exports.getFormData = function ($form){
 
     return indexed_array;
 }
-
+exports.setFormData = function ($form,indexed_array){
+    $.map(indexed_array, function(n, i){
+        $("#"+i).val(n)
+        
+    });
+}
 
 exports.isUsername =function (username) {
     var regex = /^([a-zA-Z0-9_.+-])/;

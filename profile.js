@@ -328,11 +328,11 @@ exports.handleMessage = async function(hook_name, context, callback){
   }
 }
 
-exports.socketio = function (hook, context, callback)
-{
-  socketio = context.io;
-  callback();
-};
+// exports.socketio = function (hook, context, callback)
+// {
+//   socketio = context.io;
+//   callback();
+// };
 
 function emailConfirmationSend(){
   

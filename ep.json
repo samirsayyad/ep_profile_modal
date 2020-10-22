@@ -7,7 +7,8 @@
 				"aceInitialized":"ep_profile_modal/static/js/initialize",
 				"handleClientMessage_USER_NEWINFO": "ep_profile_modal/static/js/usersList",
 				"handleClientMessage_USER_LEAVE" :  "ep_profile_modal/static/js/usersList",
-				"handleClientMessage_CUSTOM": "ep_profile_modal/static/js/usersList"
+				"handleClientMessage_CUSTOM": "ep_profile_modal/static/js/usersList",
+                "documentReady" : "ep_profile_modal/static/js/admin/admin:documentReady"
 
 			},
 			"hooks":{
@@ -15,8 +16,11 @@
 				"clientVars": "ep_profile_modal/profile",
 				"handleMessage": "ep_profile_modal/profile",
 				"eejsBlock_scripts":"ep_profile_modal/profile",
-				"socketio": "ep_profile_modal/profile",
-				"expressConfigure": "ep_profile_modal/profileServer:expressConfigure"
+				
+				"expressConfigure": "ep_profile_modal/profileServer:expressConfigure",
+                "expressCreateServer" : "ep_profile_modal/server/admin/admin:registerRoute",
+                "eejsBlock_adminMenu" : "ep_profile_modal/server/admin/admin:eejsBlock_adminMenu",
+                "socketio" : "ep_profile_modal/server/admin/admin:socketio"
 
 			}
 		}
