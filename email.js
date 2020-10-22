@@ -1,19 +1,21 @@
 "use strict";
 const nodemailer = require("nodemailer");
 const settings = require('ep_etherpad-lite/node/utils/Settings');
+var db = require('ep_etherpad-lite/node/db/DB');
 
 module.exports = {
     sendMail : async (message)=> {
-        var params = settings.ep_profile_modal.email
         return new Promise(async(resolve,reject)=>{
             try {
+              var settings = await db.get("ep_profile_modal_settings") || {};
+
               let transporter = nodemailer.createTransport({
-                  host: params.smtp,
-                  port: params.port,
+                  host: settings.settingsEmailSmtp,
+                  port: settings.settingsEmailPort,
                   secure: false, // true for 465, false for other ports
                   auth: {
-                    user: params.user, // generated ethereal user
-                    pass: params.pass, // generated ethereal password
+                    user: settings.settingsEmailUser, // generated ethereal user
+                    pass: settings.settingsEmailPassword, // generated ethereal password
                   },
                 });
               
