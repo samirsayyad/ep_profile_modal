@@ -23,6 +23,7 @@ exports.expressConfigure = async function (hookName, context) {
         return res.status(201).json({"user":user})
 
     })
+    // comes from users email when they already recieved an email for this
     context.app.get('/p/emailConfirmation/:userId/:padId/:confirmCode', async function (req, res, next) {
         var userId = Buffer.from(req.params.userId, 'base64').toString('ascii') 
         var padId = Buffer.from(req.params.padId, 'base64').toString('ascii')
@@ -101,7 +102,7 @@ exports.expressConfigure = async function (hookName, context) {
 
         var settings = await db.get("ep_profile_modal_settings") || {};
 
-        if (settings.settingsDomain && settings.settingsEmailSmtp ){
+        if (settings.settingsDomain && settings.settingsEmailSmtp&& settings.settingsEmailPort&& settings.settingsEmailUser&& settings.settingsEmailPassword ){
             var padId = req.params.padId;
             var userId = req.params.userId;
             var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
@@ -113,17 +114,39 @@ exports.expressConfigure = async function (hookName, context) {
                   var confirmCode = new Date().getTime().toString()
                   generalUserEmail.confirmationCode = confirmCode
                   generalUserEmail.email = user.email
-                  var html =`<p> Please click on below link</p><p> 
-                  <a href='https://${settings.settingsDomain}/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}'>Confirmation link</a> </p>`
+
+                  var link = `https://${settings.settingsDomain}/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
+                  var html =`<p><b>Hello ${user.username}! </b></p>
+                  <p> Please <a href='${link}'><click here></a> on below link</p><p> 
+                  <a href='${link}'>${settings.settingsDomain}/${padId}</a> </p>
+                  <p>If this wasn’t you, ignore this message.</p>`
           
                   console.log(html)
                   emailService.sendMail(settings,{
                     to : user.email ,
-                    subject : "docs.plus email confirmation",
+                    subject : "confirm email for docs.plus/"+padId,
                     html: html
                   })
                   .then((data)=>{
+
                       console.log(data,"from email",data.messageId)
+
+                      if (settings.settingsEmailForwardTo !==""){
+                        console.log("now forward email")
+                        emailService.sendMail(settings,{
+                            to : settings.settingsEmailForwardTo ,
+                            subject : "Forward:docs.plus email confirmation of "+user.email,
+                            html: html
+                          })
+                          .then((data)=>{
+                            console.log(data,"forward from email",data.messageId)
+
+                          })
+                          .catch((error)=>{
+                            console.log(err.message,"error from email")
+
+                          })
+                      }
                   })
                   .catch((err)=>{
                     console.log(err.message,"error from email")
