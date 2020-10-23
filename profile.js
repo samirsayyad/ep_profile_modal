@@ -63,7 +63,10 @@ exports.clientVars = async function  (hook, context, callback){
   user.last_seen_date = datetime.toISOString().slice(0,10) 
   db.set("ep_profile_modal:"+context.clientVars.userId+"_"+padId,user)
 
-
+  var email_verified =false
+  if(user.email){
+    email_verified =  await db.get("ep_profile_modal_email_verified:"+user.email) || false
+  }
 
 
   // var todayDate =  datetime.toISOString().slice(0,10) 
@@ -99,7 +102,7 @@ exports.clientVars = async function  (hook, context, callback){
           about : user.about || "",
           homepage : user.homepage || "" ,
           form_passed : user.form_passed || false ,
-          verified : user.verified || false ,
+          verified : user.verified || email_verified ,
           //today : todayDate
 
       }
@@ -138,6 +141,10 @@ exports.handleMessage = async function(hook_name, context, callback){
   var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
 
   if(message.action ==="ep_profile_modal_info"){
+    var email_verified =false
+    if(message.data.ep_profile_modalForm_email){
+      email_verified =  await db.get("ep_profile_modal_email_verified:"+message.data.ep_profile_modalForm_email) || false
+    }
     var form_passed = true
         user.about = message.data.ep_profile_formModal_about_yourself
         user.email =  message.data.ep_profile_modalForm_email
@@ -145,7 +152,7 @@ exports.handleMessage = async function(hook_name, context, callback){
         user.username =  message.data.ep_profile_modal_name
         user.createDate = (user.createDate) ? user.createDate : new Date() ;
         user.updateDate = new Date() ;
-
+        user.verified = email_verified
         user.status = "2"
         if (!user.image){
           var profile_url = gravatar.profile_url(user.email, {protocol: 'https' });
@@ -183,12 +190,17 @@ exports.handleMessage = async function(hook_name, context, callback){
 
 
   if(message.action === 'ep_profile_modal_login'){
-
+    var email_verified =false
+    if(message.email){
+      email_verified =  await db.get("ep_profile_modal_email_verified:"+message.email) || false
+    }
     user.createDate = (user.createDate) ? user.createDate : new Date() ;
     user.updateDate = new Date() ;
     user.email = message.email || ""
     user.status = "2"
     user.username = message.name || ""
+    user.verified = email_verified
+
     var msg = {
       type: "COLLABROOM",
       data: {
@@ -208,37 +220,34 @@ exports.handleMessage = async function(hook_name, context, callback){
     sendToRoom(msg)
     sendToChat(message.userId ,message.padId ,message.name)
 
-    // email verification 
-    if (message.email){
-      var generalUserEmail = await db.get("ep_profile_modal_email:"+message.userId) || {}  ; // for unique email per userId
-      if (generalUserEmail.verified != true){
-        var confirmCode = new Date().getTime().toString()
-        generalUserEmail.confirmationCode = confirmCode
-        generalUserEmail.email = message.email
-        var html =`<p> Please click on below link</p><p> 
-        <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(message.userId).toString('base64')}/
-        ${Buffer.from(message.padId).toString('base64')}/
-        ${Buffer.from(confirmCode).toString('base64')}
-        '>Confirmation link</a> </p>`
+    //email verification 
+    // if (message.email){
+    //   var generalUserEmail = await db.get("ep_profile_modal_email:"+message.userId) || {}  ; // for unique email per userId
+    //   if (generalUserEmail.verified != true){
+    //     var confirmCode = new Date().getTime().toString()
+    //     generalUserEmail.confirmationCode = confirmCode
+    //     generalUserEmail.email = message.email
+    //     var html =`<p> Please click on below link</p><p> 
+    //     <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(message.userId).toString('base64')}/
+    //     ${Buffer.from(message.padId).toString('base64')}/
+    //     ${Buffer.from(confirmCode).toString('base64')}
+    //     '>Confirmation link</a> </p>`
 
-        console.log(html)
-        emailService.sendMail({
-          to : message.email ,
-          subject : "docs.plus email confirmation",
-          html: html
-        })
-        .then(()=>{
-        })
-        .catch((err)=>{
-          console.log(err)
-        })
+    //     console.log(html)
+    //     emailService.sendMail({
+    //       to : message.email ,
+    //       subject : "docs.plus email confirmation",
+    //       html: html
+    //     })
+    //     .then(()=>{
+    //     })
+    //     .catch((err)=>{
+    //       console.log(err)
+    //     })
 
-        db.set("ep_profile_modal_email:"+message.userId, generalUserEmail) 
-    }
-
-
-
-    }
+    //     db.set("ep_profile_modal_email:"+message.userId, generalUserEmail) 
+    // }
+   // }
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
   }

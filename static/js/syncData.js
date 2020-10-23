@@ -28,6 +28,14 @@ exports.syncAllFormsData = function (userId,data){
         $("#ep_profile_modal-about").val(data.about)
         $("#ep_profile_modal-homepage").val(data.homepage)
         $("#ep_profile_modal-email").val(data.email)
+        if(data.verified==true){
+            $("#ep_profile_modal_verification").attr("data-verification-status","true")
+            $("#ep_profile_modal_verification").text("Verified")
+        }else{
+            $("#ep_profile_modal_verification").attr("data-verification-status","false")
+            $("#ep_profile_modal_verification").text("Send verification email")
+        }
+
         // if(data.push_notification == false)
         //     $("#ep_profile_modal_push_notification").attr('checked','')
         // else
