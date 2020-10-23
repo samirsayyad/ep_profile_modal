@@ -116,8 +116,8 @@ exports.expressConfigure = async function (hookName, context) {
                   generalUserEmail.email = user.email
 
                   var link = `https://${settings.settingsDomain}/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
-                  var html =`<p><b>Hello ${user.username}! </b></p>
-                  <p> Please <a href='${link}'><click here></a> on below link</p><p> 
+                  var html =`<p>Hello <b>${user.username}! </b></p>
+                  <p> Please click <a href='${link}'>click here</a> on below link</p><p> 
                   <a href='${link}'>${settings.settingsDomain}/${padId}</a> </p>
                   <p>If this wasn’t you, ignore this message.</p>`
           
