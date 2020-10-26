@@ -58,12 +58,20 @@
     font-size: 14pt;
     color: black;
     margin-bottom: 5px;
+    font-style: italic;
+    text-align: left;
+    word-break: break-all;
+    height: 22px;
+    overflow: hidden;
 
 }
 .ep_profile_users_profile_desc{
     text-align: left;
     font-style: italic;
-
+    text-align: left;
+    word-break: break-all;
+    height: 22px;
+    overflow: hidden;
 }
 .ep_profile_users_profile_homepage{
     /* text-align:justify;
@@ -75,5 +83,7 @@
     word-break: break-all;
 
     margin-top: 20px;
+    height: 22px;
 
+    overflow: hidden;
 }
