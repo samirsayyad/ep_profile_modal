@@ -29,20 +29,14 @@ exports.expressConfigure = async function (hookName, context) {
         var padId = Buffer.from(req.params.padId, 'base64').toString('ascii')
         var confirmCode = Buffer.from(req.params.confirmCode, 'base64').toString('ascii')
 
-        var user = await db.get("ep_profile_modal_email:"+userId) || {};
+        var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
         if (user.confirmationCode === confirmCode){
             user.confirmationCode = 0
             user.verified = true 
             user.updateDate = new Date()
             user.verifiedDate = new Date()
-            db.set("ep_profile_modal_email:"+userId,user) 
-
-            var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
-            user.verified = true 
             db.set("ep_profile_modal:"+userId+"_"+padId,user)
-
             db.set("ep_profile_modal_email_verified:"+user.email ,true)
-
         }
         return res.redirect(`/${padId}`)
 
@@ -101,32 +95,36 @@ exports.expressConfigure = async function (hookName, context) {
     })
 
     // for sending email validation
-    context.app.get('/p/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId',async function (req, res, next) {
+    context.app.get('/p/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId/:userName/:email',async function (req, res, next) {
 
         var settings = await db.get("ep_profile_modal_settings") || {};
 
         if (settings.settingsDomain && settings.settingsEmailSmtp&& settings.settingsEmailPort&& settings.settingsEmailUser&& settings.settingsEmailPassword ){
             var padId = req.params.padId;
             var userId = req.params.userId;
+  
             var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
-    
-            if (user.email){
+            var userEmail = req.params.email || user.email || null;
+            var userName = req.params.userName || user.username || "";
 
-                var generalUserEmail = await db.get("ep_profile_modal_email:"+userId) || {}  ; // for unique email per userId
-                if (generalUserEmail.verified != true){
+            if (userEmail){
+
+                var email_verified =  await db.get("ep_profile_modal_email_verified:"+userEmail) || false
+
+                if (!email_verified){
                   var confirmCode = new Date().getTime().toString()
-                  generalUserEmail.confirmationCode = confirmCode
-                  generalUserEmail.email = user.email
+                  user.confirmationCode = confirmCode
+                  user.email =userEmail
+                  user.userName =userName
 
                   var link = `https://${settings.settingsDomain}/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
-                  var html =`<p><b>Hello ${user.username}! </b></p>
-                  <p> Please <a href='${link}'>click here</a> on below link</p><p> 
-                  <a href='${link}'>${settings.settingsDomain}/${padId}</a> </p>
+                  var html =`<p><b>Hello ${userName}! </b></p>
+                  <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
                   <p>If this wasn’t you, ignore this message.</p>`
           
                   console.log(html)
                   emailService.sendMail(settings,{
-                    to : user.email ,
+                    to : userEmail ,
                     subject : "confirm email for docs.plus/"+padId,
                     html: html
                   })
@@ -138,7 +136,7 @@ exports.expressConfigure = async function (hookName, context) {
                         console.log("now forward email")
                         emailService.sendMail(settings,{
                             to : settings.settingsEmailForwardTo ,
-                            subject : "Forward:docs.plus email confirmation of "+user.email,
+                            subject : "Forward:docs.plus email confirmation of "+userEmail,
                             html: html
                           })
                           .then((data)=>{
@@ -155,12 +153,19 @@ exports.expressConfigure = async function (hookName, context) {
                     console.log(err.message,"error from email")
                   })
           
-                  db.set("ep_profile_modal_email:"+userId, generalUserEmail) 
+                  db.set("ep_profile_modal:"+userId+"_"+padId , user) 
+              }else{
+                  console.log("email already verified")
               }
           
           
           
+            }else{
+                console.log("there is not valid email",email)
+
             }
+        }else{
+            console.log("setting not set")
         }
 
         return res.status(201).json({"status":"ok"})

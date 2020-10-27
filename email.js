@@ -16,7 +16,7 @@ module.exports = {
                     pass: settings.settingsEmailPassword, // generated ethereal password
                   },
                 });
-              
+                console.log(message)
                 // send mail with defined transport object
                 let info = await transporter.sendMail({
                   from: `${settings.settingsEmailFromName} <${settings.settingsEmailFromEmail}>`, // sender address

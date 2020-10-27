@@ -203,6 +203,7 @@ exports.initModal = function(clientVars){
                     $("#ep_profile_modalForm_email").css({"border":"1px solid red"})
                     return false;
                 }
+                sendEmailVerification(userEmail,$("#ep_profile_modalForm_name").val())
                 $("#ep_profile_modalForm_email").css({"border":"1px solid gray"})
             }
 
@@ -235,7 +236,34 @@ exports.initModal = function(clientVars){
 
 
 
+    function sendEmailVerification(email , username){
+        $.ajax({
+            url: '/p/' + pad.getPadId() + '/pluginfw/ep_profile_modal/sendVerificationEmail/'+pad.getUserId()+"/"+username+"/"+email ,
+            type: 'get',
+            data: {},
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                // setting a timeout
+                var image_url ='../static/plugins/ep_profile_modal/static/img/loading.gif'
 
+                $("#ep_profile_modal_verification").text("Sending...")
+                    
+            },
+            error: function(xhr) { // if error occured
+                $("#ep_profile_modal_verification").text("Error")
+                setTimeout(function() { 
+                    $("#ep_profile_modal_verification").text(oldText)
+                }, 2000);
+
+            },
+            success: function(response){
+                $("#ep_profile_modal_verification").text("Verification email has been sent.")
+                $("#ep_profile_modal_verification").attr("data-verification-status","true")
+            }
+            
+        })
+    }
 
 
 
