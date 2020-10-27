@@ -64,7 +64,19 @@ exports.resetAllProfileImage = function (userId,padId){
     })
 }
 
-
+exports.loginByEmailAndUsernameWithoutValidation =function(username , email){
+    window.user_status = "login"
+    var message = {
+        type : 'ep_profile_modal',
+        action : "ep_profile_modal_login" ,
+        email : email ,
+        userId :  pad.getUserId() ,
+        name: username,
+        padId : pad.getPadId()
+      }
+    pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+ 
+}
 exports.loginByEmailAndUsername = function(username , email){
     if(username == "" || !exports.isEmail(email)){
 

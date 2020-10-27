@@ -142,6 +142,7 @@ exports.initModal = function(clientVars){
         $(".clear").click(function(){
             shared.resetAllProfileImage($(this).attr("data-userId"),$(this).attr("data-padId"))
         })
+ 
         function submitHandle (){
             var userId = pad.getUserId() 
             var padId =  pad.getPadId()
@@ -195,7 +196,10 @@ exports.initModal = function(clientVars){
                     return false;
                 }
                 $("#ep_profile_modalForm_name").css({"border":"1px solid gray"})
-
+                // submit username once user input and press next
+                helper.userLogin({
+                    username : $("#ep_profile_modalForm_name").val(),
+                })
             }
             if (currentSection=="email"){
                 var userEmail = $("#ep_profile_modalForm_email").val()
@@ -203,8 +207,10 @@ exports.initModal = function(clientVars){
                     $("#ep_profile_modalForm_email").css({"border":"1px solid red"})
                     return false;
                 }
-                sendEmailVerification(userEmail,$("#ep_profile_modalForm_name").val())
+                var username = $("#ep_profile_modalForm_name").val()
+                sendEmailVerification(userEmail,username)
                 $("#ep_profile_modalForm_email").css({"border":"1px solid gray"})
+                shared.loginByEmailAndUsernameWithoutValidation(username,userEmail)
             }
 
             if (currentSection=="homepage"){
