@@ -201,6 +201,8 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
 
 var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,about,homepage){
     var style = "background: url("+img+") no-repeat 50% 50% ; background-size : 128px"
+    about = about || ""
+    homepage = homepage || ""
 
     if (anonymous_handler && username=="Anonymous"){
         return ("<div  data-user-ids='"+userId+"' data-anonymouseCount='1' data-id='user_list_"+anonymous_handler+"' class='ep_profile_user_row'>"+
@@ -209,7 +211,7 @@ var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,abou
             "<p class='ep_profile_user_list_username'>" + username + "</p>" +
             "<p class='ep_profile_user_list_profile_desc'>" +  about   + "</p>" +
             "<p class='ep_profile_user_list_profile_homepage'>"+ 
-            "<a target='_blank'  class='ep_profile_user_list_profile_homepage_link'  href='"+ homepage  +"'>" + homepage + "</a>" +"</p>" +
+            "<a target='_blank'  class='ep_profile_user_list_profile_homepage_link'  href='"+ getValidUrl(homepage)  +"'>" + homepage + "</a>" +"</p>" +
              "</div> </div>") ;
     }else{
 
@@ -219,7 +221,7 @@ var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,abou
             "<p class='ep_profile_user_list_username'>" + username + "</p>" +
             "<p class='ep_profile_user_list_profile_desc'>" +  about + "</p>" +
             "<p class='ep_profile_user_list_profile_homepage'>"+ 
-            "<a target='_blank'  class='ep_profile_user_list_profile_homepage_link' href='"+homepage+"'>" + homepage+ "</a>" +"</p>" +
+            "<a target='_blank'  class='ep_profile_user_list_profile_homepage_link' href='"+getValidUrl(homepage)+"'>" + homepage+ "</a>" +"</p>" +
             "</div> </div>") ;
     }
    
@@ -411,6 +413,7 @@ var refreshUserImage = function (userId ,padId ){
     });
 
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+    console.log("refreshUserImage : going to change",user_selector)
     if(user_selector.length)
     {
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
@@ -469,6 +472,21 @@ var getCustomeFormatDate = function(date) {
     date = date.split("-");
     return "Last seen "+ date[2] + " " + getMonthName(date[1]) + " " + date[0]
 }
+
+var getValidUrl  = function(url = ""){
+    if(url=="") return "";
+    let newUrl = window.decodeURIComponent(url);
+    newUrl = newUrl.trim().replace(/\s/g, "");
+
+    if(/^(:\/\/)/.test(newUrl)){
+        return `http${newUrl}`;
+    }
+    if(!/^(f|ht)tps?:\/\//i.test(newUrl)){
+        return `http://${newUrl}`;
+    }
+
+    return newUrl;
+};
 exports.removeUserElementInUserList = removeUserElementInUserList
 exports.createOnlineAnonymousElement = createOnlineAnonymousElement ;
 exports.isThereOnlineAnonymous = isThereOnlineAnonymous;

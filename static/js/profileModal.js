@@ -68,8 +68,11 @@ exports.postAceInit = function (hook,context){
 			}
 			else{
 				$('#ep_profile_modal').addClass('ep_profile_modal-show')
+				
 				$("#online_ep_profile_modal_status").show()
 				$("#offline_ep_profile_modal_status").hide()
+
+				shared.showGeneralOverlay()
 			}
 			
 	
@@ -83,10 +86,16 @@ exports.postAceInit = function (hook,context){
 	})
 
 	$("#userlist_count,#ep_profile_modal_user_list_close").on('click', function(){
-		($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show'))?
+		if($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show')){
 			$('#ep_profile_modal_user_list').removeClass('ep_profile_modal-show')
-			:
+			shared.hideGeneralOverlay()
+
+		}
+		else{
+			shared.showGeneralOverlay()
 			$('#ep_profile_modal_user_list').addClass('ep_profile_modal-show')
+		}
+		
 	})
 
 	$("#ep_profile_modal_verification").on("click",function(){
@@ -134,6 +143,8 @@ exports.postAceInit = function (hook,context){
 				$('#ep_profile_modal').addClass('ep_profile_modal-show')
 				$("#online_ep_profile_modal_status").show()
 				$("#offline_ep_profile_modal_status").hide()
+				shared.showGeneralOverlay()
+
 			}
 	
 		}else{
@@ -151,10 +162,16 @@ exports.postAceInit = function (hook,context){
 	  });
 
 	$("#ep_profile_modal_close").on('click', function(){
-		($('#ep_profile_modal').hasClass('ep_profile_modal-show'))?
-		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
-		:
-		$('#ep_profile_modal').addClass('ep_profile_modal-show')
+		if($('#ep_profile_modal').hasClass('ep_profile_modal-show')){
+			$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+			shared.hideGeneralOverlay()
+
+		}else{
+			shared.showGeneralOverlay()
+			$('#ep_profile_modal').addClass('ep_profile_modal-show')
+
+		}
+		
 
 	})
 	$("#ep_profile_modal_close_ask").on('click', function(){
@@ -186,7 +203,7 @@ exports.postAceInit = function (hook,context){
 		// $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
 		syncData.resetProfileModalFields()
 		$('#ep_profile_modal').addClass('ep_profile_modal-show')
-		
+		shared.showGeneralOverlay()
 	  })
 
 
@@ -233,6 +250,10 @@ exports.postAceInit = function (hook,context){
 		shared.loginByEmailAndUsername(username , email)
 		$('#ep_profile_modal').removeClass('ep_profile_modal-show')
 
+	})
+
+	$("#ep_profile_general_overlay").on("click",function(){
+		shared.hideGeneralOverlay()
 	})
 }
  

@@ -1,3 +1,4 @@
+var shared = require("../shared")
 
 exports.initiate = function(clientVars){
 
@@ -37,14 +38,15 @@ exports.initiateListeners = function(){
                     username = "Anonymous"
                 var about = response.user.about || ""
                 var homepage = response.user.homepage || ""
-                
+
                 $("#ep_profile_users_profile_name").text(username)
                 $("#ep_profile_users_profile_desc").text(about)
-                $("#ep_profile_users_profile_homepage").attr({"href":homepage, target:"_blank"})
+                $("#ep_profile_users_profile_homepage").attr({"href":shared.getValidUrl(homepage), target:"_blank"})
                 
                 $("#ep_profile_users_profile_homepage").text(homepage)
 
                 $('#ep_profile_users_profile').addClass('ep_profile_formModal_show')
+                shared.showGeneralOverlay()
 
 
                 $("#ep_profile_users_profile_userImage").css({"background-position":"50% 50%",
@@ -58,6 +60,8 @@ exports.initiateListeners = function(){
 
     $("#ep_profile_users_profile_close").on("click",function(){
         $('#ep_profile_users_profile').removeClass('ep_profile_formModal_show')
+        shared.hideGeneralOverlay()
+
 
     })
 }

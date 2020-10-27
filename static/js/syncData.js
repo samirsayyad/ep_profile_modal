@@ -1,3 +1,5 @@
+var shared = require("./shared")
+
 exports.syncAllFormsData = function (userId,data){
 
     //users List 
@@ -9,7 +11,7 @@ exports.syncAllFormsData = function (userId,data){
             var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
             children("ep_profile_user_list_profile_homepage_link")
             homepageElem.text(data.homepage);
-            homepageElem.attr({"href":data.homepage})
+            homepageElem.attr({"href":shared.getValidUrl(data.homepage)})
         } 
     // users list
 

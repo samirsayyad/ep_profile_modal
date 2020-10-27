@@ -18,6 +18,7 @@ exports.eejsBlock_scripts = function (hook_name, args, cb) {
     args.content = args.content + eejs.require("ep_profile_modal/templates/profileModal.html", {}, module);
     args.content += eejs.require("ep_profile_modal/templates/askModal.html", {}, module);
     args.content += eejs.require("ep_profile_modal/templates/userListModal.html", {}, module);
+    args.content += eejs.require("ep_profile_modal/templates/general.html", {}, module);
     args.content += eejs.require("ep_profile_modal/templates/profileForm/modalForm.html", {}, module);
     args.content += eejs.require("ep_profile_modal/templates/userProfileSection/userProfileSection.html", {}, module);
 
@@ -100,7 +101,7 @@ exports.clientVars = async function  (hook, context, callback){
           //contributed_users : new_contributed_users ,
           //contributed_users_per_date : newArrayDate,
           about : user.about || "",
-          homepage : user.homepage || "" ,
+          homepage : getValidUrl(user.homepage) || "" ,
           form_passed : user.form_passed || false ,
           verified : user.verified || email_verified ,
           //today : todayDate
@@ -148,7 +149,7 @@ exports.handleMessage = async function(hook_name, context, callback){
     var form_passed = true
         user.about = message.data.ep_profile_formModal_about_yourself
         user.email =  message.data.ep_profile_modalForm_email
-        user.homepage =  message.data.ep_profile_modal_homepage
+        user.homepage =  getValidUrl(message.data.ep_profile_modal_homepage)
         user.username =  message.data.ep_profile_modal_name
         user.createDate = (user.createDate) ? user.createDate : new Date() ;
         user.updateDate = new Date() ;
@@ -374,6 +375,22 @@ function sendToChat(authorID,padID , userName  ){
   }
 
 }
+
+function getValidUrl (url = ""){
+  if(url=="") return "";
+  let newUrl = decodeURIComponent(url);
+  newUrl = newUrl.trim().replace(/\s/g, "");
+
+  if(/^(:\/\/)/.test(newUrl)){
+      return `http${newUrl}`;
+  }
+  if(!/^(f|ht)tps?:\/\//i.test(newUrl)){
+      return `http://${newUrl}`;
+  }
+
+  return newUrl;
+};
+
 async function sendUsersListToAllUsers(pad_users,padId){
   var all_users_list =[]
 
@@ -393,7 +410,7 @@ async function sendUsersListToAllUsers(pad_users,padId){
       userName : user.username  || defaultUserName,
       imageUrl : default_img , 
       about : user.about || "",
-      homepage : user.homepage || "" ,
+      homepage : getValidUrl( user.homepage) || "" ,
       last_seen_date :(( user.last_seen_date == today) ? "today" : ( user.last_seen_date == yesterday) ? "yesterday" : user.last_seen_date ) || "" ,
       last_seen_timestamp : user.last_seen_timestamp || 0 ,
 

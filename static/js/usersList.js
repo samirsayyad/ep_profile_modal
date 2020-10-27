@@ -45,46 +45,18 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
 		
 		if (current_user_id ==context.payload.userId){
-			helper.refreshUserImage(current_user_id,clientVars.context.payload.padId)
+			helper.refreshUserImage(current_user_id,context.payload.padId)
 			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
 		}else{
-			helper.refreshGeneralImage(context.payload.userId,clientVars.context.payload.padId)
+			helper.refreshGeneralImage(context.payload.userId,context.payload.padId)
 		}
 		
 
 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId +"/"+context.payload.padId +"?t=" + new Date().getTime()
 
-		// change owner loginned img at top of page
-		if (current_user_id ==context.payload.userId){
-			helper.refreshUserImage(current_user_id,clientVars.context.payload.padId)
-
-			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
-
-			syncData.syncAllFormsData(context.payload.userId , context.payload.user)
-
-		}else{
-			helper.refreshGeneralImage(context.payload.userId,clientVars.context.payload.padId)
-
-		}
-		//$(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]").attr("src",context.payload.img)
-		// var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
-		// if (avatar.length){
-		// 	avatar.css({"background-position":"50% 50%",
-		// 	"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
-		// 	});
-		// }
-
-		// var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+context.payload.userId+"\"]") ; 
-		// if(user_selector.length)
-		// {
-		// 	user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-		// 	"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
-		// 	});
-		// } 
 
 		/////////////////// related to user list when user has been loginned
 		var online_anonymous_selector = helper.isThereOnlineAnonymous()
@@ -109,11 +81,20 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		}
 
 
+	// change owner loginned img at top of page
+		if (current_user_id ==context.payload.userId){
+			helper.refreshUserImage(current_user_id,context.payload.padId)
 
-		// profileModal.html
+			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
+			syncData.syncAllFormsData(context.payload.userId , context.payload.user)
+
+		}else{
+			helper.refreshGeneralImage(context.payload.userId,context.payload.padId)
+
+		}
 		
-		// profileModal.html
+
 
 
 

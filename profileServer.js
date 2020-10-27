@@ -20,6 +20,7 @@ exports.expressConfigure = async function (hookName, context) {
         var userId = req.params.userId;
         console.log("ep_profile_modal:"+userId+"_"+padId)
         var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+        user.homepage = getValidUrl(user.homepage) || ""
         return res.status(201).json({"user":user})
 
     })
@@ -125,7 +126,7 @@ exports.expressConfigure = async function (hookName, context) {
                   console.log(html)
                   emailService.sendMail(settings,{
                     to : userEmail ,
-                    subject : "confirm email for docs.plus/"+padId,
+                    subject : `confirm email for ${settings.settingsDomain}/${padId}`,
                     html: html
                   })
                   .then((data)=>{
@@ -358,6 +359,20 @@ const getBestImageReszie = (originalWidth, originalHeight,size) =>{
     return {width :targetWidth , height : targetHeight}
 }
 
+function getValidUrl (url = ""){
+    if(url=="") return "";
+    let newUrl = decodeURIComponent(url);
+    newUrl = newUrl.trim().replace(/\s/g, "");
+  
+    if(/^(:\/\/)/.test(newUrl)){
+        return `http${newUrl}`;
+    }
+    if(!/^(f|ht)tps?:\/\//i.test(newUrl)){
+        return `http://${newUrl}`;
+    }
+  
+    return newUrl;
+  };
 
 const sendToRoom = (msg) =>{
     var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.

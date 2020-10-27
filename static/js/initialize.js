@@ -4,6 +4,7 @@ var profileForm = require("./profileForm/main")
 var usersProfileSection = require("./userProfileSection/userProfileSection")
 
 exports.aceInitialized = function(hook, context){
+
     var userId = pad.getUserId()
     var modal = $("#ep_profile_askmodal_script").tmpl(clientVars);
 
@@ -25,6 +26,9 @@ exports.aceInitialized = function(hook, context){
     $("body").append(modal);
     ///
     modal = $("#ep_profile_modal_user_list_script").tmpl(clientVars);
+    $("body").append(modal);
+    ///general
+    modal = $("#ep_profile_modal_general_script").tmpl(clientVars);
     $("body").append(modal);
     var style = "background : url(/p/getUserProfileImage/"+userId+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
     var onlineUsers = pad.collabClient.getConnectedUsers();

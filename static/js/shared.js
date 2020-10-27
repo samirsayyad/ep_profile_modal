@@ -117,3 +117,31 @@ exports.isUsername =function (username) {
     var regex = /^([a-zA-Z0-9_.+-])/;
     return regex.test(username);
 }
+exports.showGeneralOverlay = function(){
+    $('#ep_profile_general_overlay').addClass('ep_profile_formModal_overlay_show')
+    $('#ep_profile_general_overlay').css({"display":"block"})
+}
+
+exports.hideGeneralOverlay = function(){
+    $('#ep_profile_general_overlay').removeClass('ep_profile_formModal_overlay_show')
+    $('#ep_profile_general_overlay').css({"display":"none"})
+    $('#ep_profile_modal').removeClass('ep_profile_modal-show')
+    $('#ep_profile_modal_user_list').removeClass('ep_profile_modal-show')
+    $('#ep_profile_users_profile').removeClass('ep_profile_formModal_show')
+
+}
+               
+exports.getValidUrl = function(url = ""){
+    if(url=="") return "";
+    let newUrl = window.decodeURIComponent(url);
+    newUrl = newUrl.trim().replace(/\s/g, "");
+
+    if(/^(:\/\/)/.test(newUrl)){
+        return `http${newUrl}`;
+    }
+    if(!/^(f|ht)tps?:\/\//i.test(newUrl)){
+        return `http://${newUrl}`;
+    }
+
+    return newUrl;
+};
