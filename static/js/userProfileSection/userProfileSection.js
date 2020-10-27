@@ -40,7 +40,8 @@ exports.initiateListeners = function(){
                 
                 $("#ep_profile_users_profile_name").text(username)
                 $("#ep_profile_users_profile_desc").text(about)
-                $("#ep_profile_users_profile_homepage").attr({"href":homepage})
+                $("#ep_profile_users_profile_homepage").attr({"href":homepage, target:"_blank"})
+                
                 $("#ep_profile_users_profile_homepage").text(homepage)
 
                 $('#ep_profile_users_profile').addClass('ep_profile_formModal_show')

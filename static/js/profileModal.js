@@ -1,5 +1,7 @@
 var usersProfileSection = require("./userProfileSection/userProfileSection")
 var shared = require("./shared")
+var helper = require("./helper")
+
 var profileForm = require("./profileForm/main")
 var syncData = require("./syncData")
 exports.postAceInit = function (hook,context){
@@ -203,74 +205,13 @@ exports.postAceInit = function (hook,context){
 			processData: false,
 			beforeSend: function() {
 				// setting a timeout
-				var image_url ='../static/plugins/ep_profile_modal/static/img/loading.gif'
-				$("#ep-profile-image").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
-				});
-				$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-				$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
-				if (avatar.length){
-					avatar.css({"background-position":"50% 50%",
-					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"});
-				}
-				var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
-				if(user_selector.length)
-				{
-					user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
-					});
-				} 
-					
+				helper.refreshLoadingImage(userId,clientVars.padId)
 			},
 			error: function(xhr) { // if error occured
-				var image_url ='/p/getUserProfileImage/'+userId+"/"+ clientVars.padId +"?t=" + new Date().getTime();
-				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
-				if (avatar.length){
-					avatar.css({"background-position":"50% 50%",
-					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
-					});
-				}
-				$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-				$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-				$("#ep-profile-image").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
-				});
-				var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
-				if(user_selector.length)
-				{
-					user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
-					});
-				} 
+				helper.refreshUserImage(userId,clientVars.padId)
 			},
 			success: function(response){
-				var image_url ='/p/getUserProfileImage/'+userId+"/"+ clientVars.padId  +"?t=" + new Date().getTime();
-				var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
-				if (avatar.length){
-					avatar.css({"background-position":"50% 50%",
-					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
-					});
-				}
-				$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-				$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-				$("#ep-profile-image").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
-				});
-				var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
-				if(user_selector.length)
-				{
-					user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-					"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
-					});
-				} 
-
+				helper.refreshUserImage(userId,clientVars.padId)
 			}
 			
 		})

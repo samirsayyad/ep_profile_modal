@@ -37,32 +37,22 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		if(user_selector.length)
 		{
 			user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px" , "background-color":"#485365"
 			});
 		} 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
 		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
+		
 		if (current_user_id ==context.payload.userId){
-			image_url ='/p/getUserProfileImage/'+current_user_id+"/"+context.payload.padId +"?t=" + new Date().getTime()
-			$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-			$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-			$("#ep-profile-image").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
-			});
-			
+			helper.refreshUserImage(current_user_id,clientVars.context.payload.padId)
 			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
+		}else{
+			helper.refreshGeneralImage(context.payload.userId,clientVars.context.payload.padId)
 		}
 		
-		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
-		if (avatar.length){
-			avatar.css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
-			});
-		}
+
 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
@@ -70,26 +60,23 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 		// change owner loginned img at top of page
 		if (current_user_id ==context.payload.userId){
-			image_url ='/p/getUserProfileImage/'+current_user_id+"/"+context.payload.padId 
-			$(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-			$(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
-			$("#ep-profile-image").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
-			});
+			helper.refreshUserImage(current_user_id,clientVars.context.payload.padId)
+
 			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
 			syncData.syncAllFormsData(context.payload.userId , context.payload.user)
 
+		}else{
+			helper.refreshGeneralImage(context.payload.userId,clientVars.context.payload.padId)
+
 		}
 		//$(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]").attr("src",context.payload.img)
-		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
-		if (avatar.length){
-			avatar.css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
-			});
-		}
+		// var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"\"]")
+		// if (avatar.length){
+		// 	avatar.css({"background-position":"50% 50%",
+		// 	"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+		// 	});
+		// }
 
 		// var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+context.payload.userId+"\"]") ; 
 		// if(user_selector.length)
