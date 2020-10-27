@@ -103,7 +103,7 @@ exports.postAceInit = function (hook,context){
 		var oldText = $(this).text()
 		if(verificationStatus != "true"){
 			$.ajax({
-				url: '/p/' + pad.getPadId() + '/pluginfw/ep_profile_modal/sendVerificationEmail/'+pad.getUserId() ,
+				url: '/p/' + pad.getPadId() + '/pluginfw/ep_profile_modal/sendVerificationEmail/'+pad.getUserId()+"/null/null" ,
 				type: 'get',
 				data: {},
 				contentType: false,
