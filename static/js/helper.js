@@ -200,7 +200,7 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
 }
 
 var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,about,homepage){
-    var style = "background: url("+img+") no-repeat 50% 50% ; background-size : 128px , background-color:#485365",
+    var style = "background: url("+img+") no-repeat 50% 50% ; background-size : 128px ; background-color:#485365",
     about = about || ""
     homepage = homepage || ""
 
