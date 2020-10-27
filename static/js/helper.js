@@ -74,7 +74,7 @@ exports.decreaseUserFromList = function (userId,padId){
     if(user_selector.length)
     {
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px","background-color":"#485365"
         });
     } 
 
@@ -200,7 +200,7 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
 }
 
 var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,about,homepage){
-    var style = "background: url("+img+") no-repeat 50% 50% ; background-size : 128px"
+    var style = "background: url("+img+") no-repeat 50% 50% ; background-size : 128px , background-color:#485365",
     about = about || ""
     homepage = homepage || ""
 
@@ -336,7 +336,7 @@ var createOnlineUserElementInUserList = function (userId,userName,img,currentUse
     }else {
         user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text(userName);
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+img+")" , "background-repeat":"no-repeat","background-size": "128px"
+        "background-image":"url("+img+")" , "background-repeat":"no-repeat","background-size": "128px","background-color":"#485365"
         });
         //attr("src",img);
 
