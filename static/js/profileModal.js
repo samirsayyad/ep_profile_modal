@@ -65,6 +65,8 @@ exports.postAceInit = function (hook,context){
 		if ( window.user_status == "login"){
 			if($('#ep_profile_modal').hasClass('ep_profile_modal-show')){
 				$('#ep_profile_modal').removeClass('ep_profile_modal-show')
+				shared.hideGeneralOverlay()
+
 			}
 			else{
 				$('#ep_profile_modal').addClass('ep_profile_modal-show')

@@ -9,7 +9,7 @@ exports.syncAllFormsData = function (userId,data){
             user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text(data.username);
             user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text(data.about);
             var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
-            children("ep_profile_user_list_profile_homepage_link")
+            children(".ep_profile_user_list_profile_homepage_link")
             homepageElem.text(data.homepage);
             homepageElem.attr({"href":shared.getValidUrl(data.homepage)})
         } 

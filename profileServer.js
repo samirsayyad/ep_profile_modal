@@ -37,7 +37,7 @@ exports.expressConfigure = async function (hookName, context) {
             user.updateDate = new Date()
             user.verifiedDate = new Date()
             db.set("ep_profile_modal:"+userId+"_"+padId,user)
-            db.set("ep_profile_modal_email_verified:"+user.email ,true)
+            db.set("ep_profile_modal_email_verified:"+userId+"_"+user.email ,true)
         }
         return res.redirect(`/${padId}`)
 
@@ -105,12 +105,13 @@ exports.expressConfigure = async function (hookName, context) {
             var userId = req.params.userId;
   
             var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
-            var userEmail = req.params.email || user.email || null;
-            var userName = req.params.userName || user.username || "";
-
+            
+            var userEmail = req.params.email || user.email ;
+            var userName = req.params.userName || user.username ;
+            console.log(userEmail,userName)
             if (userEmail){
 
-                var email_verified =  await db.get("ep_profile_modal_email_verified:"+userEmail) || false
+                var email_verified =  await db.get("ep_profile_modal_email_verified:"+userId+"_"+userEmail) || false
 
                 if (!email_verified){
                   var confirmCode = new Date().getTime().toString()
@@ -130,25 +131,7 @@ exports.expressConfigure = async function (hookName, context) {
                     html: html
                   })
                   .then((data)=>{
-
                       console.log(data,"from email",data.messageId)
-
-                      if (settings.settingsEmailForwardTo !==""){
-                        console.log("now forward email")
-                        emailService.sendMail(settings,{
-                            to : settings.settingsEmailForwardTo ,
-                            subject : "Forward:docs.plus email confirmation of "+userEmail,
-                            html: html
-                          })
-                          .then((data)=>{
-                            console.log(data,"forward from email",data.messageId)
-
-                          })
-                          .catch((error)=>{
-                            console.log(err.message,"error from email")
-
-                          })
-                      }
                   })
                   .catch((err)=>{
                     console.log(err.message,"error from email")
