@@ -22,24 +22,29 @@
 .ep_profile_formModal{
     font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     width: 350px;
-    height: 524px;
+    height: 279px;
     /* background-color: #fff; */
     position: absolute;
-    top: 30%;
-    left: 38%;
+    /* top: 30%;
+    left: 38%; */
     visibility: hidden;
         overflow: hidden;
     color: rgb(32, 33, 36);
     z-index: 500;
 	transition: all .3s;
-	border-radius: 0 0 6px 6px;
+	/* border-radius: 0 0 6px 6px; */
 	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
 	/* border: 1px solid #e6e8e9; */
     font-size: 14px;
     transform: scale(.7);
     opacity: 0;
     transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
-    z-index: 9999;
+	z-index: 9999;
+	top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
 }
 .ep_profile_formModal_show {
     transform: scale(1) !important;

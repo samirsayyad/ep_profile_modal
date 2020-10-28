@@ -11,7 +11,7 @@
     color: rgb(32, 33, 36);
     z-index: 500;
 	transition: all .3s;
-	border-radius: 0 0 6px 6px;
+	/* border-radius: 0 0 6px 6px; */
 	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
 	border: 1px solid #e6e8e9;
     font-size: 14px;
