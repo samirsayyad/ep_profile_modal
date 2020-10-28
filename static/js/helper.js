@@ -407,7 +407,7 @@ var refreshUserImage = function (userId ,padId ){
     $(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
     "background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
     $(".ep_profile_modal_section_image_big").css({"background-position":"50% 50%",
-    "background-image":"url("+image_url+")" , "background-repeat":"no-repeat"});
+    "background-image":"url("+image_url+")" , "background-repeat":"no-repeat" ,"background-size": "128px"});
     $("#ep-profile-image").css({"background-position":"50% 50%",
     "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "32px"
     });
