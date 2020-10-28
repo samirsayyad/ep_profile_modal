@@ -58,6 +58,7 @@ exports.clientVars = async function  (hook, context, callback){
     db.set("ep_profile_modal_contributed_"+padId , pad_users);
   }
   //* collect user If just enter to pad */
+  var verified_users = await db.get("ep_profile_modal_verified_"+padId);
 
   var datetime = new Date();
   user.last_seen_timestamp = datetime.getTime()
@@ -66,7 +67,7 @@ exports.clientVars = async function  (hook, context, callback){
 
   var email_verified =false
   if(user.email){
-    email_verified =  await db.get("ep_profile_modal_email_verified:"+user.email) || false
+    email_verified =  await db.get("ep_profile_modal_email_verified:"+context.clientVars.userId+"_"+user.email) || false
   }
 
 
@@ -104,6 +105,7 @@ exports.clientVars = async function  (hook, context, callback){
           homepage : getValidUrl(user.homepage) || "" ,
           form_passed : user.form_passed || false ,
           verified : user.verified || email_verified ,
+          verified_users : verified_users
           //today : todayDate
 
       }
@@ -144,7 +146,7 @@ exports.handleMessage = async function(hook_name, context, callback){
   if(message.action ==="ep_profile_modal_info"){
     var email_verified =false
     if(message.data.ep_profile_modalForm_email){
-      email_verified =  await db.get("ep_profile_modal_email_verified:"+message.data.ep_profile_modalForm_email) || false
+      email_verified =  await db.get("ep_profile_modal_email_verified:"+message.userId+"_"+message.data.ep_profile_modalForm_email) || false
     }
     var form_passed = true
         user.about = message.data.ep_profile_formModal_about_yourself
@@ -193,7 +195,7 @@ exports.handleMessage = async function(hook_name, context, callback){
   if(message.action === 'ep_profile_modal_login'){
     var email_verified =false
     if(message.email){
-      email_verified =  await db.get("ep_profile_modal_email_verified:"+message.email) || false
+      email_verified =  await db.get("ep_profile_modal_email_verified:"+message.userId+"_"+message.email) || false
     }
     user.createDate = (user.createDate) ? user.createDate : new Date() ;
     user.updateDate = new Date() ;

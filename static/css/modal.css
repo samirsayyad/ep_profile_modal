@@ -382,7 +382,7 @@
 	background-color: #fff;
 	display: flex;
 	flex-direction: row;
-	border: 2px solid #fff;
+	/* border: 2px solid #fff; */
 	border-radius: 50%;
 	float: left;
 	overflow: hidden;

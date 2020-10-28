@@ -1,13 +1,21 @@
 var defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
 
-exports.createHTMLforUserList = function (total , online,padId){
+exports.createHTMLforUserList = function (total , online,padId,verified_users){ // generate avatar too
 
     var html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
     var style ;
+    var borderStyle;
     $.each( online.reverse(), function( key, value ) {
-        style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px"
+        
+        style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px;"
+        console.log("check bo",$.inArray(verified_users,value.userId))
+        if($.inArray(verified_users,value.userId) == -1 ) 
+            borderStyle = "" ;
+        else 
+            borderStyle = "box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);";
 
-        html += "<div class='avatar' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div data-userId=\""+value.userId+"\"  class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
+
+        html += "<div class='avatar' style='"+borderStyle+"' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div data-userId=\""+value.userId+"\"  class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
     });
     html += " </div>"
     return  html + "<span class='slash_profile'> &#8725; </span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + ""
