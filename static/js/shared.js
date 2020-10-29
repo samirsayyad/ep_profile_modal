@@ -25,6 +25,29 @@ exports.resetAllProfileImage = function (userId,padId){
         
     })
 }
+ exports.addTextChatMessage=function(msg) {
+	var authorClass = 'author-' + msg.userId.replace(/[^a-y0-9]/g, function replace(c) {
+		if (c === '.') return '-';
+		return 'z' + c.charCodeAt(0) + 'z';
+	});
+
+	// create the time string
+	var minutes = '' + new Date(msg.time).getMinutes();
+	var hours = '' + new Date(msg.time).getHours();
+	if (minutes.length === 1) minutes = '0' + minutes;
+	if (hours.length === 1) hours = '0' + hours;
+	var timeStr = hours + ':' + minutes;
+
+	var html = "<p><span class='time " + authorClass + "'>" + timeStr + '</span> ' + msg.text + '</p>';
+
+	$(document).find('#chatbox #chattext').append(html);
+	exports.scrollDownToLastChatText('#chatbox #chattext');
+}
+exports.scrollDownToLastChatText = function scrollDownToLastChatText(selector) {
+	var $element = $(selector);
+	if ($element.length <= 0 || !$element[0]) return true;
+	$element.animate({ scrollTop: $element[0].scrollHeight }, { duration: 400, queue: false });
+};
 
 exports.loginByEmailAndUsernameWithoutValidation =function(username , email){
     window.user_status = "login"

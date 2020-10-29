@@ -204,8 +204,9 @@ exports.postAceInit = function (hook,context){
 		$("#offline_ep_profile_modal_status").show()
 		// $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
 		syncData.resetProfileModalFields()
-		$('#ep_profile_modal').addClass('ep_profile_modal-show')
-		shared.showGeneralOverlay()
+		//$('#ep_profile_modal').addClass('ep_profile_modal-show')
+		//shared.showGeneralOverlay()
+		shared.hideGeneralOverlay()
 	  })
 
 

@@ -149,10 +149,10 @@ exports.handleMessage = async function(hook_name, context, callback){
       email_verified =  await db.get("ep_profile_modal_email_verified:"+message.userId+"_"+message.data.ep_profile_modalForm_email) || false
     }
     var form_passed = true
-        user.about = message.data.ep_profile_formModal_about_yourself
+        user.about = message.data.ep_profile_modalForm_about_yourself
         user.email =  message.data.ep_profile_modalForm_email
-        user.homepage =  getValidUrl(message.data.ep_profile_modal_homepage)
-        user.username =  message.data.ep_profile_modal_name
+        user.homepage =  getValidUrl(message.data.ep_profile_modalForm_homepage)
+        user.username =  message.data.ep_profile_modalForm_name
         user.createDate = (user.createDate) ? user.createDate : new Date() ;
         user.updateDate = new Date() ;
         user.verified = email_verified
@@ -221,36 +221,8 @@ exports.handleMessage = async function(hook_name, context, callback){
       },
     }
     sendToRoom(msg)
-    sendToChat(message.userId ,message.padId ,message.name)
 
-    //email verification 
-    // if (message.email){
-    //   var generalUserEmail = await db.get("ep_profile_modal_email:"+message.userId) || {}  ; // for unique email per userId
-    //   if (generalUserEmail.verified != true){
-    //     var confirmCode = new Date().getTime().toString()
-    //     generalUserEmail.confirmationCode = confirmCode
-    //     generalUserEmail.email = message.email
-    //     var html =`<p> Please click on below link</p><p> 
-    //     <a href='https://docs.plus/p/emailConfirmation/${Buffer.from(message.userId).toString('base64')}/
-    //     ${Buffer.from(message.padId).toString('base64')}/
-    //     ${Buffer.from(confirmCode).toString('base64')}
-    //     '>Confirmation link</a> </p>`
-
-    //     console.log(html)
-    //     emailService.sendMail({
-    //       to : message.email ,
-    //       subject : "docs.plus email confirmation",
-    //       html: html
-    //     })
-    //     .then(()=>{
-    //     })
-    //     .catch((err)=>{
-    //       console.log(err)
-    //     })
-
-    //     db.set("ep_profile_modal_email:"+message.userId, generalUserEmail) 
-    // }
-   // }
+  
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
   }
@@ -263,7 +235,7 @@ exports.handleMessage = async function(hook_name, context, callback){
       data: {
         type: "CUSTOM",
         payload : {
-          padId: padId,
+          padId:  message.padId,
           action:"EP_PROFILE_USER_LOGOUT_UPDATE",
           userId: message.userId ,
 
@@ -277,7 +249,34 @@ exports.handleMessage = async function(hook_name, context, callback){
 
   }
 
+///////////////////////////
+if(message.action === "EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT"){
+  // let beforeText = "Please welcome "
+  // let text=""
+  // if (message.data.ep_profile_modalForm_about_yourself !=="")
+  //   text += `, ${message.data.ep_profile_modalForm_about_yourself}`
+  // if (message.data.ep_profile_modalForm_homepage !==""){
+  //   let url = getValidUrl(message.data.ep_profile_modalForm_homepage)
+  //   //text += `, <a href='${url}'>${message.data.ep_profile_modalForm_homepage}</a>`
+  //  // text += `, ${message.data.ep_profile_modalForm_homepage} `
+  // }
+  // sendToChat(message.userId , message.padId,beforeText,text)
+  var msg = {
+    type: "COLLABROOM",
+    data: {
+      type: "CUSTOM",
+      payload : {
+        padId:  message.padId,
+        action:"EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT",
+        userId: message.userId ,
+        msg : message.data
+      }
+    },
+  }
+  sendToRoom(msg)
 
+}
+///////////////////////////
 ///////////////////////////////////////
   if(message.action === "ep_profile_modal_ready"){
     var pad_users = await db.get("ep_profile_modal_contributed_"+ padId);
@@ -366,10 +365,10 @@ function sendToRoom( msg){
     , 100);
   }
 }
-function sendToChat(authorID,padID , userName  ){
+function sendToChat(authorID,padID , beforeTest ,text ){
   try{
-    let text = `has logged in.`
-    padMessageHandler.sendChatMessageToPadClients(new Date().valueOf(), authorID, text, padID ,"PLUGIN");
+   
+    padMessageHandler.sendChatMessageToPadClients(new Date().valueOf(), authorID, text, padID ,"PLUGIN",beforeTest);
  
   }catch(error){
     console.log(error)

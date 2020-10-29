@@ -21,7 +21,7 @@
             </h3>
             
 
-            <input type="text" id="ep_profile_modalForm_name" required="required" name="ep_profile_modal_name" placeholder="Name" value="${(typeof clientVars.ep_profile_modal.userName !== 'undefined' && clientVars.ep_profile_modal.userName!='Anonymous') ?  clientVars.ep_profile_modal.userName : null }" />
+            <input type="text" id="ep_profile_modalForm_name" required="required" name="ep_profile_modalForm_name" placeholder="Name" value="${(typeof clientVars.ep_profile_modal.userName !== 'undefined' && clientVars.ep_profile_modal.userName!='Anonymous') ?  clientVars.ep_profile_modal.userName : null }" />
             <input type="button" name="next" class="next action-button" value="Next" />
 
      
@@ -72,7 +72,7 @@
                 A website that's about you<br>
                 e.g. your twitter profile page
             </h3>
-            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modal_homepage" placeholder="https://" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : 'https://' }"   />
+            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modalForm_homepage" placeholder="https://" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : 'https://' }"   />
 
             <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
@@ -85,7 +85,7 @@
                 The reason you're on this doc<br>
                 e.g. job title, project, goal in life
             </h3>
-            <input  type="text" name="ep_profile_formModal_about_yourself" placeholder="" value="${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : '' }" />
+            <input  type="text" name="ep_profile_modalForm_about_yourself" placeholder="" value="${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : '' }" />
 
             <input type="button" name="skip" class="close skip-button" value="Skip" />
             <input type="submit" name="submit"  data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}"  class="submit action-button" value="Save" />

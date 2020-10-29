@@ -1,5 +1,7 @@
 var helper = require("./helper")
 var syncData = require("./syncData")
+var shared = require("./shared")
+
 exports.handleClientMessage_USER_NEWINFO = function(hook, context){
 	var padId = pad.getPadId()
 
@@ -53,6 +55,11 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		}
 		
 
+
+	}
+
+	if (context.payload.action =="EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT"){
+			shared.addTextChatMessage(context.payload.msg);
 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
