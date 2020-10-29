@@ -197,6 +197,8 @@ exports.initModal = function(clientVars){
                 helper.userLogin({
                     username : $("#ep_profile_modalForm_name").val(),
                 })
+                shared.loginByEmailAndUsernameWithoutValidation(username,"")
+
             }
             if (currentSection=="email"){
                 var userEmail = $("#ep_profile_modalForm_email").val()

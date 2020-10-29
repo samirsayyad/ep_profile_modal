@@ -229,7 +229,7 @@ exports.handleMessage = async function(hook_name, context, callback){
   if(message.action==="ep_profile_modal_send_signout_message"){
     if (user.username!=="" && user.username){
       var chatMsg = {}
-      chatMsg.text = `<b>${user.username} ${(user.about) ? `,${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at ${user.homepage}` : ``} </b>`
+      chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a href='${getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
       chatMsg.target = "profile";
       chatMsg.userId = message.userId
       chatMsg.time = new Date()
