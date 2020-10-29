@@ -189,13 +189,14 @@ exports.postAceInit = function (hook,context){
 
 	  $("#ep_profile_modal_signout").on('click',function(){
 		var userId = pad.getUserId()
+		var padId = pad.getPadId()
 		window.user_status = "out";
 		var message = {
 			type : 'ep_profile_modal',
 			action : "ep_profile_modal_logout" ,
 			email : $("#ep_profile_hidden_email").val() ,
 			userId :  userId ,
-			padId : pad.getPadId()
+			padId :padId
 
 		  }
 		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
@@ -207,6 +208,9 @@ exports.postAceInit = function (hook,context){
 		//$('#ep_profile_modal').addClass('ep_profile_modal-show')
 		//shared.showGeneralOverlay()
 		shared.hideGeneralOverlay()
+		shared.sendSignOutMessage(userId,padId)
+
+
 	  })
 
 

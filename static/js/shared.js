@@ -25,6 +25,17 @@ exports.resetAllProfileImage = function (userId,padId){
         
     })
 }
+exports.sendSignOutMessage = function(userId,padId){
+    var message = {
+        type : 'ep_profile_modal',
+        action : "ep_profile_modal_send_signout_message" ,
+        userId :  userId ,
+        padId :  padId ,
+
+      }
+    pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+
+}
  exports.addTextChatMessage=function(msg) {
 	var authorClass = 'author-' + msg.userId.replace(/[^a-y0-9]/g, function replace(c) {
 		if (c === '.') return '-';

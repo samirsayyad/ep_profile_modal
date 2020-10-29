@@ -226,6 +226,37 @@ exports.handleMessage = async function(hook_name, context, callback){
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
   }
+  if(message.action==="ep_profile_modal_send_signout_message"){
+    if (user.username!=="" && user.username){
+      var chatMsg = {}
+      chatMsg.text = `<b>${user.username} ${(user.about) ? `,${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at ${user.homepage}` : ``} </b>`
+      chatMsg.target = "profile";
+      chatMsg.userId = message.userId
+      chatMsg.time = new Date()
+      // if (user.homepage ==="" || !user.homepage)
+      //   chatMsg.text = `${user.username} ${(user.about) ? `,${user.about}`  : ``} has left`
+      // else{
+
+      // }
+      var msg = {
+        type: "COLLABROOM",
+        data: {
+          type: "CUSTOM",
+          payload : {
+            padId:  message.padId,
+            action:"EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT",
+            userId: message.userId ,
+            msg : chatMsg
+          }
+        },
+      }
+      sendToRoom(msg)
+    }else{
+      console.log("data not set")
+    }
+
+  
+  }
   if(message.action === "ep_profile_modal_logout"){
     user.status = "1";
     user.lastLogoutDate = new Date();
