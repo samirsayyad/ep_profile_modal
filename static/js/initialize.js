@@ -53,6 +53,7 @@ exports.aceInitialized = function(hook, context){
         type : 'ep_profile_modal',
         action : "ep_profile_modal_ready" ,
         userId : userId ,
+        padId : pad.getPadId()
       }
     pad.collabClient.sendMessage(message); 
     if (clientVars.ep_profile_modal.userName == "Anonymous")
