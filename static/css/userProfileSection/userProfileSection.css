@@ -1,7 +1,7 @@
 .ep_profile_users_profile{
 	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     width: 350px;
-    height: 130px;
+    height: 128px;
     background-color: #fff;
     position: absolute;
     top: 114px;
@@ -13,7 +13,7 @@
 	transition: all .3s;
 	/* border-radius: 0 0 6px 6px; */
 	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
-	border: 1px solid #e6e8e9;
+	/* border: 1px solid #e6e8e9; */
     font-size: 14px;
     transform: scale(.7);
     opacity: 0;
