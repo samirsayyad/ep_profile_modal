@@ -325,7 +325,7 @@ exports.initModal = function(clientVars){
 
         var url = URL.createObjectURL(files);
         $("#profile_modal_selected_image").css({"background-position":"50% 50%",
-        "background-image":"url("+url+")" , "background-repeat":"no-repeat","background-size": "96px"
+        "background-image":"url("+url+")" , "background-repeat":"no-repeat","background-size": "128px"
         });
 	})
 

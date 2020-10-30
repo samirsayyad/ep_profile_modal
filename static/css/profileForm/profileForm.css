@@ -117,6 +117,7 @@
 	margin-bottom: 0px;
 	width: 96px;
 	height: 96px;
+	border-radius: 0;
 }
 
 #ep_profile_formModal_msform .clear-button {
