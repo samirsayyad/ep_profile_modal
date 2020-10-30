@@ -118,9 +118,28 @@ exports.expressConfigure = async function (hookName, context) {
             var userId = req.params.userId;
   
             var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+            var userEmail=""
+            if(validation(req.params.email)){
+                if(validation(user.email)){
+                    userEmail = user.email ;
+                }else{
+                    userEmail =req.params.email ;
+                }
+            }else{
+                userEmail = user.email ;
+            }
+
+            var userName =""
+            if(validation(req.params.userName)){
+                if(validation(user.username)){
+                    userName = user.username ;
+                }else{
+                    userName = req.params.userName ;
+                }
+            }else{
+                userName = user.username ;
+            }
             
-            var userEmail = req.params.email || user.email ;
-            var userName = req.params.userName || user.username ;
             console.log(userEmail,userName)
             if (userEmail){
 
@@ -388,3 +407,10 @@ const sendToRoom = (msg) =>{
       , 100);
     }
   }
+
+const validation = (variable) =>{
+    if (variable=="null" || !variable || variable==undefined || variable==""|| variable==null)
+        return false
+    else
+        return true
+}
