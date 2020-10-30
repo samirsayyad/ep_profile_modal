@@ -150,12 +150,9 @@ exports.initModal = function(clientVars){
             shared.resetAllProfileImage($(this).attr("data-userId"),$(this).attr("data-padId"))
         })
  
-        function submitHandle (){
+        function sendFormDataToServer(){
             var userId = pad.getUserId() 
             var padId =  pad.getPadId()
-            $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
-            exports.hideFormModalOverlay()
-            
             var $form = $("#ep_profile_formModal_msform");
             var data =  exports.getFormData($form);
             var message = {
@@ -166,6 +163,15 @@ exports.initModal = function(clientVars){
 				padId : padId
 			  }
             pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+
+        }
+        function submitHandle (){
+            var userId = pad.getUserId() 
+            var padId =  pad.getPadId()
+            $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
+            exports.hideFormModalOverlay()
+            
+            sendFormDataToServer()
 
             var username = $("#ep_profile_modalForm_name").val()
 
@@ -192,10 +198,11 @@ exports.initModal = function(clientVars){
                     $("#ep_profile_modalForm_name").css({"border":"1px solid red"})
                     return false;
                 }
+                var username =$("#ep_profile_modalForm_name").val()
                 $("#ep_profile_modalForm_name").css({"border":"1px solid gray"})
                 // submit username once user input and press next
                 helper.userLogin({
-                    username : $("#ep_profile_modalForm_name").val(),
+                    username : username,
                 })
                 shared.loginByEmailAndUsernameWithoutValidation(username,"")
 
@@ -220,6 +227,7 @@ exports.initModal = function(clientVars){
                     return false;
                 }
                 $("#ep_profile_modal_homepage").css({"border":"1px solid gray"})
+                sendFormDataToServer()
             }
 
             if (currentSection=="image"){
