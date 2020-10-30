@@ -8,8 +8,8 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
     $.each( online.reverse(), function( key, value ) {
         
         style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px;"
-        console.log("check bo",$.inArray(verified_users,value.userId))
-        if($.inArray(verified_users,value.userId) == -1 ) 
+        console.log("check bo",verified_users.indexOf(value.userId),verified_users,value.userId)
+        if(verified_users.indexOf(value.userId) == -1 ) 
             borderStyle = "" ;
         else 
             borderStyle = "box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);";
