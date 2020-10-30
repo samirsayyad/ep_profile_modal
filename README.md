@@ -1,8 +1,8 @@
 # ep_profile_modal
-Profile modal
+Profile for Etherpad
 
 
-configuration : 
+```json
   "ep_profile_modal":{
       "storage": {
         "endPoint": "",
@@ -28,3 +28,4 @@ configuration :
         }
       }
     },
+ ```
