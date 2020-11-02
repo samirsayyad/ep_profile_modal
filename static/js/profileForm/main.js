@@ -36,7 +36,7 @@ exports.handleOnCloseOverlay = function(){
         text += `, ${data.ep_profile_modalForm_about_yourself}`
     if (data.ep_profile_modalForm_homepage !==""){
         let url = shared.getValidUrl(data.ep_profile_modalForm_homepage)
-        text += `, <a href='${url}'>${data.ep_profile_modalForm_homepage}</a>`
+        text += `, <a target='_blank' href='${url}'>${data.ep_profile_modalForm_homepage}</a>`
         // text += `, ${message.data.ep_profile_modalForm_homepage} `
     }
 

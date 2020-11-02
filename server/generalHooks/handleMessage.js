@@ -67,7 +67,7 @@ const ep_profile_modal_send_signout_message = async function(message){
     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
     if (user.username!=="" && user.username){
         var chatMsg = {}
-        chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
+        chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
         chatMsg.target = "profile";
         chatMsg.userId = message.userId
         chatMsg.time = new Date()
