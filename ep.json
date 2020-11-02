@@ -17,8 +17,8 @@
 
 				"clientVars": "ep_profile_modal/server/generalHooks/clientVars",
 				"handleMessage": "ep_profile_modal/server/generalHooks/handleMessage",
-				
-				"expressConfigure": "ep_profile_modal/profileServer:expressConfigure",
+
+				"expressConfigure": "ep_profile_modal/server/generalHooks/expressServer",
 
                 "expressCreateServer" : "ep_profile_modal/server/adminHooks/admin:registerRoute",
                 "eejsBlock_adminMenu" : "ep_profile_modal/server/adminHooks/admin:eejsBlock_adminMenu",

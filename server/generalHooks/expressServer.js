@@ -11,7 +11,7 @@ const AWS = require('aws-sdk');
 const resizeImg = require('resize-img');
 var sizeOf =  require('buffer-image-size');
 var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
-const emailService = require("./email")
+const emailService = require("../services/email")
 
 exports.expressConfigure = async function (hookName, context) {
 
