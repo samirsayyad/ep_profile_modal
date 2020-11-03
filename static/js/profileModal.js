@@ -208,7 +208,7 @@ exports.postAceInit = function (hook,context){
 		//$('#ep_profile_modal').addClass('ep_profile_modal-show')
 		//shared.showGeneralOverlay()
 		shared.hideGeneralOverlay()
-		shared.sendSignOutMessage(userId,padId)
+		//shared.sendSignOutMessage(userId,padId)
 
 
 	  })

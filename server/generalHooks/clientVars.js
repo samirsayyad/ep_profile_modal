@@ -7,14 +7,15 @@ exports.clientVars = async function  (hook, context, callback){
     padId = context.pad.id;
     var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || {};
     var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
+
     //* collect user If just enter to pad */
     var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
     if (pad_users){
       if (pad_users.indexOf(context.clientVars.userId) == -1){
-        pad_users.push(context.clientVars.userId)
-        db.set("ep_profile_modal_contributed_"+padId , pad_users);
-  
-  
+        if(!user.email){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+          pad_users.push(context.clientVars.userId)
+          db.set("ep_profile_modal_contributed_"+padId , pad_users);
+        }
         // tell everybody that total user has been changed
           var msg = {
             type: "COLLABROOM",
@@ -32,10 +33,20 @@ exports.clientVars = async function  (hook, context, callback){
         // tell everybody that total user has been changed
       }
     }else{
-      pad_users = [ context.clientVars.userId ]
-      db.set("ep_profile_modal_contributed_"+padId , pad_users);
+      if(!user.email){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+        pad_users = [ context.clientVars.userId ]
+        db.set("ep_profile_modal_contributed_"+padId , pad_users);
+      }
     }
     //* collect user If just enter to pad */
+    //// counting how many email input
+    var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+padId) || [];
+    //// counting how many email input
+
+
+
+
+
     var verified_users = await db.get("ep_profile_modal_verified_"+padId);
   
     var datetime = new Date();
@@ -46,6 +57,8 @@ exports.clientVars = async function  (hook, context, callback){
     var email_verified =false
     if(user.email){
       email_verified =  await db.get("ep_profile_modal_email_verified:"+context.clientVars.userId+"_"+user.email) || false
+
+      db.set("ep_profile_modal:"+user.email,user) ;
     }
   
   
@@ -55,7 +68,7 @@ exports.clientVars = async function  (hook, context, callback){
             user_email : user.email || "" ,
             user_status : user.status || "1" ,
             userName : user.username || staticVars.defaultUserName ,
-            contributed_authors_count : pad_users.length,
+            contributed_authors_count : pad_users.length + email_contributed_users.length,
             about : user.about || "",
             homepage : shared.getValidUrl(user.homepage) || "" ,
             form_passed : user.form_passed || false ,

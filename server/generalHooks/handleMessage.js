@@ -39,9 +39,9 @@ exports.handleMessage = async function(hook_name, context, callback){
         ep_profile_modal_login(message)
     }
 
-    if(message.action==="ep_profile_modal_send_signout_message"){
-        ep_profile_modal_send_signout_message(message)
-    }
+    // if(message.action==="ep_profile_modal_send_signout_message"){
+    //     ep_profile_modal_send_signout_message(message)
+    // }
 
     if(message.action === "ep_profile_modal_logout"){
         ep_profile_modal_logout(message)
@@ -63,32 +63,9 @@ exports.handleMessage = async function(hook_name, context, callback){
 }
 
 
-const ep_profile_modal_send_signout_message = async function(message){
-    var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
-    if (user.username!=="" && user.username){
-        var chatMsg = {}
-        chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
-        chatMsg.target = "profile";
-        chatMsg.userId = message.userId
-        chatMsg.time = new Date()
-        var msg = {
-          type: "COLLABROOM",
-          data: {
-            type: "CUSTOM",
-            payload : {
-              padId:  message.padId,
-              action:"EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT",
-              userId: message.userId ,
-              msg : chatMsg
-            }
-          },
-        }
-        etherpadFuncs.sendToRoom(msg)
-      }else{
-        console.log("data not set")
-      }
-  
-}
+// const ep_profile_modal_send_signout_message = async function(message){
+//     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {}; 
+// }
 
 
 const ep_profile_modal_login = async function(message){
@@ -126,6 +103,45 @@ const ep_profile_modal_login = async function(message){
 
   
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
+
+    // change primary key to email
+    if(message.email){
+      await db.set("ep_profile_modal:"+message.email , user)  ;
+
+      ///// store users in email way 
+      // email collecting users
+      var datetime = new Date();
+      var _timestamp = datetime.getTime()
+      var _date = datetime.toISOString().slice(0,10) 
+      var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+message.padId) || [];
+      var lastUserIndex = email_contributed_users.findIndex(i => i.email ===message.email );
+      if(lastUserIndex !== -1){
+        email_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp
+        email_contributed_users[lastUserIndex].data.last_seen_date = _date
+      }else{
+        email_contributed_users.push({
+          email : message.email,
+          data : {
+            "last_seen_timestamp" :_timestamp,
+            "last_seen_date" : _date ,
+            "created_at_timestamp" :_timestamp,
+            "created_at_date" : _date ,
+          }
+        })
+      }
+    
+      db.set("ep_profile_modal_email_contributed_"+message.padId,email_contributed_users);
+      // remove user id from contributed users because we have email now
+      var pad_users = await db.get("ep_profile_modal_contributed_"+message.padId);
+      var indexOfUserId= pad_users.indexOf(message.userId);
+      if (indexOfUserId != -1){
+        pad_users.splice(indexOfUserId, 1);
+        db.set("ep_profile_modal_contributed_"+message.padId , pad_users);
+      }
+      // remove user id from contributed users because we have email now
+      //// store users in email way
+    }
+    // change primary key to email
 }
 
 
@@ -174,7 +190,44 @@ const ep_profile_modal_info = async function(message){
     }
     etherpadFuncs.sendToRoom(msg)
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId,user) ;
+    // change primary key to email
+    if(message.data.ep_profile_modalForm_email){
+      db.set("ep_profile_modal:"+message.data.ep_profile_modalForm_email,user) ;
 
+      ///// store users in email way 
+      // email collecting users
+      var datetime = new Date();
+      var _timestamp = datetime.getTime()
+      var _date = datetime.toISOString().slice(0,10) 
+      var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+message.padId) || [];
+      var lastUserIndex = email_contributed_users.findIndex(i => i.email ===message.data.ep_profile_modalForm_email );
+      if(lastUserIndex !== -1){
+        email_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp
+        email_contributed_users[lastUserIndex].data.last_seen_date = _date
+      }else{
+        email_contributed_users.push({
+          email : message.data.ep_profile_modalForm_email,
+          data : {
+            "last_seen_timestamp" :_timestamp,
+            "last_seen_date" : _date ,
+            "created_at_timestamp" :_timestamp,
+            "created_at_date" : _date ,
+          }
+        })
+      }
+    
+      db.set("ep_profile_modal_email_contributed_"+message.padId,email_contributed_users);
+      // remove user id from contributed users because we have email now
+      var pad_users = await db.get("ep_profile_modal_contributed_"+message.padId);
+      var indexOfUserId= pad_users.indexOf(message.userId);
+      if (indexOfUserId != -1){
+        pad_users.splice(indexOfUserId, 1);
+        db.set("ep_profile_modal_contributed_"+message.padId , pad_users);
+      }
+      // remove user id from contributed users because we have email now
+      //// store users in email way
+    }
+    // change primary key to email
 }
 
 
@@ -198,7 +251,32 @@ const ep_profile_modal_logout = async function(message){
 
 
     etherpadFuncs.sendToRoom(msg)
-    await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
+    await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , {})  ; //empty session
+    if(user.email){
+      db.set("ep_profile_modal:"+user.email,user) ;
+    }
+    if (user.username!=="" && user.username){
+      var chatMsg = {}
+      chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
+      chatMsg.target = "profile";
+      chatMsg.userId = message.userId
+      chatMsg.time = new Date()
+      var msg = {
+        type: "COLLABROOM",
+        data: {
+          type: "CUSTOM",
+          payload : {
+            padId:  message.padId,
+            action:"EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT",
+            userId: message.userId ,
+            msg : chatMsg
+          }
+        },
+      }
+      etherpadFuncs.sendToRoom(msg)
+    }else{
+      console.log("data not set")
+    }
 
 }
 
@@ -292,29 +370,12 @@ const ep_profile_modal_ready= async function (message){
       })
     }
     db.set("ep_profile_modal_pads_of_user_"+ message.userId,pads_of_user)
+
+
+
     ////// store pads of users
 
 
 
-    ///// store users in new way 
-    // new collecting users
-    var new_contributed_users = await db.get("ep_profile_modal_new_contributed_"+message.padId) || [];
-    var lastUserIndex = new_contributed_users.findIndex(i => i.userId ===message.userId );
-    if(lastUserIndex !== -1){
-      new_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp
-      new_contributed_users[lastUserIndex].data.last_seen_date = _date
-    }else{
-      new_contributed_users.push({
-        userId : message.userId,
-        data : {
-          "last_seen_timestamp" :_timestamp,
-          "last_seen_date" : _date ,
-          "created_at_timestamp" :_timestamp,
-          "created_at_date" : _date ,
-        }
-      })
-    }
-   
-    db.set("ep_profile_modal_new_contributed_"+message.padId,new_contributed_users);
-    //// store users in new way
+
 }

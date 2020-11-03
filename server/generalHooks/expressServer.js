@@ -107,7 +107,6 @@ exports.expressConfigure = async function (hookName, context) {
 
 
     })
-
     // for sending email validation
     context.app.get('/p/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId/:userName/:email',async function (req, res, next) {
 
@@ -198,7 +197,6 @@ exports.expressConfigure = async function (hookName, context) {
         return res.status(201).json({"status":"ok"})
 
     })
-
     // for upload user image  
     context.app.post('/p/:padId/pluginfw/ep_profile_modal/upload/:userId',async function (req, res, next) {
         var padId = req.params.padId;
