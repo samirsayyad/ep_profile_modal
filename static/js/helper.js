@@ -405,6 +405,19 @@ var userLogin = function(data){
     })
 
 }
+var userLogout = function(){
+    
+    window.user_status = "logout"
+    //$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+    //$("#ep_profile_modal_section_info_email").text(data.email)
+    //$("#ep_profile_modal_section_info_name").text(data.username)
+    pad.collabClient.updateUserInfo({
+        userId :  pad.getUserId() ,
+        name: "Anonymous",
+        colorId: "#b4b39a"
+    })
+
+}
 var refreshUserImage = function (userId ,padId ){
     var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
     var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
@@ -505,6 +518,7 @@ exports.increaseToOnlineAnonymous = increaseToOnlineAnonymous;
 exports.getHtmlOfUsersList = getHtmlOfUsersList;
 exports.decreaseFromOnlineAnonymous =decreaseFromOnlineAnonymous;
 exports.userLogin =userLogin;
+exports.userLogout=userLogout;
 exports.refreshUserImage =refreshUserImage;
 exports.refreshGeneralImage = refreshGeneralImage;
 exports.refreshLoadingImage =refreshLoadingImage;

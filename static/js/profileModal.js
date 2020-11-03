@@ -210,7 +210,7 @@ exports.postAceInit = function (hook,context){
 		shared.hideGeneralOverlay()
 		//shared.sendSignOutMessage(userId,padId)
 		$(".avatar[data-id=\"user_"+userId+"\"]").attr({"style": ""})
-
+		helper.userLogout()
 	  })
 
 
