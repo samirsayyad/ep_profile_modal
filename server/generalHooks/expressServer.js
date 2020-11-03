@@ -37,7 +37,6 @@ exports.expressConfigure = async function (hookName, context) {
             user.updateDate = new Date()
             user.verifiedDate = new Date()
             db.set("ep_profile_modal:"+userId+"_"+padId,user)
-            db.set("ep_profile_modal_email_verified:"+userId+"_"+user.email ,true)
             //gathering verified user id of pads
             var verified_users = await db.get("ep_profile_modal_verified_"+padId);
             if(verified_users){
@@ -49,6 +48,89 @@ exports.expressConfigure = async function (hookName, context) {
             }
             db.set("ep_profile_modal_verified_"+padId , verified_users);
             //gathering verified user id of pads
+
+            //gathering verified email of pads
+            var verified_emails = await db.get("ep_profile_modal_verified_email_"+padId);
+            if(verified_emails){
+                if(verified_emails.indexOf(user.email) == -1){
+                    verified_emails.push(user.email)
+                }
+            }else{
+                verified_emails = [ user.email ]
+            }
+            db.set("ep_profile_modal_verified_email_"+padId , verified_emails);
+            //gathering verified email of pads
+
+            //gathering verified emails
+            var verified_emails = await db.get("ep_profile_modal_verified_emails");
+            if(verified_emails){
+                if(verified_emails.indexOf(user.email) == -1){
+                    verified_emails.push(user.email)
+                }
+            }else{
+                verified_emails = [ user.email ]
+            }
+            db.set("ep_profile_modal_verified_emails" , verified_emails);
+            //gathering verified emails
+
+            
+
+            //upsert general data on each validation.
+            var emailUser = await db.get("ep_profile_modal:"+user.email) ;
+            user.pads = emailUser.pads // store pads of verified users
+            if(user.pads){
+                if(user.pads.indexOf(padId) == -1){
+                    user.pads.push(padId)
+                }
+            }else{
+                user.pads = [ padId ]
+            }
+            db.set("ep_profile_modal:"+user.email,user) ;
+            //upsert general data on each validation.
+
+
+
+            ///// store users in email way 
+            // email collecting users
+            var datetime = new Date();
+            var _timestamp = datetime.getTime()
+            var _date = datetime.toISOString().slice(0,10) 
+            var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+padId) || [];
+            var lastUserIndex = email_contributed_users.findIndex(i => i.email ===user.email);
+            if(lastUserIndex !== -1){
+                email_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp
+                email_contributed_users[lastUserIndex].data.last_seen_date = _date
+            }else{
+                email_contributed_users.push({
+                email : user.email,
+                data : {
+                    "last_seen_timestamp" :_timestamp,
+                    "last_seen_date" : _date ,
+                    "created_at_timestamp" :_timestamp,
+                    "created_at_date" : _date ,
+                }
+                })
+            }
+            
+            db.set("ep_profile_modal_email_contributed_"+padId,email_contributed_users);
+            // remove user id from contributed users because we have email now
+            var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
+            var indexOfUserId= pad_users.indexOf(userId);
+            if (indexOfUserId != -1){
+                pad_users.splice(indexOfUserId, 1);
+                db.set("ep_profile_modal_contributed_"+padId , pad_users);
+            }
+            // remove user id from contributed users because we have email now
+            //// store users in email way
+
+
+
+
+
+
+
+
+
 
 
         }
@@ -142,9 +224,7 @@ exports.expressConfigure = async function (hookName, context) {
             console.log(userEmail,userName)
             if (userEmail){
 
-                var email_verified =  await db.get("ep_profile_modal_email_verified:"+userId+"_"+userEmail) || false
-
-                if (!email_verified){
+                if (!user.verified){
                   var confirmCode = new Date().getTime().toString()
                   user.confirmationCode = confirmCode
                   user.email =userEmail

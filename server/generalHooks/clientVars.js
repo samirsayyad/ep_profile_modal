@@ -55,11 +55,6 @@ exports.clientVars = async function  (hook, context, callback){
     db.set("ep_profile_modal:"+context.clientVars.userId+"_"+padId,user)
   
     var email_verified =false
-    if(user.email){
-      email_verified =  await db.get("ep_profile_modal_email_verified:"+context.clientVars.userId+"_"+user.email) || false
-
-      db.set("ep_profile_modal:"+user.email,user) ;
-    }
   
   
     return callback({
