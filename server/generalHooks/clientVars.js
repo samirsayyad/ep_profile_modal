@@ -10,9 +10,16 @@ exports.clientVars = async function  (hook, context, callback){
 
     //* collect user If just enter to pad */
     var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
+    //// counting how many email input
+    var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+padId) || [];
+    console.log(email_contributed_users,"email_contributed_users")
+
+    //// counting how many email input
+    
+    console.log(pad_users,"pad_users")
     if (pad_users){
       if (pad_users.indexOf(context.clientVars.userId) == -1){
-        if(!user.email){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+        if(!user.email && user.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
           pad_users.push(context.clientVars.userId)
           db.set("ep_profile_modal_contributed_"+padId , pad_users);
         }
@@ -22,7 +29,7 @@ exports.clientVars = async function  (hook, context, callback){
             data: {
               type: "CUSTOM",
               payload : {
-                totalUserCount : pad_users.length,
+                totalUserCount : pad_users.length  + email_contributed_users.length,
                 padId: padId,
                 action:"totalUserHasBeenChanged",
         
@@ -33,15 +40,12 @@ exports.clientVars = async function  (hook, context, callback){
         // tell everybody that total user has been changed
       }
     }else{
-      if(!user.email){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+      if(!user.email && user.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
         pad_users = [ context.clientVars.userId ]
         db.set("ep_profile_modal_contributed_"+padId , pad_users);
       }
     }
     //* collect user If just enter to pad */
-    //// counting how many email input
-    var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+padId) || [];
-    //// counting how many email input
 
 
 

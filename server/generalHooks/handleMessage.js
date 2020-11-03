@@ -101,43 +101,6 @@ const ep_profile_modal_login = async function(message){
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
     // change primary key to email
-    if(message.email){
-      await db.set("ep_profile_modal:"+message.email , user)  ;
-
-      ///// store users in email way 
-      // email collecting users
-      var datetime = new Date();
-      var _timestamp = datetime.getTime()
-      var _date = datetime.toISOString().slice(0,10) 
-      var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+message.padId) || [];
-      var lastUserIndex = email_contributed_users.findIndex(i => i.email ===message.email );
-      if(lastUserIndex !== -1){
-        email_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp
-        email_contributed_users[lastUserIndex].data.last_seen_date = _date
-      }else{
-        email_contributed_users.push({
-          email : message.email,
-          data : {
-            "last_seen_timestamp" :_timestamp,
-            "last_seen_date" : _date ,
-            "created_at_timestamp" :_timestamp,
-            "created_at_date" : _date ,
-          }
-        })
-      }
-    
-      db.set("ep_profile_modal_email_contributed_"+message.padId,email_contributed_users);
-      // remove user id from contributed users because we have email now
-      var pad_users = await db.get("ep_profile_modal_contributed_"+message.padId);
-      var indexOfUserId= pad_users.indexOf(message.userId);
-      if (indexOfUserId != -1){
-        pad_users.splice(indexOfUserId, 1);
-        db.set("ep_profile_modal_contributed_"+message.padId , pad_users);
-      }
-      // remove user id from contributed users because we have email now
-      //// store users in email way
-    }
-    // change primary key to email
 }
 
 
@@ -207,6 +170,15 @@ const ep_profile_modal_logout = async function(message){
 
     etherpadFuncs.sendToRoom(msg)
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , {})  ; //empty session
+    //remove user id from verified users
+    var pad_users = await db.get("ep_profile_modal_verified_"+padId);
+    var indexOfUserId= pad_users.indexOf(message.userId);
+    if (indexOfUserId != -1){
+        pad_users.splice(indexOfUserId, 1);
+        db.set("ep_profile_modal_verified_"+padId , pad_users);
+    }
+    //remove user id from verified users
+
     if (user.username!=="" && user.username){
       var chatMsg = {}
       chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
@@ -289,7 +261,7 @@ const ep_profile_modal_ready= async function (message){
             var default_img ='/p/getUserProfileImage/'+value.email+"/"+message.padId+"?t="+(new Date().getTime())
         
             all_users_list.push({
-                userId : user.userId ,
+                userId : user.email ,
                 email : user.email||"" ,
                 status : user.status ||"1" ,
                 userName : user.username  || staticVars.defaultUserName,

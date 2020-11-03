@@ -228,7 +228,7 @@ exports.expressConfigure = async function (hookName, context) {
                   var confirmCode = new Date().getTime().toString()
                   user.confirmationCode = confirmCode
                   user.email =userEmail
-                  user.userName =userName
+                  user.username =userName
 
                   var link = `https://${settings.settingsDomain}/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
                   var html =`<p><b>Hello ${userName}! </b></p>

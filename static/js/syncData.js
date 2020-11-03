@@ -53,4 +53,9 @@ exports.resetProfileModalFields = function(){
     $("#ep_profile_modal-about").val("")
     $("#ep_profile_modal-homepage").val("")
     $("#ep_profile_modal-email").val("")
+
+    $("#ep_profile_modalForm_name").val("")
+    $("#ep_profile_modalForm_email").val("")
+    $("#ep_profile_modal_homepage").val("")
+    $("#ep_profile_modalForm_about_yourself").val("")
 }
