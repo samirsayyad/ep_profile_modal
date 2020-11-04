@@ -171,7 +171,7 @@ const ep_profile_modal_logout = async function(message){
     etherpadFuncs.sendToRoom(msg)
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , {})  ; //empty session
     //remove user id from verified users
-    var pad_users = await db.get("ep_profile_modal_verified_"+padId);
+    var pad_users = await db.get("ep_profile_modal_verified_"+padId) || [];
     var indexOfUserId= pad_users.indexOf(message.userId);
     if (indexOfUserId != -1){
         pad_users.splice(indexOfUserId, 1);

@@ -26,23 +26,11 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		console.log("pay;lpad", context.payload)
 		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
 	}
+	
 	if(context.payload.action == "EP_PROFILE_USER_IMAGE_CHANGE"){ // when user A change image and user B want to know
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
-		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"/"+context.payload.padId +"\"]")
-		if (avatar.length){
-			avatar.css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
-			});
-		}
-
-		var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+context.payload.userId+"\"]") ; 
-		if(user_selector.length)
-		{
-			user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px" , "background-color":"#485365"
-			});
-		} 
+		helper.refreshGeneralImage(context.payload.userId ,context.payload.padId )
 	}
+
 	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
 		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
 		
