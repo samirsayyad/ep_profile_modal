@@ -33,10 +33,13 @@ exports.handleMessage = async function(hook_name, context, callback){
   
     if(message.action ==="ep_profile_modal_info"){
         ep_profile_modal_info(message)
+        
     }
 
     if(message.action === 'ep_profile_modal_login'){
         ep_profile_modal_login(message)
+        ep_profile_modal_login_check_prompt(message,context.client)
+
     }
 
     // if(message.action==="ep_profile_modal_send_signout_message"){
@@ -53,6 +56,7 @@ exports.handleMessage = async function(hook_name, context, callback){
     
     if(message.action === "ep_profile_modal_ready"){
         ep_profile_modal_ready(message)
+
     }
 
     if(isProfileMessage === true){
@@ -100,10 +104,35 @@ const ep_profile_modal_login = async function(message){
   
     await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
-    // change primary key to email
+
 }
 
-
+const ep_profile_modal_login_check_prompt = async function(message,client){
+  // suggest data by checking email primary data prompt
+  if(message.suggestData){
+    var emailUser = await db.get("ep_profile_modal:"+message.email) ;
+    if (emailUser){
+      var msg = {
+        type: "COLLABROOM",
+        data: {
+        type: "CUSTOM",
+        payload : {
+            padId: message.padId,
+            action:"EP_PROFILE_MODAL_PROMPT_DATA",
+            data :{
+              image : emailUser.image || null,
+              about : emailUser.about ,
+              homepage : emailUser.homepage ,
+            } ,
+  
+  
+        }
+        },
+    }
+    etherpadFuncs.sendToUser(msg,client)
+    }
+  }
+}
 const ep_profile_modal_info = async function(message){
 
     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
@@ -221,6 +250,7 @@ const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT= async function(message){
 }
 
 const ep_profile_modal_ready= async function (message){
+  console.log("ep_profile_modal_ready",message)
     var pad_users = await db.get("ep_profile_modal_contributed_"+ message.padId) || [];
     //sendUsersListToAllUsers(pad_users,message.padId)
     ///////////
@@ -332,3 +362,4 @@ const ep_profile_modal_ready= async function (message){
 
 
 }
+

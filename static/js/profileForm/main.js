@@ -204,7 +204,7 @@ exports.initModal = function(clientVars){
                 helper.userLogin({
                     username : username,
                 })
-                shared.loginByEmailAndUsernameWithoutValidation(username,"")
+                shared.loginByEmailAndUsernameWithoutValidation(username,"",false)
 
             }
             if (currentSection=="email"){
@@ -214,7 +214,7 @@ exports.initModal = function(clientVars){
                     return false;
                 }
                 var username = $("#ep_profile_modalForm_name").val()
-                shared.loginByEmailAndUsernameWithoutValidation(username,userEmail)
+                shared.loginByEmailAndUsernameWithoutValidation(username,userEmail,true)
                 sendEmailVerification(userEmail,username)
                 $("#ep_profile_modalForm_email").css({"border":"1px solid gray"})
             }

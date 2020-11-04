@@ -21,6 +21,11 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	  $("#userlist_count").text(totalUserCount)
 	}
 
+	if(context.payload.action == "EP_PROFILE_MODAL_PROMPT_DATA"){ // when we quess user by exist data prompt
+		console.log("we gottttttttttttttttttttttttttttt",context.payload)
+
+		
+	}
 	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
 		var onlineUsers = pad.collabClient.getConnectedUsers();
 		console.log("pay;lpad", context.payload)
