@@ -48,14 +48,24 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		
 		if (current_user_id ==context.payload.userId){
 			helper.refreshUserImage(current_user_id,context.payload.padId)
-			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
+//			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
 		}else{
 			helper.refreshGeneralImage(context.payload.userId,context.payload.padId)
 		}
 		
+		syncData.resetGeneralFields(context.payload.userId)
 
+		// making user as anonymous
+		var online_anonymous_selector = helper.isThereOnlineAnonymous()
+		if (online_anonymous_selector){
+			
+			helper.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
+		}else{
+			helper.createOnlineAnonymousElement(context.payload.userId,Anonymous,image_url,{})
+		}
 
+		helper.removeUserElementInUserList(context.payload.userId)
 	}
 
 	if (context.payload.action =="EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT"){
@@ -64,6 +74,7 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
 
+		console.log("we got ",context.payload)
 
 		/////////////////// related to user list when user has been loginned
 		var online_anonymous_selector = helper.isThereOnlineAnonymous()
@@ -91,15 +102,18 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	// change owner loginned img at top of page
 		if (current_user_id ==context.payload.userId){
 			helper.refreshUserImage(current_user_id,context.payload.padId)
-
-			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
-
 			syncData.syncAllFormsData(context.payload.userId , context.payload.user)
+
+			//$("#ep_profile_modal_section_info_name").text(context.payload.userName);
+
 
 		}else{
 			helper.refreshGeneralImage(context.payload.userId,context.payload.padId)
+			syncData.syncGeneralFormsData(context.payload.userId , context.payload.user)
 
 		}
+
+
 		
 
 

@@ -2,17 +2,23 @@ var shared = require("./shared")
 
 exports.syncAllFormsData = function (userId,data){
 
-    //users List 
+        //users List 
         var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
         if(user_selector.length)
         {
             user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text(data.username);
-            user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text(data.about);
-            var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
-            children(".ep_profile_user_list_profile_homepage_link")
-            homepageElem.text(data.homepage);
-            homepageElem.attr({"href":shared.getValidUrl(data.homepage)})
-        } 
+            if(data.about)
+                user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text(data.about);
+            if(data.homepage){
+                var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
+                children(".ep_profile_user_list_profile_homepage_link")
+                homepageElem.text(data.homepage );
+                homepageElem.attr({"href":shared.getValidUrl(data.homepage)})
+            }
+
+        }else{
+            console.log("we didn't find that elementr",user_selector)
+        }
     // users list
 
 
@@ -26,6 +32,7 @@ exports.syncAllFormsData = function (userId,data){
     // profile card 
 
     // profile modal
+
         $("#ep_profile_modal-username").val(data.username)
         $("#ep_profile_modal-about").val(data.about)
         $("#ep_profile_modal-homepage").val(data.homepage)
@@ -45,8 +52,26 @@ exports.syncAllFormsData = function (userId,data){
 
     // profile modal
 
+   
 
 }
+exports.syncGeneralFormsData = function (userId,data){
+    var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+    if(user_selector.length)
+    {
+        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text(data.username);
+        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text(data.about);
+        var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
+        children(".ep_profile_user_list_profile_homepage_link")
+        homepageElem.text(data.homepage );
+        homepageElem.attr({"href":shared.getValidUrl(data.homepage)})
+    
+
+    }else{
+        console.log("we didn't find that elementr",user_selector)
+    }
+}
+
 
 exports.resetProfileModalFields = function(){
     $("#ep_profile_modal-username").val("")
@@ -58,4 +83,20 @@ exports.resetProfileModalFields = function(){
     $("#ep_profile_modalForm_email").val("")
     $("#ep_profile_modal_homepage").val("")
     $("#ep_profile_modalForm_about_yourself").val("")
+}
+exports.resetGeneralFields = function(userId){
+    var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
+    if(user_selector.length)
+    {
+        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text("");
+        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text("");
+        var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
+        children(".ep_profile_user_list_profile_homepage_link")
+        homepageElem.text("" );
+        homepageElem.attr({"href":""})
+       
+
+    }else{
+        console.log("we didn't find that elementr",user_selector)
+    }
 }

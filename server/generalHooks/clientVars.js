@@ -9,7 +9,7 @@ exports.clientVars = async function  (hook, context, callback){
     var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
 
     //* collect user If just enter to pad */
-    var pad_users = await db.get("ep_profile_modal_contributed_"+padId);
+    var pad_users = await db.get("ep_profile_modal_contributed_"+padId) || [];
     //// counting how many email input
     var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+padId) || [];
     console.log(email_contributed_users,"email_contributed_users")
@@ -19,7 +19,7 @@ exports.clientVars = async function  (hook, context, callback){
     console.log(pad_users,"pad_users")
     if (pad_users){
       if (pad_users.indexOf(context.clientVars.userId) == -1){
-        if(!user.email && user.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+        if(!user.email && !user.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
           pad_users.push(context.clientVars.userId)
           db.set("ep_profile_modal_contributed_"+padId , pad_users);
         }
@@ -40,7 +40,7 @@ exports.clientVars = async function  (hook, context, callback){
         // tell everybody that total user has been changed
       }
     }else{
-      if(!user.email && user.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+      if(!user.email && !user.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
         pad_users = [ context.clientVars.userId ]
         db.set("ep_profile_modal_contributed_"+padId , pad_users);
       }
