@@ -31,6 +31,11 @@ exports.handleMessage = async function(hook_name, context, callback){
 
     var message = context.message.data;
   
+    if(message.action ==="ep_profile_modal_prefill"){
+      ep_profile_modal_prefill(message)
+      
+    }
+    
     if(message.action ==="ep_profile_modal_info"){
         ep_profile_modal_info(message)
         
@@ -71,6 +76,12 @@ exports.handleMessage = async function(hook_name, context, callback){
 //     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {}; 
 // }
 
+const ep_profile_modal_prefill = async function(message){
+  var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
+  user.image = message.data.image 
+  await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
+
+}
 
 const ep_profile_modal_login = async function(message){
     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
@@ -118,8 +129,10 @@ const ep_profile_modal_login_check_prompt = async function(message,client){
         type: "CUSTOM",
         payload : {
             padId: message.padId,
+            userId: message.userId,
             action:"EP_PROFILE_MODAL_PROMPT_DATA",
             data :{
+              email:message.email,
               image : emailUser.image || null,
               about : emailUser.about ,
               homepage : emailUser.homepage ,

@@ -24,7 +24,28 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	if(context.payload.action == "EP_PROFILE_MODAL_PROMPT_DATA"){ // when we quess user by exist data prompt
 		console.log("we gottttttttttttttttttttttttttttt",context.payload)
 
-		
+		if (confirm('Do you want to prefill your existing data?')) {
+			//for set image 
+			if (context.payload.data.image){
+				var message = {
+					type : 'ep_profile_modal',
+					action : "ep_profile_modal_prefill" ,
+					userId :  context.payload.userId,
+					data: context.payload.data,
+					padId : context.payload.padId
+				  }
+				pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+			}
+
+			$("#ep_profile_modal_homepage").val(context.payload.data.homepage)
+			$("#ep_profile_modalForm_about_yourself").val(context.payload.data.about)
+
+			// Save it!
+			console.log('Thing was saved to the database.');
+		  } else {
+			// Do nothing!
+			console.log('Thing was not saved to the database.');
+		  }
 	}
 	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
 		var onlineUsers = pad.collabClient.getConnectedUsers();
