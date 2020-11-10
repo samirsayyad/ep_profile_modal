@@ -371,6 +371,7 @@ var checkUserExistInOnlineAnonymous = function(selector_on,userId){
 }
 
 var createOnlineAnonymousElement = function(userId , userName , imageUrl,user){
+    var online_list_selector = $("#ep_profile_user_list_container") 
     var userListHtml = getHtmlOfUsersList(userId ,userName ,  imageUrl,"on_Anonymous",user.about , user.homepage)
     console.log("createOnlineAnonymousElement",userListHtml)
     online_list_selector.append(userListHtml);
