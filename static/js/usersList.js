@@ -76,7 +76,7 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 			
 			helper.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
 		}else{
-			helper.createOnlineAnonymousElement(context.payload.userId,Anonymous,image_url,{})
+			helper.createOnlineAnonymousElement(context.payload.userId,"Anonymous",image_url,{})
 		}
 
 		helper.removeUserElementInUserList(context.payload.userId)
