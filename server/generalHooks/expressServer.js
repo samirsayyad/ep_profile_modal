@@ -77,7 +77,7 @@ exports.expressConfigure = async function (hookName, context) {
 
             //upsert general data on each validation.
             var emailUser = await db.get("ep_profile_modal:"+user.email) ;
-            user.pads = emailUser.pads // store pads of verified users
+            user.pads = emailUser.pads || [] // store pads of verified users
             if(user.pads){
                 if(user.pads.indexOf(padId) == -1){
                     user.pads.push(padId)
