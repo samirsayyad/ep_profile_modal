@@ -32,6 +32,8 @@ exports.expressConfigure = async function (hookName, context) {
 
         var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
         if (user.confirmationCode === confirmCode){
+            if (user.image!=="" && user.image!=="reset" && user.image)
+                user.image = await moveImageToAccount(userId,padId,user.email) || user.image
             user.confirmationCode = 0
             user.verified = true 
             user.updateDate = new Date()
@@ -332,7 +334,11 @@ exports.expressConfigure = async function (hookName, context) {
             var fileType = path.extname(filename)
             var fileTypeWithoutDot = fileType.substr(1);
             var fileRead=[];
-            var savedFilename = path.join(userId,padId, newFileName + fileType);
+            var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
+            if (user.verified)
+                var savedFilename = path.join(user.email,padId, newFileName + fileType);
+            else
+                var savedFilename = path.join(userId,padId, newFileName + fileType);
             file.on('limit', function () {
                 return res.status(201).json({"error":"File is too large"})
             });
@@ -435,6 +441,28 @@ exports.expressConfigure = async function (hookName, context) {
 }
 
  
+
+const moveImageToAccount = async (userId , padId ,email)=>{
+    var s3  = new AWS.S3({
+        accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
+        secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
+        endpoint: settings.ep_profile_modal.storage.endPoint, 
+        s3ForcePathStyle: true, // needed with minio?
+        signatureVersion: 'v4'
+    });
+    var Key = user.image ;
+    var newKey = `${email}/${Key.replace(userId, '')}`
+    await s3.copyObject({
+        Bucket: settings.ep_profile_modal.storage.bucket,
+        CopySource: `${Key}`,  // old file Key
+        Key: newKey, // new file Key
+      }).promise();
+    await s3.deleteObject({
+        Bucket: settings.ep_profile_modal.storage.bucket,
+        Key: Key,
+        }).promise();
+    return newKey
+}
 const getBestImageReszie = (originalWidth, originalHeight,size) =>{
     var ratio = originalWidth / originalHeight;
     var targetWidth = targetHeight = Math.min(size, Math.max(originalWidth, originalHeight));
@@ -452,7 +480,6 @@ const getBestImageReszie = (originalWidth, originalHeight,size) =>{
     srcX = srcY = 0;
     return {width :targetWidth , height : targetHeight}
 }
-
 function getValidUrl (url = ""){
     if(url=="") return "";
     let newUrl = decodeURIComponent(url);
@@ -466,8 +493,7 @@ function getValidUrl (url = ""){
     }
   
     return newUrl;
-  };
-
+};
 const sendToRoom = (msg) =>{
     var bufferAllows = true; // Todo write some buffer handling for protection and to stop DDoS -- myAuthorId exists in message.
     if(bufferAllows){
@@ -485,8 +511,7 @@ const sendToRoom = (msg) =>{
       }
       , 100);
     }
-  }
-
+}
 const validation = (variable) =>{
     if (variable=="null" || !variable || variable==undefined || variable==""|| variable==null)
         return false
