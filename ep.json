@@ -12,15 +12,17 @@
 
 			},
 			"hooks":{
-				"eejsBlock_styles": "ep_profile_modal/profile",
-				"clientVars": "ep_profile_modal/profile",
-				"handleMessage": "ep_profile_modal/profile",
-				"eejsBlock_scripts":"ep_profile_modal/profile",
-				
-				"expressConfigure": "ep_profile_modal/profileServer:expressConfigure",
-                "expressCreateServer" : "ep_profile_modal/server/admin/admin:registerRoute",
-                "eejsBlock_adminMenu" : "ep_profile_modal/server/admin/admin:eejsBlock_adminMenu",
-                "socketio" : "ep_profile_modal/server/admin/admin:socketio"
+				"eejsBlock_styles": "ep_profile_modal/server/generalHooks/blocks",
+				"eejsBlock_scripts":"ep_profile_modal/server/generalHooks/blocks",
+
+				"clientVars": "ep_profile_modal/server/generalHooks/clientVars",
+				"handleMessage": "ep_profile_modal/server/generalHooks/handleMessage",
+
+				"expressConfigure": "ep_profile_modal/server/generalHooks/expressServer",
+
+                "expressCreateServer" : "ep_profile_modal/server/adminHooks/admin:registerRoute",
+                "eejsBlock_adminMenu" : "ep_profile_modal/server/adminHooks/admin:eejsBlock_adminMenu",
+                "socketio" : "ep_profile_modal/server/adminHooks/admin:socketio"
 
 			}
 		}

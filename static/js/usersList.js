@@ -21,41 +21,65 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	  $("#userlist_count").text(totalUserCount)
 	}
 
+	if(context.payload.action == "EP_PROFILE_MODAL_PROMPT_DATA"){ // when we quess user by exist data prompt
+		console.log("we gottttttttttttttttttttttttttttt",context.payload)
+
+		if (confirm('Do you want to prefill your existing data?')) {
+			//for set image 
+			if (context.payload.data.image){
+				var message = {
+					type : 'ep_profile_modal',
+					action : "ep_profile_modal_prefill" ,
+					userId :  context.payload.userId,
+					data: context.payload.data,
+					padId : context.payload.padId
+				  }
+				pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+			}
+
+			$("#ep_profile_modal_homepage").val(context.payload.data.homepage)
+			$("#ep_profile_modalForm_about_yourself").val(context.payload.data.about)
+
+			// Save it!
+			console.log('Thing was saved to the database.');
+		  } else {
+			// Do nothing!
+			console.log('Thing was not saved to the database.');
+		  }
+	}
 	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
 		var onlineUsers = pad.collabClient.getConnectedUsers();
 		console.log("pay;lpad", context.payload)
 		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
 	}
+	
 	if(context.payload.action == "EP_PROFILE_USER_IMAGE_CHANGE"){ // when user A change image and user B want to know
-		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
-		var avatar = $(".avatarImg[data-id=\"user_"+context.payload.userId+"/"+context.payload.padId +"\"]")
-		if (avatar.length){
-			avatar.css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
-			});
-		}
-
-		var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+context.payload.userId+"\"]") ; 
-		if(user_selector.length)
-		{
-			user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px" , "background-color":"#485365"
-			});
-		} 
+		helper.refreshGeneralImage(context.payload.userId ,context.payload.padId )
 	}
+
 	if(context.payload.action == "EP_PROFILE_USER_LOGOUT_UPDATE"){
 		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+context.payload.padId  +"?t=" + new Date().getTime()
 		
 		if (current_user_id ==context.payload.userId){
 			helper.refreshUserImage(current_user_id,context.payload.padId)
-			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
+//			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
 		}else{
 			helper.refreshGeneralImage(context.payload.userId,context.payload.padId)
 		}
 		
+		syncData.resetGeneralFields(context.payload.userId)
 
+		// making user as anonymous
+		var online_anonymous_selector = helper.isThereOnlineAnonymous()
+		if (online_anonymous_selector){
+			
+			helper.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
+		}else{
+			helper.createOnlineAnonymousElement(context.payload.userId,"Anonymous",image_url,{})
+		}
 
+		helper.removeUserElementInUserList(context.payload.userId)
 	}
 
 	if (context.payload.action =="EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT"){
@@ -64,6 +88,7 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
 
+		console.log("we got ",context.payload)
 
 		/////////////////// related to user list when user has been loginned
 		var online_anonymous_selector = helper.isThereOnlineAnonymous()
@@ -91,15 +116,18 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	// change owner loginned img at top of page
 		if (current_user_id ==context.payload.userId){
 			helper.refreshUserImage(current_user_id,context.payload.padId)
-
-			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
-
 			syncData.syncAllFormsData(context.payload.userId , context.payload.user)
+
+			//$("#ep_profile_modal_section_info_name").text(context.payload.userName);
+
 
 		}else{
 			helper.refreshGeneralImage(context.payload.userId,context.payload.padId)
+			syncData.syncGeneralFormsData(context.payload.userId , context.payload.user)
 
 		}
+
+
 		
 
 

@@ -36,7 +36,7 @@ exports.handleOnCloseOverlay = function(){
         text += `, ${data.ep_profile_modalForm_about_yourself}`
     if (data.ep_profile_modalForm_homepage !==""){
         let url = shared.getValidUrl(data.ep_profile_modalForm_homepage)
-        text += `, <a href='${url}'>${data.ep_profile_modalForm_homepage}</a>`
+        text += `, <a target='_blank' href='${url}'>${data.ep_profile_modalForm_homepage}</a>`
         // text += `, ${message.data.ep_profile_modalForm_homepage} `
     }
 
@@ -204,7 +204,7 @@ exports.initModal = function(clientVars){
                 helper.userLogin({
                     username : username,
                 })
-                shared.loginByEmailAndUsernameWithoutValidation(username,"")
+                shared.loginByEmailAndUsernameWithoutValidation(username,"",false)
 
             }
             if (currentSection=="email"){
@@ -214,7 +214,7 @@ exports.initModal = function(clientVars){
                     return false;
                 }
                 var username = $("#ep_profile_modalForm_name").val()
-                shared.loginByEmailAndUsernameWithoutValidation(username,userEmail)
+                shared.loginByEmailAndUsernameWithoutValidation(username,userEmail,true)
                 sendEmailVerification(userEmail,username)
                 $("#ep_profile_modalForm_email").css({"border":"1px solid gray"})
             }

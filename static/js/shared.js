@@ -60,7 +60,7 @@ exports.scrollDownToLastChatText = function scrollDownToLastChatText(selector) {
 	$element.animate({ scrollTop: $element[0].scrollHeight }, { duration: 400, queue: false });
 };
 
-exports.loginByEmailAndUsernameWithoutValidation =function(username , email){
+exports.loginByEmailAndUsernameWithoutValidation =function(username , email,suggestData){
     window.user_status = "login"
     var message = {
         type : 'ep_profile_modal',
@@ -68,7 +68,8 @@ exports.loginByEmailAndUsernameWithoutValidation =function(username , email){
         email : email ,
         userId :  pad.getUserId() ,
         name: username,
-        padId : pad.getPadId()
+        padId : pad.getPadId() ,
+        suggestData : suggestData
       }
     pad.collabClient.sendMessage(message);  // Send the chat position message to the server
  
@@ -98,7 +99,9 @@ exports.loginByEmailAndUsername = function(username , email){
             email : email ,
             userId :  pad.getUserId() ,
             name: username,
-            padId : pad.getPadId()
+            padId : pad.getPadId(),
+            suggestData : false
+
           }
         pad.collabClient.sendMessage(message);  // Send the chat position message to the server
         //$('#ep_profile_modal').addClass('ep_profile_modal-show')

@@ -85,7 +85,7 @@
                 The reason you're on this doc<br>
                 e.g. job title, project, goal in life
             </h3>
-            <input  type="text" name="ep_profile_modalForm_about_yourself" placeholder="" value="${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : '' }" />
+            <input  type="text" id="ep_profile_modalForm_about_yourself" name="ep_profile_modalForm_about_yourself" placeholder="" value="${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : '' }" />
 
             <input type="button" name="skip" class="close skip-button" value="Skip" />
             <input type="submit" name="submit"  data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}"  class="submit action-button" value="Save" />

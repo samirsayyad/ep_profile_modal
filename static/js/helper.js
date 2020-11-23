@@ -8,7 +8,6 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
     $.each( online.reverse(), function( key, value ) {
         
         style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px;"
-        console.log("check bo",verified_users.indexOf(value.userId),verified_users,value.userId)
         if(verified_users && verified_users.length && verified_users!=="null"&& verified_users!==null ){
             if(verified_users.indexOf(value.userId) == -1 ) 
                 borderStyle = "" ;
@@ -372,6 +371,7 @@ var checkUserExistInOnlineAnonymous = function(selector_on,userId){
 }
 
 var createOnlineAnonymousElement = function(userId , userName , imageUrl,user){
+    var online_list_selector = $("#ep_profile_user_list_container") 
     var userListHtml = getHtmlOfUsersList(userId ,userName ,  imageUrl,"on_Anonymous",user.about , user.homepage)
     console.log("createOnlineAnonymousElement",userListHtml)
     online_list_selector.append(userListHtml);
@@ -402,6 +402,19 @@ var userLogin = function(data){
     pad.collabClient.updateUserInfo({
         userId :  pad.getUserId() ,
         name: data.username,
+        colorId: "#b4b39a"
+    })
+
+}
+var userLogout = function(){
+    
+    window.user_status = "logout"
+    //$('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
+    //$("#ep_profile_modal_section_info_email").text(data.email)
+    //$("#ep_profile_modal_section_info_name").text(data.username)
+    pad.collabClient.updateUserInfo({
+        userId :  pad.getUserId() ,
+        name: "Anonymous",
         colorId: "#b4b39a"
     })
 
@@ -506,6 +519,7 @@ exports.increaseToOnlineAnonymous = increaseToOnlineAnonymous;
 exports.getHtmlOfUsersList = getHtmlOfUsersList;
 exports.decreaseFromOnlineAnonymous =decreaseFromOnlineAnonymous;
 exports.userLogin =userLogin;
+exports.userLogout=userLogout;
 exports.refreshUserImage =refreshUserImage;
 exports.refreshGeneralImage = refreshGeneralImage;
 exports.refreshLoadingImage =refreshLoadingImage;
