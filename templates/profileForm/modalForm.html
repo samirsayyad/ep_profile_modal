@@ -74,7 +74,7 @@
                     <div class="upload upload-button" >Select new photo</div>
                 </label>
             </div>
-            <h3 class="fs-subtitle">
+            <h3 class="fs-subtitle" style="margin-top:14px">
                 This is optional, and allows document collaborators to recognise you
             </h3>
             <input accept="image/*" type="file" id="profile_file_modal" class="ep_profile_modal_file" name="profile_file_modal" /> 
@@ -92,30 +92,43 @@
 
         </fieldset>
         <fieldset data-section="homepage">
-            <h3 class="fs-subtitle">4/5</h3>
-            <h2 class="fs-title">Homepage</h2>
+            <div class="ep_profile_formModal_topGroup">
+                <div class="ep_profile_formModal_topIcon"></div>
+                <div class="ep_profile_formModal_topHeaderGroup">
+                    <h2 class="ep_profile_formModal_topHeader">What's your homepage?</h2>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 4/5</h3>
+                </div>
+                <div class="ep_profile_formModal_topClose">
 
+                </div>
+            </div>
+            
+            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modalForm_homepage" placeholder="Homepage URL" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : 'https://' }"   />
             <h3 class="fs-subtitle">
-                A website that's about you<br>
-                e.g. your twitter profile page
+                Twitter profile, personal blog, etc.
             </h3>
-            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modalForm_homepage" placeholder="https://" value="${(typeof clientVars.ep_profile_modal.homepage !== 'undefined') ?  clientVars.ep_profile_modal.homepage : 'https://' }"   />
-
-            <input type="button" name="skip" class="skip skip-button" value="Skip" />
             <input type="button" name="next" class="next action-button" value="Next" />
+            <input type="button" name="skip" class="skip skip-button" value="Skip" />
         </fieldset>
         <fieldset>
-            <h3 class="fs-subtitle">5/5</h3>
-            <h2 class="fs-title">A few words about yourself</h2>
+            <div class="ep_profile_formModal_topGroup">
+                <div class="ep_profile_formModal_topIcon"></div>
+                <div class="ep_profile_formModal_topHeaderGroup">
+                    <h2 class="ep_profile_formModal_topHeader">A few words about yourself</h2>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 5/5</h3>
+                </div>
+                <div class="ep_profile_formModal_topClose">
+
+                </div>
+            </div>
+            <input placeholder="A few words about yourself" type="text" id="ep_profile_modalForm_about_yourself" name="ep_profile_modalForm_about_yourself" placeholder="" value="${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : '' }" />
 
             <h3 class="fs-subtitle">
-                The reason you're on this doc<br>
-                e.g. job title, project, goal in life
+                The reason you’re on this doc. e.g. job title, project, goal in life.
             </h3>
-            <input  type="text" id="ep_profile_modalForm_about_yourself" name="ep_profile_modalForm_about_yourself" placeholder="" value="${(typeof clientVars.ep_profile_modal.about !== 'undefined') ?  clientVars.ep_profile_modal.about : '' }" />
 
+            <input type="submit" name="submit"  data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}"  class="submit action-button" value="Done" />
             <input type="button" name="skip" class="close skip-button" value="Skip" />
-            <input type="submit" name="submit"  data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}"  class="submit action-button" value="Save" />
         </fieldset>
         </form>
 

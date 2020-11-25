@@ -329,7 +329,9 @@ float: right;
 	width: 64px;
 	height: 64px;
 	background: url("../../img/user.png") no-repeat 50% 50%;
-	background-size: 64px
+	background-size: 64px;
+	cursor: pointer;
+
 }
 .lable_ep_profile_modalForm_image{
 	float: left;
