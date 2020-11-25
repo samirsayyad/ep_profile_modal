@@ -168,8 +168,8 @@ exports.hideGeneralOverlay = function(){
 
 }
                
-exports.getValidUrl = function(url = ""){
-    if(url=="") return "";
+exports.getValidUrl = function(url){
+    if(url=="" || !url) return "";
     let newUrl = window.decodeURIComponent(url);
     newUrl = newUrl.trim().replace(/\s/g, "");
 
