@@ -5,7 +5,10 @@ exports.showModal = function(){
     $('#ep_profile_formModal').addClass('ep_profile_formModal_show')
     $('#ep_profile_formModal_overlay').addClass('ep_profile_formModal_overlay_show')
     $('#ep_profile_formModal_overlay').css({"display":"block"})
-}
+
+    setTimeout(function() { $('#ep_profile_modalForm_name').focus(); }, 1000);
+
+ }
 exports.hideFormModalOverlay = function(){
     $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
     $('#ep_profile_formModal_overlay').css({"display":"none"})
@@ -206,6 +209,7 @@ exports.initModal = function(clientVars){
                 })
                 shared.loginByEmailAndUsernameWithoutValidation(username,"",false)
 
+
             }
             if (currentSection=="email"){
                 var userEmail = $("#ep_profile_modalForm_email").val()
@@ -239,6 +243,12 @@ exports.initModal = function(clientVars){
             current_fs.hide();
             if (next_fs.length){
                 next_fs.show(); 
+                
+                //focus handling 
+                var nextSelection = next_fs.attr("data-section")
+                if(nextSelection=="email")
+                    $('#ep_profile_modalForm_email').focus().select();
+
             }else{ //seems last fieldset
                 submitHandle()
             }

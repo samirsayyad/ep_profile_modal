@@ -12,57 +12,84 @@
             </ul> -->
         <!-- fieldsets -->
         <fieldset data-section="name">
-            <h3 class="fs-subtitle">1/5</h3>
-            <h2 class="fs-title">What's your name?</h2>
+            <div class="ep_profile_formModal_topGroup">
+                <div class="ep_profile_formModal_topIcon"></div>
+                <div class="ep_profile_formModal_topHeaderGroup">
+                    <h2 class="ep_profile_formModal_topHeader">What's your name?</h2>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 1/5</h3>
+                </div>
+                <div class="ep_profile_formModal_topClose">
 
-            <h3 class="fs-subtitle">
-                A pseudonym is fine,<br>
-                and you can change it later
-            </h3>
+                </div>
+            </div>
             
-
-            <input type="text" id="ep_profile_modalForm_name" required="required" name="ep_profile_modalForm_name" placeholder="Name" value="${(typeof clientVars.ep_profile_modal.userName !== 'undefined' && clientVars.ep_profile_modal.userName!='Anonymous') ?  clientVars.ep_profile_modal.userName : null }" />
+                 <input type="text" placeholder="What's your name?" id="ep_profile_modalForm_name" required="required" name="ep_profile_modalForm_name" placeholder="Name" value="${(typeof clientVars.ep_profile_modal.userName !== 'undefined' && clientVars.ep_profile_modal.userName!='Anonymous') ?  clientVars.ep_profile_modal.userName : null }" />
+                <h3 class="fs-subtitle">
+                    A pseudonym is fine, and you can change it later
+                </h3>
+ 
+            
+            
             <input type="button" name="next" class="next action-button" value="Next" />
 
      
         </fieldset>
         <fieldset  data-section="email">
-            <h3 class="fs-subtitle">2/5</h3>
-            <h2 class="fs-title">Email</h2>
+            <div class="ep_profile_formModal_topGroup">
+                <div class="ep_profile_formModal_topIcon"></div>
+                <div class="ep_profile_formModal_topHeaderGroup">
+                    <h2 class="ep_profile_formModal_topHeader">What's your email address?</h2>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 2/5</h3>
+                </div>
+                <div class="ep_profile_formModal_topClose">
 
+                </div>
+            </div>
+    
+            
+            <input type="text" id="ep_profile_modalForm_email" name="ep_profile_modalForm_email" placeholder="you@example.com"  value="${(typeof clientVars.ep_profile_modal.user_email !== 'undefined') ?  clientVars.ep_profile_modal.user_email : null }"  />
             <h3 class="fs-subtitle">
-                Optional. We keep your email private,<br>
-                but it allows collaborators to contact you
+                This is optional, and allows document collaborators to contact you
             </h3>
-            <input type="text" id="ep_profile_modalForm_email" name="ep_profile_modalForm_email" placeholder="Email"  value="${(typeof clientVars.ep_profile_modal.user_email !== 'undefined') ?  clientVars.ep_profile_modal.user_email : null }"  />
- 
-                <input type="button" name="skip" class="skip skip-button" value="Skip" />
                 <input type="button" name="next" class="next action-button" value="Next" />
- 
+                <input type="button" name="skip" class="skip skip-button" value="Skip" />
+
         </fieldset>
         <fieldset  data-section="image">
-            <h3 class="fs-subtitle">3/5</h3>
-            <h2 class="fs-title">Picture</h2>
+            <div class="ep_profile_formModal_topGroup">
+                <div class="ep_profile_formModal_topIcon"></div>
+                <div class="ep_profile_formModal_topHeaderGroup">
+                    <h2 class="ep_profile_formModal_topHeader">Upload a profile photo</h2>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 3/5</h3>
+                </div>
+                <div class="ep_profile_formModal_topClose">
 
-       
-            <label class="lable_ep_profile_modal_section_image_big" for="profile_file_modal">
-                <div id="profile_modal_selected_image" class='ep_profile_modal_section_image_big' style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50%;background-size: 96px"  ></div>
-            </label>  
-            <label class="lable_ep_profile_modalForm_button" for="profile_file_modal">
-                <div class="upload upload-button" >Upload</div>
-            </label>
+                </div>
+            </div>
+            <div class="ep_profile_formModal_photoBox">
+                <label class="lable_ep_profile_modalForm_image" for="profile_file_modal">
+                    <div id="profile_modal_selected_image" class='ep_profile_formModalsection_image' ></div>
+                </label>
+                <label class="lable_ep_profile_modalForm_button" for="profile_file_modal">
+                    <div class="upload upload-button" >Select new photo</div>
+                </label>
+            </div>
+            <h3 class="fs-subtitle">
+                This is optional, and allows document collaborators to recognise you
+            </h3>
             <input accept="image/*" type="file" id="profile_file_modal" class="ep_profile_modal_file" name="profile_file_modal" /> 
             
-            <label class="lable_ep_profile_modalForm_clear_button">
+            <!-- <label class="lable_ep_profile_modalForm_clear_button">
                 
                 <div data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}" class="clear clear-button" >
                     Clear
                 </div>
 
-            </label>
-            
-            <input type="button" name="skip" class="skip skip-button" value="Skip" />
-            <input type="button" name="next" class="next action-button" value="Next" />
+            </label> -->
+ 
+            <input type="button" name="next" style="margin-top:35px" class="next action-button" value="Next" />
+            <input type="button" name="skip" style="margin-top:35px" class="skip skip-button" value="Skip" />
+
         </fieldset>
         <fieldset data-section="homepage">
             <h3 class="fs-subtitle">4/5</h3>
