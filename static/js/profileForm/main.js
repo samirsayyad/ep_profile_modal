@@ -248,6 +248,11 @@ exports.initModal = function(clientVars){
                 var nextSelection = next_fs.attr("data-section")
                 if(nextSelection=="email")
                     $('#ep_profile_modalForm_email').focus().select();
+                if (nextSelection=="homepage")
+                    $('#ep_profile_modal_homepage').focus().select();
+                if (nextSelection=="bio")
+                    $('#ep_profile_modalForm_about_yourself').focus().select();
+
 
             }else{ //seems last fieldset
                 submitHandle()
