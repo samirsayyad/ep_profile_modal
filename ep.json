@@ -3,11 +3,11 @@
 		{
 			"name":"profile_modal",
 			"client_hooks":{
-				"postAceInit":"ep_profile_modal/static/js/profileModal",
-				"aceInitialized":"ep_profile_modal/static/js/initialize",
-				"handleClientMessage_USER_NEWINFO": "ep_profile_modal/static/js/usersList",
-				"handleClientMessage_USER_LEAVE" :  "ep_profile_modal/static/js/usersList",
-				"handleClientMessage_CUSTOM": "ep_profile_modal/static/js/usersList",
+				"postAceInit":"ep_profile_modal/static/js/postAceInit",
+				"aceInitialized":"ep_profile_modal/static/js/aceInitialized",
+				"handleClientMessage_USER_NEWINFO": "ep_profile_modal/static/js/handleClientMessage",
+				"handleClientMessage_USER_LEAVE" :  "ep_profile_modal/static/js/handleClientMessage",
+				"handleClientMessage_CUSTOM": "ep_profile_modal/static/js/handleClientMessage",
                 "documentReady" : "ep_profile_modal/static/js/admin/admin:documentReady"
 
 			},

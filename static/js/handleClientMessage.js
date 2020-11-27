@@ -1,16 +1,17 @@
 var helper = require("./helper")
+var contributors = require("./contributors/contributors")
 var syncData = require("./syncData")
 var shared = require("./shared")
 
 exports.handleClientMessage_USER_NEWINFO = function(hook, context){
 	var padId = pad.getPadId()
 
-	helper.increaseUserFromList(context.payload.userId,padId)
+	contributors.increaseUserFromList(context.payload.userId,padId)
 }
 exports.handleClientMessage_USER_LEAVE = function(hook, context){
 	var padId = pad.getPadId()
 
-	helper.decreaseUserFromList(context.payload.userId,padId)
+	contributors.decreaseUserFromList(context.payload.userId,padId)
 }
 
 exports.handleClientMessage_CUSTOM = function(hook, context, cb){
@@ -22,8 +23,6 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	}
 
 	if(context.payload.action == "EP_PROFILE_MODAL_PROMPT_DATA"){ // when we quess user by exist data prompt
-		console.log("we gottttttttttttttttttttttttttttt",context.payload)
-
 		if (confirm('Do you want to prefill your existing data?')) {
 			//for set image 
 			if (context.payload.data.image){
@@ -41,16 +40,11 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 			$("#ep_profile_modalForm_about_yourself").val(context.payload.data.about)
 
 			// Save it!
-			console.log('Thing was saved to the database.');
-		  } else {
-			// Do nothing!
-			console.log('Thing was not saved to the database.');
-		  }
+		  } 
 	}
 	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
 		var onlineUsers = pad.collabClient.getConnectedUsers();
-		console.log("pay;lpad", context.payload)
-		helper.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
+		contributors.manageOnlineOfflineUsers(context.payload.list ,onlineUsers , pad.getUserId())
 	}
 	
 	if(context.payload.action == "EP_PROFILE_USER_IMAGE_CHANGE"){ // when user A change image and user B want to know
@@ -74,12 +68,12 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		var online_anonymous_selector = helper.isThereOnlineAnonymous()
 		if (online_anonymous_selector){
 			
-			helper.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
+			contributors.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
 		}else{
-			helper.createOnlineAnonymousElement(context.payload.userId,"Anonymous",image_url,{})
+			contributors.createOnlineAnonymousElement(context.payload.userId,"Anonymous",image_url,{})
 		}
 
-		helper.removeUserElementInUserList(context.payload.userId)
+		contributors.removeUserElementInUserList(context.payload.userId)
 	}
 
 	if (context.payload.action =="EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT"){
@@ -87,29 +81,26 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 	}
 	if(context.payload.action == "EP_PROFILE_USER_LOGIN_UPDATE"){
-
-		console.log("we got ",context.payload)
-
 		/////////////////// related to user list when user has been loginned
-		var online_anonymous_selector = helper.isThereOnlineAnonymous()
+		var online_anonymous_selector = contributors.isThereOnlineAnonymous()
 		if (context.payload.userName == "Anonymous"){
 			if (online_anonymous_selector){
 			
-				helper.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
+				contributors.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)
 			}else{
-				helper.createOnlineAnonymousElement(context.payload.userId,context.payload.userName,context.payload.img,context.payload.user)
+				contributors.createOnlineAnonymousElement(context.payload.userId,context.payload.userName,context.payload.img,context.payload.user)
 			}
 
-			helper.removeUserElementInUserList(context.payload.userId)
+			contributors.removeUserElementInUserList(context.payload.userId)
 
 		}else{
 			if (online_anonymous_selector){
 				
-				if (helper.checkUserExistInOnlineAnonymous(online_anonymous_selector,context.payload.userId)){
-					helper.decreaseFromOnlineAnonymous(online_anonymous_selector,context.payload.userId)
+				if (contributors.checkUserExistInOnlineAnonymous(online_anonymous_selector,context.payload.userId)){
+					contributors.decreaseFromOnlineAnonymous(online_anonymous_selector,context.payload.userId)
 				}
 			}
-			helper.createOnlineUserElementInUserList(context.payload.userId,context.payload.userName,context.payload.img ,current_user_id  , context.payload.user)
+			contributors.createOnlineUserElementInUserList(context.payload.userId,context.payload.userName,context.payload.img ,current_user_id  , context.payload.user)
 		}
 
 

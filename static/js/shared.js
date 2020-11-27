@@ -182,3 +182,13 @@ exports.getValidUrl = function(url){
 
     return newUrl;
 };
+
+exports.getMonthName = function(monthNumber) {
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[monthNumber - 1];
+}
+exports.getCustomeFormatDate = function(date) {
+    if (date == "today" || date == "yesterday" ) return "Last seen "+date;
+    date = date.split("-");
+    return "Last seen "+ date[2] + " " + getMonthName(date[1]) + " " + date[0]
+}

@@ -1,14 +1,18 @@
 <script id="ep_profile_modal_user_list_script" type="text/html">
     <div class='ep_profile_modal_user_list' id='ep_profile_modal_user_list'>
-        <div id='ep_profile_modal_user_list_close'>&times;</div>
 
         <div id="ep_profile_user_list_container" class="ep_profile_user_list_container" >
-            <div class="ep_profile_user_list_date_title" id="ep_profile_user_list_date_title">
-                <p class='ep_profile_user_date_title'> Contributors </p>
+            <div class="ep_profile_user_list_date_title_header" id="ep_profile_user_list_date_title">
+                <div class='ep_profile_header_of_contributors'> Contributors 
+                </div>
+                    <div id='ep_profile_modal_user_list_close' class="ep_prfile_close_icon"></div>
+
+              
+
             </div>
             <div data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
        
-                <div class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 128px ; background-color : #485365" ></div>
+                <div class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ; background-color : #485365" ></div>
         
                 <div class="ep_profile_user_list_profile_userDesc">
         
