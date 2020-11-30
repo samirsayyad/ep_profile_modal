@@ -84,7 +84,7 @@ exports.decreaseUserFromList = function (userId,padId){
     if(user_selector.length)
     {
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px","background-color":"#3873E0"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px",
         });
     } 
 
@@ -118,7 +118,7 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                     }
                     if (currentUserId == value.userId)
                         $(".ep_profile_user_row[data-id='user_list_on_Anonymous']").css({"margin-top": "28px"}) //design 
-                        
+
                 }else{
 
 
@@ -372,7 +372,7 @@ exports.createOnlineUserElementInUserList = function (userId,userName,img,curren
         user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").children(".ep_profile_user_list_username_text")
         .text(userName);
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+img+")" , "background-repeat":"no-repeat","background-size": "69px","background-color":"#3873E0"
+        "background-image":"url("+img+")" , "background-repeat":"no-repeat","background-size": "69px"
         });
         //attr("src",img);
 

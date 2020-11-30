@@ -39,7 +39,7 @@ exports.refreshUserImage = function (userId ,padId ){
     if(user_selector.length)
     {
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px" , "background-color":"#3873E0"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px" ,
         });
     }
 }
@@ -64,7 +64,7 @@ exports.refreshLoadingImage = function (userId ,padId ){
     if(user_selector.length)
     {
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px" , "background-color":"#3873E0"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px" ,
         });
     }
 }
@@ -81,7 +81,7 @@ exports.refreshGeneralImage = function (userId ,padId ){
     if(user_selector.length)
     {
         user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px" , "background-color":"#3873E0"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px" ,
         });
     }
 }
