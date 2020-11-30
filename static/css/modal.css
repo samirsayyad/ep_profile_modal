@@ -303,6 +303,16 @@
 
 }
 .ep_profile_header_of_contributors{
+    padding-left: 26px;
+    padding-bottom: 5px;
+    padding-top: 32px;
+    float: left;
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+    color: #000000;
 
 }
 
@@ -319,7 +329,7 @@
     float: left;
     height: 69px;
     width: 69px;
-
+    border-radius: 145.833px;
 }
 .ep_profile_user_username{
    
@@ -329,38 +339,85 @@
     font-weight: 700;
  
 }
+.ep_profile_contributor_status{
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 134.19%;
+    color: #848484;
+    float: right;
+    max-width: 114px;
+    height: 17px;
+    padding-top: 1px;
+}
 .ep_profile_user_list_container{
     height: auto;
     width: 100%;
-    border-bottom: 1px solid #000000;
+}
+.ep_profile_contributor_link_container{
+    background-image: url("../img/link.png");
+    width: 20px;
+    height: 10px;
+    margin-left: 9px;
+    margin-top : 5px;
+    float: left;
+
+}
+.ep_profile_user_list_username_text{
+    max-width: 130px;
+    overflow: hidden;
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    align-items: center;
+    color: #000000;
+    word-break: break-all;
+    float: left;
+
+
 }
 .ep_profile_user_list_username
 {
-    text-align: left;
-    font-weight: bold;
-    font-size: 14pt;
-    color: black;
-    margin-bottom: 5px;
-    /* text-align: left; */
-    text-align: left;
     word-break: break-all;
-    /* margin-top: 20px; */
     height: 22px;
     overflow: hidden;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    align-items: center;
+    color: #000000;
+    width: 100%;
+    float: left;
+
 }
 .ep_profile_user_list_profile_userDesc{
     float: left;
+    padding-left: 26px;
+    width: 440px;
     /* margin-top: 20px;
     margin-left: 20px;
     width: 161px; */
 }
 .ep_profile_user_list_profile_desc {
     text-align: left;
-    font-style: italic;
-    text-align: left;
     word-break: break-all;
     height: 25px;
     overflow: hidden;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 134.19%;
+    padding-top: 5.5px;
+    float: left;
+    color: #474747;
+
+
 }
 .ep_profile_user_list_profile_homepage{
     text-align: left;

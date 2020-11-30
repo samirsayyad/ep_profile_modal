@@ -5,27 +5,26 @@
             <div class="ep_profile_user_list_date_title_header" id="ep_profile_user_list_date_title">
                 <div class='ep_profile_header_of_contributors'> Contributors 
                 </div>
-                    <div id='ep_profile_modal_user_list_close' class="ep_prfile_close_icon"></div>
-
-              
-
+                <div id='ep_profile_modal_user_list_close' class="ep_prfile_close_icon"></div>
             </div>
             <div data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
        
-                <div class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ; background-color : #485365" ></div>
+                <div class="ep_profile_user_img" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ; background-color : #3873E0" ></div>
         
                 <div class="ep_profile_user_list_profile_userDesc">
         
-                    <p class="ep_profile_user_list_username">
-                        ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
-                    </p>
+                    <div class="ep_profile_user_list_username">
+                        <div class="ep_profile_user_list_username_text" >
+                            ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
+                        </div>
+                        <a target="_blank"  class='ep_profile_contributor_link_container'  href="${ep_profile_modal.homepage} " title="${(ep_profile_modal.homepage !=='#') ? ep_profile_modal.homepage : '' }"></a>
+                        <div class="ep_profile_contributor_status">
+                            Online
+                        </div>
+                    </div>
                     <p class="ep_profile_user_list_profile_desc">
                         ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
 
-                    </p>
-                    <p class="ep_profile_user_list_profile_homepage" >
-                        <a target="_blank"  class='ep_profile_user_list_profile_homepage_link'  href="${ep_profile_modal.homepage} "> ${(ep_profile_modal.homepage !=="#") ? ep_profile_modal.homepage : "" } 
-                        </a>
                     </p>
         
                 </div>

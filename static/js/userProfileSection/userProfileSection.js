@@ -22,7 +22,7 @@ exports.initiateListeners = function(){
             beforeSend: function() {
                 var image_url ='../static/plugins/ep_profile_modal/static/img/loading.gif'
                 $("#ep_profile_users_profile_userImage").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px","background-color":"#485365"
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px","background-color":"#3873E0"
                 });  
                 $('#ep_profile_users_profile').removeClass('ep_profile_formModal_show')
            
@@ -50,7 +50,7 @@ exports.initiateListeners = function(){
 
 
                 $("#ep_profile_users_profile_userImage").css({"background-position":"50% 50%",
-				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px","background-color":"#485365"
+				"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "128px","background-color":"#3873E0"
                 });
                 
 

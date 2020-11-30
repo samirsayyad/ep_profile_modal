@@ -65,7 +65,7 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		syncData.resetGeneralFields(context.payload.userId)
 
 		// making user as anonymous
-		var online_anonymous_selector = helper.isThereOnlineAnonymous()
+		var online_anonymous_selector = contributors.isThereOnlineAnonymous()
 		if (online_anonymous_selector){
 			
 			contributors.increaseToOnlineAnonymous(online_anonymous_selector ,context.payload.userId)

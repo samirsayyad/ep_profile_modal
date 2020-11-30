@@ -190,5 +190,10 @@ exports.getMonthName = function(monthNumber) {
 exports.getCustomeFormatDate = function(date) {
     if (date == "today" || date == "yesterday" ) return "Last seen "+date;
     date = date.split("-");
-    return "Last seen "+ date[2] + " " + getMonthName(date[1]) + " " + date[0]
+    return "Last seen "+ date[2] + " " + exports.getMonthName(date[1]) + " " + date[0]
+}
+exports.getCustomDate = function(date) {
+    if (date == "today" || date == "yesterday" ) return "Last seen "+date;
+    date = date.split("-");
+    return "Last seen "+ date[2] +"/"+ date[1] + "/" + date[0]
 }

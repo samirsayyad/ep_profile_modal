@@ -6,15 +6,15 @@ exports.syncAllFormsData = function (userId,data){
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
     if(user_selector.length)
     {
-        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text(data.username);
-        if(data.about)
-            user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text(data.about);
+        var usernameBox = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username")
+        usernameBox.children(".ep_profile_user_list_username_text").text(data.username);
+
+        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text(data.about);
         if(data.homepage){
-            var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
-            children(".ep_profile_user_list_profile_homepage_link")
-            homepageElem.text(data.homepage );
+            var homepageElem = usernameBox.children(".ep_profile_contributor_link_container") 
             homepageElem.attr({"href":shared.getValidUrl(data.homepage)})
         }
+        usernameBox.children(".ep_profile_contributor_status").text("Online")
 
     }
     // users list
@@ -57,12 +57,17 @@ exports.syncGeneralFormsData = function (userId,data){
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
     if(user_selector.length)
     {
-        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text(data.username);
+        var usernameBox = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username")
+        usernameBox.children(".ep_profile_user_list_username_text").text(data.username);
+
         user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text(data.about);
-        var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
-        children(".ep_profile_user_list_profile_homepage_link")
-        homepageElem.text(data.homepage );
+
+        var homepageElem = usernameBox.children(".ep_profile_contributor_link_container") 
         homepageElem.attr({"href":shared.getValidUrl(data.homepage)})
+        
+
+        usernameBox.children(".ep_profile_contributor_status").text("Online")
+
     }
 }
 
@@ -82,13 +87,12 @@ exports.resetGeneralFields = function(userId){
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
     if(user_selector.length)
     {
-        user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text("");
+        var usernameBox = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username")
+        usernameBox.children(".ep_profile_user_list_username_text").text("");
         user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_desc").text("");
-        var homepageElem = user_selector.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_profile_homepage").
-        children(".ep_profile_user_list_profile_homepage_link")
-        homepageElem.text("" );
+        var homepageElem = usernameBox.children(".ep_profile_contributor_link_container") 
         homepageElem.attr({"href":""})
-       
+        usernameBox.children(".ep_profile_contributor_status").text("")
 
     }
 }
