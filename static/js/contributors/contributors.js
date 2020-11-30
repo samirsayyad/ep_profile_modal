@@ -55,7 +55,7 @@ exports.decreaseUserFromList = function (userId,padId){
     }else{
         var selector_on = $(".ep_profile_user_row[data-id=\"user_list_on_Anonymous\"]") ;
         if(selector_on.length){
-            var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous_today\"]") ;
+            var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous\"]") ;
             exports.decreaseFromOnlineAnonymous(selector_on,userId)
             if(selector_off.length){
                 exports.increaseToOfflineAnonymous(selector_off,userId)
@@ -64,13 +64,13 @@ exports.decreaseUserFromList = function (userId,padId){
             }
         }
         else{
-            var offline_list_selector = $("#ep_profile_user_list_offline_today") 
+            var offline_list_selector = $("#ep_profile_user_list_offline") 
             if(offline_list_selector.length){
                 offline_list_selector.append($(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]"))
             }else{
                 var offline_container = $("#ep_profile_user_list_container_off") 
-                offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_today'> </div>" );
-                offline_list_selector = $("#ep_profile_user_list_offline_today") 
+                offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'> </div>" );
+                offline_list_selector = $("#ep_profile_user_list_offline") 
                 $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]").appendTo(offline_list_selector)
         
             }
@@ -114,7 +114,11 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                     }else{
                         var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl,"on_Anonymous",value.about,value.homepage , "Online")
                         online_list_selector.append(userListHtml);
+                      
                     }
+                    if (currentUserId == value.userId)
+                        $(".ep_profile_user_row[data-id='user_list_on_Anonymous']").css({"margin-top": "28px"}) //design 
+                        
                 }else{
 
 
@@ -138,46 +142,23 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                         }
                         
                     }
+                    if (currentUserId == value.userId)
+                        $(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").css({"margin-top": "28px"}) //design 
+
                 }
 
             }else{ // offline
                 if(value.last_seen_date !==""){
-                    if (value.userName == "Anonymous" ){
-                        var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous_"+value.last_seen_date +"\"]") ;
-                        if(selector_off.length){
-                            var anonymouseCount = selector_off.attr("data-anonymouseCount")
-                            var new_anonymouseCount= parseInt(anonymouseCount)+1
-    
-                            var ids_data_off = selector_off.attr("data-user-ids")
-                            var ids_data_off_array = ids_data_off.split(',');
-                            ids_data_off_array.push(value.userId)
-                            selector_off.attr("data-user-ids",ids_data_off_array.join(","))
-    
-                            selector_off.attr('data-anonymouseCount',new_anonymouseCount);
-                            selector_off.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").children(".ep_profile_user_list_username_text").text("Anonymous ×"+new_anonymouseCount);
-                        }else{
-                            
-                            //createOfflineAnonymousElement(value.userId , value.imageUrl,value.about,value.homepage,)
-                            var userListHtml = getHtmlOfUsersList(value.userId ,"Anonymous" , value.imageUrl,"off_Anonymous_"+value.last_seen_date,value.about,value.homepage,shared.getCustomDate(value.last_seen_date))
-                            var selector_offlines_date = $("#ep_profile_user_list_offline_"+value.last_seen_date)
-                            if(selector_offlines_date.length){
-                                selector_offlines_date.append(userListHtml);
-                            }else{
-                                $("#ep_profile_user_list_container_off").append("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_"+
-                                    value.last_seen_date+"'>  "+userListHtml+"</div>" );
-
-                            }
-                        }
-                    }else{
+                    if (value.userName != "Anonymous" ){
+                    
                         if(!$(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").length)
                         {
                             var userListHtml = getHtmlOfUsersList(value.userId ,value.userName , value.imageUrl,false,value.about,value.homepage , shared.getCustomDate(value.last_seen_date))
-                            var selector_offlines_date = $("#ep_profile_user_list_offline_"+value.last_seen_date)
+                            var selector_offlines_date = $("#ep_profile_user_list_offline")
                             if(selector_offlines_date.length){
                                 selector_offlines_date.append(userListHtml);
                             }else{
-                                $("#ep_profile_user_list_container_off").append("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_"+
-                                value.last_seen_date+"'>   "+userListHtml+"</div>" );
+                                $("#ep_profile_user_list_container_off").append("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'>   "+userListHtml+"</div>" );
                             }
         
                         }else{
@@ -196,15 +177,53 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
         //}
     })
 
+    // just for anonymouse to be end of list
+    $.each(all_users_list, function( key, value ) {
+        //if (value.userId != currentUserId){
+            var result = $.grep(onlineUsers, function(e){ return e.userId == value.userId; });
+            if ( !result.length ){ // offline 
+                if(value.last_seen_date !=="" && value.userName == "Anonymous" ){
+                    var selector_off = $(".ep_profile_user_row[data-id=\"user_list_off_Anonymous\"]") ;
+                    if(selector_off.length){
+                        var anonymouseCount = selector_off.attr("data-anonymouseCount")
+                        var new_anonymouseCount= parseInt(anonymouseCount)+1
+
+                        var ids_data_off = selector_off.attr("data-user-ids")
+                        var ids_data_off_array = ids_data_off.split(',');
+                        ids_data_off_array.push(value.userId)
+                        selector_off.attr("data-user-ids",ids_data_off_array.join(","))
+
+                        selector_off.attr('data-anonymouseCount',new_anonymouseCount);
+                        selector_off.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").text("Anonymous ×"+new_anonymouseCount);
+                    }else{
+                        
+                        //createOfflineAnonymousElement(value.userId , value.imageUrl,value.about,value.homepage,)
+                        var userListHtml = getHtmlOfUsersList(value.userId ,"Anonymous" , value.imageUrl,"off_Anonymous",value.about,value.homepage,shared.getCustomDate(value.last_seen_date))
+                        var selector_offlines_date = $("#ep_profile_user_list_offline")
+                        if(selector_offlines_date.length){
+                            selector_offlines_date.append(userListHtml);
+                        }else{
+                            $("#ep_profile_user_list_container_off").append("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'>  "+userListHtml+"</div>" );
+
+                        }
+                    }
+                }
+            }
+    })
+
+
+    
+
 
 }
 
 var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,about,homepage , seenStatus){
-    var style = "background: url("+img+") no-repeat 50% 50% ; background-size : 69px ; background-color:#3873E0",
     about = about || ""
     homepage = homepage || ""
-
+    var style
     if (anonymous_handler && username=="Anonymous"){
+        style = "background: url("+img+") no-repeat 50% 50% ; background-size : 69px ;";
+
         return ("<div  data-user-ids='"+userId+"' data-anonymouseCount='1' data-id='user_list_"+anonymous_handler+"' class='ep_profile_user_row'>"+
         "<div style='"+style+"' class='ep_profile_user_img'></div>"+
         "<div class='ep_profile_user_list_profile_userDesc'>" + 
@@ -214,7 +233,7 @@ var getHtmlOfUsersList = function(userId,username , img , anonymous_handler,abou
             "<p class='ep_profile_user_list_profile_desc'>" +  about   + "</p>" +
         "</div> </div>") ;
     }else{
-
+        style = "background: url("+img+") no-repeat 50% 50% ; background-size : 69px ;";
         return ("<div data-id='user_list_"+userId+"' class='ep_profile_user_row'>"+
         "<div style='"+style+"' class='ep_profile_user_img'></div>"+
         "<div class='ep_profile_user_list_profile_userDesc'>" + 
@@ -311,13 +330,21 @@ exports.increaseToOfflineAnonymous = function(selector_off,userId){
 exports.createOfflineAnonymousElement = function (userId,img,about,homepage){
     var userListHtml = getHtmlOfUsersList(userId ,"Anonymous" , img,"off_Anonymous",about,homepage, "Today")  
     //$("#ep_profile_user_list_container_off").append(userListHtml);
-    var offline_list_selector = $("#ep_profile_user_list_offline_today") 
+    var offline_list_selector = $("#ep_profile_user_list_offline") 
     if(offline_list_selector.length){
-        offline_list_selector.append(userListHtml)
+        var user_selector = $(".ep_profile_user_row[data-id='user_list_off_Anonymous']") ; // because need anonymous offline be last one
+        if(user_selector.length)
+        {
+            userElemenet.insertBefore( user_selector);
+
+        }else{
+            offline_list_selector.append(userElemenet)
+        }
+
     }else{
         var offline_container = $("#ep_profile_user_list_container_off") 
-        offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_today'></div>" );
-        offline_list_selector = $("#ep_profile_user_list_offline_today") 
+        offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'></div>" );
+        offline_list_selector = $("#ep_profile_user_list_offline") 
         offline_list_selector.append(userListHtml)
 
     }
@@ -377,16 +404,26 @@ exports.createOnlineAnonymousElement = function(userId , userName , imageUrl,use
 }
 
 exports.moveOnlineUserToOffline =  function(userElemenet) {
-    var offline_list_selector = $("#ep_profile_user_list_offline_today") 
+    var offline_list_selector = $("#ep_profile_user_list_offline") 
     if(offline_list_selector.length){
-        offline_list_selector.append(userElemenet)
+        var user_selector = $(".ep_profile_user_row[data-id='user_list_off_Anonymous']") ; // because need anonymous offline be last one
+        if(user_selector.length)
+        {
+            userElemenet.insertBefore( user_selector);
+
+        }else{
+            offline_list_selector.append(userElemenet)
+        }
+            
     }else{
         var offline_container = $("#ep_profile_user_list_container_off") 
-        offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline_today'></div>" );
-        offline_list_selector = $("#ep_profile_user_list_offline_today") 
+        offline_container.prepend("<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'></div>" );
+        offline_list_selector = $("#ep_profile_user_list_offline") 
         offline_list_selector.append(userElemenet)
 
     }
+
+    userElemenet.children(".ep_profile_user_list_profile_userDesc").children(".ep_profile_user_list_username").children(".ep_profile_contributor_status").text("Last seen today")
 }
 
 exports.removeUserElementInUserList = function(userId){

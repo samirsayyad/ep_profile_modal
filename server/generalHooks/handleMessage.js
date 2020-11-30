@@ -296,8 +296,6 @@ const ep_profile_modal_ready= async function (message){
     
         },async function(err){// callback after foreach finished
           var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+message.padId) || [];
-          console.log("before foreach number 2 ",email_contributed_users)  
-
           // again start a foreach for email 
           async.forEach(email_contributed_users ,async function(value , cb ){
             var user = await db.get("ep_profile_modal:"+value.email) || {};
@@ -318,10 +316,9 @@ const ep_profile_modal_ready= async function (message){
 
           },async function(err){ // callback after foreach finished
 
-            console.log("foreach number 2 ",email_contributed_users,all_users_list)  
+            all_users_list.sort((a,b) => (a.userName == staticVars.defaultUserName) ? 1 : -1 ); // base on anonymous
+            all_users_list.sort((a,b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); // base on seen 
 
-            all_users_list.sort((a,b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); 
-    
             var msg = {
                 type: "COLLABROOM",
                 data: {
