@@ -135,7 +135,7 @@ exports.manageOnlineOfflineUsers = function (all_users_list ,onlineUsers , curre
                         if (currentUserId == value.userId){
                             
                             $(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").prependTo(online_list_selector)
-                            $(".ep_profile_user_list_date_title_header").prependTo(online_list_selector)
+                            //$(".ep_profile_user_list_date_title_header").prependTo(online_list_selector)
 
                         }else {
                             $(".ep_profile_user_row[data-id=\"user_list_"+value.userId+"\"]").appendTo(online_list_selector)
