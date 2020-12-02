@@ -30,10 +30,14 @@ exports.aceInitialized = function(hook, context){
     ///general
     modal = $("#ep_profile_modal_general_script").tmpl(clientVars);
     $("body").append(modal);
-   
+    var style = "background : url(/p/getUserProfileImage/"+userId+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
+    var onlineUsers = pad.collabClient.getConnectedUsers();
+    var usersListHTML = contributors.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count,onlineUsers,clientVars.padId,clientVars.ep_profile_modal.verified_users)
     if(clientVars.ep_profile_modal.user_status == "2"){
         window.user_status = "login";
+        $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+"</div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image' style='"+style+"' /></div></div>")
     }else{
+        $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+" </div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image'  style='"+style+"' /></div></div>")
         window.user_status = "out";
         if (clientVars.ep_profile_modal.form_passed == true){
             setTimeout(function() { 

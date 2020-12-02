@@ -20,11 +20,11 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	if(context.payload.action == "totalUserHasBeenChanged"){
 		var totalUserCount = context.payload.totalUserCount;
 		$("#userlist_count").text(totalUserCount)
-		var style = "background : url(/p/getUserProfileImage/"+current_user_id+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
-		var onlineUsers = pad.collabClient.getConnectedUsers();
-		var usersListHTML = contributors.createHTMLforUserList( context.payload.totalUserCount,onlineUsers,context.payload.padId,
-		context.payload.verified_users)
-		$("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+"</div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image' style='"+style+"' /></div></div>")
+		// var style = "background : url(/p/getUserProfileImage/"+current_user_id+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
+		// var onlineUsers = pad.collabClient.getConnectedUsers();
+		// var usersListHTML = contributors.createHTMLforUserList( context.payload.totalUserCount,onlineUsers,context.payload.padId,
+		// context.payload.verified_users)
+		// $("#pad_title").append("<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>"+usersListHTML+"</div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image' style='"+style+"' /></div></div>")
 		// var tmplObject = {
 		// 	onlineUsers : onlineUsers.reverse(),
 		// 	totalUserCount : context.payload.totalUserCount ,
