@@ -122,7 +122,7 @@ exports.initModal = function(clientVars){
         });
 
 
-        $(".close , #ep_profile_formModal_overlay").click(function(){
+        $(".close , #ep_profile_formModal_overlay , .ep_profile_formModal_topClose").click(function(){
             $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
 
             exports.hideFormModalOverlay()
