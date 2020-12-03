@@ -1,20 +1,15 @@
 .ep_profile_modal{
 	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    width: 350px;
-    height: 537px;
+    width: 587px;
+    height: 669px;
     background-color: #fff;
     position: absolute;
-    /* top: 23%;
-    right: 41.3%; */
     visibility: hidden;
         overflow: hidden;
     color: rgb(32, 33, 36);
     z-index: 9999;
 	transition: all .3s;
-	/* border-radius: 0 0 6px 6px; */
-	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
-	border: 1px solid #e6e8e9;
-    font-size: 14px;
+    border-radius: 9px;
     transform: scale(.7);
     opacity: 0;
     transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
@@ -30,6 +25,11 @@
     visibility: visible !important;
 }
 
+.ep_profile_modal_container{
+    height: 100%;
+    width: 100%;
+    padding : 32px 26px 19px 26px
+}
 #ep-profile-image{
     height: 32px;
     width: 32px;
@@ -42,10 +42,8 @@
 }
 .ep_profile_modal_section_image{
     width : 100%;
-    height: 128px;
-    margin-top: 5%;
+    height: 72px;
     text-align: center;
-    cursor: pointer;
 
 }
 .lable_ep_profile_modal_section_image_big{
@@ -67,10 +65,23 @@
 
 }
 .ep_profile_modal_section_image_big{
-    width:128px;
-    height:128px;
-    margin: auto;
-    border-radius: 50%;
+    width:72px;
+    height:72px;
+    border-radius: 100px;
+    float: left;
+}
+.lable_ep_profile_modal_section_text{
+    float: left;
+    
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    align-items: center;
+    text-align: center;
+    margin: 24px 0 0 28px;
+    color: #3873E0;
+    cursor: pointer;
 }
 .avatarImg{
     width : 26px ;
@@ -125,7 +136,7 @@
 
 }
 .ep_profile_modal_section_info_modal{
-    margin-top: 6%;
+    
 }
 .ep_profile_modal_input_box {
     display: inline-flex;
@@ -187,25 +198,36 @@
     width: 85px;
     height: 32px !important;
     border: 0;
-    background-color: red;
-    color: white;
-    margin: auto;
     float: left;
-    display: flow-root;
-    margin-left: 65px;
-    
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    align-items: center;
+    text-align: center;
+    color: #FD4B4B;
+    margin: 35px 0 0 13px;
+    background: none;
 }
 .ep_profile_modal_save{
-    width: 85px;
-    height: 32px !important;
+    width: 111px;
+    height: 48px !important;
     border: 0;
-    background-color: green;
+    background-color: #3873E0;
     color: white;
     margin: auto;
     float: right;
-    display: flow-root;
-    margin-right: 65px;
-    
+    /* display: flow-root; */
+    margin: 23px 0 0 19px;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    /* identical to box height */
+
+    align-items: center;
+    text-align: center;
 }
 
 #ep_profile_modal_close_ask{
@@ -214,18 +236,32 @@
     margin-right: 2%;
     font-size: 14pt;
     cursor: pointer;
+    
 }
 #ep_profile_modal_close{
-    color : "black" ;
-    float: right;
-    margin-right: 2%;
-    font-size: 14pt;
     cursor: pointer;
+    background-image: url("../img/close.png");
+    width: 14px;
+	height: 14px;
+	float: right;
+	cursor: pointer;
 }
 .ep_profile_modal_validation_error {
     border-color: red !important;
 }
-
+.ep_profile_modal_pm_header{
+    height: 51px;
+    width: 100%;
+}
+.ep_profile_modal_pm_header_title{
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 26px;
+    color: #000000;
+    float: left;
+}
 .ep_prfile_close_icon{
     background-image: url("../img/close.png");
 	width: 14px;
@@ -506,7 +542,7 @@
 .ep_profile_modal-form-lable-section{
     width:auto;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 28px;
 
   }
 
@@ -519,14 +555,15 @@
 
   }
   .ep_profile_modal-form-lable-section .ep_profile_modal-form-lable{
-    margin-left: 8px;
-    margin-top: 4px;
-    position: absolute;
     width: 30px;
-    text-align: center;
-    font-weight: 700;
     /* color: #0074fd; */
-  }
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #696969;
+    }
   .ep_profile_modal-form-lable-section .ep_profile_modal-form-lable-disabled{
     
     margin-left: 8px;
@@ -538,16 +575,18 @@
     color : gray;
   }
   .ep_profile_modal-content{
-    width: 220px;
-    border: 1px solid gray !important;
-    padding-left: 10px!important;
-    padding-top: 24px!important;
-    padding-bottom: 0!important;
-    padding-right: 0!important;
-    height: 51px;
-    margin: 0 !important;
-    background-color: white !important;
-
+    width: 100%;
+    padding: 17px 14px 18px 14px  !important;
+    height: 54px;
+    margin: 8px 0 0 0 !important;
+    background: #EFEFEF !important;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.25) !important;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: #474747;
   }
 .ep_profile_modal_verification{
     text-decoration: underline;
