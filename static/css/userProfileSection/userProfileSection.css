@@ -1,24 +1,26 @@
 .ep_profile_users_profile{
-	font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    width: 350px;
-    height: 128px;
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    width: 587px;
+    height: 207px;
     background-color: #fff;
     position: absolute;
-    top: 114px;
-    right: 100px;
+
     visibility: hidden;
-        overflow: hidden;
+    overflow: hidden;
     color: rgb(32, 33, 36);
     z-index: 500;
-	transition: all .3s;
-	/* border-radius: 0 0 6px 6px; */
-	box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
-	/* border: 1px solid #e6e8e9; */
+    transition: all .3s;
+    box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
     font-size: 14px;
     transform: scale(.7);
     opacity: 0;
     transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
     z-index: 9999;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
 }
 .ep_profile_users_profile_show {
     transform: scale(1) !important;
@@ -26,31 +28,32 @@
     visibility: visible !important;
 }
 .ep_profile_users_profile_userImage {
-    width:128px;
-    height:128px;
-    /* margin: auto; */
-    /* border-radius: 50%; */
-    float: right;
-    /* margin: 2px; */
+    width:69px;
+    height:69px;
+    float: left;
+    border-radius: 145.833px;
 
 }
 .ep_profile_users_profile_close{
-    color: white;
-    float: right;
-    margin-right: 2%;
-    font-size: 14pt;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-
+    background-image: url("../../img/close.png");
+	width: 14px;
+	height: 14px;
+	float: right;
+	cursor: pointer;
     
 }
-.ep_profile_users_profile_userDesc{
-    /* border-top: 1px solid gray; */
-    float: left;
-    margin-top: 20px;
-    margin-left: 20px;
-    width : 185px
+.ep_profile_users_row{
+    width: 100%;
+    height: 69px;
+    margin: 26px 26px 30px 26px;
+}
+#ep_profile_users_profile_close{
+    float: right;
+    margin-top: 38px;
+    margin-right: 31px;
+    width: 14px;
+    height: 14px;
+    background-repeat: no-repeat;
 }
 
 .ep_profile_users_profile_name{

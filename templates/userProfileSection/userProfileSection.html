@@ -1,19 +1,28 @@
 <script id="ep_profile_users_profile_script" type="text/html">
     <div class='ep_profile_users_profile' id='ep_profile_users_profile'>
-        <div class='ep_profile_users_profile_close' id='ep_profile_users_profile_close'>&times;</div>
+        <div class="ep_profile_user_list_date_title_header" id="ep_profile_user_list_date_title">
+            <div class='ep_profile_header_of_contributors'> Contributors 
+            </div>
+            <div id='ep_profile_users_profile_close' class="ep_profile_users_profile_close"></div>
+        </div>
 
-        <div id="ep_profile_users_profile_userImage" class="ep_profile_users_profile_userImage" style="background: url(/p/getUserProfileImage/${userId}/${padId}?t=${randomNumber}) no-repeat 50% 50% #485365" ></div>
-
-        <div class="ep_profile_users_profile_userDesc">
-
-            <p class="ep_profile_users_profile_name" id="ep_profile_users_profile_name">
-            </p>
-            <p class="ep_profile_users_profile_desc" id="ep_profile_users_profile_desc">
-            </p>
-            <p class="ep_profile_users_profile_homepage" >
-                <a id="ep_profile_users_profile_homepage" target="_blank" href=""></a>
-            </p>
-
+        <div class="ep_profile_users_row" >
+    
+            <div class="ep_profile_user_img" id="ep_profile_users_profile_userImage" style="background: url(/p/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ;" ></div>
+    
+            <div class="ep_profile_user_list_profile_userDesc">
+    
+                <div class="ep_profile_user_list_username">
+                    <div class="ep_profile_user_list_username_text" id="ep_profile_users_profile_name" >                    </div>
+                    <a target="_blank"  class='ep_profile_contributor_link_container' id="ep_profile_users_profile_homepage" href="#" ></a>
+                   
+                </div>
+                <p class="ep_profile_user_list_profile_desc"  id="ep_profile_users_profile_desc">
+                </p>
+    
+            </div>
+                
+    
         </div>
     </div>
 </script>

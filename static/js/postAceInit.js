@@ -25,14 +25,14 @@ exports.postAceInit = function (hook,context){
 			username.css({"border":"1px solid red"})
 			return false;
 		}
-		username.css({"border":"1px solid gray"})
+		username.css({"border":"0"})
 
 		var userEmail =email.val()
 		if (!shared.isEmail(userEmail) || userEmail==""){
 			email.css({"border":"1px solid red"})
 			return false;
 		}
-		email.css({"border":"1px solid gray"})
+		email.css({"border":"0"})
 
 		var userLink = homepage.val()
 		console.log(shared.IsValid(userLink))
@@ -40,7 +40,7 @@ exports.postAceInit = function (hook,context){
 			homepage.css({"border":"1px solid red"})
 			return false;
 		}
-		homepage.css({"border":"1px solid gray"})
+		homepage.css({"border":"0"})
 	
 		//validations
 
