@@ -143,7 +143,9 @@ exports.postAceInit = function (hook,context){
 		dummy.select();
 		document.execCommand('copy');
 		document.body.removeChild(dummy);
-		alert("Link copied to clipboard")
+		$.gritter.add({
+			text:'Link copied to clipboard',
+		  });
 	})
 
 	$('#ep-profile-button').on('click', function(){
