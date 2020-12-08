@@ -24,7 +24,7 @@ exports.refreshUserImage = function (userId ,padId ){
     var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "28px"
         });
     }
     $(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
@@ -49,7 +49,7 @@ exports.refreshLoadingImage = function (userId ,padId ){
     var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "28px"
         });
     }
     $(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
@@ -74,7 +74,7 @@ exports.refreshGeneralImage = function (userId ,padId ){
     var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "26px"
+        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "28px"
         });
     }
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 

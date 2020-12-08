@@ -35,6 +35,7 @@
     width: 32px;
     border-radius: 50%;
     cursor: pointer;
+    margin-top: 9px;
 }
 
 #ep-profile-image:hover{
@@ -84,8 +85,11 @@
     cursor: pointer;
 }
 .avatarImg{
-    width : 26px ;
-    height: 26px    ;
+    width : 28px ;
+    height: 28px;
+    box-sizing: border-box;
+    border-radius: 145.833px;
+    border: 1px solid #fff;
 }
 .ep_profile_modal_section_image_big_ask{
     width: 128px;
@@ -158,7 +162,6 @@
     margin: auto;
     display: flex;
     cursor: pointer;
-    padding-right: 5px;
 }
 .userlist_img{
  
@@ -172,20 +175,51 @@
     visibility: visible;
 }
 .userlist_count{
-    padding-right: 10px;
-    font-weight: 900;
-    font-size: 20pt;
-    color: #2678ff;
     padding-top: 4px;
-    padding-left: 5px;
+    padding-left: 3px;
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    align-items: center;
+    text-align: center;
+    color: #596271;
+
 }
 .slash_profile{
     padding-right: 1px;
-    font-weight: 900;
-    font-size: 16pt;
-    color: #2678ff;
     padding-left: 1px;
-    padding-top: 5px;
+    padding-top: 8px;
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    align-items: center;
+    text-align: center;
+    color: #596271;
+
+}
+.ep_profile_modal_share:hover , .ep_profile_modal_share:active , .ep_profile_modal_share:focus{
+    border: none;
+}
+.ep_profile_modal_share{
+    width: 79px;
+    height: 31px !important;
+    background: #3873E0;
+    box-shadow: 0px 2px 0px #2255B5;
+    border-radius: 4px;
+    border: 0;
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0 17px 0 17px;
 }
 .ep_profile_modal_submit{
     width : 160px;
@@ -475,23 +509,22 @@
     display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
-	padding-right: 8px;
     max-width: 220px;
-    padding-right: 24px;
+    padding-right: 19px;
+    padding-top:2px;
 }
 
-.ep_profile_inlineAvatars .avatar,.ep_profile_inlineAvatars .avatarMore {
+ .ep_profile_inlineAvatars .avatar,.ep_profile_inlineAvatars .avatarMore {
 	float:left;
      margin: 0 -14px 0 0; 
 	position: relative;
 	transition: all 0.2s cubic-bezier(0,.71,.47,1.1);
-	background-color: #fff;
 	display: flex;
 	flex-direction: row;
 	/* border: 2px solid #fff; */
-	border-radius: 50%;
 	float: left;
-	overflow: hidden;
+    overflow: hidden;
+   
 }
 .ep_profile_inlineAvatars  .avatar img{
 	float: left;
@@ -501,11 +534,11 @@
 }
 
 .ep_profile_inlineAvatars .avatar img{
-	 width: 26px;
-    height: 26px;
- }
+	 width: 28px;
+    height: 28px;
+ } 
 
-.ep_profile_inlineAvatars .avatarMore{
+ .ep_profile_inlineAvatars .avatarMore{
 	display: none;
 }
 
@@ -524,18 +557,18 @@
 	text-align: center;
 	order: -1;
 	margin-right: 5px;
-	font-family: Quicksand;
-	font-weight: bold;
 	background: transparent;
 	justify-content: center;
 	padding-right: 2px;
-	border-color: #fff;
-	cursor: pointer;
-}
+    cursor: pointer;
+
+} 
 .ep_profile_modal_header{
     justify-content: flex-start;
     display: flex;
     margin-left: auto;
+    padding-right: 7px;
+    height: 49px;
 }
 
 

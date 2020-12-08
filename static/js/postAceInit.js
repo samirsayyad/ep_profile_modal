@@ -134,7 +134,17 @@ exports.postAceInit = function (hook,context){
 		}
 		return false;
 	})
+	$('#ep_profile_modal_share').on('click', function(){
+		var dummy = document.createElement('input'),
+			text = window.location.href;
 
+		document.body.appendChild(dummy);
+		dummy.value = text;
+		dummy.select();
+		document.execCommand('copy');
+		document.body.removeChild(dummy);
+		alert("Link copied to clipboard")
+	})
 
 	$('#ep-profile-button').on('click', function(){
 		if ( window.user_status == "login"){
