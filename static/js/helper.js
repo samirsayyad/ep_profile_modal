@@ -25,6 +25,7 @@ exports.refreshUserImage = function (userId ,padId ){
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
         "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "28px"
+        ,"background-color": "#fff"
         });
     }
     $(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
@@ -50,6 +51,7 @@ exports.refreshLoadingImage = function (userId ,padId ){
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
         "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "28px"
+        ,"background-color": "#fff"
         });
     }
     $(".ep_profile_modal_section_image_big_ask").css({"background-position":"50% 50%",
@@ -75,6 +77,7 @@ exports.refreshGeneralImage = function (userId ,padId ){
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
         "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "28px"
+        ,"background-color": "#fff"
         });
     }
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 

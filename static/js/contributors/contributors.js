@@ -8,7 +8,7 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
     var borderStyle="";
     $.each( online.reverse(), function( key, value ) {
         
-        style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 28px;"
+        style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 28px;background-color: #fff;"
         if(verified_users && verified_users.length && verified_users!=="null"&& verified_users!==null ){
             if(verified_users.indexOf(value.userId) == -1 ) 
                 borderStyle = "" ;
@@ -20,8 +20,8 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
         html += "<div class='avatar' style='"+borderStyle+"' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div data-userId=\""+value.userId+"\"  class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
     });
     html += " </div>"
-    return  html + "<span class='slash_profile'>/</span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + 
-    "<input  value='Share'  id='ep_profile_modal_share' type='button' class='ep_profile_modal_share' />"
+    return  html + "<span class='slash_profile'>⧸</span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + 
+    "<input  value='Share'  id='ep_profile_modal_share' type='button' class='ep_profile_modal_share'>"
 }
 
 exports.increaseUserFromList = function (userId,padId){
