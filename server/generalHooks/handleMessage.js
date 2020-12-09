@@ -223,7 +223,8 @@ const ep_profile_modal_logout = async function(message){
 
     if (user.username!=="" && user.username){
       var chatMsg = {}
-      chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
+      chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. 
+      ${(user.homepage !=="" && user.homepage && typeof user.homepage !== undefined) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
       chatMsg.target = "profile";
       chatMsg.userId = message.userId
       chatMsg.time = new Date()

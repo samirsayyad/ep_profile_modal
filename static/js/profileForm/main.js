@@ -202,7 +202,7 @@ exports.initModal = function(clientVars){
                     return false;
                 }
                 var username =$("#ep_profile_modalForm_name").val()
-                $("#ep_profile_modalForm_name").css({"border":"1px solid gray"})
+                $("#ep_profile_modalForm_name").css({"border":"0px solid gray"})
                 // submit username once user input and press next
                 helper.userLogin({
                     username : username,
@@ -220,7 +220,7 @@ exports.initModal = function(clientVars){
                 var username = $("#ep_profile_modalForm_name").val()
                 shared.loginByEmailAndUsernameWithoutValidation(username,userEmail,true)
                 sendEmailVerification(userEmail,username)
-                $("#ep_profile_modalForm_email").css({"border":"1px solid gray"})
+                $("#ep_profile_modalForm_email").css({"border":"0px solid gray"})
             }
 
             if (currentSection=="homepage"){
@@ -230,7 +230,7 @@ exports.initModal = function(clientVars){
                     $("#ep_profile_modal_homepage").css({"border":"1px solid red"})
                     return false;
                 }
-                $("#ep_profile_modal_homepage").css({"border":"1px solid gray"})
+                $("#ep_profile_modal_homepage").css({"border":"0px solid gray"})
                 sendFormDataToServer()
             }
 
