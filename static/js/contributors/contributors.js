@@ -13,11 +13,11 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
             if(verified_users.indexOf(value.userId) == -1 ) 
                 borderStyle = "" ;
             else 
-                borderStyle = "box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);";
+                borderStyle = "box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;";
         }
  
-
-        html += "<div class='avatar' style='"+borderStyle+"' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div data-userId=\""+value.userId+"\"  class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
+        style+=borderStyle
+        html += "<div class='avatar' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div data-userId=\""+value.userId+"\"  class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
     });
     html += " </div>"
     return  html + "<span class='slash_profile'>⧸</span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + 

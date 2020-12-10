@@ -75,6 +75,8 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 		
 		if (current_user_id ==context.payload.userId){
 			helper.refreshUserImage(current_user_id,context.payload.padId)
+			helper.logoutCssFix(current_user_id)
+
 //			$("#ep_profile_modal_section_info_name").text(context.payload.userName);
 
 		}else{

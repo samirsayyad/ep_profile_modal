@@ -19,6 +19,12 @@ exports.userLogout = function(){
     })
 
 }
+exports.logoutCssFix = function (userId ){
+    var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
+    if (avatar.length){
+        avatar.css({"margin":"0px","box-shadow":"none"});
+    }
+}
 exports.refreshUserImage = function (userId ,padId ){
     var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
     var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
