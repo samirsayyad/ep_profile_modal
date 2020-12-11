@@ -443,6 +443,7 @@ exports.expressConfigure = async function (hookName, context) {
  
 
 const moveImageToAccount = async (userId , padId ,email,userImage )=>{
+    console.log(settings.ep_profile_modal)
     var s3  = new AWS.S3({
         accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
         secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
