@@ -42,24 +42,43 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 	}
 
 	if(context.payload.action == "EP_PROFILE_MODAL_PROMPT_DATA"){ // when we quess user by exist data prompt
-		if (confirm('Do you want to prefill your existing data?')) {
-			//for set image 
-			if (context.payload.data.image){
-				var message = {
-					type : 'ep_profile_modal',
-					action : "ep_profile_modal_prefill" ,
-					userId :  context.payload.userId,
-					data: context.payload.data,
-					padId : context.payload.padId
-				  }
-				pad.collabClient.sendMessage(message);  // Send the chat position message to the server
-			}
+		// if (confirm('Do you want to prefill your existing data?')) {
+		// 	//for set image 
+		// 	if (context.payload.data.image){
+		// 		var message = {
+		// 			type : 'ep_profile_modal',
+		// 			action : "ep_profile_modal_prefill" ,
+		// 			userId :  context.payload.userId,
+		// 			data: context.payload.data,
+		// 			padId : context.payload.padId
+		// 		  }
+		// 		pad.collabClient.sendMessage(message);  // Send the chat position message to the server
+		// 	}
 
-			$("#ep_profile_modal_homepage").val(context.payload.data.homepage)
-			$("#ep_profile_modalForm_about_yourself").val(context.payload.data.about)
-
-			// Save it!
-		  } 
+		// 	$("#ep_profile_modal_homepage").val(context.payload.data.homepage)
+		// 	$("#ep_profile_modalForm_about_yourself").val(context.payload.data.about)
+		// 	$("#profile_modal_selected_image").css({"background-position":"50% 50%",
+		// 	"background-image":"url("+context.payload.data.image+")" , "background-repeat":"no-repeat","background-size": "64px"
+		// 	});
+		// 	// Save it!
+		// }else{
+		// 	var message = {
+		// 		type : 'ep_profile_modal',
+		// 		action : "ep_profile_modal_prefill" ,
+		// 		userId :  context.payload.userId,
+		// 		data: {
+		// 			image:""
+		// 		},
+		// 		padId : context.payload.padId
+		// 	  }
+		// 	pad.collabClient.sendMessage(message);
+		// } 
+		var image_url ='/p/getUserProfileImage/'+context.payload.userId+"/"+ context.payload.padId  +"?t=" + new Date().getTime();
+		$("#ep_profile_modal_homepage").val(context.payload.data.homepage)
+		$("#ep_profile_modalForm_about_yourself").val(context.payload.data.about)
+		$("#profile_modal_selected_image").css({"background-position":"50% 50%",
+			"background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "64px"
+		});
 	}
 	if(context.payload.action == "EP_PROFILE_USERS_LIST"){
 		var onlineUsers = pad.collabClient.getConnectedUsers();

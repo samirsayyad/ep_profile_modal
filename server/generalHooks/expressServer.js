@@ -39,6 +39,11 @@ exports.expressConfigure = async function (hookName, context) {
             user.updateDate = new Date()
             user.verifiedDate = new Date()
             db.set("ep_profile_modal:"+userId+"_"+padId,user)
+             
+            // for global session
+            db.set("ep_profile_modal:"+userId,user) // for global session
+            // for global session
+
             //gathering verified user id of pads
             var verified_users = await db.get("ep_profile_modal_verified_"+padId);
             if(verified_users){
@@ -443,43 +448,49 @@ exports.expressConfigure = async function (hookName, context) {
  
 
 const moveImageToAccount = async (userId , padId ,email,userImage )=>{
-    console.log(settings.ep_profile_modal,settings.ep_profile_modal.storage.bucket,"settings.ep_profile_modal.storage.bucket")
-    var s3  = new AWS.S3({
-        accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
-        secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
-        endpoint: settings.ep_profile_modal.storage.endPoint, 
-        s3ForcePathStyle: true, // needed with minio?
-        signatureVersion: 'v4'
-    });
-    var Key = userImage ;
-    var newKey = path.join(Key.replace(userId, email)) 
-
-    //not worked
-    // var resultCopy = await s3.copyObject({
-    //     Bucket: settings.ep_profile_modal.storage.bucket,
-    //     CopySource: `${settings.ep_profile_modal.storage.bucket}/${Key}`,  // old file Key
-    //     Key:  newKey , // new file Key
-
-    //   }).promise();
-    // console.log(resultCopy)
-
-    // download image
-    var getObjectResult = await s3.getObject({
-        Bucket: settings.ep_profile_modal.storage.bucket, Key:Key 
-    }).promise(); 
-    // upload image
-    await s3.upload({
-        Bucket: settings.ep_profile_modal.storage.bucket,
-        Key: newKey, // File name you want to save as in S3
-        Body: getObjectResult.Body
-    }).promise();
-    // delete
-    await s3.deleteObject({
-        Bucket: settings.ep_profile_modal.storage.bucket,
-        Key:  Key ,
+    console.log(userId , padId ,email,userImage)
+    if(userImage.indexOf(email) == -1){
+        console.log(settings.ep_profile_modal,settings.ep_profile_modal.storage.bucket,"settings.ep_profile_modal.storage.bucket")
+        var s3  = new AWS.S3({
+            accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
+            secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
+            endpoint: settings.ep_profile_modal.storage.endPoint, 
+            s3ForcePathStyle: true, // needed with minio?
+            signatureVersion: 'v4'
+        });
+        var Key = userImage ;
+        var newKey = path.join(Key.replace(userId, email)) 
+    
+        //not worked
+        // var resultCopy = await s3.copyObject({
+        //     Bucket: settings.ep_profile_modal.storage.bucket,
+        //     CopySource: `${settings.ep_profile_modal.storage.bucket}/${Key}`,  // old file Key
+        //     Key:  newKey , // new file Key
+    
+        //   }).promise();
+        // console.log(resultCopy)
+    
+        // download image
+        var getObjectResult = await s3.getObject({
+            Bucket: settings.ep_profile_modal.storage.bucket, Key:Key 
+        }).promise(); 
+        // upload image
+        await s3.upload({
+            Bucket: settings.ep_profile_modal.storage.bucket,
+            Key: newKey, // File name you want to save as in S3
+            Body: getObjectResult.Body
         }).promise();
+        // delete
+        await s3.deleteObject({
+            Bucket: settings.ep_profile_modal.storage.bucket,
+            Key:  Key ,
+            }).promise();
+    
+        return newKey
+    }
+    return userImage
 
-    return newKey
+    
 }
 const getBestImageReszie = (originalWidth, originalHeight,size) =>{
     var ratio = originalWidth / originalHeight;
