@@ -454,11 +454,13 @@ const moveImageToAccount = async (userId , padId ,email,userImage )=>{
     var newKey = `${email}/${Key.replace(userId, '')}`
     await s3.copyObject({
         Bucket: settings.ep_profile_modal.storage.bucket,
+        bucket: settings.ep_profile_modal.storage.bucket,
         CopySource: `${Key}`,  // old file Key
         Key: newKey, // new file Key
       }).promise();
     await s3.deleteObject({
         Bucket: settings.ep_profile_modal.storage.bucket,
+        bucket: settings.ep_profile_modal.storage.bucket,
         Key: Key,
         }).promise();
     return newKey
