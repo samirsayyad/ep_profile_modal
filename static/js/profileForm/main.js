@@ -315,12 +315,19 @@ exports.initModal = function(clientVars){
 			},
 			error: function(xhr) { // if error occured
                 helper.refreshUserImage(userId, clientVars.padId)
-
+                $('#profile_modal_selected_image').attr('style', function(i, style)
+                {
+                    return style && style.replace(/background-image[^;]+;?/g, '');
+                }); 
 			},
 			success: function(response){
                 helper.refreshUserImage(userId, clientVars.padId)
-
-			}
+ 
+                $('#profile_modal_selected_image').attr('style', function(i, style)
+                {
+                    return style && style.replace(/background-image[^;]+;?/g, '');
+                });
+            }		 
 			
 		})
     }
