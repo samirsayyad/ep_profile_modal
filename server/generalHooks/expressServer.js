@@ -33,7 +33,7 @@ exports.expressConfigure = async function (hookName, context) {
         var user = await db.get("ep_profile_modal:"+userId+"_"+padId) || {};
         if (user.confirmationCode === confirmCode){
             if (user.image!=="" && user.image!=="reset" && user.image)
-                user.image = await moveImageToAccount(userId,padId,user.email) || user.image
+                user.image = await moveImageToAccount(userId,padId,user.email,user.image ) || user.image
             user.confirmationCode = 0
             user.verified = true 
             user.updateDate = new Date()
@@ -442,7 +442,7 @@ exports.expressConfigure = async function (hookName, context) {
 
  
 
-const moveImageToAccount = async (userId , padId ,email)=>{
+const moveImageToAccount = async (userId , padId ,email,userImage )=>{
     var s3  = new AWS.S3({
         accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
         secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
@@ -450,7 +450,7 @@ const moveImageToAccount = async (userId , padId ,email)=>{
         s3ForcePathStyle: true, // needed with minio?
         signatureVersion: 'v4'
     });
-    var Key = user.image ;
+    var Key = userImage ;
     var newKey = `${email}/${Key.replace(userId, '')}`
     await s3.copyObject({
         Bucket: settings.ep_profile_modal.storage.bucket,
