@@ -14,7 +14,10 @@
     "Etherpad",
     "Profile"
   ],
-  "author": "Samir Sayyad",
+  "author": {
+		"name": "Samir Sayyad",
+		"email": "samir.saiad@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/samirsayyad/ep_profile_modal/issues"
