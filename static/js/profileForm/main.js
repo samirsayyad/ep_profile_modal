@@ -5,7 +5,10 @@ exports.showModal = function(){
     $('#ep_profile_formModal').addClass('ep_profile_formModal_show')
     $('#ep_profile_formModal_overlay').addClass('ep_profile_formModal_overlay_show')
     $('#ep_profile_formModal_overlay').css({"display":"block"})
-}
+
+    setTimeout(function() { $('#ep_profile_modalForm_name').focus(); }, 1000);
+
+ }
 exports.hideFormModalOverlay = function(){
     $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show')
     $('#ep_profile_formModal_overlay').css({"display":"none"})
@@ -119,7 +122,7 @@ exports.initModal = function(clientVars){
         });
 
 
-        $(".close , #ep_profile_formModal_overlay").click(function(){
+        $(".close , #ep_profile_formModal_overlay , .ep_profile_formModal_topClose").click(function(){
             $('#ep_profile_formModal').removeClass('ep_profile_formModal_show')
 
             exports.hideFormModalOverlay()
@@ -199,12 +202,13 @@ exports.initModal = function(clientVars){
                     return false;
                 }
                 var username =$("#ep_profile_modalForm_name").val()
-                $("#ep_profile_modalForm_name").css({"border":"1px solid gray"})
+                $("#ep_profile_modalForm_name").css({"border":"0px solid gray"})
                 // submit username once user input and press next
                 helper.userLogin({
                     username : username,
                 })
                 shared.loginByEmailAndUsernameWithoutValidation(username,"",false)
+
 
             }
             if (currentSection=="email"){
@@ -216,7 +220,7 @@ exports.initModal = function(clientVars){
                 var username = $("#ep_profile_modalForm_name").val()
                 shared.loginByEmailAndUsernameWithoutValidation(username,userEmail,true)
                 sendEmailVerification(userEmail,username)
-                $("#ep_profile_modalForm_email").css({"border":"1px solid gray"})
+                $("#ep_profile_modalForm_email").css({"border":"0px solid gray"})
             }
 
             if (currentSection=="homepage"){
@@ -226,7 +230,7 @@ exports.initModal = function(clientVars){
                     $("#ep_profile_modal_homepage").css({"border":"1px solid red"})
                     return false;
                 }
-                $("#ep_profile_modal_homepage").css({"border":"1px solid gray"})
+                $("#ep_profile_modal_homepage").css({"border":"0px solid gray"})
                 sendFormDataToServer()
             }
 
@@ -239,6 +243,17 @@ exports.initModal = function(clientVars){
             current_fs.hide();
             if (next_fs.length){
                 next_fs.show(); 
+                
+                //focus handling 
+                var nextSelection = next_fs.attr("data-section")
+                if(nextSelection=="email")
+                    $('#ep_profile_modalForm_email').focus().select();
+                if (nextSelection=="homepage")
+                    $('#ep_profile_modal_homepage').focus().select();
+                if (nextSelection=="bio")
+                    $('#ep_profile_modalForm_about_yourself').focus().select();
+
+
             }else{ //seems last fieldset
                 submitHandle()
             }
@@ -300,12 +315,19 @@ exports.initModal = function(clientVars){
 			},
 			error: function(xhr) { // if error occured
                 helper.refreshUserImage(userId, clientVars.padId)
-
+                $('#profile_modal_selected_image').attr('style', function(i, style)
+                {
+                    return style && style.replace(/background-image[^;]+;?/g, '');
+                }); 
 			},
 			success: function(response){
                 helper.refreshUserImage(userId, clientVars.padId)
-
-			}
+ 
+                $('#profile_modal_selected_image').attr('style', function(i, style)
+                {
+                    return style && style.replace(/background-image[^;]+;?/g, '');
+                });
+            }		 
 			
 		})
     }
@@ -325,7 +347,7 @@ exports.initModal = function(clientVars){
 
         var url = URL.createObjectURL(files);
         $("#profile_modal_selected_image").css({"background-position":"50% 50%",
-        "background-image":"url("+url+")" , "background-repeat":"no-repeat","background-size": "128px"
+        "background-image":"url("+url+")" , "background-repeat":"no-repeat","background-size": "64px"
         });
 	})
 

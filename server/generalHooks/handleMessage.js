@@ -61,7 +61,7 @@ exports.handleMessage = async function(hook_name, context, callback){
     
     if(message.action === "ep_profile_modal_ready"){
         ep_profile_modal_ready(message)
-
+        statisticsHandling(message)
     }
 
     if(isProfileMessage === true){
@@ -223,7 +223,8 @@ const ep_profile_modal_logout = async function(message){
 
     if (user.username!=="" && user.username){
       var chatMsg = {}
-      chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. ${(user.homepage !=="" || user.homepage) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
+      chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}`  : ``} has left. 
+      ${(user.homepage !=="" && user.homepage && typeof user.homepage !== undefined) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ``} </b>`
       chatMsg.target = "profile";
       chatMsg.userId = message.userId
       chatMsg.time = new Date()
@@ -296,8 +297,6 @@ const ep_profile_modal_ready= async function (message){
     
         },async function(err){// callback after foreach finished
           var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+message.padId) || [];
-          console.log("before foreach number 2 ",email_contributed_users)  
-
           // again start a foreach for email 
           async.forEach(email_contributed_users ,async function(value , cb ){
             var user = await db.get("ep_profile_modal:"+value.email) || {};
@@ -318,10 +317,9 @@ const ep_profile_modal_ready= async function (message){
 
           },async function(err){ // callback after foreach finished
 
-            console.log("foreach number 2 ",email_contributed_users,all_users_list)  
+            all_users_list.sort((a,b) => (a.userName == staticVars.defaultUserName) ? 1 : -1 ); // base on anonymous
+            all_users_list.sort((a,b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); // base on seen 
 
-            all_users_list.sort((a,b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); 
-    
             var msg = {
                 type: "COLLABROOM",
                 data: {
@@ -373,6 +371,60 @@ const ep_profile_modal_ready= async function (message){
 
 
 
+
+}
+
+
+
+
+
+
+
+const statisticsHandling = async (message)=>{
+
+  var pad_users = await db.get("ep_profile_modal_contributed_"+message.padId) || [];
+
+  var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+message.padId) || [];
+  //// counting how many email input
+    
+  if (pad_users){
+    if (pad_users.indexOf(message.userId) == -1){
+      if(!message.data.email && !message.data.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+        pad_users.push(message.userId)
+        db.set("ep_profile_modal_contributed_"+message.padId , pad_users);
+      }
+
+    }
+  }else{
+    if(!message.data.email && !message.data.verified){ // as we are using etherpad userid as session, we should not store user id if they input their email address
+      pad_users = [ message.userId ]
+      db.set("ep_profile_modal_contributed_"+message.padId , pad_users);
+    }
+  }
+    //* collect user If just enter to pad */
+
+
+
+
+
+    var verified_users = await db.get("ep_profile_modal_verified_"+message.padId );
+  
+
+    // tell everybody that total user has been changed
+    var msg = {
+      type: "COLLABROOM",
+      data: {
+        type: "CUSTOM",
+        payload : {
+          totalUserCount : pad_users.length  + email_contributed_users.length,
+          padId: message.padId,
+          action:"totalUserHasBeenChanged",
+          verified_users : verified_users
+        }
+      },
+    }
+    etherpadFuncs.sendToRoom(msg)
+  // tell everybody that total user has been changed
 
 }
 
