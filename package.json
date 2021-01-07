@@ -1,6 +1,6 @@
 {
   "name": "ep_profile_modal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "profile modal for Etherpad",
   "main": "profile.js",
   "scripts": {
