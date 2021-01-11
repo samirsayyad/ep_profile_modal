@@ -13,7 +13,7 @@ var sizeOf =  require('buffer-image-size');
 var padMessageHandler = require("ep_etherpad-lite/node/handler/PadMessageHandler");
 const emailService = require("../services/email")
 
-exports.expressConfigure = function (hookName, context) {
+exports.expressConfigure = (hookName, context) =>{
 
     context.app.get('/p/:padId/pluginfw/ep_profile_modal/getUserInfo/:userId', async function (req, res, next) {
         var padId = req.params.padId;

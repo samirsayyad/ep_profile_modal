@@ -3,7 +3,7 @@ var db = require('ep_etherpad-lite/node/db/DB');
 const shared = require("../helpers/shared")
 const etherpadFuncs = require("../helpers/etherpadSharedFunc")
 const staticVars = require("../helpers/statics")
-exports.clientVars = async function  (hook, context, callback){
+exports.clientVars = async (hook, context, callback)=>{
     padId = context.pad.id;
     var formPassed = null ;
     var user = await db.get("ep_profile_modal:"+context.clientVars.userId+"_"+padId) || false;
@@ -63,7 +63,7 @@ exports.clientVars = async function  (hook, context, callback){
     //* collect user If just enter to pad */
     var verified_users = await db.get("ep_profile_modal_verified_"+padId);
  
-    return callback({
+    return {
         ep_profile_modal: {
             profile_image_url: default_img,
             user_email : user.email || "" ,
@@ -77,5 +77,5 @@ exports.clientVars = async function  (hook, context, callback){
             verified_users : verified_users
   
         }
-    });
+    };
   }
