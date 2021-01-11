@@ -3,7 +3,7 @@ var contributors = require("./contributors/contributors")
 var profileForm = require("./profileForm/main")
 var usersProfileSection = require("./userProfileSection/userProfileSection")
 
-exports.aceInitialized = function(hook, context){
+exports.aceInitialized = (hook, context)=>{
 
     var userId = pad.getUserId()
     var modal = $("#ep_profile_askmodal_script").tmpl(clientVars);
@@ -65,6 +65,8 @@ exports.aceInitialized = function(hook, context){
         colorId: "#b4b39a"
         } )
     }
+
+    return [];
 
 
 }

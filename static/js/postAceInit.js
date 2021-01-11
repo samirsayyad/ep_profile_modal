@@ -4,7 +4,7 @@ var helper = require("./helper")
 
 var profileForm = require("./profileForm/main")
 var syncData = require("./syncData")
-exports.postAceInit = function (hook,context){
+exports.postAceInit = (hook,context)=>{
 	// console.log("samir",pad )
 	// console.log("samir",pad.collabClient )
 	// console.log("samir",pad.collabClient.getConnectedUsers())
@@ -274,5 +274,7 @@ exports.postAceInit = function (hook,context){
 	$("#ep_profile_general_overlay").on("click",function(){
 		shared.hideGeneralOverlay()
 	})
+
+	return[];
 }
  
