@@ -3,18 +3,20 @@ var contributors = require("./contributors/contributors")
 var syncData = require("./syncData")
 var shared = require("./shared")
 
-exports.handleClientMessage_USER_NEWINFO = function(hook, context){
+exports.handleClientMessage_USER_NEWINFO = (hook, context)=>{
 	var padId = pad.getPadId()
 
 	contributors.increaseUserFromList(context.payload.userId,padId)
+	return[]
 }
-exports.handleClientMessage_USER_LEAVE = function(hook, context){
+exports.handleClientMessage_USER_LEAVE = (hook, context)=>{
 	var padId = pad.getPadId()
 
 	contributors.decreaseUserFromList(context.payload.userId,padId)
+	return[]
 }
 
-exports.handleClientMessage_CUSTOM = function(hook, context, cb){
+exports.handleClientMessage_CUSTOM = (hook, context, cb)=>{
 	var current_user_id = pad.getUserId()
 
 	if(context.payload.action == "totalUserHasBeenChanged"){
@@ -165,6 +167,9 @@ exports.handleClientMessage_CUSTOM = function(hook, context, cb){
 
 
 	}
+
+	return[]
+
 
 }
 

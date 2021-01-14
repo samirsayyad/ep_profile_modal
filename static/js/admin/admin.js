@@ -1,8 +1,8 @@
 var shared = require("../shared")
 
-exports.documentReady = function(hooks, context, cb) {
+exports.documentReady = (hooks, context, cb) =>{
     if (context !== "admin/ep_profile_modal") {
-        return cb;
+        return [];
     }
 
     var socket,
@@ -44,6 +44,6 @@ exports.documentReady = function(hooks, context, cb) {
 
 
 
-    return cb;
+    return [];
 
 }

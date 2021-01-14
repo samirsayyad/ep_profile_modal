@@ -7,7 +7,7 @@ const async = require('../../../../src/node_modules/async');
 const staticVars = require("../helpers/statics")
 
 
-exports.handleMessage = async function(hook_name, context, callback){
+exports.handleMessage = (hook_name, context, callback)=>{
 
     var isProfileMessage = false;
     if(context){
@@ -24,7 +24,6 @@ exports.handleMessage = async function(hook_name, context, callback){
     }
     }
     if(!isProfileMessage){
-        callback(false);
         return false;
     }
 
@@ -65,9 +64,9 @@ exports.handleMessage = async function(hook_name, context, callback){
     }
 
     if(isProfileMessage === true){
-        callback([null]);
+        return []
     }else{
-        callback(true);
+        return truetrue;
     }
 }
 
@@ -76,14 +75,14 @@ exports.handleMessage = async function(hook_name, context, callback){
 //     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {}; 
 // }
 
-const ep_profile_modal_prefill = async function(message){
+const ep_profile_modal_prefill = async (message)=>{
   var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
   user.image = message.data.image 
   await db.set("ep_profile_modal:"+message.userId+"_"+message.padId , user)  ;
 
 }
 
-const ep_profile_modal_login = async function(message){
+const ep_profile_modal_login = async (message)=>{
     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
     var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
 
@@ -118,7 +117,7 @@ const ep_profile_modal_login = async function(message){
 
 }
 
-const ep_profile_modal_login_check_prompt = async function(message,client){
+const ep_profile_modal_login_check_prompt = async (message,client)=>{
   // suggest data by checking email primary data prompt
   if(message.suggestData){
     var emailUser = await db.get("ep_profile_modal:"+message.email) ;
@@ -146,7 +145,7 @@ const ep_profile_modal_login_check_prompt = async function(message,client){
     }
   }
 }
-const ep_profile_modal_info = async function(message){
+const ep_profile_modal_info = async (message)=>{
 
     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
     var default_img ='/p/getUserProfileImage/'+message.userId+"/"+message.padId+"t="+(new Date().getTime())
@@ -191,7 +190,7 @@ const ep_profile_modal_info = async function(message){
 }
 
 
-const ep_profile_modal_logout = async function(message){
+const ep_profile_modal_logout = async (message)=>{
     var user = await db.get("ep_profile_modal:"+message.userId+"_"+message.padId) || {};
     user.status = "1";
     user.lastLogoutDate = new Date();
@@ -247,7 +246,7 @@ const ep_profile_modal_logout = async function(message){
 
 }
 
-const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT= async function(message){
+const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT= async (message)=>{
     var msg = {
         type: "COLLABROOM",
         data: {
@@ -263,7 +262,7 @@ const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT= async function(message){
       etherpadFuncs.sendToRoom(msg)
 }
 
-const ep_profile_modal_ready= async function (message){
+const ep_profile_modal_ready= async  (message)=>{
   console.log("ep_profile_modal_ready",message)
     var pad_users = await db.get("ep_profile_modal_contributed_"+ message.padId) || [];
     //sendUsersListToAllUsers(pad_users,message.padId)
@@ -276,7 +275,7 @@ const ep_profile_modal_ready= async function (message){
     yesterday.setDate(yesterday.getDate() - 1)
     yesterday = yesterday.toISOString().slice(0,10) 
     //if(pad_users){
-        async.forEach(pad_users ,async function(value , cb ){
+        async.forEach(pad_users ,async (value , cb )=>{
         var user = await db.get("ep_profile_modal:"+value+"_"+message.padId) || {};
         var default_img ='/p/getUserProfileImage/'+value+"/"+message.padId+"?t="+(new Date().getTime())
     
@@ -295,7 +294,7 @@ const ep_profile_modal_ready= async function (message){
     
         cb();
     
-        },async function(err){// callback after foreach finished
+        },async (err)=>{// callback after foreach finished
           var email_contributed_users = await db.get("ep_profile_modal_email_contributed_"+message.padId) || [];
           // again start a foreach for email 
           async.forEach(email_contributed_users ,async function(value , cb ){
@@ -315,7 +314,7 @@ const ep_profile_modal_ready= async function (message){
         
             })
 
-          },async function(err){ // callback after foreach finished
+          },async (err)=>{ // callback after foreach finished
 
             all_users_list.sort((a,b) => (a.userName == staticVars.defaultUserName) ? 1 : -1 ); // base on anonymous
             all_users_list.sort((a,b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); // base on seen 
