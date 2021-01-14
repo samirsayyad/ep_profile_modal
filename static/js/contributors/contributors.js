@@ -25,7 +25,7 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
 }
 
 exports.increaseUserFromList = function (userId,padId){
-    var style = "background: url(/p/getUserProfileImage/"+userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px"
+    var style = "background: url(/p/getUserProfileImage/"+userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px;background-color: #fff;"
 
 
     if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){
