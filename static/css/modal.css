@@ -647,3 +647,15 @@
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+
+@media print{
+    .ep_profile_modal_header{
+      display:none!important;
+    }
+  }
+  @media (max-width: 720px){
+    .ep_profile_modal_header{
+      display:none !important;
+    }
+  }
