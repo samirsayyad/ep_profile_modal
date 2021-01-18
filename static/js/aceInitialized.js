@@ -6,7 +6,7 @@ var usersProfileSection = require("./userProfileSection/userProfileSection")
 exports.aceInitialized = (hook, context)=>{
 
     var userId = pad.getUserId()
-    if (!window.matchMedia('(max-width: 720px)').matches) {
+    //if (!window.matchMedia('(max-width: 720px)').matches) {
         var modal = $("#ep_profile_askmodal_script").tmpl(clientVars);
         profileForm.initModal(clientVars)
         if(clientVars.ep_profile_modal.form_passed !== true){
@@ -63,7 +63,7 @@ exports.aceInitialized = (hook, context)=>{
             colorId: "#b4b39a"
             } )
         }
-    }
+    //}
 
 
 
