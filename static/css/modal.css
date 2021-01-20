@@ -669,7 +669,7 @@
         padding-top: 5px;
     }
     .ep_profile_users_profile{
-        width: 100%;
+        width: 100% !important;
     }
     .ep_profile_modal_user_list{
         width: auto;
@@ -707,7 +707,7 @@
         padding-top: 5px;
     }
     .ep_profile_users_profile{
-        width: 100%;
+        width: 100% !important;
     }
     .ep_profile_modal_user_list{
         width: auto;

@@ -1,5 +1,5 @@
 exports.getValidUrl = function (url){
-    if(url=="") return "";
+    if(url=="" || url==undefined) return "";
     let newUrl = decodeURIComponent(url);
     newUrl = newUrl.trim().replace(/\s/g, "");
   
