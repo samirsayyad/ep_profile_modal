@@ -49,9 +49,10 @@ gulp.task('git:publish', function(){
 	.pipe(git.commit('build, version'))
 });
 
-gulp.task('git:push', () => {
+gulp.task('git:push', (cb) => {
   git.push('origin', (err) => {
-    if (err) throw err;
+		if (err) throw err;
+		cb()
   });
 });
 
