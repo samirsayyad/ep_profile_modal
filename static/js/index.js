@@ -1,8 +1,4 @@
-
-
-
-const epProfileModel = require('../dist/js/ep.profile.modal.mini').init
-console.log(epProfileModel, epProfileModel.documentReady)
+const epProfileModel = require('../dist/js/ep.profile.modal.mini').moduleList
 
 exports.postAceInit = epProfileModel.postAceInit
 exports.aceInitialized = epProfileModel.aceInitialized

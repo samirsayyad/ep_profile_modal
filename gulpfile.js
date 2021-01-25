@@ -25,7 +25,7 @@ const gulpifyJs = () => {
 	.pipe(mode.production(sourcemaps.init()))
 	.pipe(concat('ep.profile.modal.mini.js'))
 	.pipe(inject.append(`return {\n${Object.entries(jsfiles).map(x => `${x[0]}\n`)}}\n`))
-	.pipe(inject.wrap(`exports.init = (()=>{\n`, '})();'))
+	.pipe(inject.wrap(`exports.moduleList = (()=>{\n`, '})();'))
 	.pipe(mode.production(uglify(/* options */)))
 	.pipe(mode.production(sourcemaps.write('.')))
 	.pipe(gulp.dest('./static/dist/js'));

@@ -1,14 +1,13 @@
 {
   "name": "ep_profile_modal",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "profile modal for Etherpad",
   "main": "profile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:prod": "gulp build --production",
     "lint": "eslint --fix .",
-    "lint:dry": "eslint --fix-dry-run .",
-    "build": "webpack"
+    "lint:dry": "eslint --fix-dry-run ."
   },
   "peerDependencies": {
     "ep_etherpad-lite": ">=1.8.6"
