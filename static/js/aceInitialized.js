@@ -28,7 +28,7 @@ exports.aceInitialized = (hook, context)=>{
         ///general
         modal = $("#ep_profile_modal_general_script").tmpl(clientVars);
         $("body").append(modal);
-        var style = "background : url(/p/getUserProfileImage/"+userId+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
+        var style = "background : url(/static/getUserProfileImage/"+userId+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
         var onlineUsers = pad.collabClient.getConnectedUsers();
         var usersListHTML = contributors.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count,onlineUsers,clientVars.padId,clientVars.ep_profile_modal.verified_users)
         if(clientVars.ep_profile_modal.user_status == "2"){
