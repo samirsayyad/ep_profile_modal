@@ -5,6 +5,7 @@
   "main": "profile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp js",
     "build:prod": "gulp build --production",
     "lint": "eslint --fix .",
     "lint:dry": "eslint --fix-dry-run ."
@@ -18,8 +19,22 @@
   "eslintConfig": {
     "root": true,
     "extends": "etherpad/plugin",
-    "ignorePatterns": [],
-    "globals": {}
+    "ignorePatterns": [
+      "/static/dist/**/*.js"
+    ],
+    "globals": {
+      "$": true,
+      "documentReady": true,
+      "contributors": true,
+      "profileForm": true,
+      "usersProfileSection": true,
+      "postAceInit": true,
+      "aceInitialized": true,
+      "handleClientMessage": true,
+      "helper": true,
+      "shared": true,
+      "syncData": true
+    }
   },
   "repository": {
     "type": "git",
@@ -41,7 +56,6 @@
   "dependencies": {
     "buffer-image-size": "^0.6.4",
     "gravatar": "^1.8.0",
-    "gulp-bump": "^3.2.0",
     "image-size": "^0.9.1",
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.11",
@@ -57,15 +71,14 @@
     "eslint-plugin-prefer-arrow": "^1.2.2",
     "eslint-plugin-promise": "^4.2.1",
     "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
+    "gulp-bump": "^3.2.0",
+    "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-git": "^2.10.1",
+    "gulp-imagemin": "^7.1.0",
     "gulp-inject-string": "^1.1.2",
     "gulp-mode": "^1.0.2",
     "gulp-sourcemaps": "^3.0.0",
-    "gulp-uglify-es": "^2.0.0",
-    "gulp-wrap-js": "^0.4.1",
-    "webpack": "^5.17.0",
-    "webpack-cli": "^4.4.0"
+    "gulp-uglify-es": "^2.0.0"
   }
 }
