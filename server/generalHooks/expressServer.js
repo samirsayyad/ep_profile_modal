@@ -239,14 +239,14 @@ exports.expressConfigure = (hookName, context) =>{
                   user.username =userName
 
                   var link = `https://${settings.settingsDomain}/static/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
-                  var html =`<p><b>Hello ${userName}! </b></p>
+                  var html = (settings.settingsHtmlBodyTemplate) ? settingsHtmlBodyTemplate : `<p><b>Hello ${userName}! </b></p>
                   <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
                   <p>If this wasn’t you, ignore this message.</p>`
           
                   console.log(html)
                   emailService.sendMail(settings,{
                     to : userEmail ,
-                    subject : `confirm email for ${settings.settingsDomain}/${padId}`,
+                    subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
                     html: html
                   })
                   .then((data)=>{
