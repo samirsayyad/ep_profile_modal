@@ -266,7 +266,7 @@ exports.initModal = function(clientVars){
 
     function sendEmailVerification(email , username){
         $.ajax({
-            url: '/p/' + pad.getPadId() + '/pluginfw/ep_profile_modal/sendVerificationEmail/'+pad.getUserId()+"/"+username+"/"+email ,
+            url: '/static/' + pad.getPadId() + '/pluginfw/ep_profile_modal/sendVerificationEmail/'+pad.getUserId()+"/"+username+"/"+email ,
             type: 'get',
             data: {},
             contentType: false,
@@ -302,7 +302,7 @@ exports.initModal = function(clientVars){
         fd.append('file',files);
 		if (!files) return;
 		$.ajax({
-			url: '/p/' + clientVars.padId + '/pluginfw/ep_profile_modal/upload/'+userId ,
+			url: '/static/' + clientVars.padId + '/pluginfw/ep_profile_modal/upload/'+userId ,
 			type: 'post',
 			data: fd,
 			contentType: false,

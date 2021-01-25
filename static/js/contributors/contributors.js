@@ -8,7 +8,7 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
     var borderStyle="";
     $.each( online.reverse(), function( key, value ) {
         
-        style = "background: url(/p/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 28px;background-color: #fff;"
+        style = "background: url(/static/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 28px;background-color: #fff;"
         if(verified_users && verified_users.length && verified_users!=="null"&& verified_users!==null ){
             if(verified_users.indexOf(value.userId) == -1 ) 
                 borderStyle = "" ;
@@ -25,7 +25,7 @@ exports.createHTMLforUserList = function (total , online,padId,verified_users){ 
 }
 
 exports.increaseUserFromList = function (userId,padId){
-    var style = "background: url(/p/getUserProfileImage/"+userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px;background-color: #fff;"
+    var style = "background: url(/static/getUserProfileImage/"+userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px;background-color: #fff;"
 
 
     if (!$(".avatar[data-id=\"user_"+userId+"\"]").length){
@@ -80,7 +80,7 @@ exports.decreaseUserFromList = function (userId,padId){
     }
 
     //user img update
-    var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
+    var image_url ='/static/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
     var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
     if(user_selector.length)
     {

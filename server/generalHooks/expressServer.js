@@ -15,7 +15,7 @@ const emailService = require("../services/email")
 
 exports.expressConfigure = (hookName, context) =>{
 
-    context.app.get('/p/:padId/pluginfw/ep_profile_modal/getUserInfo/:userId', async function (req, res, next) {
+    context.app.get('/static/:padId/pluginfw/ep_profile_modal/getUserInfo/:userId', async function (req, res, next) {
         var padId = req.params.padId;
         var userId = req.params.userId;
         console.log("ep_profile_modal:"+userId+"_"+padId)
@@ -25,7 +25,7 @@ exports.expressConfigure = (hookName, context) =>{
 
     })
     // comes from users email when they already recieved an email for this
-    context.app.get('/p/emailConfirmation/:userId/:padId/:confirmCode', async function (req, res, next) {
+    context.app.get('/static/emailConfirmation/:userId/:padId/:confirmCode', async function (req, res, next) {
         var userId = Buffer.from(req.params.userId, 'base64').toString('ascii') 
         var padId = Buffer.from(req.params.padId, 'base64').toString('ascii')
         var confirmCode = Buffer.from(req.params.confirmCode, 'base64').toString('ascii')
@@ -145,7 +145,7 @@ exports.expressConfigure = (hookName, context) =>{
         return res.redirect(`/${padId}`)
 
     })
-    context.app.get('/p/getUserProfileImage/:userId/:padId', async function (req, res, next) {
+    context.app.get('/static/getUserProfileImage/:userId/:padId', async function (req, res, next) {
         var profile_json = null;
         var httpsUrl = null;
         var user = await db.get("ep_profile_modal:"+req.params.userId+"_"+req.params.padId) || {};
@@ -198,7 +198,7 @@ exports.expressConfigure = (hookName, context) =>{
 
     })
     // for sending email validation
-    context.app.get('/p/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId/:userName/:email',async function (req, res, next) {
+    context.app.get('/static/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId/:userName/:email',async function (req, res, next) {
 
         var settings = await db.get("ep_profile_modal_settings") || {};
 
@@ -238,7 +238,7 @@ exports.expressConfigure = (hookName, context) =>{
                   user.email =userEmail
                   user.username =userName
 
-                  var link = `https://${settings.settingsDomain}/p/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
+                  var link = `https://${settings.settingsDomain}/static/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
                   var html =`<p><b>Hello ${userName}! </b></p>
                   <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
                   <p>If this wasn’t you, ignore this message.</p>`
@@ -275,7 +275,7 @@ exports.expressConfigure = (hookName, context) =>{
 
     })
     // for reset profile image
-    context.app.get('/p/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId',async function (req, res, next) {
+    context.app.get('/static/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId',async function (req, res, next) {
         var padId = req.params.padId;
         var userId = req.params.userId;
         db.set("ep_profile_modal_image:"+userId , "reset");
@@ -286,7 +286,7 @@ exports.expressConfigure = (hookName, context) =>{
 
     })
     // for upload user image  
-    context.app.post('/p/:padId/pluginfw/ep_profile_modal/upload/:userId',async function (req, res, next) {
+    context.app.post('/static/:padId/pluginfw/ep_profile_modal/upload/:userId',async function (req, res, next) {
         var padId = req.params.padId;
         var userId = req.params.userId;
 
