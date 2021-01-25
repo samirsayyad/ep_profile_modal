@@ -3,7 +3,7 @@ var helper = require("./helper")
 
 exports.resetAllProfileImage = function (userId,padId){
     $.ajax({
-        url: '/p/' + padId + '/pluginfw/ep_profile_modal/resetProfileImage/'+userId ,
+        url: '/static/' + padId + '/pluginfw/ep_profile_modal/resetProfileImage/'+userId ,
         type: 'get',
         data: {},
         contentType: false,

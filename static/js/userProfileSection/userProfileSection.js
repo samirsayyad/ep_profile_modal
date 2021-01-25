@@ -14,7 +14,7 @@ exports.initiateListeners = function(){
         var userId = $(this).attr("data-userId")
         var padId = pad.getPadId()
         $.ajax({
-            url: '/p/' + padId + '/pluginfw/ep_profile_modal/getUserInfo/'+userId,
+            url: '/static/' + padId + '/pluginfw/ep_profile_modal/getUserInfo/'+userId,
             type: 'get',
             data: {},
             contentType: false,
@@ -32,7 +32,7 @@ exports.initiateListeners = function(){
             },
             success: function(response){
                 console.log(response)
-                var image_url ='/p/getUserProfileImage/'+userId+"/"+padId +"?t=" + new Date().getTime();
+                var image_url ='/static/getUserProfileImage/'+userId+"/"+padId +"?t=" + new Date().getTime();
                 var username= response.user.username
                 if (username ==null || username =="")
                     username = "Anonymous"

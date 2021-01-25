@@ -14,7 +14,7 @@ exports.clientVars = async (hook, context, callback)=>{
       formPassed = user.form_passed || false
 
     }
-    var default_img ='/p/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
+    var default_img ='/static/getUserProfileImage/'+context.clientVars.userId+"/"+padId+"t="+context.clientVars.serverTimestamp
     var datetime = new Date();
     user.last_seen_timestamp = datetime.getTime()
     user.last_seen_date = datetime.toISOString().slice(0,10) 

@@ -26,7 +26,7 @@ exports.logoutCssFix = function (userId ){
     }
 }
 exports.refreshUserImage = function (userId ,padId ){
-    var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
+    var image_url ='/static/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
     var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
@@ -78,7 +78,7 @@ exports.refreshLoadingImage = function (userId ,padId ){
 }
 
 exports.refreshGeneralImage = function (userId ,padId ){
-    var image_url ='/p/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
+    var image_url ='/static/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
     var avatar = $(".avatarImg[data-id=\"user_"+userId+"\"]")
     if (avatar.length){
         avatar.css({"background-position":"50% 50%",
