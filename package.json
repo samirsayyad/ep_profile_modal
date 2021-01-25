@@ -4,7 +4,9 @@
   "description": "profile modal for Etherpad",
   "main": "profile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix .",
+    "lint:dry": "eslint --fix-dry-run ."
   },
   "repository": {
     "type": "git",
@@ -15,8 +17,8 @@
     "Profile"
   ],
   "author": {
-		"name": "Samir Sayyad",
-		"email": "samir.saiad@gmail.com"
+    "name": "Samir Sayyad",
+    "email": "samir.saiad@gmail.com"
   },
   "license": "MIT",
   "bugs": {
@@ -32,5 +34,13 @@
     "path": "^0.12.7",
     "resize-img": "^2.0.0",
     "sharp": "^0.26.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-etherpad": "^1.0.23",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.2",
+    "eslint-plugin-promise": "^4.2.1"
   }
 }
