@@ -49,8 +49,8 @@ gulp.task('git:publish', function(){
 	.pipe(git.commit('build, version'))
 });
 
-gulp.task('git:psuh', () => {
-  return git.push('origin', (err) => {
+gulp.task('git:push', () => {
+  git.push('origin', (err) => {
     if (err) throw err;
   });
 });
@@ -59,4 +59,4 @@ gulp.task('watch', () => {
 	gulp.watch(Object.entries(jsfiles).map(x => x[1]), gulp.series(['js']))
 });
 
-gulp.task('build', gulp.series(['js', 'bump', 'git:publish', 'git:psuh']));
+gulp.task('build', gulp.series(['js', 'bump', 'git:publish', 'git:push']));
