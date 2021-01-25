@@ -43,7 +43,7 @@ exports.aceInitialized = (hook, context)=>{
                 profileForm.showModal()
 
                 }, 1000);
-            }
+            
         }
 
     }
