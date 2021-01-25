@@ -1,4 +1,5 @@
 const eejs = require('ep_etherpad-lite/node/eejs/');
+const packageJson = require('../../package.json');
 
 exports.eejsBlock_styles = (hook_name, args, cb) => {
   args.content += eejs.require('ep_profile_modal/templates/styles.html', {}, module);
@@ -6,6 +7,11 @@ exports.eejsBlock_styles = (hook_name, args, cb) => {
 };
 
 exports.eejsBlock_scripts = (hook_name, args, cb) => {
+	args.content += eejs.require('ep_profile_modal/templates/profileModal.html', {}, module);
+	
+  args.content += `<script src='../static/plugins/ep_profile_modal/static/js/ep.profile.modal.mini.js?v=${packageJson.version}' defer></script>`;
+
+
   args.content += eejs.require('ep_profile_modal/templates/profileModal.html', {}, module);
   args.content += eejs.require('ep_profile_modal/templates/askModal.html', {}, module);
   args.content += eejs.require('ep_profile_modal/templates/contributors/contributors.html', {}, module);

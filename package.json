@@ -1,25 +1,27 @@
 {
   "name": "ep_profile_modal",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "profile modal for Etherpad",
   "main": "profile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build:prod": "gulp build --production",
     "lint": "eslint --fix .",
-    "lint:dry": "eslint --fix-dry-run ."
+    "lint:dry": "eslint --fix-dry-run .",
+    "build": "webpack"
   },
   "peerDependencies": {
-		"ep_etherpad-lite": ">=1.8.6"
-	},
-	"engines": {
-		"node": ">=10.13.0"
+    "ep_etherpad-lite": ">=1.8.6"
+  },
+  "engines": {
+    "node": ">=10.13.0"
   },
   "eslintConfig": {
-		"root": true,
-		"extends": "etherpad/plugin",
-		"ignorePatterns": [],
-		"globals": {}
-	},
+    "root": true,
+    "extends": "etherpad/plugin",
+    "ignorePatterns": [],
+    "globals": {}
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/samirsayyad/ep_profile_modal.git"
@@ -40,6 +42,7 @@
   "dependencies": {
     "buffer-image-size": "^0.6.4",
     "gravatar": "^1.8.0",
+    "gulp-bump": "^3.2.0",
     "image-size": "^0.9.1",
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.11",
@@ -53,6 +56,17 @@
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.2",
-    "eslint-plugin-promise": "^4.2.1"
+    "eslint-plugin-promise": "^4.2.1",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-git": "^2.10.1",
+    "gulp-inject-string": "^1.1.2",
+    "gulp-mode": "^1.0.2",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify-es": "^2.0.0",
+    "gulp-wrap-js": "^0.4.1",
+    "webpack": "^5.17.0",
+    "webpack-cli": "^4.4.0"
   }
 }
