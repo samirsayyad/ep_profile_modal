@@ -8,6 +8,18 @@
     "lint": "eslint --fix .",
     "lint:dry": "eslint --fix-dry-run ."
   },
+  "peerDependencies": {
+		"ep_etherpad-lite": ">=1.8.6"
+	},
+	"engines": {
+		"node": ">=10.13.0"
+  },
+  "eslintConfig": {
+		"root": true,
+		"extends": "etherpad/plugin",
+		"ignorePatterns": [],
+		"globals": {}
+	},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/samirsayyad/ep_profile_modal.git"
