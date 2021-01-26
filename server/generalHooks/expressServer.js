@@ -188,66 +188,56 @@ exports.expressConfigure = (hookName, context) => {
         userEmail = user.email;
       }
 
-      let userName = '';
-      if (validation(req.params.userName)) {
-        if (validation(user.username)) {
-          userName = user.username;
-        } else {
-          userName = req.params.userName;
-        }
-      } else {
-        userName = user.username;
-      }
-
-            var userName =""
-            if(validation(req.params.userName)){
-                if(validation(user.username)){
-                    userName = user.username ;
-                }else{
-                    userName = req.params.userName ;
-                }
-            }else{
-                userName = user.username ;
-            }
-            
-            console.log(userEmail,userName)
-            if (userEmail){
-              if (!user.verified){
-                const confirmCode = new Date().getTime().toString()
-                user.confirmationCode = confirmCode
-                user.email =userEmail
-                user.username =userName
-
-                var link = `https://${settings.settingsDomain}/static/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
-                var html = (settings.settingsHtmlBodyTemplate) ? eval(settings.settingsHtmlBodyTemplate) : `<p><b>Hello ${userName}! </b></p>
-                <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
-                <p>If this wasn’t you, ignore this message.</p>`
-        
-                console.log(html)
-                emailService.sendMail(settings,{
-                  to : userEmail ,
-                  subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
-                  html: html
-                })
-                .then((data)=>{
-                    console.log(data,"from email",data.messageId)
-                })
-                .catch((err)=>{
-                  console.log(err.message,"error from email")
-                })
-        
-                db.set("ep_profile_modal:"+userId+"_"+padId , user) 
-            }else{
-              console.log('email already verified');
-            }
+      var userName = '';
+      
+      if(validation(req.params.userName)){
+          if(validation(user.username)){
+              userName = user.username ;
           }else{
-            console.log('there is not valid email', email);
+              userName = req.params.userName ;
           }
-      }else {
-      console.log('setting not set');
-    }
+      }else{
+          userName = user.username ;
+      }
+            
+      console.log(userEmail,userName)
+      if (userEmail){
+        if (!user.verified){
+          const confirmCode = new Date().getTime().toString()
+          user.confirmationCode = confirmCode
+          user.email =userEmail
+          user.username =userName
 
-    return res.status(201).json({status: 'ok'});
+          var link = `https://${settings.settingsDomain}/static/emailConfirmation/${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
+          var html = (settings.settingsHtmlBodyTemplate) ? eval(settings.settingsHtmlBodyTemplate) : `<p><b>Hello ${userName}! </b></p>
+          <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
+          <p>If this wasn’t you, ignore this message.</p>`
+  
+          console.log(html)
+          emailService.sendMail(settings,{
+            to : userEmail ,
+            subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
+            html: html
+          })
+          .then((data)=>{
+              console.log(data,"from email",data.messageId)
+          })
+          .catch((err)=>{
+            console.log(err.message,"error from email")
+          })
+  
+          db.set("ep_profile_modal:"+userId+"_"+padId , user) 
+      }else{
+        console.log('email already verified');
+      }
+    }else{
+      console.log('there is not valid email', email);
+    }
+  }else {
+  console.log('setting not set');
+  }
+
+  return res.status(201).json({status: 'ok'});
   });
   // for reset profile image
   context.app.get('/p/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId', async (req, res, next) => {
