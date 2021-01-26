@@ -1,1 +1,1 @@
-exports.defaultUserName = "Anonymous"
+exports.defaultUserName = 'Anonymous';

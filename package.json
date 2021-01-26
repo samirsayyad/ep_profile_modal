@@ -1,10 +1,40 @@
 {
   "name": "ep_profile_modal",
-  "version": "1.0.2",
+  "version": "1.0.14",
   "description": "profile modal for Etherpad",
   "main": "profile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp js",
+    "build:prod": "gulp build --production",
+    "lint": "eslint --fix .",
+    "lint:dry": "eslint --fix-dry-run ."
+  },
+  "peerDependencies": {
+    "ep_etherpad-lite": ">=1.8.6"
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "etherpad/plugin",
+    "ignorePatterns": [
+      "/static/dist/**/*.js"
+    ],
+    "globals": {
+      "$": true,
+      "documentReady": true,
+      "contributors": true,
+      "profileForm": true,
+      "usersProfileSection": true,
+      "postAceInit": true,
+      "aceInitialized": true,
+      "handleClientMessage": true,
+      "helper": true,
+      "shared": true,
+      "syncData": true
+    }
   },
   "repository": {
     "type": "git",
@@ -15,8 +45,8 @@
     "Profile"
   ],
   "author": {
-		"name": "Samir Sayyad",
-		"email": "samir.saiad@gmail.com"
+    "name": "Samir Sayyad",
+    "email": "samir.saiad@gmail.com"
   },
   "license": "MIT",
   "bugs": {
@@ -32,5 +62,23 @@
     "path": "^0.12.7",
     "resize-img": "^2.0.0",
     "sharp": "^0.26.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-etherpad": "^1.0.23",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "gulp": "^4.0.2",
+    "gulp-bump": "^3.2.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-git": "^2.10.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-inject-string": "^1.1.2",
+    "gulp-mode": "^1.0.2",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify-es": "^2.0.0"
   }
 }
