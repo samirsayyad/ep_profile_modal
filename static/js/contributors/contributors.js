@@ -9,7 +9,7 @@ const contributors = (() => {
     let style;
     let borderStyle = '';
     $.each(online.reverse(), (key, value) => {
-      style = `background: url(/p/getUserProfileImage/${value.userId}/${padId}) no-repeat 50% 50% ; background-size : 28px;background-color: #fff;`;
+      style = `background: url(/static/getUserProfileImage/${value.userId}/${padId}) no-repeat 50% 50% ; background-size : 28px;background-color: #fff;`;
       if (verified_users && verified_users.length && verified_users !== 'null' && verified_users !== null) {
         if (verified_users.indexOf(value.userId) == -1) { borderStyle = ''; } else { borderStyle = 'box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;'; }
       }
@@ -23,7 +23,7 @@ const contributors = (() => {
   };
 
   const increaseUserFromList = function (userId, padId) {
-    const style = `background: url(/p/getUserProfileImage/${userId}/${padId}) no-repeat 50% 50% ; background-size : 26px;background-color: #fff;`;
+    const style = `background: url(/static/getUserProfileImage/${userId}/${padId}) no-repeat 50% 50% ; background-size : 26px;background-color: #fff;`;
 
 
     if (!$(`.avatar[data-id="user_${userId}"]`).length) {
@@ -72,7 +72,7 @@ const contributors = (() => {
     }
 
     // user img update
-    const image_url = `/p/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
+    const image_url = `/static/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
     const user_selector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
     if (user_selector.length) {
       user_selector.children('.ep_profile_user_img').css({'background-position': '50% 50%',

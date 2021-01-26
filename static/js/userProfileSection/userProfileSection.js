@@ -13,7 +13,7 @@ const usersProfileSection = (() => {
       const userId = $(this).attr('data-userId');
       const padId = pad.getPadId();
       $.ajax({
-        url: `/p/${padId}/pluginfw/ep_profile_modal/getUserInfo/${userId}`,
+        url: `/static/${padId}/pluginfw/ep_profile_modal/getUserInfo/${userId}`,
         type: 'get',
         data: {},
         contentType: false,
@@ -29,7 +29,7 @@ const usersProfileSection = (() => {
         },
         success(response) {
           console.log(response);
-          const image_url = `/p/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
+          const image_url = `/static/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
           let username = response.user.username;
           if (username == null || username == '') { username = 'Anonymous'; }
           const about = response.user.about || '';

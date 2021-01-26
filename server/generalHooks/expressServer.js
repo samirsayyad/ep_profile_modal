@@ -14,7 +14,7 @@ const padMessageHandler = require('ep_etherpad-lite/node/handler/PadMessageHandl
 const emailService = require('../services/email');
 
 exports.expressConfigure = (hookName, context) => {
-  context.app.get('/p/:padId/pluginfw/ep_profile_modal/getUserInfo/:userId', async (req, res, next) => {
+  context.app.get('/static/:padId/pluginfw/ep_profile_modal/getUserInfo/:userId', async (req, res, next) => {
     const padId = req.params.padId;
     const userId = req.params.userId;
     console.log(`ep_profile_modal:${userId}_${padId}`);
@@ -23,7 +23,7 @@ exports.expressConfigure = (hookName, context) => {
     return res.status(201).json({user});
   });
   // comes from users email when they already recieved an email for this
-  context.app.get('/p/emailConfirmation/:userId/:padId/:confirmCode', async (req, res, next) => {
+  context.app.get('/static/emailConfirmation/:userId/:padId/:confirmCode', async (req, res, next) => {
     const userId = Buffer.from(req.params.userId, 'base64').toString('ascii');
     const padId = Buffer.from(req.params.padId, 'base64').toString('ascii');
     const confirmCode = Buffer.from(req.params.confirmCode, 'base64').toString('ascii');
@@ -127,7 +127,7 @@ exports.expressConfigure = (hookName, context) => {
     }
     return res.redirect(`/${padId}`);
   });
-  context.app.get('/p/getUserProfileImage/:userId/:padId', async (req, res, next) => {
+  context.app.get('/static/getUserProfileImage/:userId/:padId', async (req, res, next) => {
     let profile_json = null;
     let httpsUrl = null;
     const user = await db.get(`ep_profile_modal:${req.params.userId}_${req.params.padId}`) || {};
@@ -169,7 +169,7 @@ exports.expressConfigure = (hookName, context) => {
     }
   });
   // for sending email validation
-  context.app.get('/p/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId/:userName/:email', async (req, res, next) => {
+  context.app.get('/static/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userId/:userName/:email', async (req, res, next) => {
     const settings = await db.get('ep_profile_modal_settings') || {};
 
     if (settings.settingsDomain && settings.settingsEmailSmtp && settings.settingsEmailPort && settings.settingsEmailUser && settings.settingsEmailPassword) {
@@ -240,7 +240,7 @@ exports.expressConfigure = (hookName, context) => {
   return res.status(201).json({status: 'ok'});
   });
   // for reset profile image
-  context.app.get('/p/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId', async (req, res, next) => {
+  context.app.get('/static/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId', async (req, res, next) => {
     const padId = req.params.padId;
     const userId = req.params.userId;
     db.set(`ep_profile_modal_image:${userId}`, 'reset');
@@ -250,7 +250,7 @@ exports.expressConfigure = (hookName, context) => {
     return res.status(201).json({status: 'ok'});
   });
   // for upload user image
-  context.app.post('/p/:padId/pluginfw/ep_profile_modal/upload/:userId', async (req, res, next) => {
+  context.app.post('/static/:padId/pluginfw/ep_profile_modal/upload/:userId', async (req, res, next) => {
     const padId = req.params.padId;
     const userId = req.params.userId;
 

@@ -79,7 +79,7 @@ const ep_profile_modal_prefill = async (message) => {
 
 const ep_profile_modal_login = async (message) => {
   const user = await db.get(`ep_profile_modal:${message.userId}_${message.padId}`) || {};
-  const default_img = `/p/getUserProfileImage/${message.userId}/${message.padId}t=${new Date().getTime()}`;
+  const default_img = `/static/getUserProfileImage/${message.userId}/${message.padId}t=${new Date().getTime()}`;
 
   user.createDate = (user.createDate) ? user.createDate : new Date();
   user.updateDate = new Date();
@@ -140,7 +140,7 @@ const ep_profile_modal_login_check_prompt = async (message, client) => {
 };
 const ep_profile_modal_info = async (message) => {
   const user = await db.get(`ep_profile_modal:${message.userId}_${message.padId}`) || {};
-  const default_img = `/p/getUserProfileImage/${message.userId}/${message.padId}t=${new Date().getTime()}`;
+  const default_img = `/static/getUserProfileImage/${message.userId}/${message.padId}t=${new Date().getTime()}`;
   let form_passed = true;
   user.about = message.data.ep_profile_modalForm_about_yourself;
   user.email = message.data.ep_profile_modalForm_email;
@@ -266,7 +266,7 @@ const ep_profile_modal_ready = async (message) => {
   // if(pad_users){
   async.forEach(pad_users, async (value, cb) => {
     const user = await db.get(`ep_profile_modal:${value}_${message.padId}`) || {};
-    const default_img = `/p/getUserProfileImage/${value}/${message.padId}?t=${new Date().getTime()}`;
+    const default_img = `/static/getUserProfileImage/${value}/${message.padId}?t=${new Date().getTime()}`;
 
     all_users_list.push({
       userId: value,
@@ -287,7 +287,7 @@ const ep_profile_modal_ready = async (message) => {
     // again start a foreach for email
     async.forEach(email_contributed_users, async (value, cb) => {
       const user = await db.get(`ep_profile_modal:${value.email}`) || {};
-      const default_img = `/p/getUserProfileImage/${value.email}/${message.padId}?t=${new Date().getTime()}`;
+      const default_img = `/static/getUserProfileImage/${value.email}/${message.padId}?t=${new Date().getTime()}`;
 
       all_users_list.push({
         userId: user.email,

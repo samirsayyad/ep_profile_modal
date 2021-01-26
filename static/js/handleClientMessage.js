@@ -23,7 +23,7 @@ const handleClientMessage = (() => {
     if (context.payload.action == 'totalUserHasBeenChanged') {
       const totalUserCount = context.payload.totalUserCount;
       $('#userlist_count').text(totalUserCount);
-      // var style = "background : url(/p/getUserProfileImage/"+current_user_id+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
+      // var style = "background : url(/static/getUserProfileImage/"+current_user_id+"/"+ clientVars.padId +") no-repeat 50% 50% ; background-size :32px"
       // var onlineUsers = pad.collabClient.getConnectedUsers();
       // var usersListHTML = contributors.createHTMLforUserList( context.payload.totalUserCount,onlineUsers,context.payload.padId,
       // context.payload.verified_users)
@@ -74,7 +74,7 @@ const handleClientMessage = (() => {
       // 	  }
       // 	pad.collabClient.sendMessage(message);
       // }
-      var image_url = `/p/getUserProfileImage/${context.payload.userId}/${context.payload.padId}?t=${new Date().getTime()}`;
+      var image_url = `/static/getUserProfileImage/${context.payload.userId}/${context.payload.padId}?t=${new Date().getTime()}`;
       $('#ep_profile_modal_homepage').val(context.payload.data.homepage);
       $('#ep_profile_modalForm_about_yourself').val(context.payload.data.about);
       $('#profile_modal_selected_image').css({'background-position': '50% 50%',
@@ -90,7 +90,7 @@ const handleClientMessage = (() => {
     }
 
     if (context.payload.action == 'EP_PROFILE_USER_LOGOUT_UPDATE') {
-      var image_url = `/p/getUserProfileImage/${context.payload.userId}/${context.payload.padId}?t=${new Date().getTime()}`;
+      var image_url = `/static/getUserProfileImage/${context.payload.userId}/${context.payload.padId}?t=${new Date().getTime()}`;
 
       if (current_user_id == context.payload.userId) {
         helper.refreshUserImage(current_user_id, context.payload.padId);

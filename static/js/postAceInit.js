@@ -10,7 +10,7 @@ const postAceInit = (() => {
     // console.log("samir",pad )
     // console.log("samir",pad.collabClient )
     // console.log("samir",pad.collabClient.getConnectedUsers())
-    // /p/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}
+    // /static/getUserProfileImage/${clientVars.userId}?t=${clientVars.serverTimestamp}
 
     usersProfileSection.initiateListeners();
 
@@ -100,7 +100,7 @@ const postAceInit = (() => {
       const oldText = $(this).text();
       if (verificationStatus != 'true') {
         $.ajax({
-          url: `/p/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${pad.getUserId()}/null/null`,
+          url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${pad.getUserId()}/null/null`,
           type: 'get',
           data: {},
           contentType: false,
@@ -212,7 +212,7 @@ const postAceInit = (() => {
       fd.append('file', files);
       if (!files) return;
       $.ajax({
-        url: `/p/${clientVars.padId}/pluginfw/ep_profile_modal/upload/${userId}`,
+        url: `/static/${clientVars.padId}/pluginfw/ep_profile_modal/upload/${userId}`,
         type: 'post',
         data: fd,
         contentType: false,

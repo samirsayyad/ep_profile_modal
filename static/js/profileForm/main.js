@@ -242,7 +242,7 @@ const profileForm = (() => {
     function sendEmailVerification(email, username) {
       var oldText = $("#ep_profile_modal_verification").text()
       $.ajax({
-        url: `/p/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${pad.getUserId()}/${username}/${email}`,
+        url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${pad.getUserId()}/${username}/${email}`,
         type: 'get',
         data: {},
         contentType: false,
@@ -275,7 +275,7 @@ const profileForm = (() => {
       fd.append('file', files);
       if (!files) return;
       $.ajax({
-        url: `/p/${clientVars.padId}/pluginfw/ep_profile_modal/upload/${userId}`,
+        url: `/static/${clientVars.padId}/pluginfw/ep_profile_modal/upload/${userId}`,
         type: 'post',
         data: fd,
         contentType: false,

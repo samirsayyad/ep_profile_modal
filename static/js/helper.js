@@ -22,7 +22,7 @@ const helper = (() => {
     }
   };
   const refreshUserImage = function (userId, padId) {
-    const image_url = `/p/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
+    const image_url = `/static/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
     const avatar = $(`.avatarImg[data-id="user_${userId}"]`);
     if (avatar.length) {
       avatar.css({
@@ -113,7 +113,7 @@ const helper = (() => {
   };
 
   const refreshGeneralImage = function (userId, padId) {
-    const image_url = `/p/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
+    const image_url = `/static/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
     const avatar = $(`.avatarImg[data-id="user_${userId}"]`);
     if (avatar.length) {
       avatar.css({
