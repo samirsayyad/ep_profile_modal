@@ -117,22 +117,6 @@ const contributors = (() => {
       }
     }
 
-<<<<<<< HEAD
-    //user img update
-    var image_url ='/static/getUserProfileImage/'+userId+"/"+ padId  +"?t=" + new Date().getTime();
-    var user_selector = $(".ep_profile_user_row[data-id=\"user_list_"+userId+"\"]") ; 
-    if(user_selector.length)
-    {
-        user_selector.children(".ep_profile_user_img").css({"background-position":"50% 50%",
-        "background-image":"url("+image_url+")" , "background-repeat":"no-repeat","background-size": "69px",
-        });
-    } 
-
-    
-
-
-}
-=======
     // user img update
     const image_url = `/p/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
     const user_selector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
@@ -141,7 +125,6 @@ const contributors = (() => {
         'background-image': `url(${image_url})`, 'background-repeat': 'no-repeat', 'background-size': '69px'});
     }
   };
->>>>>>> origin/migration
 
 
   const manageOnlineOfflineUsers = function (all_users_list, onlineUsers, currentUserId) {
