@@ -5,7 +5,7 @@
   "main": "profile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp js",
+    "build": "gulp js minify-css minify-image",
     "build:prod": "gulp build --production",
     "lint": "eslint --fix .",
     "lint:dry": "eslint --fix-dry-run ."
