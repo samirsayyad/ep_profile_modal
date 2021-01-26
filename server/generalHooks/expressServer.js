@@ -125,7 +125,7 @@ exports.expressConfigure = (hookName, context) => {
       // remove user id from contributed users because we have email now
       // // store users in email way
     }
-    return res.redirect(`/${padId}`);
+    return res.redirect(`/`);
   });
   context.app.get('/static/getUserProfileImage/:userId/:padId', async (req, res, next) => {
     let profile_json = null;
