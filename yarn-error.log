@@ -1,0 +1,106 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js lint
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Hossein\bin;C:\Python39\Scripts;C:\Python39;C:\Python38\Scripts;C:\Python38;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Android;C:\Windows\System32;C:\Go\bin;C:\Program Files (x86)\Yarn\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\PuTTY;C:\Program Files\PowerShell\7;C:\Program Files\nodejs;C:\Users\Hossein\.windows-build-tools\python27;C:\Users\Hossein\.cargo\bin;C:\Users\Hossein\AppData\Local\Programs\Python\Python38-32\Scripts;C:\Users\Hossein\AppData\Local\Programs\Python\Python38-32;C:\Users\Hossein\AppData\Local\Microsoft\WindowsApps;C:\ProgramData\AppGet\bin;C:\Program Files\MongoDB\Server\4.2\bin;C:\redis-2.4.5-win32-win64\64bit;C:\glide;C:\Program Files (x86)\Vim\vim82;C:\nginx-1.16.1;C:\Users\Hossein\go\bin;C:\xampp\mysql\bin;C:\Users\Hossein\.deno\bin;C:\Users\Hossein\AppData\Local\Yarn\bin;C:\Users\Hossein\AppData\Local\GitHubDesktop\bin;C:\Users\Hossein\AppData\Local\Microsoft\WindowsApps;C:\Users\Hossein\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  14.15.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\Hossein\workspace\dev\node_modules\ep_profile_modal\package.json: Unexpected token } in JSON at position 662
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "ep_profile_modal",
+    "version": "1.0.13",
+    "description": "profile modal for Etherpad",
+    "main": "profile.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build:prod": "gulp build --production",
+      "lint": "eslint --fix .",
+      "lint:dry": "eslint --fix-dry-run ."
+    },
+    "peerDependencies": {
+      "ep_etherpad-lite": ">=1.8.6"
+    },
+    "engines": {
+      "node": ">=10.13.0"
+    },
+    "eslintConfig": {
+      "root": true,
+      "extends": "etherpad/plugin",
+      "ignorePatterns": [
+  			"./static/dist/js/ep.profile.modal.mini.js",
+    		"./static/dist/js/ep.profile.modal.mini.js.map"
+  		],
+      "globals": {
+  			"$": true,
+  		}
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/samirsayyad/ep_profile_modal.git"
+    },
+    "keywords": [
+      "Etherpad",
+      "Profile"
+    ],
+    "author": {
+      "name": "Samir Sayyad",
+      "email": "samir.saiad@gmail.com"
+    },
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/samirsayyad/ep_profile_modal/issues"
+    },
+    "homepage": "https://github.com/samirsayyad/ep_profile_modal#readme",
+    "dependencies": {
+      "buffer-image-size": "^0.6.4",
+      "gravatar": "^1.8.0",
+      "gulp-bump": "^3.2.0",
+      "image-size": "^0.9.1",
+      "node-fetch": "^2.6.0",
+      "nodemailer": "^6.4.11",
+      "path": "^0.12.7",
+      "resize-img": "^2.0.0",
+      "sharp": "^0.26.1"
+    },
+    "devDependencies": {
+      "eslint": "^7.18.0",
+      "eslint-config-etherpad": "^1.0.23",
+      "eslint-plugin-mocha": "^8.0.0",
+      "eslint-plugin-node": "^11.1.0",
+      "eslint-plugin-prefer-arrow": "^1.2.2",
+      "eslint-plugin-promise": "^4.2.1",
+      "gulp": "^4.0.2",
+      "gulp-babel": "^8.0.0",
+      "gulp-concat": "^2.6.1",
+      "gulp-git": "^2.10.1",
+      "gulp-inject-string": "^1.1.2",
+      "gulp-mode": "^1.0.2",
+      "gulp-sourcemaps": "^3.0.0",
+      "gulp-uglify-es": "^2.0.0",
+      "gulp-wrap-js": "^0.4.1",
+      "webpack": "^5.17.0",
+      "webpack-cli": "^4.4.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

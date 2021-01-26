@@ -647,3 +647,87 @@
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+
+@media print{
+    #ep_profile_modal_share{
+      display:none!important;
+    }
+    .userlist{
+        margin-right: 10px;
+    }
+    .ep_profile_modal{
+        width: auto;
+        height: 65%;
+        overflow: scroll;
+        padding-bottom: 5%;
+    
+    }
+    .ep_profile_user_list_profile_userDesc{
+        width: 76%;
+        padding-left: 11px;
+        padding-top: 5px;
+    }
+    .ep_profile_users_profile{
+        width: 100% !important;
+    }
+    .ep_profile_modal_user_list{
+        width: auto;
+        height: 45%;
+
+        overflow: scroll;
+        padding-bottom: 5%;
+    }
+    .ep_profile_user_row{
+        padding-left: 16px;
+        padding-right: 16px;
+    }   
+    .ep_profile_contributors_scroll{
+        height: 105%;
+        overflow-y:unset
+    }
+  }
+  @media (max-width: 720px){
+    #ep_profile_modal_share{
+      display:none !important;
+    } 
+    .userlist{
+        margin-right: 10px;
+    }
+    .ep_profile_modal{
+        width: auto;
+        height: 65%;
+        overflow: scroll;
+        padding-bottom: 5%;
+    
+    }
+    .ep_profile_user_list_profile_userDesc{
+        width: 76%;
+        padding-left: 11px;
+        padding-top: 5px;
+    }
+    .ep_profile_users_profile{
+        width: 100% !important;
+    }
+    .ep_profile_modal_user_list{
+        width: auto;
+        height: 45%;
+
+        overflow: scroll;
+        padding-bottom: 5%;
+    }
+    .ep_profile_user_row{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .ep_profile_contributors_scroll{
+        height: 105%;
+        overflow-y:unset
+    }
+    .ep_profile_inlineAvatars{
+        padding-right: 25px;
+    }
+    .ep_profile_inlineAvatars .avatar, .ep_profile_inlineAvatars .avatarMore{
+        margin: 0 -22px 0 0;
+    }
+  }
