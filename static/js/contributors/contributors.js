@@ -1,36 +1,5 @@
-<<<<<<< HEAD
-var defaultImg = "../static/plugins/ep_profile_modal/static/img/user.png"
-var shared = require("../shared")
-
-exports.createHTMLforUserList = function (total , online,padId,verified_users){ // generate avatar too
-
-    var html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
-    var style ;
-    var borderStyle="";
-    $.each( online.reverse(), function( key, value ) {
-        
-        style = "background: url(/static/getUserProfileImage/"+value.userId+"/"+padId+") no-repeat 50% 50% ; background-size : 28px;background-color: #fff;"
-        if(verified_users && verified_users.length && verified_users!=="null"&& verified_users!==null ){
-            if(verified_users.indexOf(value.userId) == -1 ) 
-                borderStyle = "" ;
-            else 
-                borderStyle = "box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;";
-        }
- 
-        style+=borderStyle
-        html += "<div class='avatar' data-userId=\""+value.userId+"\" data-id=\"user_"+value.userId+"\"  id=\"user_"+value.userId+"\" ><div data-userId=\""+value.userId+"\"  class='avatarImg' style='"+style+"' data-id=\"user_"+value.userId+"\"></div></div>"
-    });
-    html += " </div>"
-    return  html + "<span class='slash_profile'>⧸</span><span id='userlist_count' class='userlist_count'>"+total + "</span>" + 
-    "<input  value='Share'  id='ep_profile_modal_share' type='button' class='ep_profile_modal_share'>"
-}
-
-exports.increaseUserFromList = function (userId,padId){
-    var style = "background: url(/static/getUserProfileImage/"+userId+"/"+padId+") no-repeat 50% 50% ; background-size : 26px;background-color: #fff;"
-=======
 // var shared = require('../shared');
 
->>>>>>> origin/migration
 
 const contributors = (() => {
   const defaultImg = '../static/plugins/ep_profile_modal/static/dist/img/user.png';
