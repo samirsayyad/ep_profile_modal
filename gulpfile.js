@@ -71,7 +71,6 @@ gulp.task('watch', () => {
 		...Object.entries(jsfiles).map((x) => x[1]),
 		...cssFiles
 	]
-	console.log(watchFiles)
   gulp.watch(watchFiles, gulp.series(['js', 'minify-css']));
 });
 
