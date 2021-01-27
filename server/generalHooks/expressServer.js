@@ -24,6 +24,7 @@ exports.expressConfigure = (hookName, context) => {
   });
   // comes from users email when they already recieved an email for this
   context.app.get('/static/emailConfirmation/:userId/:padId/:confirmCode', async (req, res, next) => {
+    const settings = await db.get('ep_profile_modal_settings') || {};
     const userId = Buffer.from(req.params.userId, 'base64').toString('ascii');
     const padId = Buffer.from(req.params.padId, 'base64').toString('ascii');
     const confirmCode = Buffer.from(req.params.confirmCode, 'base64').toString('ascii');
@@ -125,7 +126,11 @@ exports.expressConfigure = (hookName, context) => {
       // remove user id from contributed users because we have email now
       // // store users in email way
     }
-    return res.redirect(`/`);
+    if (settings.redirectToPad)
+      return res.redirect(`/${padId}`);
+    else
+      return res.redirect(`/`);
+
   });
   context.app.get('/static/getUserProfileImage/:userId/:padId', async (req, res, next) => {
     let profile_json = null;

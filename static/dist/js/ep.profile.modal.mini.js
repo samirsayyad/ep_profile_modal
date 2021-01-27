@@ -849,12 +849,11 @@ const postAceInit = (() => {
       email.css({border: '0'});
 
       const userLink = homepage.val();
-      console.log(shared.IsValid(userLink));
-      if (!shared.IsValid(userLink) || userLink == '') {
+      if (!shared.IsValid(userLink) && userLink !== '') {
         homepage.css({border: '1px solid red'});
         return false;
       }
-      homepage.css({border: '0'});
+      homepage.css({border: 'unset'});
 
       // validations
 
