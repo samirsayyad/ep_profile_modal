@@ -477,7 +477,7 @@
 }
 .ep_profile_user_list_profile_desc {
     text-align: left;
-    word-break: break-all;
+    word-break: break-word;
     height: 50px;
     overflow: hidden;
     font-family: Roboto;
