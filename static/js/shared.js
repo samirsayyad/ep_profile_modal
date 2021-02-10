@@ -55,19 +55,19 @@ const shared = (() => {
     $element.animate({scrollTop: $element[0].scrollHeight}, {duration: 400, queue: false});
   };
 
-  const loginByEmailAndUsernameWithoutValidation = function (username, email, suggestData) {
-    window.user_status = 'login';
-    const message = {
-      type: 'ep_profile_modal',
-      action: 'ep_profile_modal_login',
-      email,
-      userId: pad.getUserId(),
-      name: username,
-      padId: pad.getPadId(),
-      suggestData,
-    };
-    pad.collabClient.sendMessage(message); // Send the chat position message to the server
-  };
+  // const loginByEmailAndUsernameWithoutValidation = function (username, email, suggestData) {
+  //   window.user_status = 'login';
+  //   const message = {
+  //     type: 'ep_profile_modal',
+  //     action: 'ep_profile_modal_login',
+  //     email,
+  //     userId: pad.getUserId(),
+  //     name: username,
+  //     padId: pad.getPadId(),
+  //     suggestData,
+  //   };
+  //   pad.collabClient.sendMessage(message); // Send the chat position message to the server
+  // };
   const loginByEmailAndUsername = function (username, email) {
     if (username == '' || !isEmail(email)) {
       if (!isEmail(email)) {
@@ -189,7 +189,7 @@ const shared = (() => {
     sendSignOutMessage,
     addTextChatMessage,
     scrollDownToLastChatText,
-    loginByEmailAndUsernameWithoutValidation,
+    //loginByEmailAndUsernameWithoutValidation,
     loginByEmailAndUsername,
     isEmail,
     IsValid,

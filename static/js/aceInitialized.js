@@ -5,21 +5,24 @@
 
 const aceInitialized = (() => {
   const aceInitialized = (hook, context) => {
-    const userId = pad.getUserId();
-    // if (!window.matchMedia('(max-width: 720px)').matches) {
-    let modal = $('#ep_profile_askmodal_script').tmpl(clientVars);
-    profileForm.initModal(clientVars);
-    if (clientVars.ep_profile_modal.form_passed !== true) {
+    // check is there any saved user in this browser
+    profileForm.initModal({
+      username : localStorage.getItem('username') || "",
+      user_email : localStorage.getItem('user_email') || "",
+    });
+
+
+    if (localStorage.getItem('formPassed') !== "passed") {
       profileForm.showModal();
     }
+
+    const userId = pad.getUserId();
+
     // / user profile section
     usersProfileSection.initiate(clientVars);
     // / user profile section
 
-    //
-    $('body').append(modal);
-    // /
-    modal = $('#ep_profile_modal_script').tmpl(clientVars);
+    let modal = $('#ep_profile_modal_script').tmpl(clientVars);
     $('body').append(modal);
     // /
     modal = $('#ep_profile_modal_user_list_script').tmpl(clientVars);

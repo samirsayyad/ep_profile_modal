@@ -94,37 +94,37 @@ const postAceInit = (() => {
       }
     });
 
-    $('#ep_profile_modal_verification').on('click', function () {
-      const verificationStatus = $(this).attr('data-verification-status');
-      const oldText = $(this).text();
-      if (verificationStatus != 'true') {
-        $.ajax({
-          url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${pad.getUserId()}/null/null`,
-          type: 'get',
-          data: {},
-          contentType: false,
-          processData: false,
-          beforeSend() {
-            // setting a timeout
-            const image_url = '../static/plugins/ep_profile_modal/static/dist/img/loading.gif';
+    // $('#ep_profile_modal_verification').on('click', function () {
+    //   const verificationStatus = $(this).attr('data-verification-status');
+    //   const oldText = $(this).text();
+    //   if (verificationStatus != 'true') {
+    //     $.ajax({
+    //       url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/null/null`,
+    //       type: 'get',
+    //       data: {},
+    //       contentType: false,
+    //       processData: false,
+    //       beforeSend() {
+    //         // setting a timeout
+    //         const image_url = '../static/plugins/ep_profile_modal/static/dist/img/loading.gif';
 
-            $('#ep_profile_modal_verification').text('Sending...');
-          },
-          error(xhr) { // if error occured
-            $('#ep_profile_modal_verification').text('Error');
-            setTimeout(() => {
-              $('#ep_profile_modal_verification').text(oldText);
-            }, 2000);
-          },
-          success(response) {
-            $('#ep_profile_modal_verification').text('Verification email has been sent.');
-            $('#ep_profile_modal_verification').attr('data-verification-status', 'true');
-          },
+    //         $('#ep_profile_modal_verification').text('Sending...');
+    //       },
+    //       error(xhr) { // if error occured
+    //         $('#ep_profile_modal_verification').text('Error');
+    //         setTimeout(() => {
+    //           $('#ep_profile_modal_verification').text(oldText);
+    //         }, 2000);
+    //       },
+    //       success(response) {
+    //         $('#ep_profile_modal_verification').text('Verification email has been sent.');
+    //         $('#ep_profile_modal_verification').attr('data-verification-status', 'true');
+    //       },
 
-        });
-      }
-      return false;
-    });
+    //     });
+    //   }
+    //   return false;
+    // });
     $('#ep_profile_modal_share').on('click', () => {
       const dummy = document.createElement('input');
       const text = window.location.href;

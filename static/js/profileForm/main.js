@@ -177,9 +177,7 @@ const profileForm = (() => {
 
 
     function nextHandler(current_fs, next_fs) {
-      console.log('clicked');
       if (animating) return false;
-
       const currentSection = current_fs.attr('data-section');
       if (currentSection == 'name') {
         if ($('#ep_profile_modalForm_name').val() == '') {
@@ -188,11 +186,17 @@ const profileForm = (() => {
         }
         var username = $('#ep_profile_modalForm_name').val();
         $('#ep_profile_modalForm_name').css({border: '0px solid gray'});
-        // submit username once user input and press next
+        
+        // submit username once user input and press next --- ETHERPAD SYSTEM
         helper.userLogin({
           username,
         });
-        shared.loginByEmailAndUsernameWithoutValidation(username, '', false);
+
+        // add username to localstorage
+        localStorage.setItem("username",username)
+        //localStorage.setItem('formPassed',"passed") 
+
+        //shared.loginByEmailAndUsernameWithoutValidation(username, '', false);
       }
       if (currentSection == 'email') {
         const userEmail = $('#ep_profile_modalForm_email').val();
@@ -242,7 +246,7 @@ const profileForm = (() => {
     function sendEmailVerification(email, username) {
       var oldText = $("#ep_profile_modal_verification").text()
       $.ajax({
-        url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${pad.getUserId()}/${username}/${email}`,
+        url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${username}/${email}`,
         type: 'get',
         data: {},
         contentType: false,

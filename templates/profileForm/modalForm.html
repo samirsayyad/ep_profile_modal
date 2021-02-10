@@ -23,7 +23,7 @@
                 </div>
             </div>
             
-                 <input type="text" placeholder="What's your name?" id="ep_profile_modalForm_name" required="required" name="ep_profile_modalForm_name" placeholder="Name" value="${(typeof clientVars.ep_profile_modal.userName !== 'undefined' && clientVars.ep_profile_modal.userName!='Anonymous') ?  clientVars.ep_profile_modal.userName : null }" />
+                 <input type="text" placeholder="What's your name?" id="ep_profile_modalForm_name" required="required" name="ep_profile_modalForm_name" placeholder="Name" value="${username}" />
                 <h3 class="fs-subtitle">
                     A pseudonym is fine, and you can change it later (uses cookies).
                 </h3>
@@ -47,7 +47,7 @@
             </div>
     
             
-            <input type="text" id="ep_profile_modalForm_email" name="ep_profile_modalForm_email" placeholder="you@example.com"  value="${(typeof clientVars.ep_profile_modal.user_email !== 'undefined') ?  clientVars.ep_profile_modal.user_email : null }"  />
+            <input type="text" id="ep_profile_modalForm_email" name="ep_profile_modalForm_email" placeholder="you@example.com"  value="${user_email}"  />
             <h3 class="fs-subtitle">
                 This is optional, and allows document collaborators to contact you
             </h3>
@@ -127,7 +127,7 @@
                 The reason you’re on this doc. e.g. job title, project, goal in life.
             </h3>
 
-            <input type="submit" name="submit"  data-padId="${clientVars.padId}"  data-userId="${clientVars.userId}"  class="submit action-button" value="Done" />
+            <input type="submit" name="submit" class="submit action-button" value="Done" />
             <input type="button" name="skip" class="close skip-button" value="Skip" />
         </fieldset>
         </form>
