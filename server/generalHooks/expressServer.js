@@ -23,15 +23,28 @@ exports.expressConfigure = (hookName, context) => {
     return res.status(201).json({user});
   });
   // comes from users email when they already recieved an email for this
-  context.app.get('/static/emailConfirmation/:userId/:padId/:confirmCode', async (req, res, next) => {
+  context.app.get('/static/emailConfirmation/:userEmail/:padId/:confirmCode', async (req, res, next) => {
     const settings = await db.get('ep_profile_modal_settings') || {};
-    const userId = Buffer.from(req.params.userId, 'base64').toString('ascii');
+    const userEmail = Buffer.from(req.params.userEmail, 'base64').toString('ascii');
     const padId = Buffer.from(req.params.padId, 'base64').toString('ascii');
     const confirmCode = Buffer.from(req.params.confirmCode, 'base64').toString('ascii');
 
-    const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
-    if (user.confirmationCode === confirmCode) {
-      if (user.image !== '' && user.image !== 'reset' && user.image) { user.image = await moveImageToAccount(userId, padId, user.email, user.image) || user.image; }
+    const compareConfirmCode = await db.get("ep_profile_modal_temp:"+userEmail+"_"+padId ) 
+
+    if (compareConfirmCode === confirmCode) {
+
+
+
+
+
+
+
+
+
+      
+      if (user.image !== '' && user.image !== 'reset' && user.image) {
+         user.image = await moveImageToAccount(userId, padId, user.email, user.image) || user.image; 
+      }
       user.confirmationCode = 0;
       user.verified = true;
       user.updateDate = new Date();
@@ -174,46 +187,58 @@ exports.expressConfigure = (hookName, context) => {
     }
   });
   // for sending email validation
-  context.app.get('/static/:padId/pluginfw/ep_profile_modal/sendVerificationEmail/:userName/:email', async (req, res, next) => {
-    const settings = await db.get('ep_profile_modal_settings') || {};
-    const userEmail = req.params.email;
-    const padId = req.params.padId;
-    const userName = req.params.userName ;
+  context.app.post('/static/:padId/pluginfw/ep_profile_modal/sendVerificationEmail', async (req, res, next) => {
+    try {
+      const settings = await db.get('ep_profile_modal_settings') || {};
+      const padId = req.params.padId;
+      var postData ;
+      req.on('data', (data) => {
+        // Append data.
+        postData += data;
+        if (validation(postData.user_email))
+          return res.status(400).json({status: 'email_not_valid'});
+        
+        if(validation(postData.username))
+          return res.status(400).json({status: 'username_not_valid'});
+  
+        if (!settings.settingsDomain || !settings.settingsEmailSmtp || !settings.settingsEmailPort || !settings.settingsEmailUser || !settings.settingsEmailPassword) 
+          return res.status(400).json({status: 'settings_not_found'});
+  
+  
+        const confirmCode = new Date().getTime().toString()
+        var link = `https://${settings.settingsDomain}/static/emailConfirmation/${Buffer.from(JSON.stringify(postData)).toString('base64')}/${Buffer.from(padId).toString('base64')}/${Buffer.from(confirmCode).toString('base64')}`
+        var html = (settings.settingsHtmlBodyTemplate) ? eval(settings.settingsHtmlBodyTemplate) : `<p><b>Hello ${postData.username}! </b></p>
+        <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
+        <p>If this wasn’t you, ignore this message.</p>`
+    
+        console.log(html);
+        // emailService.sendMail(settings,{
+        //   to : postData.user_email ,
+        //   subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
+        //   html: html
+        // })
+        // .then((data)=>{
+        //     //console.log(data,"from email",data.messageId)
+        // })
+        // .catch((err)=>{
+        //   console.log(err.message,"error from email")
+        // })
+    
+        // we create a temp row for use rwho want validation then will compare with his email entering
+        db.set("ep_profile_modal_temp:"+postData.user_email+"_"+padId , confirmCode) 
+        return res.status(201).json({status: 'ok'});
+  
+      });
+    } catch(error){
+      console.log(error)
+      return res.status(400).json({status: error});
 
-
-    if (!validation(userEmail))
-      return res.status(400).json({status: 'email_not_valid'});
       
-    if(validation(userName))
-      return res.status(400).json({status: 'username_not_valid'});
+    }
+    
 
-    if (settings.settingsDomain && settings.settingsEmailSmtp && settings.settingsEmailPort && settings.settingsEmailUser && settings.settingsEmailPassword) 
-      return res.status(400).json({status: 'settings_not_found'});
 
-    const confirmCode = new Date().getTime().toString()
 
-    var link = `https://${settings.settingsDomain}/static/emailConfirmation/
-    ${Buffer.from(userId).toString('base64')}/${Buffer.from(padId).toString('base64')}/
-    ${Buffer.from(confirmCode).toString('base64')}`
-
-    var html = (settings.settingsHtmlBodyTemplate) ? eval(settings.settingsHtmlBodyTemplate) : `<p><b>Hello ${userName}! </b></p>
-    <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
-    <p>If this wasn’t you, ignore this message.</p>`
-
-    emailService.sendMail(settings,{
-      to : userEmail ,
-      subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
-      html: html
-    })
-    .then((data)=>{
-        //console.log(data,"from email",data.messageId)
-    })
-    .catch((err)=>{
-      console.log(err.message,"error from email")
-    })
-
-    db.set("ep_profile_modal_temp:"+userEmail+"_"+padId , confirmCode) 
-    return res.status(201).json({status: 'ok'});
   });
   // for reset profile image
   context.app.get('/static/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId', async (req, res, next) => {
@@ -238,13 +263,13 @@ exports.expressConfigure = (hookName, context) => {
       signatureVersion: 'v4',
     });
 
-    console.log({
-      accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
-      secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
-      endpoint: settings.ep_profile_modal.storage.endPoint,
-      s3ForcePathStyle: true, // needed with minio?
-      signatureVersion: 'v4',
-    });
+    // console.log({
+    //   accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
+    //   secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
+    //   endpoint: settings.ep_profile_modal.storage.endPoint,
+    //   s3ForcePathStyle: true, // needed with minio?
+    //   signatureVersion: 'v4',
+    // });
 
     try {
       var busboy = new Busboy({
@@ -278,8 +303,11 @@ exports.expressConfigure = (hookName, context) => {
       const fileType = path.extname(filename);
       const fileTypeWithoutDot = fileType.substr(1);
       const fileRead = [];
-      const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
-      if (user.verified) { var savedFilename = path.join(user.email, padId, newFileName + fileType); } else { var savedFilename = path.join(userId, padId, newFileName + fileType); }
+      /**
+       * const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
+       * if (user.verified) { var savedFilename = path.join(user.email, padId, newFileName + fileType); } else {
+       */
+      var savedFilename = path.join(userId, padId, newFileName + fileType); 
       file.on('limit', () => res.status(201).json({error: 'File is too large'}));
       file.on('error', (error) => {
         busboy.emit('error', error);
@@ -323,12 +351,11 @@ exports.expressConfigure = (hookName, context) => {
               if (err) { console.log(err, err.stack, 'error'); } else { console.log(data); }
 
               if (data) {
-                db.set(`ep_profile_modal_image:${userId}`, savedFilename);
-                const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
-                user.image = savedFilename;
-                user.updateDate = new Date();
-
-                await db.set(`ep_profile_modal:${userId}_${padId}`, user);
+                // db.set(`ep_profile_modal_image:${userId}`, savedFilename);
+                // const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
+                // user.image = savedFilename;
+                // user.updateDate = new Date();
+                // await db.set(`ep_profile_modal:${userId}_${padId}`, user);
                 var msg = {
                   type: 'COLLABROOM',
                   data: {
@@ -453,5 +480,6 @@ const sendToRoom = (msg) => {
   }
 };
 const validation = (variable) => {
+  console.log("validation",variable)
   if (variable == 'null' || !variable || variable == undefined || variable == '' || variable == null) { return false; } else { return true; }
 };

@@ -55,12 +55,51 @@
                 <input type="button" name="skip" class="skip skip-button" value="Skip" />
 
         </fieldset>
+        <fieldset data-section="bio">
+            <div class="ep_profile_formModal_topGroup">
+                <div class="ep_profile_formModal_topIcon"></div>
+                <div class="ep_profile_formModal_topHeaderGroup">
+                    <h2 class="ep_profile_formModal_topHeader">A few words about yourself</h2>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 3/5</h3>
+                </div>
+                <div class="ep_profile_formModal_topClose">
+
+                </div>
+            </div>
+            <input placeholder="A few words about yourself" type="text" id="ep_profile_modalForm_about_yourself" name="ep_profile_modalForm_about_yourself" placeholder="" value="${user_bio}" />
+
+            <h3 class="fs-subtitle">
+                The reason you’re on this doc. e.g. job title, project, goal in life.
+            </h3>
+            <input type="button" name="next" style="margin-top:40px" class="next action-button" value="Next" />
+
+            <input type="button" name="skip" class="close skip-button" value="Skip" />
+        </fieldset>
+        <fieldset data-section="homepage">
+            <div class="ep_profile_formModal_topGroup">
+                <div class="ep_profile_formModal_topIcon"></div>
+                <div class="ep_profile_formModal_topHeaderGroup">
+                    <h2 class="ep_profile_formModal_topHeader">What's your homepage?</h2>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 4/5</h3>
+                </div>
+                <div class="ep_profile_formModal_topClose">
+
+                </div>
+            </div>
+            
+            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modalForm_homepage" placeholder="Homepage URL" value="${user_homepage}"   />
+            <h3 class="fs-subtitle">
+                Twitter profile, personal blog, etc.
+            </h3>
+            <input type="button" name="next" class="next action-button" value="Next" />
+            <input type="button" name="skip" class="skip skip-button" value="Skip" />
+        </fieldset>
         <fieldset  data-section="image">
             <div class="ep_profile_formModal_topGroup">
                 <div class="ep_profile_formModal_topIcon"></div>
                 <div class="ep_profile_formModal_topHeaderGroup">
                     <h2 class="ep_profile_formModal_topHeader">Upload a profile photo</h2>
-                    <h3 class="ep_profile_formModal_topSubHeader">Step 3/5</h3>
+                    <h3 class="ep_profile_formModal_topSubHeader">Step 5/5</h3>
                 </div>
                 <div class="ep_profile_formModal_topClose">
 
@@ -87,49 +126,11 @@
 
             </label> -->
  
-            <input type="button" name="next" style="margin-top:35px" class="next action-button" value="Next" />
+            <input type="submit" name="submit" style="margin-top:35px"  class="submit action-button" value="Done" />
             <input type="button" name="skip" style="margin-top:35px" class="skip skip-button" value="Skip" />
 
         </fieldset>
-        <fieldset data-section="homepage">
-            <div class="ep_profile_formModal_topGroup">
-                <div class="ep_profile_formModal_topIcon"></div>
-                <div class="ep_profile_formModal_topHeaderGroup">
-                    <h2 class="ep_profile_formModal_topHeader">What's your homepage?</h2>
-                    <h3 class="ep_profile_formModal_topSubHeader">Step 4/5</h3>
-                </div>
-                <div class="ep_profile_formModal_topClose">
-
-                </div>
-            </div>
-            
-            <input type="text" id="ep_profile_modal_homepage" name="ep_profile_modalForm_homepage" placeholder="Homepage URL" value=""   />
-            <h3 class="fs-subtitle">
-                Twitter profile, personal blog, etc.
-            </h3>
-            <input type="button" name="next" class="next action-button" value="Next" />
-            <input type="button" name="skip" class="skip skip-button" value="Skip" />
-        </fieldset>
-        <fieldset data-section="bio">
-            <div class="ep_profile_formModal_topGroup">
-                <div class="ep_profile_formModal_topIcon"></div>
-                <div class="ep_profile_formModal_topHeaderGroup">
-                    <h2 class="ep_profile_formModal_topHeader">A few words about yourself</h2>
-                    <h3 class="ep_profile_formModal_topSubHeader">Step 5/5</h3>
-                </div>
-                <div class="ep_profile_formModal_topClose">
-
-                </div>
-            </div>
-            <input placeholder="A few words about yourself" type="text" id="ep_profile_modalForm_about_yourself" name="ep_profile_modalForm_about_yourself" placeholder="" value="" />
-
-            <h3 class="fs-subtitle">
-                The reason you’re on this doc. e.g. job title, project, goal in life.
-            </h3>
-
-            <input type="submit" name="submit" class="submit action-button" value="Done" />
-            <input type="button" name="skip" class="close skip-button" value="Skip" />
-        </fieldset>
+        
         </form>
 
 

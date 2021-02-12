@@ -6,12 +6,19 @@
 const aceInitialized = (() => {
   const aceInitialized = (hook, context) => {
     // check is there any saved user in this browser
+    console.log(clientVars)
+    if (!localStorage.getItem('client_id'))
+      localStorage.setItem('client_id',shared.uuidv4())
     profileForm.initModal({
       username : localStorage.getItem('username') || "",
       user_email : localStorage.getItem('user_email') || "",
+      user_bio : localStorage.getItem('bio') || "",
+      user_homepage : localStorage.getItem('homepage') || "",
+
     });
 
 
+    // when user enter username we set it as passed because no need to show this form on following refresh
     if (localStorage.getItem('formPassed') !== "passed") {
       profileForm.showModal();
     }
