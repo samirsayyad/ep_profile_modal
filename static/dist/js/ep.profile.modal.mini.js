@@ -456,7 +456,8 @@ const profileForm = (() => {
         user_bio : data.ep_profile_modalForm_about_yourself ,
         user_homepage : data.ep_profile_modalForm_homepage ,
         client_id : localStorage.getItem('client_id'),
-        user_email : userEmail
+        user_email : userEmail ,
+        user_image : data.ep_profile_hidden_image
       });
     }
 
@@ -747,6 +748,7 @@ const profileForm = (() => {
           $('#profile_modal_selected_image').attr('style', (i, style) => style && style.replace(/background-image[^;]+;?/g, ''));
         },
         success(response) {
+          $("#ep_profile_hidden_image").val(response.savedFilename)
           helper.refreshUserImage(client_id, clientVars.padId);
 
           $('#profile_modal_selected_image').attr('style', (i, style) => style && style.replace(/background-image[^;]+;?/g, ''));

@@ -23,16 +23,85 @@ exports.expressConfigure = (hookName, context) => {
     return res.status(201).json({user});
   });
   // comes from users email when they already recieved an email for this
-  context.app.get('/static/emailConfirmation/:userEmail/:padId/:confirmCode', async (req, res, next) => {
+  context.app.get('/static/emailConfirmation/:postData/:padId/:confirmCode', async (req, res, next) => {
     const settings = await db.get('ep_profile_modal_settings') || {};
-    const userEmail = Buffer.from(req.params.userEmail, 'base64').toString('ascii');
+    const postData = JSON.parse(Buffer.from(req.params.postData, 'base64').toString('ascii'));
     const padId = Buffer.from(req.params.padId, 'base64').toString('ascii');
     const confirmCode = Buffer.from(req.params.confirmCode, 'base64').toString('ascii');
 
-    const compareConfirmCode = await db.get("ep_profile_modal_temp:"+userEmail+"_"+padId ) 
+    const compareConfirmCode = await db.get("ep_profile_modal_temp:"+postData.user_email+"_"+padId ) 
+    console.log(compareConfirmCode,postData);
+    if (compareConfirmCode === confirmCode) { // verified
+      db.remove("ep_profile_modal_temp:"+postData.user_email+"_"+padId ) // delete confirmation key from db
+      if(postData.user_image){
+        user.image = await moveImageToAccount(postData.client_id, padId, postData.user_email, user_image);
+      }
+      var user = await db.get(`ep_profile_modal_data_${postData.user_email}_${padId}`);
 
-    if (compareConfirmCode === confirmCode) {
+      user.verified = true;
+      user.updateDate = new Date();
+      user.verifiedDate = new Date();
+      user.email =  postData.user_email;
+      user.username = postData.username;
+      user.bio = postData.user_bio;
+      user.homepage = postData.user_homepage;
 
+      // email data gathering per pad
+        await db.get(`ep_profile_modal_data_${postData.user_email}_${padId}`,user);
+      // email data gathering
+
+      // gathering verified email of pads
+        var verified_emails = await db.get(`ep_profile_modal_verified_email_${padId}`);
+        if (verified_emails) {
+          if (verified_emails.indexOf(user.email) == -1) {
+            verified_emails.push(user.email);
+          }
+        } else {
+          verified_emails = [user.email];
+        }
+        db.set(`ep_profile_modal_verified_email_${padId}`, verified_emails);
+      // gathering verified email of pads
+      // gathering verified emails
+        var verified_emails = await db.get('ep_profile_modal_verified_emails');
+        if (verified_emails) {
+          if (verified_emails.indexOf(user.email) == -1) {
+            verified_emails.push(user.email);
+          }
+        } else {
+          verified_emails = [user.email];
+        }
+        db.set('ep_profile_modal_verified_emails', verified_emails);
+      // gathering verified emails
+      // /// store users in email way
+      // email collecting users
+        const datetime = new Date();
+        const _timestamp = datetime.getTime();
+        const _date = datetime.toISOString().slice(0, 10);
+        const email_contributed_users = await db.get(`ep_profile_modal_email_contributed_${padId}`) || [];
+        const lastUserIndex = email_contributed_users.findIndex((i) => i.email === user.email);
+        if (lastUserIndex !== -1) {
+          email_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp;
+          email_contributed_users[lastUserIndex].data.last_seen_date = _date;
+        } else {
+          email_contributed_users.push({
+            email: user.email,
+            data: {
+              last_seen_timestamp: _timestamp,
+              last_seen_date: _date,
+              created_at_timestamp: _timestamp,
+              created_at_date: _date,
+            },
+          });
+        }
+
+        db.set(`ep_profile_modal_email_contributed_${padId}`, email_contributed_users);
+      // // store users in email way
+
+    }
+    if (settings.redirectToPad)
+      return res.redirect(`/${padId}`);
+    else
+      return res.redirect(`/`);
 
 
 
@@ -42,107 +111,104 @@ exports.expressConfigure = (hookName, context) => {
 
 
       
-      if (user.image !== '' && user.image !== 'reset' && user.image) {
-         user.image = await moveImageToAccount(userId, padId, user.email, user.image) || user.image; 
-      }
-      user.confirmationCode = 0;
-      user.verified = true;
-      user.updateDate = new Date();
-      user.verifiedDate = new Date();
-      db.set(`ep_profile_modal:${userId}_${padId}`, user);
+    //   if (user.image !== '' && user.image !== 'reset' && user.image) {
+    //      user.image = await moveImageToAccount(userId, padId, user.email, user.image) || user.image; 
+    //   }
+    //   user.confirmationCode = 0;
+    //   user.verified = true;
+    //   user.updateDate = new Date();
+    //   user.verifiedDate = new Date();
+    //   db.set(`ep_profile_modal:${userId}_${padId}`, user);
 
-      // for global session
-      db.set(`ep_profile_modal:${userId}`, user); // for global session
-      // for global session
+    //   // for global session
+    //   db.set(`ep_profile_modal:${userId}`, user); // for global session
+    //   // for global session
 
-      // gathering verified user id of pads
-      let verified_users = await db.get(`ep_profile_modal_verified_${padId}`);
-      if (verified_users) {
-        if (verified_users.indexOf(userId) == -1) {
-          verified_users.push(userId);
-        }
-      } else {
-        verified_users = [userId];
-      }
-      db.set(`ep_profile_modal_verified_${padId}`, verified_users);
-      // gathering verified user id of pads
+    //   // gathering verified user id of pads
+    //   let verified_users = await db.get(`ep_profile_modal_verified_${padId}`);
+    //   if (verified_users) {
+    //     if (verified_users.indexOf(userId) == -1) {
+    //       verified_users.push(userId);
+    //     }
+    //   } else {
+    //     verified_users = [userId];
+    //   }
+    //   db.set(`ep_profile_modal_verified_${padId}`, verified_users);
+    //   // gathering verified user id of pads
 
-      // gathering verified email of pads
-      var verified_emails = await db.get(`ep_profile_modal_verified_email_${padId}`);
-      if (verified_emails) {
-        if (verified_emails.indexOf(user.email) == -1) {
-          verified_emails.push(user.email);
-        }
-      } else {
-        verified_emails = [user.email];
-      }
-      db.set(`ep_profile_modal_verified_email_${padId}`, verified_emails);
-      // gathering verified email of pads
+    //   // gathering verified email of pads
+    //   var verified_emails = await db.get(`ep_profile_modal_verified_email_${padId}`);
+    //   if (verified_emails) {
+    //     if (verified_emails.indexOf(user.email) == -1) {
+    //       verified_emails.push(user.email);
+    //     }
+    //   } else {
+    //     verified_emails = [user.email];
+    //   }
+    //   db.set(`ep_profile_modal_verified_email_${padId}`, verified_emails);
+    //   // gathering verified email of pads
 
-      // gathering verified emails
-      var verified_emails = await db.get('ep_profile_modal_verified_emails');
-      if (verified_emails) {
-        if (verified_emails.indexOf(user.email) == -1) {
-          verified_emails.push(user.email);
-        }
-      } else {
-        verified_emails = [user.email];
-      }
-      db.set('ep_profile_modal_verified_emails', verified_emails);
-      // gathering verified emails
-
-
-      // upsert general data on each validation.
-      const emailUser = await db.get(`ep_profile_modal:${user.email}`);
-      if (emailUser) { user.pads = emailUser.pads || []; } // store pads of verified users
-      if (user.pads) {
-        if (user.pads.indexOf(padId) == -1) {
-          user.pads.push(padId);
-        }
-      } else {
-        user.pads = [padId];
-      }
-      db.set(`ep_profile_modal:${user.email}`, user);
-      // upsert general data on each validation.
+    //   // gathering verified emails
+    //   var verified_emails = await db.get('ep_profile_modal_verified_emails');
+    //   if (verified_emails) {
+    //     if (verified_emails.indexOf(user.email) == -1) {
+    //       verified_emails.push(user.email);
+    //     }
+    //   } else {
+    //     verified_emails = [user.email];
+    //   }
+    //   db.set('ep_profile_modal_verified_emails', verified_emails);
+    //   // gathering verified emails
 
 
-      // /// store users in email way
-      // email collecting users
-      const datetime = new Date();
-      const _timestamp = datetime.getTime();
-      const _date = datetime.toISOString().slice(0, 10);
-      const email_contributed_users = await db.get(`ep_profile_modal_email_contributed_${padId}`) || [];
-      const lastUserIndex = email_contributed_users.findIndex((i) => i.email === user.email);
-      if (lastUserIndex !== -1) {
-        email_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp;
-        email_contributed_users[lastUserIndex].data.last_seen_date = _date;
-      } else {
-        email_contributed_users.push({
-          email: user.email,
-          data: {
-            last_seen_timestamp: _timestamp,
-            last_seen_date: _date,
-            created_at_timestamp: _timestamp,
-            created_at_date: _date,
-          },
-        });
-      }
+    //   // upsert general data on each validation.
+    //   const emailUser = await db.get(`ep_profile_modal:${user.email}`);
+    //   if (emailUser) { user.pads = emailUser.pads || []; } // store pads of verified users
+    //   if (user.pads) {
+    //     if (user.pads.indexOf(padId) == -1) {
+    //       user.pads.push(padId);
+    //     }
+    //   } else {
+    //     user.pads = [padId];
+    //   }
+    //   db.set(`ep_profile_modal:${user.email}`, user);
+    //   // upsert general data on each validation.
 
-      db.set(`ep_profile_modal_email_contributed_${padId}`, email_contributed_users);
-      // remove user id from contributed users because we have email now
-      const pad_users = await db.get(`ep_profile_modal_contributed_${padId}`);
-      const indexOfUserId = pad_users.indexOf(userId);
-      if (indexOfUserId != -1) {
-        pad_users.splice(indexOfUserId, 1);
-        db.set(`ep_profile_modal_contributed_${padId}`, pad_users);
-      }
-      // remove user id from contributed users because we have email now
-      // // store users in email way
-    }
-    if (settings.redirectToPad)
-      return res.redirect(`/${padId}`);
-    else
-      return res.redirect(`/`);
+
+    //   // /// store users in email way
+    //   // email collecting users
+    //   const datetime = new Date();
+    //   const _timestamp = datetime.getTime();
+    //   const _date = datetime.toISOString().slice(0, 10);
+    //   const email_contributed_users = await db.get(`ep_profile_modal_email_contributed_${padId}`) || [];
+    //   const lastUserIndex = email_contributed_users.findIndex((i) => i.email === user.email);
+    //   if (lastUserIndex !== -1) {
+    //     email_contributed_users[lastUserIndex].data.last_seen_timestamp = _timestamp;
+    //     email_contributed_users[lastUserIndex].data.last_seen_date = _date;
+    //   } else {
+    //     email_contributed_users.push({
+    //       email: user.email,
+    //       data: {
+    //         last_seen_timestamp: _timestamp,
+    //         last_seen_date: _date,
+    //         created_at_timestamp: _timestamp,
+    //         created_at_date: _date,
+    //       },
+    //     });
+    //   }
+
+    //   db.set(`ep_profile_modal_email_contributed_${padId}`, email_contributed_users);
+    //   // remove user id from contributed users because we have email now
+    //   const pad_users = await db.get(`ep_profile_modal_contributed_${padId}`);
+    //   const indexOfUserId = pad_users.indexOf(userId);
+    //   if (indexOfUserId != -1) {
+    //     pad_users.splice(indexOfUserId, 1);
+    //     db.set(`ep_profile_modal_contributed_${padId}`, pad_users);
+    //   }
+    //   // remove user id from contributed users because we have email now
+    //   // // store users in email way
+    // }
+
 
   });
   context.app.get('/static/getUserProfileImage/:userId/:padId', async (req, res, next) => {
@@ -198,6 +264,7 @@ exports.expressConfigure = (hookName, context) => {
         if (validation(postData.user_email))
           return res.status(400).json({status: 'email_not_valid'});
         
+        const userName =  postData.username ;
         if(validation(postData.username))
           return res.status(400).json({status: 'username_not_valid'});
   
@@ -212,17 +279,17 @@ exports.expressConfigure = (hookName, context) => {
         <p>If this wasn’t you, ignore this message.</p>`
     
         console.log(html);
-        // emailService.sendMail(settings,{
-        //   to : postData.user_email ,
-        //   subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
-        //   html: html
-        // })
-        // .then((data)=>{
-        //     //console.log(data,"from email",data.messageId)
-        // })
-        // .catch((err)=>{
-        //   console.log(err.message,"error from email")
-        // })
+        emailService.sendMail(settings,{
+          to : postData.user_email ,
+          subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
+          html: html
+        })
+        .then((data)=>{
+            //console.log(data,"from email",data.messageId)
+        })
+        .catch((err)=>{
+          console.log(err.message,"error from email")
+        })
     
         // we create a temp row for use rwho want validation then will compare with his email entering
         db.set("ep_profile_modal_temp:"+postData.user_email+"_"+padId , confirmCode) 
@@ -241,15 +308,15 @@ exports.expressConfigure = (hookName, context) => {
 
   });
   // for reset profile image
-  context.app.get('/static/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId', async (req, res, next) => {
-    const padId = req.params.padId;
-    const userId = req.params.userId;
-    db.set(`ep_profile_modal_image:${userId}`, 'reset');
-    const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
-    user.image = 'reset';
-    await db.set(`ep_profile_modal:${userId}_${padId}`, user);
-    return res.status(201).json({status: 'ok'});
-  });
+  // context.app.get('/static/:padId/pluginfw/ep_profile_modal/resetProfileImage/:userId', async (req, res, next) => {
+  //   const padId = req.params.padId;
+  //   const userId = req.params.userId;
+  //   db.set(`ep_profile_modal_image:${userId}`, 'reset');
+  //   const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
+  //   user.image = 'reset';
+  //   await db.set(`ep_profile_modal:${userId}_${padId}`, user);
+  //   return res.status(201).json({status: 'ok'});
+  // });
   // for upload user image
   context.app.post('/static/:padId/pluginfw/ep_profile_modal/upload/:userId', async (req, res, next) => {
     const padId = req.params.padId;
