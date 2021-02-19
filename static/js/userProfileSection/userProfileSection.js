@@ -22,10 +22,18 @@ const usersProfileSection = (() => {
           const image_url = '../static/plugins/ep_profile_modal/static/dist/img/loading.gif';
           $('#ep_profile_users_profile_userImage').css({'background-position': '50% 50%',
             'background-image': `url(${image_url})`, 'background-repeat': 'no-repeat', 'background-size': '69px', 'background-color': '#3873E0'});
-          $('#ep_profile_users_profile').removeClass('ep_profile_formModal_show');
+          //$('#ep_profile_users_profile').removeClass('ep_profile_formModal_show');
+          $('#ep_profile_users_profile_name').text("")
+          $('#ep_profile_users_profile_desc').text("");
+
+          $('#ep_profile_users_profile').addClass('ep_profile_formModal_show');
+          shared.showGeneralOverlay();
+
+
         },
         error(xhr) { // if error occured
-
+          $('#ep_profile_users_profile').removeClass('ep_profile_formModal_show');
+          shared.hideGeneralOverlay();
         },
         success(response) {
           console.log(response);
@@ -37,13 +45,15 @@ const usersProfileSection = (() => {
 
           $('#ep_profile_users_profile_name').text(username);
           $('#ep_profile_users_profile_desc').text(about);
-          $('#ep_profile_users_profile_homepage').attr({href: shared.getValidUrl(homepage), target: '_blank'});
+          if (homepage =="" ){
+            $('#ep_profile_users_profile_homepage').hide()
+          }else{
+            $('#ep_profile_users_profile_homepage').attr({href: shared.getValidUrl(homepage), target: '_blank'});
+          }
+            
 
 
-          $('#ep_profile_users_profile').addClass('ep_profile_formModal_show');
-          shared.showGeneralOverlay();
-
-
+  
           $('#ep_profile_users_profile_userImage').css({'background-position': '50% 50%',
             'background-image': `url(${image_url})`, 'background-repeat': 'no-repeat', 'background-size': '69px', 'background-color': '#3873E0'});
         },
