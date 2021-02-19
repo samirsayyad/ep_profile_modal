@@ -7,11 +7,13 @@ const aceInitialized = (() => {
   const aceInitialized = (hook, context) => {
     const userId = pad.getUserId();
     // if (!window.matchMedia('(max-width: 720px)').matches) {
-    let modal = $('#ep_profile_askmodal_script').tmpl(clientVars);
     profileForm.initModal(clientVars);
-    if (clientVars.ep_profile_modal.form_passed !== true) {
+    // if (clientVars.ep_profile_modal.form_passed !== true) {
+    //   profileForm.showModal();
+    // }
+    if (localStorage.getItem("formPassed") != "yes")
       profileForm.showModal();
-    }
+    
     // / user profile section
     usersProfileSection.initiate(clientVars);
     // / user profile section
@@ -19,7 +21,7 @@ const aceInitialized = (() => {
     //
     $('body').append(modal);
     // /
-    modal = $('#ep_profile_modal_script').tmpl(clientVars);
+    var modal = $('#ep_profile_modal_script').tmpl(clientVars);
     $('body').append(modal);
     // /
     modal = $('#ep_profile_modal_user_list_script').tmpl(clientVars);

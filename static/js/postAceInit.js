@@ -29,19 +29,19 @@ const postAceInit = (() => {
       }
       username.css({border: '0'});
 
-      const userEmail = email.val();
-      if (!shared.isEmail(userEmail) || userEmail == '') {
-        email.css({border: '1px solid red'});
-        return false;
-      }
-      email.css({border: '0'});
+      // const userEmail = email.val();
+      // if (!shared.isEmail(userEmail) || userEmail == '') {
+      //   email.css({border: '1px solid red'});
+      //   return false;
+      // }
+      // email.css({border: '0'});
 
-      const userLink = homepage.val();
-      if (!shared.IsValid(userLink) && userLink !== '') {
-        homepage.css({border: '1px solid red'});
-        return false;
-      }
-      homepage.css({border: 'unset'});
+      // const userLink = homepage.val();
+      // if (!shared.IsValid(userLink) && userLink !== '') {
+      //   homepage.css({border: '1px solid red'});
+      //   return false;
+      // }
+      // homepage.css({border: 'unset'});
 
       // validations
 

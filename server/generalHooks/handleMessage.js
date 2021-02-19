@@ -39,7 +39,7 @@ exports.handleMessage = (hook_name, context, callback) => {
 
   if (message.action === 'ep_profile_modal_login') {
     ep_profile_modal_login(message);
-    ep_profile_modal_login_check_prompt(message, context.client);
+    //ep_profile_modal_login_check_prompt(message, context.client);
   }
 
   // if(message.action==="ep_profile_modal_send_signout_message"){

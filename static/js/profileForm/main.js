@@ -21,6 +21,7 @@ const profileForm = (() => {
     const $form = $('#ep_profile_formModal_msform');
     const data = getFormData($form);
     const msg = {};
+    localStorage.setItem("formPassed","yes")
     if (data.ep_profile_modalForm_name == '') { return false; }
     // var message = {
     //     type : 'ep_profile_modal',
