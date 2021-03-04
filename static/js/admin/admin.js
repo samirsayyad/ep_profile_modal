@@ -2,10 +2,7 @@
 
 const documentReady = (() => {
   const documentReady = (hooks, context, cb) => {
-    if (context !== 'admin/ep_profile_modal') {
-      return [];
-    }
-
+   
     let socket;
     const loc = document.location;
     const port = loc.port == '' ? (loc.protocol == 'https:' ? 443 : 80) : loc.port;
@@ -20,25 +17,58 @@ const documentReady = (() => {
     let changeTimer;
 
 
-    // connect
-    socket = io.connect(room, {path: `${baseURL}socket.io`, resource});
-    socket.on('load-settings-result', (data) => {
-      console.log(data);
-      shared.setFormData($('#settings-form'), data);
-    });
+    switch (context){
+      case "admin/ep_profile_modal" : {
+        // connect 
+        socket = io.connect(room, {path: `${baseURL}socket.io`, resource});
+        socket.on('load-settings-result', (data) => {
+          console.log(data);
+          shared.setFormData($('#settings-form'), data);
+        });
 
-    $('#save-settings').on('click', () => {
-      const data = shared.getFormData($('#settings-form'));
-      console.log(data, 'data');
-      socket.emit('save-settings', data);
-      alert('Succesfully saved.');
-    });
+        $('#save-settings').on('click', () => {
+          const data = shared.getFormData($('#settings-form'));
+          console.log(data, 'data');
+          socket.emit('save-settings', data);
+          alert('Succesfully saved.');
+        });
 
-    socket.emit('load-settings');
+        socket.emit('load-settings');
+        break;
 
+      }
+      case "admin/ep_profile_modal_analytics" :{
+        socket = io.connect(room, {path: `${baseURL}socket.io`, resource});
+ 
 
-    return [];
+        socket.on('load-pads-result', (data) => {
+          console.log("load-pads",data);
+          $.each(data, function(index,value){
+            $('#pads').append(`<option value="${value}">${value}</option>`)
+          })
+       
+        });
+        socket.on('load-analytics-result', (data) => {
+          console.log("load-analytics",data);
+        });
+        
+
+        $('#pads').on('change', function() {
+          socket.emit('load-analytics',{pad:this.value});
+
+          
+        });
+
+        socket.emit('load-pads');
+        break;
+
+      }
+      default : {
+        return [];
+      }
+
+    }
+
   };
-
   return documentReady;
 })();

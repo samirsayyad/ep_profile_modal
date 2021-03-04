@@ -2,15 +2,15 @@
   <head>
     <title>Pad administration</title>
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="../static/dist/css/admin.css">
+    <!-- <link rel="stylesheet" href="../static/dist/css/admin.css"> -->
+    <link rel="stylesheet" href="../static/css/admin.css">
     <link rel="stylesheet" href="../static/plugins/ep_profile_modal/static/dist/css/admin/admin.css" type="text/css" />
 
-    <% e.begin_block("scripts"); %>
     <script src="../static/js/jquery.js"></script>
     <script src="../socket.io/socket.io.js"></script>
     <script type="text/javascript" src="../static/js/require-kernel.js"></script>
     <script type="text/javascript" src="../socket.io/socket.io.js"></script>
-
+   
     <!-- Include base packages manually (this help with debugging) -->
     <script type="text/javascript" src="../javascripts/lib/ep_etherpad-lite/static/js/ace2_common.js?callback=require.define"></script>
 
@@ -43,7 +43,6 @@
         });
       }());
     </script>
-    <% e.end_block(); %>
   </head>
   <body>
     <div id="wrapper">
@@ -69,7 +68,7 @@
 
       <div class="innerwrapper">
         <div class="paged listing data-results">
-        <h2>Profile modal plugin panel</h2>
+        <h2>Profile modal plugin settings</h2>
           
 
         <h2>Settings</h2>

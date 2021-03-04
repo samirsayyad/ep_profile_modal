@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <title>Pad administration</title>
+    <meta name="viewport" content="width=device-width">
+    <!-- <link rel="stylesheet" href="../static/dist/css/admin.css"> -->
+    <link rel="stylesheet" href="../static/css/admin.css">
+    <link rel="stylesheet" href="../static/plugins/ep_profile_modal/static/dist/css/admin/admin.css" type="text/css" />
+
+    <script src="../static/js/jquery.js"></script>
+    <script src="../socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="../static/js/require-kernel.js"></script>
+    <script type="text/javascript" src="../socket.io/socket.io.js"></script>
+   
+    <!-- Include base packages manually (this help with debugging) -->
+    <script type="text/javascript" src="../javascripts/lib/ep_etherpad-lite/static/js/ace2_common.js?callback=require.define"></script>
+
+    <!-- Bootstrap page -->
+    <script type="text/javascript">
+      let clientVars = {};
+      (function () {
+        let pathComponents = location.pathname.split('/');
+
+        // Strip 'p' and the padname from the pathname and set as baseURL
+        let baseURL = pathComponents.slice(0, pathComponents.length - 2).join('/') + '/';
+
+        require.setRootURI(baseURL + "javascripts/src");
+        require.setLibraryURI(baseURL + "javascripts/lib");
+        require.setGlobalKeyPath("require");
+
+        $ = jQuery = require('ep_etherpad-lite/static/js/rjquery').jQuery; // Expose jQuery #HACK
+
+        let plugins = require('ep_etherpad-lite/static/js/pluginfw/client_plugins');
+        let hooks = require('ep_etherpad-lite/static/js/pluginfw/hooks');
+
+        plugins.baseURL = baseURL;
+        plugins.update(function () {
+          hooks.plugins = plugins;
+
+          // Call analyticsReady hook
+          $(function() {
+            hooks.aCallAll('documentReady','admin/ep_profile_modal_analytics');
+          });
+        });
+      }());
+    </script>
+  </head>
+  <body>
+    <div id="wrapper">
+
+      <% if (errors.length) { %>
+        <div class="errors">
+          <% errors.forEach(function (item) { %>
+            <div class="error"><%= item.toString() %></div>
+          <% }) %>
+        </div>
+      <% } %>
+
+      <div class="menu">
+        <h1><a href="../../">Docs.plus</a></h1>
+        <ul> 
+          <% e.begin_block("adminMenu"); %>
+          <li><a href="plugins">Plugin manager</a> </li>
+          <li><a href="settings">Settings</a> </li>
+          <li><a href="plugins/info">Troubleshooting information</a> </li>
+          <% e.end_block(); %>
+        </ul>
+      </div>
+
+      <div class="innerwrapper">
+        <div class="paged listing data-results">
+        <h2>Profile modal plugin analytics</h2>
+            
+
+        <h2>Analytics</h2>
+
+
+        <div class="container">
+            <h4>Please choose pad : </h4>
+            <select name="pads" id="pads">
+            </select>
+        </div>
+
+      </div>
+    </div>
+  </body>
+  
+</html>
