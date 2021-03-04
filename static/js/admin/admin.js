@@ -50,6 +50,32 @@ const documentReady = (() => {
         });
         socket.on('load-analytics-result', (data) => {
           console.log("load-analytics",data);
+          // $.each(data.email_contributed_users, function(index,value){
+          //   $('#users').append(`
+          //   <tr>
+          //     <td>${value.email}</td>
+          //     <td>${value.data.created_at_date}</td>
+          //     <td>-</td>
+          //   </tr>
+          //   `)
+          // })
+
+          $.each(data.pad_users_data, function(index,value){
+            if(value.userId){
+              $('#users').append(`
+              <tr style="height: 0;">
+                <td>${value.email || value.userId}</td>
+                <td>${value.username}</td>
+                <td>${value.createDate}</td>
+                <td>${value.last_seen_date}</td>
+                <td>${value.verifiedDate || "-"}</td>
+                <td>${(value.verified) ? "Verified" : "unconfirmed"}</td>
+              </tr>
+              `)
+            }
+
+          })
+
         });
         
 

@@ -1,6 +1,7 @@
 const eejs = require('ep_etherpad-lite/node/eejs');
 const db = require('ep_etherpad-lite/node/db/DB');
 const padManager = require('ep_etherpad-lite/node/db/PadManager');
+const async = require('../../../../src/node_modules/async');
 
 exports.registerRoute = (hook_name, args, cb) => {
   args.app.get('/admin/ep_profile_modal', (req, res) => {
@@ -45,13 +46,21 @@ exports.socketio = (hook_name, args, cb) => {
     socket.on('load-analytics', async (data) => {
       const pad_users = await db.get(`ep_profile_modal_contributed_${data.pad}`) || [];
       const email_contributed_users = await db.get(`ep_profile_modal_email_contributed_${data.pad}`) || [];
-      const verified_users = await db.get(`ep_profile_modal_verified_${data.pad}`);
+      var pad_users_data = []
+      async.forEach(pad_users,
+        async userId=>{
+          let user = await db.get(`ep_profile_modal:${userId}_${data.pad}`) || false;
+          console.log("result of",userId,user)
+          pad_users_data.push(user)
+      },
+        async ()=>{
+          socket.emit('load-analytics-result', {
+            pad_users : pad_users ,
+            email_contributed_users : email_contributed_users ,
+            pad_users_data : pad_users_data
+          });
+      })  
 
-      socket.emit('load-analytics-result', {
-        pad_users : pad_users ,
-        email_contributed_users : email_contributed_users ,
-        verified_users : verified_users
-      });
     });
     socket.on('load-pads', async ()=>{
       const {padIDs} = await padManager.listAllPads();

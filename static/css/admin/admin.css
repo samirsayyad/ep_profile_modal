@@ -61,3 +61,20 @@ input[type=text],input[type=password],input[type=number], select, textarea{
       margin-top: 0;
     }
   }
+
+  table {
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+table td {
+    border: 1px solid #ccc;
+    text-align: center;
+}
+table .absorbing-column {
+    width: 100%;
+}
+
+table th, table td, table thead th, table tbody td, table tfoot td, table tfoot th {
+  width: auto !important;
+}
