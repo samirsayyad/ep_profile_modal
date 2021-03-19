@@ -3,6 +3,8 @@
 
 const syncData = (() => {
   const syncAllFormsData = function (userId, data) {
+    if (data === undefined)
+      return;
     // users List
     const user_selector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
     if (user_selector.length) {
