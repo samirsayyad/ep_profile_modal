@@ -17,7 +17,6 @@ exports.clientVars = async (hook, context, callback) => {
   user.last_seen_timestamp = datetime.getTime();
   user.last_seen_date = datetime.toISOString().slice(0, 10);
   db.set(`ep_profile_modal:${context.clientVars.userId}_${padId}`, user);
-  console.log(context.pad.id, 'session user', user);
   //* collect user If just enter to pad */
   // // counting how many email input
 

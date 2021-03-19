@@ -230,9 +230,7 @@ const ep_profile_modal_logout = async (message) => {
       },
     };
     etherpadFuncs.sendToRoom(msg);
-  } else {
-    console.log('data not set');
-  }
+  }  
 };
 
 const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
@@ -252,7 +250,6 @@ const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
 };
 
 const ep_profile_modal_ready = async (message) => {
-  console.log('ep_profile_modal_ready', message);
   const pad_users = await db.get(`ep_profile_modal_contributed_${message.padId}`) || [];
   // sendUsersListToAllUsers(pad_users,message.padId)
   // /////////
@@ -323,7 +320,6 @@ const ep_profile_modal_ready = async (message) => {
     // again start a foreach for email
 
 
-    console.log('foreach number 1 ', pad_users, all_users_list);
   });
   // }
   // /////////

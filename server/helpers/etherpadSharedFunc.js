@@ -30,7 +30,6 @@ exports.sendToUser = function (msg, client) {
           // TODO: Error handling.
         });
       } catch (error) {
-        console.log(error);
       }
     }
     , 100);

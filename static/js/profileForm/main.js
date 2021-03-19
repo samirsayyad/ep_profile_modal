@@ -178,7 +178,6 @@ const profileForm = (() => {
 
 
     function nextHandler(current_fs, next_fs) {
-      console.log('clicked');
       if (animating) return false;
 
       const currentSection = current_fs.attr('data-section');

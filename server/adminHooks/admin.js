@@ -39,7 +39,6 @@ exports.socketio = (hook_name, args, cb) => {
       socket.emit('load-settings-result', settings);
     });
     socket.on('save-settings', async (data) => {
-      console.log('we got this', data);
       await db.set('ep_profile_modal_settings', data) || {};
     });
 
@@ -50,7 +49,6 @@ exports.socketio = (hook_name, args, cb) => {
       async.forEach(pad_users,
         async userId=>{
           let user = await db.get(`ep_profile_modal:${userId}_${data.pad}`) || false;
-          console.log("result of",userId,user)
           pad_users_data.push(user)
       },
         async ()=>{

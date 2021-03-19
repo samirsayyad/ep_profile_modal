@@ -17,7 +17,6 @@ exports.expressConfigure = (hookName, context) => {
   context.app.get('/static/:padId/pluginfw/ep_profile_modal/getUserInfo/:userId', async (req, res, next) => {
     const padId = req.params.padId;
     const userId = req.params.userId;
-    console.log(`ep_profile_modal:${userId}_${padId}`);
     const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
     user.homepage = getValidUrl(user.homepage) || '';
     return res.status(201).json({user});
@@ -136,7 +135,6 @@ exports.expressConfigure = (hookName, context) => {
     let profile_json = null;
     let httpsUrl = null;
     const user = await db.get(`ep_profile_modal:${req.params.userId}_${req.params.padId}`) || {};
-    console.log(user);
     if (user.status == '2') { // logged in
       if (user.image && user.image != 'reset') {
         const s3 = new AWS.S3({
@@ -149,7 +147,6 @@ exports.expressConfigure = (hookName, context) => {
         try {
           const params = {Bucket: settings.ep_profile_modal.storage.bucket, Key: `${user.image}`};
           s3.getObject(params, (err, data) => {
-            console.log('data going to be ', params, data, err);
             if (data) {
               res.writeHead(200, {'Content-Type': 'image/jpeg'});
               res.write(data.Body, 'binary');
@@ -159,7 +156,6 @@ exports.expressConfigure = (hookName, context) => {
             }
           });
         } catch (error) {
-          console.log('error', error);
         }
       } else {
         const profile_url = gravatar.profile_url(user.email, {protocol: 'https'});
@@ -205,7 +201,6 @@ exports.expressConfigure = (hookName, context) => {
           userName = user.username ;
       }
             
-      console.log(userEmail,userName)
       if (userEmail){
         if (!user.verified){
           const confirmCode = new Date().getTime().toString()
@@ -218,28 +213,19 @@ exports.expressConfigure = (hookName, context) => {
           <p> Please <a href='${link}'>click here</a> to verify your email address for ${settings.settingsDomain}/${padId} .</p>                  
           <p>If this wasn’t you, ignore this message.</p>`
   
-          console.log(html)
           emailService.sendMail(settings,{
             to : userEmail ,
             subject : (settings.settingsHtmlSubjectTemplate) ?  settings.settingsHtmlSubjectTemplate:  `confirm email for ${settings.settingsDomain}/${padId}`,
             html: html
           })
           .then((data)=>{
-              console.log(data,"from email",data.messageId)
           })
           .catch((err)=>{
-            console.log(err.message,"error from email")
           })
   
           db.set("ep_profile_modal:"+userId+"_"+padId , user) 
-      }else{
-        console.log('email already verified');
       }
-    }else{
-      console.log('there is not valid email', email);
     }
-  }else {
-  console.log('setting not set');
   }
 
   return res.status(201).json({status: 'ok'});
@@ -267,15 +253,7 @@ exports.expressConfigure = (hookName, context) => {
       signatureVersion: 'v4',
     });
 
-    console.log({
-      accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
-      secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
-      endpoint: settings.ep_profile_modal.storage.endPoint,
-      s3ForcePathStyle: true, // needed with minio?
-      signatureVersion: 'v4',
-    });
-
-    try {
+     try {
       var busboy = new Busboy({
         headers: req.headers,
         limits: {
@@ -283,12 +261,10 @@ exports.expressConfigure = (hookName, context) => {
         },
       });
     } catch (error) {
-      console.log('ep_profile_modal ERROR', error);
       return next(error);
     }
     const done = function (error) {
       if (error) {
-        console.log('ep_profile_modal UPLOAD ERROR', error);
         return;
       }
       if (isDone) return;
@@ -323,7 +299,6 @@ exports.expressConfigure = (hookName, context) => {
           selectedHeight = 128;
         if (sizeImage) {
           const result_resize = getBestImageReszie(sizeImage.width, sizeImage.height, 128);
-          console.log(sizeImage, result_resize);
           selctedWidth = result_resize.width;
           selectedHeight = result_resize.height;
         }
@@ -346,10 +321,8 @@ exports.expressConfigure = (hookName, context) => {
             Body: newFile,
           };
           try {
-            console.log(params_upload);
 
             s3.upload(params_upload, async (err, data) => {
-              if (err) { console.log(err, err.stack, 'error'); } else { console.log(data); }
 
               if (data) {
                 db.set(`ep_profile_modal_image:${userId}`, savedFilename);
@@ -393,9 +366,7 @@ exports.expressConfigure = (hookName, context) => {
 
 
 const moveImageToAccount = async (userId, padId, email, userImage) => {
-  console.log(userId, padId, email, userImage);
   if (userImage.indexOf(email) == -1) {
-    console.log(settings.ep_profile_modal, settings.ep_profile_modal.storage.bucket, 'settings.ep_profile_modal.storage.bucket');
     const s3 = new AWS.S3({
       accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
       secretAccessKey: settings.ep_profile_modal.storage.secretAccessKey,
@@ -475,7 +446,6 @@ const sendToRoom = (msg) => {
           // TODO: Error handling.
         });
       } catch (error) {
-        console.log(error);
       }
     }
     , 100);

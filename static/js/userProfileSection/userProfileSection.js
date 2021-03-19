@@ -9,7 +9,6 @@ const usersProfileSection = (() => {
 
   const initiateListeners = function () {
     $('#usersIconList').on('click', '.avatar', function () {
-      console.log('clicked');
       const userId = $(this).attr('data-userId');
       const padId = pad.getPadId();
       $.ajax({
@@ -36,7 +35,6 @@ const usersProfileSection = (() => {
           shared.hideGeneralOverlay();
         },
         success(response) {
-          console.log(response);
           const image_url = `/static/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
           let username = response.user.username;
           if (username == null || username == '') { username = 'Anonymous'; }
