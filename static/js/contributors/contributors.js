@@ -192,7 +192,7 @@ const contributors = (() => {
 					`<div style='${style}' class='ep_profile_user_img'></div>` +
 					'<div class=\'ep_profile_user_list_profile_userDesc\'>' +
 							`<div class='ep_profile_user_list_username'><div class='ep_profile_user_list_username_text' >${username}</div>` +
-							`<a target='_blank'  class='ep_profile_contributor_link_container' title='${shared.getValidUrl(homepage)}' href='${shared.getValidUrl(homepage)}'> </a>` +
+							`<a target='_blank' style='${(homepage == "" || homepage == "#" || homepage == undefined || homepage == null ) ? "display : none" : ""}'  class='ep_profile_contributor_link_container' title='${shared.getValidUrl(homepage)}' href='${shared.getValidUrl(homepage)}'> </a>` +
 							`<div class='ep_profile_contributor_status'>${seenStatus}</div>` +
 							'</div>' +
 							`<p class='ep_profile_user_list_profile_desc'>${about}</p>` +
