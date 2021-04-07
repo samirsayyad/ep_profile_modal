@@ -12,8 +12,49 @@ const resizeImg = require('resize-img');
 const sizeOf = require('buffer-image-size');
 const padMessageHandler = require('ep_etherpad-lite/node/handler/PadMessageHandler');
 const emailService = require('../services/email');
+const getContributors_limit = 50 ;
+const staticVars = require('../helpers/statics');
+const shared = require('../helpers/shared');
+const async = require('../../../../src/node_modules/async');
 
 exports.expressConfigure = (hookName, context) => {
+
+
+  /////////       getContributors         //////////////////////
+  context.app.get('/static/:padId/pluginfw/ep_profile_modal/getContributors/:page', async (req, res, next) => {
+    const padId = req.params.padId;
+    const page = parseInt(req.params.page) || 1;
+    const pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
+    var all_users_list = [];
+    var datetime = new Date();
+    const today = datetime.toISOString().slice(0, 10);
+    let yesterday = new Date(datetime);
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday = yesterday.toISOString().slice(0, 10);
+    var offset = (page - 1) * getContributors_limit 
+    var slicedArray = pad_users.slice(offset, getContributors_limit) 
+    await async.map(slicedArray ,async(value) => {
+      var user = await db.get(`ep_profile_modal:${value}_${padId}`) || {};
+      var default_img = `/static/getUserProfileImage/${value}/${padId}?t=${new Date().getUTCDay()}`;
+
+      all_users_list.push({
+        userId: value,
+        email: user.email || '',
+        status: user.status || '1',
+        userName: user.username || staticVars.defaultUserName,
+        imageUrl: default_img,
+        about: user.about || '',
+        homepage: shared.getValidUrl(user.homepage) || '',
+        last_seen_date: ((user.last_seen_date == today) ? 'today' : (user.last_seen_date == yesterday) ? 'yesterday' : user.last_seen_date) || '',
+        last_seen_timestamp: user.last_seen_timestamp || 0,
+
+      });
+    });
+    return res.status(201).json(all_users_list);
+  });
+  /////////       getContributors         //////////////////////
+
+
   context.app.get('/static/:padId/pluginfw/ep_profile_modal/getUserInfo/:userId', async (req, res, next) => {
     const padId = req.params.padId;
     const userId = req.params.userId;

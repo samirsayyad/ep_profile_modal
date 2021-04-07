@@ -84,6 +84,38 @@ const postAceInit = (() => {
       // }
     });
 
+    $('#userlist_count').on('click',()=>{
+      var page = $("#ep_profile_modal_user_list").attr("data-page") || "1";
+      var pageLoaded = $("#ep_profile_modal_user_list").attr("data-pageLoaded") || false;
+
+      if(!pageLoaded){
+        $.ajax({
+          url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/getContributors/${page}/`,
+          type: 'get',
+          data: {},
+          contentType: false,
+          processData: false,
+          beforeSend() {
+            // setting a timeout
+            //$('#contributorsLoading').show();
+          },
+          error(xhr) { // if error occured
+            $("#ep_profile_modal_user_list").attr("data-loaded",true)
+            $('#contributorsLoading').hide();
+          },
+          success(response) {
+            $('#contributorsLoading').hide();
+            $("#ep_profile_modal_user_list").attr("data-loaded",true)
+            const onlineUsers = pad.collabClient.getConnectedUsers();
+            contributors.manageOnlineOfflineUsers(response, onlineUsers, pad.getUserId());
+          },
+
+        });
+      }
+
+      
+    })
+
     $('#userlist_count,#ep_profile_modal_user_list_close').on('click', () => {
       if ($('#ep_profile_modal_user_list').hasClass('ep_profile_modal-show')) {
         $('#ep_profile_modal_user_list').removeClass('ep_profile_modal-show');

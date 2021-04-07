@@ -80,10 +80,10 @@ const handleClientMessage = (() => {
     //   // $('#profile_modal_selected_image').css({'background-position': '50% 50%',
     //   //   'background-image': `url(${image_url})`, 'background-repeat': 'no-repeat', 'background-size': '64px'});
     // }
-    if (context.payload.action == 'EP_PROFILE_USERS_LIST') {
-      const onlineUsers = pad.collabClient.getConnectedUsers();
-      contributors.manageOnlineOfflineUsers(context.payload.list, onlineUsers, pad.getUserId());
-    }
+    // if (context.payload.action == 'EP_PROFILE_USERS_LIST') {
+    //   const onlineUsers = pad.collabClient.getConnectedUsers();
+    //   contributors.manageOnlineOfflineUsers(context.payload.list, onlineUsers, pad.getUserId());
+    // }
 
     if (context.payload.action == 'EP_PROFILE_USER_IMAGE_CHANGE') { // when user A change image and user B want to know
       helper.refreshGeneralImage(context.payload.userId, context.payload.padId);

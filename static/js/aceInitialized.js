@@ -18,7 +18,7 @@ const aceInitialized = (() => {
     usersProfileSection.initiate(clientVars);
     // / user profile section
 
-    //
+    //template generate 
     $('body').append(modal);
     // /
     var modal = $('#ep_profile_modal_script').tmpl(clientVars);
@@ -27,30 +27,34 @@ const aceInitialized = (() => {
     modal = $('#ep_profile_modal_user_list_script').tmpl(clientVars);
     $('body').append(modal);
     // /general
-    modal = $('#ep_profile_modal_general_script').tmpl(clientVars);
+    modal = $('#ep_profile_modal_general_script').tmpl();
     $('body').append(modal);
+    //template generate 
+
     const style = `background : url(/static/getUserProfileImage/${userId}/${clientVars.padId}) no-repeat 50% 50% ; background-size :32px`;
     const onlineUsers = pad.collabClient.getConnectedUsers();
-    const usersListHTML = contributors.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count, onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified_users);
+    const usersListHTML = contributors.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count, onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified);
+
+    $('#pad_title').append(`<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>${usersListHTML}</div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image' style='${style}' /></div></div>`);
+
     if (clientVars.ep_profile_modal.user_status == '2') {
       window.user_status = 'login';
-      $('#pad_title').append(`<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>${usersListHTML}</div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image' style='${style}' /></div></div>`);
     } else {
-      $('#pad_title').append(`<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>${usersListHTML} </div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image'  style='${style}' /></div></div>`);
       window.user_status = 'out';
-      if (clientVars.ep_profile_modal.form_passed == true) {
-        setTimeout(() => {
-          profileForm.showModal();
+      // if (clientVars.ep_profile_modal.form_passed == true) {
+      //   setTimeout(() => {
+      //     profileForm.showModal();
 
-          // $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
-        }, 1000);
-      }
+      //     // $('#ep_profile_modal_ask').addClass('ep_profile_modal-show')
+      //   }, 1000);
+      // }
     }
+    // We were telling to server that we are ready to get data that due to large data need to be request base over HTTP + just for analytics
     const message = {
       type: 'ep_profile_modal',
       action: 'ep_profile_modal_ready',
       userId,
-      padId: pad.getPadId(),
+      padId: clientVars.padId,
       data: clientVars.ep_profile_modal,
     };
     pad.collabClient.sendMessage(message);

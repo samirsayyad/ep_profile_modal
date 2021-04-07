@@ -4,15 +4,16 @@
 const contributors = (() => {
   const defaultImg = '../static/plugins/ep_profile_modal/static/dist/img/user.png';
 
-  const createHTMLforUserList = function (total, online, padId, verified_users) { // generate avatar too
+  const createHTMLforUserList = function (total, online, padId, userVerify) { // generate avatar too
     let html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
     let style;
     let borderStyle = '';
     $.each(online.reverse(), (key, value) => {
       style = `background: url(/static/getUserProfileImage/${value.userId}/${padId}) no-repeat 50% 50% ; background-size : 28px;background-color: #fff;`;
-      if (verified_users && verified_users.length && verified_users !== 'null' && verified_users !== null) {
-        if (verified_users.indexOf(value.userId) == -1) { borderStyle = ''; } else { borderStyle = 'box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;'; }
-      }
+      // if (verified_users && verified_users.length && verified_users !== 'null' && verified_users !== null) {
+      //   if (verified_users.indexOf(value.userId) == -1) { borderStyle = ''; } else { borderStyle = 'box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;'; }
+      // }
+      if(userVerify) { borderStyle = 'box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;'; } else  { borderStyle = ''; } 
 
       style += borderStyle;
       html += `<div class='avatar' data-userId="${value.userId}" data-id="user_${value.userId}"  id="user_${value.userId}" ><div data-userId="${value.userId}"  class='avatarImg' style='${style}' data-id="user_${value.userId}"></div></div>`;

@@ -55,7 +55,7 @@ exports.handleMessage = (hook_name, context, callback) => {
   }
 
   if (message.action === 'ep_profile_modal_ready') {
-    ep_profile_modal_ready(message);
+//    ep_profile_modal_ready(message);
     statisticsHandling(message);
   }
 

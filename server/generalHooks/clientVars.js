@@ -54,8 +54,8 @@ exports.clientVars = async (hook, context, callback) => {
     pad_users = [context.clientVars.userId];
     db.set(`ep_profile_modal_contributed_${padId}`, pad_users);
   }
-  //* collect user If just enter to pad */
-  const verified_users = await db.get(`ep_profile_modal_verified_${padId}`);
+  // //* collect user If just enter to pad */
+  // const verified_users = await db.get(`ep_profile_modal_verified_${padId}`);
 
   return {
     ep_profile_modal: {
@@ -68,7 +68,7 @@ exports.clientVars = async (hook, context, callback) => {
       homepage: shared.getValidUrl(user.homepage) || '',
       form_passed: formPassed,
       verified: user.verified || email_verified,
-      verified_users,
+      //verified_users,
 
     },
   };
