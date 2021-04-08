@@ -137,11 +137,11 @@ const postAceInit = (() => {
 
         },
         success(response) {
+          $("#ep_profile_modal_load_more_contributors").css({"display":"block"})
           $('#loadMoreLoading').hide();
           $("#ep_profile_modal_user_list").attr("data-page",page)
           const onlineUsers = pad.collabClient.getConnectedUsers();
           contributors.paginateContributors(response.data, onlineUsers, pad.getUserId(),response.lastPage);
-          $("#ep_profile_modal_load_more_contributors").css({"display":"block"})
         },
 
       });
