@@ -98,13 +98,14 @@ const postAceInit = (() => {
           beforeSend() {
             // setting a timeout
             //$('#contributorsLoading').show();
+            $('#ep_profile_user_list_container').css({"display":"none"})
           },
           error(xhr) { // if error occured
             $('#contributorsLoading').css({"display":"none"});
           },
           success(response) {
             $('#contributorsLoading').css({"display":"none"});
-
+            $('#ep_profile_user_list_container').css({"display":"block"})
             $("#ep_profile_modal_user_list").attr("data-pageLoaded","true")
             const onlineUsers = pad.collabClient.getConnectedUsers();
             contributors.manageOnlineOfflineUsers(response.data, onlineUsers, pad.getUserId(),response.lastPage);
@@ -141,7 +142,7 @@ const postAceInit = (() => {
           $('#loadMoreLoading').hide();
           $("#ep_profile_modal_user_list").attr("data-page",page)
           const onlineUsers = pad.collabClient.getConnectedUsers();
-          contributors.paginateContributors(response.data, onlineUsers, pad.getUserId(),response.lastPage);
+          contributors.manageOnlineOfflineUsers(response.data, onlineUsers, pad.getUserId(),response.lastPage);
         },
 
       });

@@ -152,7 +152,7 @@ const contributors = (() => {
     if(lastPage){
       $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
     }
-    offline_list_selector.empty();
+    //offline_list_selector.empty();
     $.each(all_users_list, (key, value) => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
