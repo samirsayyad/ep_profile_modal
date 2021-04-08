@@ -88,8 +88,9 @@ const contributors = (() => {
       $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
     }
     $.each(all_users_list, (key, value) => {
+      const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
+
       if (value.last_seen_date !== '' && value.userName != 'Anonymous') {
-        const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
         var userListHtml = getHtmlOfUsersList(
           value.userId, value.userName,
           value.imageUrl, false, value.about, value.homepage, 
@@ -99,6 +100,20 @@ const contributors = (() => {
         ep_profile_user_list_container_pagination.append(userListHtml);
     
       } 
+
+      if (result.length) { // online
+        if (value.userName == 'Anonymous') {
+          const selector_on = $('.ep_profile_user_row[data-id="user_list_on_Anonymous"]');
+
+          if (selector_on.length) {
+            increaseToOnlineAnonymous(selector_on, value.userId);
+          } else {
+            var userListHtml = getHtmlOfUsersList(value.userId, value.userName, value.imageUrl, 'on_Anonymous', value.about, value.homepage, 'Online');
+            ep_profile_user_list_container_pagination.append(userListHtml);
+          }
+          if (currentUserId == value.userId) { $(".ep_profile_user_row[data-id='user_list_on_Anonymous']").css({'margin-top': '28px'}); } // design
+        }
+      }
       
 
     })
@@ -124,11 +139,8 @@ const contributors = (() => {
           } else {
             // createOfflineAnonymousElement(value.userId , value.imageUrl,value.about,value.homepage,)
             const userListHtml = getHtmlOfUsersList(value.userId, 'Anonymous', value.imageUrl, 'off_Anonymous', value.about, value.homepage, shared.getCustomDate(value.last_seen_date));
-            if (selector_offlines_date.length) {
-              ep_profile_user_list_container_pagination.append(userListHtml);
-            } else {
-              ep_profile_user_list_container_pagination.append(`<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'>  ${userListHtml}</div>`);
-            }
+            ep_profile_user_list_container_pagination.append(userListHtml);
+
           }
         }
       }
