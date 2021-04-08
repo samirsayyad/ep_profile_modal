@@ -81,11 +81,31 @@ const contributors = (() => {
     }
   };
 
+  const paginateContributors = function(all_users_list,onlineUsers,currentUserId,lastPage){
+    
+    const ep_profile_user_list_container_pagination = $('#ep_profile_user_list_container_pagination');
+    if(lastPage){
+      $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
+    }
+    $.each(all_users_list, (key, value) => {
+      const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
+      var userListHtml = getHtmlOfUsersList(
+        value.userId, value.userName,
+        value.imageUrl, false, value.about, value.homepage, 
+        (result.length) ? 'Online' : shared.getCustomDate(value.last_seen_date) 
+      );
 
-  const manageOnlineOfflineUsers = function (all_users_list, onlineUsers, currentUserId) {
+      ep_profile_user_list_container_pagination.append(userListHtml);
+
+
+    })
+  }
+  const manageOnlineOfflineUsers = function (all_users_list, onlineUsers, currentUserId , lastPage) {
     const online_list_selector = $('#ep_profile_user_list_container');
     const offline_list_selector = $('#ep_profile_user_list_container_off');
-
+    if(lastPage){
+      $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
+    }
     offline_list_selector.empty();
     $.each(all_users_list, (key, value) => {
       // if (value.userId != currentUserId){
@@ -374,6 +394,6 @@ const contributors = (() => {
     checkUserExistInOnlineAnonymous,
     createOnlineAnonymousElement,
     removeUserElementInUserList,
-
+    paginateContributors,
   };
 })();

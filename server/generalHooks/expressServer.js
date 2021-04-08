@@ -12,7 +12,7 @@ const resizeImg = require('resize-img');
 const sizeOf = require('buffer-image-size');
 const padMessageHandler = require('ep_etherpad-lite/node/handler/PadMessageHandler');
 const emailService = require('../services/email');
-const getContributors_limit = 50 ;
+const getContributors_limit = 3 ;
 const staticVars = require('../helpers/statics');
 const shared = require('../helpers/shared');
 const async = require('../../../../src/node_modules/async');
@@ -33,6 +33,8 @@ exports.expressConfigure = (hookName, context) => {
     yesterday = yesterday.toISOString().slice(0, 10);
     var offset = (page - 1) * getContributors_limit 
     var slicedArray = pad_users.slice(offset, getContributors_limit) 
+    var maxPaginated = parseInt(offset) + parseInt(getContributors_limit)
+    var lastPage = (pad_users.length > maxPaginated) ?  false : true 
     await async.map(slicedArray ,async(value) => {
       var user = await db.get(`ep_profile_modal:${value}_${padId}`) || {};
       var default_img = `/static/getUserProfileImage/${value}/${padId}?t=${new Date().getUTCDay()}`;
@@ -50,7 +52,7 @@ exports.expressConfigure = (hookName, context) => {
 
       });
     });
-    return res.status(201).json(all_users_list);
+    return res.status(201).json({data : all_users_list,lastPage:lastPage});
   });
   /////////       getContributors         //////////////////////
 

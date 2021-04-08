@@ -263,7 +263,26 @@
     align-items: center;
     text-align: center;
 }
-
+.ep_profile_modal_load_more_contributors{
+    width: 111px;
+    height: 48px!important;
+    border: 0;
+    background-color: #3873e0;
+    color: #fff;
+    margin: auto;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    /* align-items: center; */
+    /* text-align: center; */
+    padding-left: 14px;
+    display: flex;
+}
+.loadMoreContainer{
+    width: 100%;
+}
 #ep_profile_modal_close_ask{
     color : "black" ;
     float: right;

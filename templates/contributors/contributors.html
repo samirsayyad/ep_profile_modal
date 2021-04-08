@@ -1,5 +1,5 @@
 <script id="ep_profile_modal_user_list_script" type="text/html">
-    <div class='ep_profile_modal_user_list' id='ep_profile_modal_user_list' data-page="1">
+    <div class='ep_profile_modal_user_list' id='ep_profile_modal_user_list' data-page="1" data-pageLoaded="false">
         <div class="ep_profile_user_list_date_title_header" id="ep_profile_user_list_date_title">
             <div class='ep_profile_header_of_contributors'> Contributors 
             </div>
@@ -21,7 +21,12 @@
                             <div class="ep_profile_user_list_username_text" >
                                 ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
                             </div>
-                            ${(ep_profile_modal.homepage != "" && ep_profile_modal.homepage != "#" && ep_profile_modal.homepage != null && ep_profile_modal.homepage != undefined) ? `<a target="_blank"  class='ep_profile_contributor_link_container'  href="ep_profile_modal.homepage " title="ep_profile_modal.homepage"></a>` : ``}
+                            
+                                 <a target="_blank"  class='ep_profile_contributor_link_container'  href=${
+                                (ep_profile_modal.homepage != "" && ep_profile_modal.homepage != "#" &&
+                                 ep_profile_modal.homepage != null && ep_profile_modal.homepage != undefined) ? 
+                                 ep_profile_modal.homepage : '#'
+                                 } title="ep_profile_modal.homepage"></a>
                             
                             <div class="ep_profile_contributor_status">
                                 Online
@@ -42,6 +47,14 @@
             <div id="ep_profile_user_list_container_off" class="ep_profile_user_list_container_off" >
     
             </div>
+            <div id="ep_profile_user_list_container_pagination" class="ep_profile_user_list_container_off" >
+    
+            </div>
+            <div class="loadMoreContainer">
+                <input value="Load more"  id="ep_profile_modal_load_more_contributors" type="button" class="ep_profile_modal_load_more_contributors"> 
+            </div>
+            
+
         </div>
 
     </div>

@@ -85,10 +85,10 @@ const postAceInit = (() => {
     });
 
     $('#userlist_count').on('click',()=>{
-      var page = $("#ep_profile_modal_user_list").attr("data-page") || "1";
+      var page = $("#ep_profile_modal_user_list").attr("data-page") || 1;
       var pageLoaded = $("#ep_profile_modal_user_list").attr("data-pageLoaded") || false;
-
-      if(!pageLoaded){
+      console.log("ssssssssss",$("#ep_profile_modal_user_list").attr("data-pageLoaded"));
+      if(pageLoaded!=="true"){
         $.ajax({
           url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/getContributors/${page}/`,
           type: 'get',
@@ -100,20 +100,46 @@ const postAceInit = (() => {
             //$('#contributorsLoading').show();
           },
           error(xhr) { // if error occured
-            $("#ep_profile_modal_user_list").attr("data-loaded",true)
-            $('#contributorsLoading').hide();
+            $('#contributorsLoading').css({"display":"none"});
           },
           success(response) {
-            $('#contributorsLoading').hide();
-            $("#ep_profile_modal_user_list").attr("data-loaded",true)
+            $('#contributorsLoading').css({"display":"none"});
+
+            $("#ep_profile_modal_user_list").attr("data-pageLoaded","true")
             const onlineUsers = pad.collabClient.getConnectedUsers();
-            contributors.manageOnlineOfflineUsers(response, onlineUsers, pad.getUserId());
+            contributors.manageOnlineOfflineUsers(response.data, onlineUsers, pad.getUserId(),response.lastPage);
           },
 
         });
       }
 
       
+    })
+
+    $("#ep_profile_modal_load_more_contributors").on("click",()=>{
+      var page = $("#ep_profile_modal_user_list").attr("data-page") || 1;
+      page++;
+      $.ajax({
+        url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/getContributors/${page}/`,
+        type: 'get',
+        data: {},
+        contentType: false,
+        processData: false,
+        beforeSend() {
+          // setting a timeout
+          //$('#contributorsLoading').show();
+        },
+        error(xhr) { // if error occured
+          $('#contributorsLoading').hide();
+        },
+        success(response) {
+          $('#contributorsLoading').hide();
+          const onlineUsers = pad.collabClient.getConnectedUsers();
+          contributors.paginateContributors(response.data, onlineUsers, pad.getUserId(),response.lastPage);
+        },
+
+      });
+ 
     })
 
     $('#userlist_count,#ep_profile_modal_user_list_close').on('click', () => {
