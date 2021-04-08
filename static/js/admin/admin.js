@@ -28,7 +28,6 @@ const documentReady = (() => {
 
         $('#save-settings').on('click', () => {
           const data = shared.getFormData($('#settings-form'));
-          console.log(data, 'data');
           socket.emit('save-settings', data);
           alert('Succesfully saved.');
         });

@@ -87,7 +87,6 @@ const postAceInit = (() => {
     $('#userlist_count').on('click',()=>{
       var page = $("#ep_profile_modal_user_list").attr("data-page") || 1;
       var pageLoaded = $("#ep_profile_modal_user_list").attr("data-pageLoaded") || false;
-      console.log("ssssssssss",$("#ep_profile_modal_user_list").attr("data-pageLoaded"));
       if(pageLoaded!=="true"){
         $.ajax({
           url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/getContributors/${page}/`,
