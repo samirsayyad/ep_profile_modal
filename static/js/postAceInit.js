@@ -127,15 +127,21 @@ const postAceInit = (() => {
         processData: false,
         beforeSend() {
           // setting a timeout
-          //$('#contributorsLoading').show();
+          $('#loadMoreLoading').show();
+          $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
+          
         },
         error(xhr) { // if error occured
-          $('#contributorsLoading').hide();
+          $('#loadMoreLoading').hide();
+          $("#ep_profile_modal_load_more_contributors").css({"display":"block"})
+
         },
         success(response) {
-          $('#contributorsLoading').hide();
+          $('#loadMoreLoading').hide();
+          $("#ep_profile_modal_user_list").attr("data-page",page)
           const onlineUsers = pad.collabClient.getConnectedUsers();
           contributors.paginateContributors(response.data, onlineUsers, pad.getUserId(),response.lastPage);
+          $("#ep_profile_modal_load_more_contributors").css({"display":"block"})
         },
 
       });

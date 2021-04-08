@@ -277,11 +277,14 @@
     line-height: 21px;
     /* align-items: center; */
     /* text-align: center; */
-    padding-left: 14px;
+    padding:13px;
     display: flex;
+    
 }
 .loadMoreContainer{
     width: 100%;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 #ep_profile_modal_close_ask{
     color : "black" ;
