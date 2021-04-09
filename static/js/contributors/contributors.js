@@ -151,6 +151,8 @@ const contributors = (() => {
     const offline_list_selector = $('#ep_profile_user_list_container_off');
     if(lastPage){
       $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
+    }else{
+      $("#ep_profile_modal_load_more_contributors").css({"display":"block"})
     }
     //offline_list_selector.empty();
     console.log(all_users_list,"all_users_list")

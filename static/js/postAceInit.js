@@ -98,6 +98,8 @@ const postAceInit = (() => {
             // setting a timeout
             //$('#contributorsLoading').show();
             $('#ep_profile_user_list_container').css({"display":"none"})
+            $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
+
           },
           error(xhr) { // if error occured
             $('#contributorsLoading').css({"display":"none"});
