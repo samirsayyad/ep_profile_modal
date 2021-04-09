@@ -155,7 +155,6 @@ const contributors = (() => {
       $("#ep_profile_modal_load_more_contributors").css({"display":"block"})
     }
     //offline_list_selector.empty();
-    console.log(all_users_list,"all_users_list")
     $.each(all_users_list, (key, value) => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
