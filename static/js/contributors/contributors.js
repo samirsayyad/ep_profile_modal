@@ -123,7 +123,7 @@ const contributors = (() => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
       if (!result.length) { // offline
-        if (value.last_seen_date !== '' && value.userName == 'Anonymous') {
+        if (value.userName == 'Anonymous') {
           const selector_off = $('.ep_profile_user_row[data-id="user_list_off_Anonymous"]');
           if (selector_off.length) {
             const anonymouseCount = selector_off.attr('data-anonymouseCount');
@@ -138,7 +138,7 @@ const contributors = (() => {
             selector_off.children('.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_username').text(`Anonymous ×${new_anonymouseCount}`);
           } else {
             // createOfflineAnonymousElement(value.userId , value.imageUrl,value.about,value.homepage,)
-            const userListHtml = getHtmlOfUsersList(value.userId, 'Anonymous', value.imageUrl, 'off_Anonymous', value.about, value.homepage, shared.getCustomDate(value.last_seen_date));
+            const userListHtml = getHtmlOfUsersList(value.userId, 'Anonymous', value.imageUrl, 'off_Anonymous', value.about, value.homepage);
             ep_profile_user_list_container_pagination.append(userListHtml);
 
           }
@@ -153,6 +153,7 @@ const contributors = (() => {
       $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
     }
     //offline_list_selector.empty();
+    console.log(all_users_list,"all_users_list")
     $.each(all_users_list, (key, value) => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
@@ -210,7 +211,7 @@ const contributors = (() => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId == value.userId);
       if (!result.length) { // offline
-        if (value.last_seen_date !== '' && value.userName == 'Anonymous') {
+        if (value.userName == 'Anonymous') {
           const selector_off = $('.ep_profile_user_row[data-id="user_list_off_Anonymous"]');
           if (selector_off.length) {
             const anonymouseCount = selector_off.attr('data-anonymouseCount');
