@@ -87,6 +87,8 @@ const postAceInit = (() => {
     $('#userlist_count').on('click',()=>{
       var page = $("#ep_profile_modal_user_list").attr("data-page") || 1;
       var pageLoaded = $("#ep_profile_modal_user_list").attr("data-pageLoaded") || false;
+      const online_list_selector = $('#ep_profile_user_list_container');
+
       if(pageLoaded!=="true"){
         $.ajax({
           url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/getContributors/${page}/`,
@@ -99,12 +101,14 @@ const postAceInit = (() => {
             //$('#contributorsLoading').show();
             $('#ep_profile_user_list_container').css({"display":"none"})
             $("#ep_profile_modal_load_more_contributors").css({"display":"none"})
-
+            online_list_selector.css({"display":"none"})
           },
           error(xhr) { // if error occured
             $('#contributorsLoading').css({"display":"none"});
+            online_list_selector.css({"display":"block"})
           },
           success(response) {
+            online_list_selector.css({"display":"block"})
             $('#contributorsLoading').css({"display":"none"});
             $('#ep_profile_user_list_container').css({"display":"block"})
             $("#ep_profile_modal_user_list").attr("data-pageLoaded","true")
