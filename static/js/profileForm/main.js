@@ -6,10 +6,24 @@ const profileForm = (() => {
     const padOuter = $('iframe[name="ace_outer"]').contents();
     const padInner = padOuter.find('iframe[name="ace_inner"]');
     const innerdocbody = padInner.contents().find('#innerdocbody')
-    console.log(innerdocbody,"innerdocbody")
-    innerdocbody.keypress(function(e) {
-      console.log("keypressss")
+    innerdocbody.on("keypress",function(e) {
+      showModal()
     });
+    innerdocbody.on("mousedown",function(event) {
+      if(event.which == 1){
+        showModal()
+      }
+      
+  });
+  }
+
+  const removeEventListener =function(){
+    const padOuter = $('iframe[name="ace_outer"]').contents();
+    const padInner = padOuter.find('iframe[name="ace_inner"]');
+    const innerdocbody = padInner.contents().find('#innerdocbody')
+    innerdocbody.off("keypress");
+    innerdocbody.off("mousedown");
+
   }
   const showModal = function () {
     $('#ep_profile_formModal').addClass('ep_profile_formModal_show');
@@ -31,6 +45,7 @@ const profileForm = (() => {
     const data = getFormData($form);
     const msg = {};
     localStorage.setItem("formPassed","yes")
+    removeEventListener()
     if (data.ep_profile_modalForm_name == '') { return false; }
     // var message = {
     //     type : 'ep_profile_modal',
