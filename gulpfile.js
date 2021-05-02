@@ -16,7 +16,6 @@ const jsfiles = {
   usersProfileSection: './static/js/userProfileSection/userProfileSection.js',
   postAceInit: './static/js/postAceInit.js',
   aceInitialized: './static/js/aceInitialized.js',
-  collectContentPre: './static/js/collectContentPre.js',
   handleClientMessage: './static/js/handleClientMessage.js',
   helper: './static/js/helper.js',
   shared: './static/js/shared.js',

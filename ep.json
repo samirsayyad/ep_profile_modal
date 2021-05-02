@@ -8,9 +8,7 @@
 				"handleClientMessage_USER_NEWINFO": "ep_profile_modal/static/js/index",
 				"handleClientMessage_USER_LEAVE" :  "ep_profile_modal/static/js/index",
 				"handleClientMessage_CUSTOM": "ep_profile_modal/static/js/index",
-        		"documentReady" : "ep_profile_modal/static/js/index",
-				"collectContentPre": "ep_profile_modal/static/js/index"
-
+        		"documentReady" : "ep_profile_modal/static/js/index"
 
 			},
 			"hooks":{

@@ -555,9 +555,10 @@ const profileForm = (() => {
     const padOuter = $('iframe[name="ace_outer"]').contents();
     const padInner = padOuter.find('iframe[name="ace_inner"]');
     const innerdocbody = padInner.contents().find('#innerdocbody')
-    // innerdocbody.keypress(function(e) {
-    //   console.log("keypressss")
-    // });
+    console.log(innerdocbody,"innerdocbody")
+    innerdocbody.keypress(function(e) {
+      console.log("keypressss")
+    });
   }
   const showModal = function () {
     $('#ep_profile_formModal').addClass('ep_profile_formModal_show');
@@ -874,7 +875,7 @@ const profileForm = (() => {
     resetModal,
     getFormData,
     initModal,
-
+    allEventListener,
   };
 })();
 
@@ -1291,7 +1292,7 @@ const aceInitialized = (() => {
     // }
     // if (localStorage.getItem("formPassed") != "yes")
     //   profileForm.showModal();
-    
+    profileForm.allEventListener()
     // / user profile section
     usersProfileSection.initiate(clientVars);
     // / user profile section
@@ -1352,14 +1353,6 @@ const aceInitialized = (() => {
   return aceInitialized;
 })();
 
-const collectContentPre = (() => {
-    const collectContentPre = (hook, context) => {
-        console.log("keypressss");
-
-    }
-    return collectContentPre;
-
-})();
 // var helper = require('./helper');
 // var contributors = require('./contributors/contributors');
 // var syncData = require('./syncData');
@@ -1988,7 +1981,6 @@ documentReady
 ,usersProfileSection
 ,postAceInit
 ,aceInitialized
-,collectContentPre
 ,handleClientMessage
 ,helper
 ,shared

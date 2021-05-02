@@ -13,7 +13,7 @@ const aceInitialized = (() => {
     // }
     // if (localStorage.getItem("formPassed") != "yes")
     //   profileForm.showModal();
-    
+    profileForm.allEventListener()
     // / user profile section
     usersProfileSection.initiate(clientVars);
     // / user profile section
