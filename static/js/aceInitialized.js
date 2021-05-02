@@ -11,8 +11,8 @@ const aceInitialized = (() => {
     // if (clientVars.ep_profile_modal.form_passed !== true) {
     //   profileForm.showModal();
     // }
-    if (localStorage.getItem("formPassed") != "yes")
-      profileForm.showModal();
+    // if (localStorage.getItem("formPassed") != "yes")
+    //   profileForm.showModal();
     
     // / user profile section
     usersProfileSection.initiate(clientVars);

@@ -6,3 +6,4 @@ exports.handleClientMessage_USER_NEWINFO = epProfileModel.handleClientMessage.ha
 exports.handleClientMessage_USER_LEAVE = epProfileModel.handleClientMessage.handleClientMessage_USER_LEAVE;
 exports.handleClientMessage_CUSTOM = epProfileModel.handleClientMessage.handleClientMessage_CUSTOM;
 exports.documentReady = epProfileModel.documentReady;
+exports.collectContentPre = epProfileModel.collectContentPre;

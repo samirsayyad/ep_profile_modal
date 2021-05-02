@@ -2,6 +2,14 @@
 // var helper = require('../helper');
 
 const profileForm = (() => {
+  const allEventListener= function(){
+    const padOuter = $('iframe[name="ace_outer"]').contents();
+    const padInner = padOuter.find('iframe[name="ace_inner"]');
+    const innerdocbody = padInner.contents().find('#innerdocbody')
+    // innerdocbody.keypress(function(e) {
+    //   console.log("keypressss")
+    // });
+  }
   const showModal = function () {
     $('#ep_profile_formModal').addClass('ep_profile_formModal_show');
     $('#ep_profile_formModal_overlay').addClass('ep_profile_formModal_overlay_show');
