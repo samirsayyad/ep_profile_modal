@@ -16,6 +16,7 @@ const getContributors_limit = 25 ;
 const staticVars = require('../helpers/statics');
 const shared = require('../helpers/shared');
 const async = require('../../../../src/node_modules/async');
+const { resolve } = require('path');
 
 exports.expressConfigure = (hookName, context) => {
 
@@ -25,8 +26,10 @@ exports.expressConfigure = (hookName, context) => {
     const padId = req.params.padId;
     var page = parseInt(req.params.page) || 1;
     var pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
-    pad_users = pad_users.sort((a,b) => ((b.last_seen_timestamp) ? (b.last_seen_timestamp) : 0  ) - ((a.last_seen_timestamp) ? (a.last_seen_timestamp) : 0  ))
-    //pad_users.reverse()
+    pad_users.reverse()
+    
+    
+
     var all_users_list = [];
     var datetime = new Date();
     const today = datetime.toISOString().slice(0, 10);
@@ -55,6 +58,8 @@ exports.expressConfigure = (hookName, context) => {
 
       });
     });
+
+    all_users_list = all_users_list.sort((a,b) => b.last_seen_timestamp-a.last_seen_timestamp)
     return res.status(201).json({data : all_users_list,lastPage:lastPage});
 
   });
