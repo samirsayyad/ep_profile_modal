@@ -25,7 +25,7 @@ exports.expressConfigure = (hookName, context) => {
     const padId = req.params.padId;
     var page = parseInt(req.params.page) || 1;
     var pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
-    pad_users = pad_users.sort((a,b) => ((a.last_seen_timestamp) ? (a.last_seen_timestamp) : 0  ) - ((b.last_seen_timestamp) ? (b.last_seen_timestamp) : 0  ))
+    pad_users = pad_users.sort((a,b) => ((b.last_seen_timestamp) ? (b.last_seen_timestamp) : 0  ) - ((a.last_seen_timestamp) ? (a.last_seen_timestamp) : 0  ))
     //pad_users.reverse()
     var all_users_list = [];
     var datetime = new Date();
