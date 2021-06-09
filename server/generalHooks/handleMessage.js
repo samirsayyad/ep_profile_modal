@@ -55,7 +55,7 @@ exports.handleMessage = (hook_name, context, callback) => {
   }
 
   if (message.action === 'ep_profile_modal_ready') {
-//    ep_profile_modal_ready(message);
+    ep_profile_modal_ready(message);
     statisticsHandling(message);
   }
 
@@ -202,7 +202,7 @@ const ep_profile_modal_logout = async (message) => {
   etherpadFuncs.sendToRoom(msg);
   await db.set(`ep_profile_modal:${message.userId}_${message.padId}`, {}); // empty session
   // remove user id from verified users
-  const pad_users = await db.get(`ep_profile_modal_verified_${padId}`) || [];
+  const pad_users = await db.get(`ep_profile_modal_verified_${message.padId}`) || [];
   const indexOfUserId = pad_users.indexOf(message.userId);
   if (indexOfUserId != -1) {
     pad_users.splice(indexOfUserId, 1);
@@ -230,7 +230,9 @@ const ep_profile_modal_logout = async (message) => {
       },
     };
     etherpadFuncs.sendToRoom(msg);
-  }  
+  } else {
+    console.log('data not set');
+  }
 };
 
 const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
@@ -250,6 +252,7 @@ const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
 };
 
 const ep_profile_modal_ready = async (message) => {
+  console.log('ep_profile_modal_ready', message);
   const pad_users = await db.get(`ep_profile_modal_contributed_${message.padId}`) || [];
   // sendUsersListToAllUsers(pad_users,message.padId)
   // /////////
@@ -320,6 +323,7 @@ const ep_profile_modal_ready = async (message) => {
     // again start a foreach for email
 
 
+    console.log('foreach number 1 ', pad_users, all_users_list);
   });
   // }
   // /////////
