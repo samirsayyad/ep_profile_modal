@@ -184,6 +184,9 @@ const profileForm = (() => {
       const userId = pad.getUserId();
       const padId = pad.getPadId();
       $('#ep_profile_formModal').removeClass('ep_profile_formModal_show');
+
+      uploadImg();
+      
       hideFormModalOverlay();
 
       sendFormDataToServer();
@@ -241,9 +244,9 @@ const profileForm = (() => {
         sendFormDataToServer();
       }
 
-      if (currentSection == 'image') {
-        uploadImg();
-      }
+      // if (currentSection == 'image') {
+      //   uploadImg();
+      // }
 
 
       animating = true;
