@@ -235,7 +235,7 @@ const profileForm = (() => {
 
       if (currentSection == 'homepage') {
         const userLink = $('#ep_profile_modal_homepage').val();
-        console.log(shared.IsValid(userLink));
+        //console.log(shared.IsValid(userLink));
         if (!shared.IsValid(userLink) || userLink == '') {
           $('#ep_profile_modal_homepage').css({border: '1px solid red'});
           return false;

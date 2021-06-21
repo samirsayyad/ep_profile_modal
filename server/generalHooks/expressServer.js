@@ -36,12 +36,13 @@ exports.expressConfigure = (hookName, context) => {
     let yesterday = new Date(datetime);
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday = yesterday.toISOString().slice(0, 10);
-    var offset = (page - 1) * getContributors_limit;
-    var maxPaginated = parseInt(offset) + parseInt(getContributors_limit)
-    var lastPage = (pad_users.length > maxPaginated) ?  false : true 
-    var slicedArray = pad_users.splice(offset, getContributors_limit);
+    // var offset = (page - 1) * getContributors_limit;
+    // var maxPaginated = parseInt(offset) + parseInt(getContributors_limit)
+    // var lastPage = (pad_users.length > maxPaginated) ?  false : true 
+    // var slicedArray = pad_users.splice(offset, getContributors_limit);
 
-    await async.map(slicedArray ,async(value) => {
+    //await async.map(slicedArray ,async(value) => {
+      await async.map(pad_users ,async(value) => {
       var user = await db.get(`ep_profile_modal:${value}_${padId}`) || {};
       var default_img = `/static/getUserProfileImage/${value}/${padId}?t=${new Date().getUTCDay()}`;
 
@@ -60,6 +61,12 @@ exports.expressConfigure = (hookName, context) => {
     });
 
     all_users_list = all_users_list.sort((a,b) => b.last_seen_timestamp-a.last_seen_timestamp)
+
+    var offset = (page - 1) * getContributors_limit;
+    var maxPaginated = parseInt(offset) + parseInt(getContributors_limit)
+    var lastPage = (all_users_list.length > maxPaginated) ?  false : true 
+    var all_users_list = all_users_list.splice(offset, getContributors_limit);
+
     return res.status(201).json({data : all_users_list,lastPage:lastPage});
 
   });

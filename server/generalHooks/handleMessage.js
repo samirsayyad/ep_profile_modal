@@ -252,7 +252,7 @@ const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
 };
 
 const ep_profile_modal_ready = async (message) => {
-  console.log('ep_profile_modal_ready', message);
+  //console.log('ep_profile_modal_ready', message);
   const pad_users = await db.get(`ep_profile_modal_contributed_${message.padId}`) || [];
   // sendUsersListToAllUsers(pad_users,message.padId)
   // /////////
