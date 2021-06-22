@@ -28,7 +28,8 @@ exports.expressConfigure = (hookName, context) => {
     var pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
     pad_users.reverse()
     
-    
+    var newUsersList = [];
+
 
     var all_users_list = [];
     var datetime = new Date();
@@ -58,7 +59,22 @@ exports.expressConfigure = (hookName, context) => {
         last_seen_timestamp: user.last_seen_timestamp || 0,
 
       });
+
+      // temporary just for fixing
+      newUsersList.push({
+        userId: value,
+        data : {
+          last_seen_date: user.last_seen_date || '',
+          last_seen_timestamp: user.last_seen_timestamp || 0,
+        }
+        
+
+      });
+      
     });
+
+
+    db.set(`ep_profile_modal_contributedList_${padId}`,newUsersList);
 
     all_users_list = all_users_list.sort((a,b) => b.last_seen_timestamp-a.last_seen_timestamp)
 

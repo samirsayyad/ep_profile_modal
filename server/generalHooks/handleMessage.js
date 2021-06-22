@@ -356,6 +356,7 @@ const ep_profile_modal_ready = async (message) => {
 
 const statisticsHandling = async (message) => {
   let pad_users = await db.get(`ep_profile_modal_contributed_${message.padId}`) || [];
+  let contrubutedUsers = await db.get(`ep_profile_modal_contributedList_${message.padId}`) || [];
 
   const email_contributed_users = await db.get(`ep_profile_modal_email_contributed_${message.padId}`) || [];
   // // counting how many email input
@@ -373,6 +374,21 @@ const statisticsHandling = async (message) => {
   }
   //* collect user If just enter to pad */
 
+
+  // collect contributor list with last seen timestamp 
+  var contributor = contrubutedUsers.findIndex(o => o.userId === message.userId);
+  const datetime = new Date();
+  if (contributor == -1 ){
+    var newContributor = {};
+    newContributor.userId = message.userId;
+    newContributor.data = { last_seen_timestamp : datetime.getTime() , last_seen_date : datetime.toISOString().slice(0, 10) };
+    contrubutedUsers.push(newContributor);
+  }else{
+    contrubutedUsers[contributor].data = { last_seen_timestamp : datetime.getTime() , last_seen_date : datetime.toISOString().slice(0, 10) };
+  }
+  await db.set(`ep_profile_modal_contributedList_${message.padId}`,contrubutedUsers)
+
+  // collect contributor list with last seen timestamp 
 
   const verified_users = await db.get(`ep_profile_modal_verified_${message.padId}`);
 

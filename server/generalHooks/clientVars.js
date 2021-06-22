@@ -24,36 +24,36 @@ exports.clientVars = async (hook, context, callback) => {
 
 
   //* collect user If just enter to pad */
-  let pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
+  //let pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
   // // counting how many email input
   const email_contributed_users = await db.get(`ep_profile_modal_email_contributed_${padId}`) || [];
   // // counting how many email input
-  if (pad_users) {
-    if (pad_users.indexOf(context.clientVars.userId) == -1) {
-      if (!user.email && !user.verified) { // as we are using etherpad userid as session, we should not store user id if they input their email address
-        pad_users.push(context.clientVars.userId);
-        db.set(`ep_profile_modal_contributed_${padId}`, pad_users);
-      }
-      // tell everybody that total user has been changed
-      const msg = {
-        type: 'COLLABROOM',
-        data: {
-          type: 'CUSTOM',
-          payload: {
-            totalUserCount: pad_users.length + email_contributed_users.length,
-            padId,
-            action: 'totalUserHasBeenChanged',
+  // if (pad_users) {
+  //   if (pad_users.indexOf(context.clientVars.userId) == -1) {
+  //     if (!user.email && !user.verified) { // as we are using etherpad userid as session, we should not store user id if they input their email address
+  //       pad_users.push(context.clientVars.userId);
+  //       db.set(`ep_profile_modal_contributed_${padId}`, pad_users);
+  //     }
+  //     // tell everybody that total user has been changed
+  //     const msg = {
+  //       type: 'COLLABROOM',
+  //       data: {
+  //         type: 'CUSTOM',
+  //         payload: {
+  //           totalUserCount: pad_users.length + email_contributed_users.length,
+  //           padId,
+  //           action: 'totalUserHasBeenChanged',
 
-          },
-        },
-      };
-      etherpadFuncs.sendToRoom(msg);
-      // tell everybody that total user has been changed
-    }
-  } else if (!user.email && !user.verified) { // as we are using etherpad userid as session, we should not store user id if they input their email address
-    pad_users = [context.clientVars.userId];
-    db.set(`ep_profile_modal_contributed_${padId}`, pad_users);
-  }
+  //         },
+  //       },
+  //     };
+  //     etherpadFuncs.sendToRoom(msg);
+  //     // tell everybody that total user has been changed
+  //   }
+  // } else if (!user.email && !user.verified) { // as we are using etherpad userid as session, we should not store user id if they input their email address
+  //   pad_users = [context.clientVars.userId];
+  //   db.set(`ep_profile_modal_contributed_${padId}`, pad_users);
+  // }
   // //* collect user If just enter to pad */
   // const verified_users = await db.get(`ep_profile_modal_verified_${padId}`);
 
