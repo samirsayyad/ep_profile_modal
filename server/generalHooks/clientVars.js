@@ -24,7 +24,7 @@ exports.clientVars = async (hook, context, callback) => {
 
 
   //* collect user If just enter to pad */
-  //let pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
+  let pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
   // // counting how many email input
   const email_contributed_users = await db.get(`ep_profile_modal_email_contributed_${padId}`) || [];
   // // counting how many email input
