@@ -25,65 +25,44 @@ exports.expressConfigure = (hookName, context) => {
   context.app.get('/static/:padId/pluginfw/ep_profile_modal/getContributors/:page', async (req, res, next) => {
     const padId = req.params.padId;
     var page = parseInt(req.params.page) || 1;
-    var pad_users = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
-    pad_users.reverse()
-    
-    var newUsersList = [];
-
-
-    var all_users_list = [];
+    var contributorList = await db.get(`ep_profile_modal_contributedList_${padId}`) || [];
+    var outputList = [];
     var datetime = new Date();
     const today = datetime.toISOString().slice(0, 10);
     let yesterday = new Date(datetime);
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday = yesterday.toISOString().slice(0, 10);
-    // var offset = (page - 1) * getContributors_limit;
-    // var maxPaginated = parseInt(offset) + parseInt(getContributors_limit)
-    // var lastPage = (pad_users.length > maxPaginated) ?  false : true 
-    // var slicedArray = pad_users.splice(offset, getContributors_limit);
 
-    //await async.map(slicedArray ,async(value) => {
-      await async.map(pad_users ,async(value) => {
-      var user = await db.get(`ep_profile_modal:${value}_${padId}`) || {};
-      var default_img = `/static/getUserProfileImage/${value}/${padId}?t=${new Date().getUTCDay()}`;
-
-      all_users_list.push({
-        userId: value,
-        email: user.email || '',
-        status: user.status || '1',
-        userName: user.username || staticVars.defaultUserName,
-        imageUrl: default_img,
-        about: user.about || '',
-        homepage: shared.getValidUrl(user.homepage) || '',
-        last_seen_date: ((user.last_seen_date == today) ? 'today' : (user.last_seen_date == yesterday) ? 'yesterday' : user.last_seen_date) || '',
-        last_seen_timestamp: user.last_seen_timestamp || 0,
-
-      });
-
-      // temporary just for fixing
-      newUsersList.push({
-        userId: value,
-        data : {
-          last_seen_date: user.last_seen_date || '',
-          last_seen_timestamp: user.last_seen_timestamp || 0,
-        }
-        
-
-      });
-      
-    });
-
-
-    db.set(`ep_profile_modal_contributedList_${padId}`,newUsersList);
-
-    all_users_list = all_users_list.sort((a,b) => b.last_seen_timestamp-a.last_seen_timestamp)
 
     var offset = (page - 1) * getContributors_limit;
     var maxPaginated = parseInt(offset) + parseInt(getContributors_limit)
-    var lastPage = (all_users_list.length > maxPaginated) ?  false : true 
-    var all_users_list = all_users_list.splice(offset, getContributors_limit);
+    var lastPage = (contributorList.length > maxPaginated) ?  false : true 
 
-    return res.status(201).json({data : all_users_list,lastPage:lastPage});
+
+
+    if (contributorList.length){
+      contributorList = contributorList.sort((a,b) => b.last_seen_timestamp-a.last_seen_timestamp)
+       var slicedArray = contributorList.splice(offset, getContributors_limit);
+       await async.map(slicedArray ,async(row) => {
+        var user = await db.get(`ep_profile_modal:${row.userId}_${padId}`) || {};
+        var userImage = `/static/getUserProfileImage/${row.userId}/${padId}?t=${new Date().getUTCDay()}`;
+
+        outputList.push({
+          userId: row.userId,
+          email: user.email || '',
+          status: user.status || '1',
+          userName: user.username || staticVars.defaultUserName,
+          imageUrl: userImage,
+          about: user.about || '',
+          homepage: shared.getValidUrl(user.homepage) || '',
+          last_seen_date: ((user.last_seen_date == today) ? 'today' : (user.last_seen_date == yesterday) ? 'yesterday' : user.last_seen_date) || '',
+          last_seen_timestamp: user.last_seen_timestamp || 0,
+  
+        });
+       })
+    }
+
+    return res.status(201).json({data : outputList,lastPage:lastPage});
 
   });
   /////////       getContributors         //////////////////////
