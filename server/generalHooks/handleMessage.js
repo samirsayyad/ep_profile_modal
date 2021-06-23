@@ -55,7 +55,7 @@ exports.handleMessage = (hook_name, context, callback) => {
   }
 
   if (message.action === 'ep_profile_modal_ready') {
-    ep_profile_modal_ready(message);
+    //ep_profile_modal_ready(message);
     statisticsHandling(message);
   }
 
@@ -390,8 +390,34 @@ const statisticsHandling = async (message) => {
 
   // collect contributor list with last seen timestamp 
 
-  const verified_users = await db.get(`ep_profile_modal_verified_${message.padId}`);
 
+
+  // /////////
+  const _timestamp = datetime.getTime();
+  const _date = datetime.toISOString().slice(0, 10);
+  // //// store pads of users
+  const pads_of_user = await db.get(`ep_profile_modal_pads_of_user_${message.userId}`) || [];
+  const lastUserIndex = pads_of_user.findIndex((i) => i.padId === padId);
+  if (lastUserIndex !== -1) {
+    pads_of_user[lastUserIndex].data.last_seen_date = _date;
+    pads_of_user[lastUserIndex].data.last_seen_timestamp = _timestamp;
+  } else {
+    pads_of_user.push({
+      padId: message.padId,
+      data: {
+        last_seen_timestamp: _timestamp,
+        last_seen_date: _date,
+        created_at_timestamp: _timestamp,
+        created_at_date: _date,
+      },
+    });
+  }
+  db.set(`ep_profile_modal_pads_of_user_${message.userId}`, pads_of_user);
+
+
+    // //// store pads of users
+
+    const verified_users = await db.get(`ep_profile_modal_verified_${message.padId}`);
 
   // tell everybody that total user has been changed
   const msg = {

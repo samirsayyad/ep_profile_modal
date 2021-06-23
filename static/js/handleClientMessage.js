@@ -80,6 +80,7 @@ const handleClientMessage = (() => {
     //   // $('#profile_modal_selected_image').css({'background-position': '50% 50%',
     //   //   'background-image': `url(${image_url})`, 'background-repeat': 'no-repeat', 'background-size': '64px'});
     // }
+    
     // if (context.payload.action == 'EP_PROFILE_USERS_LIST') {
     //   const onlineUsers = pad.collabClient.getConnectedUsers();
     //   contributors.manageOnlineOfflineUsers(context.payload.list, onlineUsers, pad.getUserId());
