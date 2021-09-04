@@ -63,7 +63,7 @@ const profileForm = (() => {
       // text += `, ${message.data.ep_profile_modalForm_homepage} `
     }
 
-    msg.text = `<span><b>${text}</b></span>`;
+    msg.messageChatText = `<span><b>${text}</b></span>`;
     msg.target = 'profile';
     msg.userId = userId;
     msg.time = new Date();

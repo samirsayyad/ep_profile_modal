@@ -11,7 +11,7 @@ exports.handleMessage = (hook_name, context, callback) => {
   let isProfileMessage = false;
   if (context) {
     if (context.message && context.message) {
-      if (context.message.type === 'EP_COLLAB_PROFILE') {
+      if (context.message.type === 'COLLABROOM') {
         if (context.message.data) {
           if (context.message.data.type) {
             if (context.message.data.type === 'ep_profile_modal') {
@@ -89,7 +89,7 @@ const ep_profile_modal_login = async (message) => {
   user.userId = message.userId;
 
   const msg = {
-    type: 'EP_COLLAB_PROFILE',
+    type: 'COLLABROOM',
     data: {
       type: 'CUSTOM',
       payload: {
@@ -116,7 +116,7 @@ const ep_profile_modal_login_check_prompt = async (message, client) => {
     const emailUser = await db.get(`ep_profile_modal:${message.email}`);
     if (emailUser) {
       const msg = {
-        type: 'EP_COLLAB_PROFILE',
+        type: 'COLLABROOM',
         data: {
           type: 'CUSTOM',
           payload: {
@@ -161,7 +161,7 @@ const ep_profile_modal_info = async (message) => {
 
   // send everybody
   const msg = {
-    type: 'EP_COLLAB_PROFILE',
+    type: 'COLLABROOM',
     data: {
       type: 'CUSTOM',
       payload: {
@@ -184,16 +184,26 @@ const ep_profile_modal_logout = async (message) => {
   const user = await db.get(`ep_profile_modal:${message.userId}_${message.padId}`) || {};
   user.status = '1';
   user.lastLogoutDate = new Date();
+  var messageChatText = ""
+
+  if (user.username !== '' && user.username) {
+    console.log("we are here")
+    messageChatText = `<b>${user.username}${(user.about) ? `, ${user.about}` : ''} has left. ${(user.homepage !== '' && user.homepage && typeof user.homepage !== undefined) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ''} </b>`;
+
+  } else {
+    console.log('data not set');
+  }
+
 
   var msg = {
-    type: 'EP_COLLAB_PROFILE',
+    type: 'COLLABROOM',
     data: {
       type: 'CUSTOM',
       payload: {
         padId: message.padId,
         action: 'EP_PROFILE_USER_LOGOUT_UPDATE',
         userId: message.userId,
-
+        messageChatText : messageChatText
       },
     },
   };
@@ -210,34 +220,12 @@ const ep_profile_modal_logout = async (message) => {
   }
   // remove user id from verified users
 
-  if (user.username !== '' && user.username) {
-    const chatMsg = {};
-    chatMsg.text = `<b>${user.username}${(user.about) ? `, ${user.about}` : ''} has left. 
-      ${(user.homepage !== '' && user.homepage && typeof user.homepage !== undefined) ? ` Find them at <a target='_blank' href='${shared.getValidUrl(user.homepage)}'>${user.homepage}</a>` : ''} </b>`;
-    chatMsg.target = 'profile';
-    chatMsg.userId = message.userId;
-    chatMsg.time = new Date();
-    var msg = {
-      type: 'EP_COLLAB_PROFILE',
-      data: {
-        type: 'ep_rocketchat',
-        payload: {
-          padId: message.padId,
-          action: 'ep_rocketchat_sendMessageToChat',
-          userId: message.userId,
-          msg: chatMsg,
-        },
-      },
-    };
-    etherpadFuncs.sendToRoom(msg);
-  } else {
-    console.log('data not set');
-  }
+  
 };
 
 // const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
 //   const msg = {
-//     type: 'EP_COLLAB_PROFILE',
+//     type: 'COLLABROOM',
 //     data: {
 //       type: 'CUSTOM',
 //       payload: {
@@ -306,7 +294,7 @@ const ep_profile_modal_ready = async (message) => {
       all_users_list.sort((a, b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); // base on seen
 
       const msg = {
-        type: 'EP_COLLAB_PROFILE',
+        type: 'COLLABROOM',
         data: {
           type: 'CUSTOM',
           payload: {
@@ -421,7 +409,7 @@ const statisticsHandling = async (message) => {
 
   // tell everybody that total user has been changed
   const msg = {
-    type: 'EP_COLLAB_PROFILE',
+    type: 'COLLABROOM',
     data: {
       type: 'CUSTOM',
       payload: {
