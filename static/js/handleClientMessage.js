@@ -115,9 +115,9 @@ const handleClientMessage = (() => {
       contributors.removeUserElementInUserList(context.payload.userId);
     }
 
-    if (context.payload.action == 'EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT') {
-      shared.addTextChatMessage(context.payload.msg);
-    }
+    // if (context.payload.action == 'EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT') {
+    //   shared.addTextChatMessage(context.payload.msg);
+    // }
     if (context.payload.action == 'EP_PROFILE_USER_LOGIN_UPDATE') {
       // ///////////////// related to user list when user has been loginned
       var online_anonymous_selector = contributors.isThereOnlineAnonymous();

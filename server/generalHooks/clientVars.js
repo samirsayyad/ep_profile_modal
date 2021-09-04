@@ -36,7 +36,7 @@ exports.clientVars = async (hook, context, callback) => {
   //     }
   //     // tell everybody that total user has been changed
   //     const msg = {
-  //       type: 'COLLABROOM',
+  //       type: 'EP_COLLAB_PROFILE',
   //       data: {
   //         type: 'CUSTOM',
   //         payload: {

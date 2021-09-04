@@ -11,7 +11,7 @@ exports.handleMessage = (hook_name, context, callback) => {
   let isProfileMessage = false;
   if (context) {
     if (context.message && context.message) {
-      if (context.message.type === 'COLLABROOM') {
+      if (context.message.type === 'EP_COLLAB_PROFILE') {
         if (context.message.data) {
           if (context.message.data.type) {
             if (context.message.data.type === 'ep_profile_modal') {
@@ -50,9 +50,9 @@ exports.handleMessage = (hook_name, context, callback) => {
     ep_profile_modal_logout(message);
   }
 
-  if (message.action === 'EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT') {
-    EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT(message);
-  }
+  // if (message.action === 'EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT') {
+  //   EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT(message);
+  // }
 
   if (message.action === 'ep_profile_modal_ready') {
     //ep_profile_modal_ready(message);
@@ -89,7 +89,7 @@ const ep_profile_modal_login = async (message) => {
   user.userId = message.userId;
 
   const msg = {
-    type: 'COLLABROOM',
+    type: 'EP_COLLAB_PROFILE',
     data: {
       type: 'CUSTOM',
       payload: {
@@ -116,7 +116,7 @@ const ep_profile_modal_login_check_prompt = async (message, client) => {
     const emailUser = await db.get(`ep_profile_modal:${message.email}`);
     if (emailUser) {
       const msg = {
-        type: 'COLLABROOM',
+        type: 'EP_COLLAB_PROFILE',
         data: {
           type: 'CUSTOM',
           payload: {
@@ -161,7 +161,7 @@ const ep_profile_modal_info = async (message) => {
 
   // send everybody
   const msg = {
-    type: 'COLLABROOM',
+    type: 'EP_COLLAB_PROFILE',
     data: {
       type: 'CUSTOM',
       payload: {
@@ -186,7 +186,7 @@ const ep_profile_modal_logout = async (message) => {
   user.lastLogoutDate = new Date();
 
   var msg = {
-    type: 'COLLABROOM',
+    type: 'EP_COLLAB_PROFILE',
     data: {
       type: 'CUSTOM',
       payload: {
@@ -218,12 +218,12 @@ const ep_profile_modal_logout = async (message) => {
     chatMsg.userId = message.userId;
     chatMsg.time = new Date();
     var msg = {
-      type: 'COLLABROOM',
+      type: 'EP_COLLAB_PROFILE',
       data: {
-        type: 'CUSTOM',
+        type: 'ep_rocketchat',
         payload: {
           padId: message.padId,
-          action: 'EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT',
+          action: 'ep_rocketchat_sendMessageToChat',
           userId: message.userId,
           msg: chatMsg,
         },
@@ -235,21 +235,21 @@ const ep_profile_modal_logout = async (message) => {
   }
 };
 
-const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
-  const msg = {
-    type: 'COLLABROOM',
-    data: {
-      type: 'CUSTOM',
-      payload: {
-        padId: message.padId,
-        action: 'EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT',
-        userId: message.userId,
-        msg: message.data,
-      },
-    },
-  };
-  etherpadFuncs.sendToRoom(msg);
-};
+// const EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT = async (message) => {
+//   const msg = {
+//     type: 'EP_COLLAB_PROFILE',
+//     data: {
+//       type: 'CUSTOM',
+//       payload: {
+//         padId: message.padId,
+//         action: 'EP_PROFILE_MODAL_SEND_MESSAGE_TO_CHAT',
+//         userId: message.userId,
+//         msg: message.data,
+//       },
+//     },
+//   };
+//   etherpadFuncs.sendToRoom(msg);
+// };
 
 const ep_profile_modal_ready = async (message) => {
   //console.log('ep_profile_modal_ready', message);
@@ -306,7 +306,7 @@ const ep_profile_modal_ready = async (message) => {
       all_users_list.sort((a, b) => (a.last_seen_timestamp < b.last_seen_timestamp) ? 1 : ((b.last_seen_timestamp < a.last_seen_timestamp) ? -1 : 0)); // base on seen
 
       const msg = {
-        type: 'COLLABROOM',
+        type: 'EP_COLLAB_PROFILE',
         data: {
           type: 'CUSTOM',
           payload: {
@@ -421,7 +421,7 @@ const statisticsHandling = async (message) => {
 
   // tell everybody that total user has been changed
   const msg = {
-    type: 'COLLABROOM',
+    type: 'EP_COLLAB_PROFILE',
     data: {
       type: 'CUSTOM',
       payload: {

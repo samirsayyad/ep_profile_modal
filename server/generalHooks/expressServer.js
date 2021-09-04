@@ -386,7 +386,7 @@ exports.expressConfigure = (hookName, context) => {
 
                 await db.set(`ep_profile_modal:${userId}_${padId}`, user);
                 var msg = {
-                  type: 'COLLABROOM',
+                  type: 'EP_COLLAB_PROFILE',
                   data: {
                     type: 'CUSTOM',
                     payload: {
