@@ -59,11 +59,11 @@ const profileForm = (() => {
     if (data.ep_profile_modalForm_about_yourself !== '') { text += `, ${data.ep_profile_modalForm_about_yourself}`; }
     if (data.ep_profile_modalForm_homepage !== '') {
       const url = shared.getValidUrl(data.ep_profile_modalForm_homepage);
-      text += `, <a target='_blank' href='${url}'>${data.ep_profile_modalForm_homepage}</a>`;
+      text += `, ${url}`;
       // text += `, ${message.data.ep_profile_modalForm_homepage} `
     }
 
-    msg.messageChatText = `<span><b>${text}</b></span>`;
+    msg.messageChatText = `${text}`;
     msg.target = 'profile';
     msg.userId = userId;
     msg.time = new Date();
