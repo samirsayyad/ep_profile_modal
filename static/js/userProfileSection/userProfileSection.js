@@ -8,8 +8,9 @@ const usersProfileSection = (() => {
   };
 
   const initiateListeners = function () {
-    $('#usersIconList').on('click', '.avatar', function () {
-      const userId = $(this).attr('data-userId');
+
+
+    const avatarListerner = (userId)=>{
       const padId = pad.getPadId();
       $.ajax({
         url: `/static/${padId}/pluginfw/ep_profile_modal/getUserInfo/${userId}`,
@@ -48,15 +49,24 @@ const usersProfileSection = (() => {
           }else{
             $('#ep_profile_users_profile_homepage').attr({href: shared.getValidUrl(homepage), target: '_blank'});
           }
-            
-
-
   
           $('#ep_profile_users_profile_userImage').css({'background-position': '50% 50%',
             'background-image': `url(${image_url})`, 'background-repeat': 'no-repeat', 'background-size': '69px', 'background-color': '#3873E0'});
         },
       });
+    }
+
+
+    $('#usersIconList').on('avatarClick',function(e,userIdParam){ // coming from external plugins
+      if (!userIdParam || (userIdParam.indexOf("a.") < 0) ) return;
+      avatarListerner(userIdParam)
     });
+
+    $('#usersIconList').on('click', '.avatar', function () {
+      const userId = $(this).attr('data-userId');
+      avatarListerner(userId)
+    });
+
 
     $('#ep_profile_users_profile_close').on('click', () => {
       $('#ep_profile_users_profile').removeClass('ep_profile_formModal_show');
