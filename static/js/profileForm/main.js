@@ -315,6 +315,17 @@ const profileForm = (() => {
         error(xhr) { // if error occured
           helper.refreshUserImage(userId, clientVars.padId);
           $('#profile_modal_selected_image').attr('style', (i, style) => style && style.replace(/background-image[^;]+;?/g, ''));
+
+          switch (xhr.status) {
+            case 413:
+              $.gritter.add({
+                'title': 'Error',
+                'text': 'ep_profile_modal: image size is large.',
+                'sticky': true,
+                'class_name': 'error'
+              });
+                 // Take action, referencing xhr.responseText as needed.
+          }
         },
         success(response) {
           helper.refreshUserImage(userId, clientVars.padId);
