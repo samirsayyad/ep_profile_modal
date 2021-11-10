@@ -71,7 +71,7 @@ const profileForm = (() => {
     // shared.addTextChatMessage(msg);
     const message = {
       type: 'ep_rocketchat',
-      action: 'ep_rocketchat_sendMessageToChat',
+      action: 'ep_rocketchat_sendMessageToChat_login',
       userId,
       data: msg,
       padId,
