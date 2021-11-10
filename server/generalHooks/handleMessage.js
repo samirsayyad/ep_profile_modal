@@ -187,11 +187,7 @@ const ep_profile_modal_logout = async (message) => {
   var messageChatText = ""
 
   if (user.username !== '' && user.username) {
-    console.log("we are here")
     messageChatText = `${user.username}${(user.about) ? `, ${user.about}` : ''} has left. ${(user.homepage !== '' && user.homepage && typeof user.homepage !== undefined) ? ` Find them at ${shared.getValidUrl(user.homepage)}'${user.homepage}` : ''}`;
-
-  } else {
-    console.log('data not set');
   }
 
 
