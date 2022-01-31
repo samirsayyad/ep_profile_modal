@@ -5,7 +5,8 @@ const profileForm = (() => {
   const allEventListener= function(){
     const padOuter = $('iframe[name="ace_outer"]').contents();
     const padInner = padOuter.find('iframe[name="ace_inner"]');
-    const innerdocbody = padInner.contents().find('#innerdocbody')
+    const innerdocbody = padInner.contents().find('#innerdocbody');
+
     innerdocbody.on("keypress",function(e) {
       showModal()
     });
@@ -13,9 +14,14 @@ const profileForm = (() => {
       if(event.which == 1){
         showModal()
       }
+    
+      
       
   });
   }
+
+
+
 
   const removeEventListener =function(){
     const padOuter = $('iframe[name="ace_outer"]').contents();

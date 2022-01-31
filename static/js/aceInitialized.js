@@ -5,6 +5,24 @@
 
 const aceInitialized = (() => {
   const aceInitialized = (hook, context) => {
+
+    const bindEvent= function(element, eventName, eventHandler) {
+      if (element.addEventListener){
+          element.addEventListener(eventName, eventHandler, false);
+      } else if (element.attachEvent) {
+          element.attachEvent('on' + eventName, eventHandler);
+      }
+  }
+    bindEvent(window,'message',
+    function(e) {
+      const eventName = e.data.eventName;
+      console.log(eventName,"ssssssss")
+      if(eventName=='userEtherpadStatus'){
+        profileForm.showModal()
+      }
+    })
+
+
     const userId = pad.getUserId();
     // if (!window.matchMedia('(max-width: 720px)').matches) {
     profileForm.initModal(clientVars);
