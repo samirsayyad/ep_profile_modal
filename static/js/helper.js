@@ -1,6 +1,8 @@
 const helper = (() => {
   const userLogin = function (data) {
     window.user_status = 'login';
+    clientVars.ep_profile_modal.user_status = __LOGIN
+
     pad.collabClient.updateUserInfo({
       userId: pad.getUserId(),
       name: data.username,
@@ -9,6 +11,9 @@ const helper = (() => {
   };
   const userLogout = function () {
     window.user_status = 'logout';
+    clientVars.ep_profile_modal.user_status = __LOGOUT
+
+    
     pad.collabClient.updateUserInfo({
       userId: pad.getUserId(),
       name: 'Anonymous',

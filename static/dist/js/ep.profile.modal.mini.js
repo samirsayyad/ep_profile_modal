@@ -1001,6 +1001,8 @@ const usersProfileSection = (() => {
 // var helper = require('./helper');
 // var profileForm = require('./profileForm/main');
 // var syncData = require('./syncData');
+const __LOGOUT= '1';
+const __LOGIN= '2';
 
 
 const postAceInit = (() => {
@@ -1247,6 +1249,8 @@ const postAceInit = (() => {
     $('#ep_profile_modal_signout').on('click', () => {
       const userId = pad.getUserId();
       const padId = pad.getPadId();
+      clientVars.ep_profile_modal.user_status = __LOGOUT
+
       window.user_status = 'out';
       const message = {
         type: 'ep_profile_modal',
@@ -1256,6 +1260,7 @@ const postAceInit = (() => {
         padId,
 
       };
+      clientVars.ep_profile_modal.user_status = __LOGOUT
       pad.collabClient.sendMessage(message); // Send the chat position message to the server
       $('#ep_profile_modal').removeClass('ep_profile_modal-show');
       $('#online_ep_profile_modal_status').hide();
@@ -1336,12 +1341,11 @@ const aceInitialized = (() => {
       } else if (element.attachEvent) {
           element.attachEvent('on' + eventName, eventHandler);
       }
-  }
+    }
     bindEvent(window,'message',
     function(e) {
       const eventName = e.data.eventName;
-      console.log(eventName,"ssssssss")
-      if(eventName=='userEtherpadStatus'){
+      if(eventName=='showEtherpadModal'){
         profileForm.showModal()
       }
     })
@@ -1583,6 +1587,8 @@ const handleClientMessage = (() => {
 const helper = (() => {
   const userLogin = function (data) {
     window.user_status = 'login';
+    clientVars.ep_profile_modal.user_status = __LOGIN
+
     pad.collabClient.updateUserInfo({
       userId: pad.getUserId(),
       name: data.username,
@@ -1591,6 +1597,9 @@ const helper = (() => {
   };
   const userLogout = function () {
     window.user_status = 'logout';
+    clientVars.ep_profile_modal.user_status = __LOGOUT
+
+    
     pad.collabClient.updateUserInfo({
       userId: pad.getUserId(),
       name: 'Anonymous',
@@ -1732,8 +1741,6 @@ const helper = (() => {
 })();
 
 // var helper = require('./helper');
-
-
 const shared = (() => {
   const resetAllProfileImage = function (userId, padId) {
     $.ajax({
@@ -1789,6 +1796,8 @@ const shared = (() => {
   };
 
   const loginByEmailAndUsernameWithoutValidation = function (username, email, suggestData) {
+    clientVars.ep_profile_modal.user_status = __LOGIN
+
     window.user_status = 'login';
     const message = {
       type: 'ep_profile_modal',
@@ -1810,6 +1819,7 @@ const shared = (() => {
       return false;
     } else {
       $('#ep_profile_modal_email').removeClass('ep_profile_modal_validation_error');
+      clientVars.ep_profile_modal.user_status = __LOGIN
 
       window.user_status = 'login';
       // pad.collabClient.updateUserInfo({

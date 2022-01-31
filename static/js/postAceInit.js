@@ -3,6 +3,8 @@
 // var helper = require('./helper');
 // var profileForm = require('./profileForm/main');
 // var syncData = require('./syncData');
+const __LOGOUT= '1';
+const __LOGIN= '2';
 
 
 const postAceInit = (() => {
@@ -249,6 +251,8 @@ const postAceInit = (() => {
     $('#ep_profile_modal_signout').on('click', () => {
       const userId = pad.getUserId();
       const padId = pad.getPadId();
+      clientVars.ep_profile_modal.user_status = __LOGOUT
+
       window.user_status = 'out';
       const message = {
         type: 'ep_profile_modal',
@@ -258,6 +262,7 @@ const postAceInit = (() => {
         padId,
 
       };
+      clientVars.ep_profile_modal.user_status = __LOGOUT
       pad.collabClient.sendMessage(message); // Send the chat position message to the server
       $('#ep_profile_modal').removeClass('ep_profile_modal-show');
       $('#online_ep_profile_modal_status').hide();

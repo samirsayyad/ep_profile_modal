@@ -1,6 +1,4 @@
 // var helper = require('./helper');
-
-
 const shared = (() => {
   const resetAllProfileImage = function (userId, padId) {
     $.ajax({
@@ -56,6 +54,8 @@ const shared = (() => {
   };
 
   const loginByEmailAndUsernameWithoutValidation = function (username, email, suggestData) {
+    clientVars.ep_profile_modal.user_status = __LOGIN
+
     window.user_status = 'login';
     const message = {
       type: 'ep_profile_modal',
@@ -77,6 +77,7 @@ const shared = (() => {
       return false;
     } else {
       $('#ep_profile_modal_email').removeClass('ep_profile_modal_validation_error');
+      clientVars.ep_profile_modal.user_status = __LOGIN
 
       window.user_status = 'login';
       // pad.collabClient.updateUserInfo({

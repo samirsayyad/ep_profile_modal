@@ -12,12 +12,11 @@ const aceInitialized = (() => {
       } else if (element.attachEvent) {
           element.attachEvent('on' + eventName, eventHandler);
       }
-  }
+    }
     bindEvent(window,'message',
     function(e) {
       const eventName = e.data.eventName;
-      console.log(eventName,"ssssssss")
-      if(eventName=='userEtherpadStatus'){
+      if(eventName=='showEtherpadModal'){
         profileForm.showModal()
       }
     })
