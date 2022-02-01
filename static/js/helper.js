@@ -73,8 +73,8 @@ const helper = (() => {
     const rocketChatOnlineUser = $(
       `.avatar[data-id="${userId}"]`
     );
-    if (user_selector.length) {
-      user_selector
+    if (rocketChatOnlineUser.length) {
+      rocketChatOnlineUser
           .children('.ep_rocketchat_onlineUsersList_avatarImg')
           .css({
             'background-position': '50% 50%',
