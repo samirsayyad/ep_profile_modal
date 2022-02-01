@@ -69,6 +69,20 @@ const helper = (() => {
             'background-size': '69px',
           });
     }
+
+    const rocketChatOnlineUser = $(
+      `.avatar[data-id="${userId}"]`
+    );
+    if (user_selector.length) {
+      user_selector
+          .children('.ep_rocketchat_onlineUsersList_avatarImg')
+          .css({
+            'background-position': '50% 50%',
+            'background-image': `url(${image_url})`,
+            'background-repeat': 'no-repeat',
+            'background-size': '28px',
+          });
+    }
   };
 
   const refreshLoadingImage = function (userId, padId) {
