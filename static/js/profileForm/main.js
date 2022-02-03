@@ -52,7 +52,8 @@ const profileForm = (() => {
     const msg = {};
     localStorage.setItem("formPassed","yes")
     removeEventListener()
-    if (data.ep_profile_modalForm_name == '') { return false; }
+    console.log(localStorage.getItem("formStatus"),'ssssss')
+    if (data.ep_profile_modalForm_name == '' || ['',null,undefined].includes(localStorage.getItem("formStatus"))) { return false; }
     // var message = {
     //     type : 'ep_profile_modal',
     //     action : "ep_profile_modal_send_chat_message" ,
@@ -214,6 +215,7 @@ const profileForm = (() => {
       if (animating) return false;
 
       const currentSection = current_fs.attr('data-section');
+      localStorage.setItem("formStatus",currentSection)
       if (currentSection == 'name') {
         if ($('#ep_profile_modalForm_name').val() == '') {
           $('#ep_profile_modalForm_name').css({border: '1px solid red'});

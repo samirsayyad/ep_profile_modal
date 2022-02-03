@@ -249,8 +249,11 @@ const postAceInit = (() => {
 
 
     $('#ep_profile_modal_signout').on('click', () => {
+      profileForm.resetModal();
+
       const userId = pad.getUserId();
       const padId = pad.getPadId();
+      localStorage.setItem("formStatus",'')
       clientVars.ep_profile_modal.user_status = __LOGOUT
 
       window.user_status = 'out';
