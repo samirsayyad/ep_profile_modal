@@ -16,8 +16,14 @@ const aceInitialized = (() => {
     bindEvent(window,'message',
     function(e) {
       const eventName = e.data.eventName;
+      const data = e.data.data;
+
       if(eventName=='showEtherpadModal'){
         profileForm.showModal()
+      }
+      if(eventName=='showProfileDetailModal'){
+        console.log(data)
+        $('#usersIconList').trigger('avatarClick', data.userId);
       }
     })
 
