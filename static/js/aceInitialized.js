@@ -22,7 +22,6 @@ const aceInitialized = (() => {
         profileForm.showModal()
       }
       if(eventName=='showProfileDetailModal'){
-        console.log(data)
         $('#usersIconList').trigger('avatarClick', data.userId);
       }
     })
