@@ -328,7 +328,7 @@
 .ep_profile_modal_user_list{
     font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     width: 587px;
-    max-height: 664px;
+    max-height: 80vh;
     background-color: #fff;
     position: absolute;
 
@@ -369,6 +369,7 @@
     margin-top: 44px;
     margin-bottom: 45px;
     width: 100%;
+    display: flex;
 }
 
 /* .ep_profile_user_list_date_title{
@@ -492,6 +493,8 @@
     float: left;
     padding-left: 26px;
     width: 440px;
+    display: flex;
+    align-items: center;
     /* margin-top: 20px;
     margin-left: 20px;
     width: 161px; */
@@ -688,13 +691,15 @@
         width: 76%;
         padding-left: 11px;
         padding-top: 5px;
+        display: flex;
+        align-items: center;
     }
     .ep_profile_users_profile{
         width: 100% !important;
     }
     .ep_profile_modal_user_list{
         width: auto;
-        height: 45%;
+        height: 80%;
 
         overflow: scroll;
         padding-bottom: 5%;
@@ -702,6 +707,7 @@
     .ep_profile_user_row{
         padding-left: 16px;
         padding-right: 16px;
+        display: flex;
     }   
     .ep_profile_contributors_scroll{
         height: 105%;
@@ -726,13 +732,15 @@
         width: 76%;
         padding-left: 11px;
         padding-top: 5px;
+        display: flex;
+        align-items: center;
     }
     .ep_profile_users_profile{
         width: 100% !important;
     }
     .ep_profile_modal_user_list{
         width: auto;
-        height: 45%;
+        height: 80%;
 
         overflow: scroll;
         padding-bottom: 5%;
@@ -740,6 +748,7 @@
     .ep_profile_user_row{
         padding-left: 16px;
         padding-right: 16px;
+        display: flex;
     }
     .ep_profile_contributors_scroll{
         height: 105%;
