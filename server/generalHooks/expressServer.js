@@ -1,22 +1,25 @@
 const db = require('ep_etherpad-lite/node/db/DB');
+const settings = require('ep_etherpad-lite/node/utils/Settings');
+const padMessageHandler = require('ep_etherpad-lite/node/handler/PadMessageHandler');
+
 const defaultImg = '/static/plugins/ep_profile_modal/static/dist/img/user-blue.png';
 const defaultImgUserOff = '/static/plugins/ep_profile_modal/static/dist/img/user.png';
+
 const gravatar = require('gravatar');
 const fetch = require('node-fetch');
 const Busboy = require('busboy');
 const uuid = require('uuid');
 const path = require('path');
-const settings = require('ep_etherpad-lite/node/utils/Settings');
 const AWS = require('aws-sdk');
-const resizeImg = require('resize-img');
-const sizeOf = require('buffer-image-size');
-const padMessageHandler = require('ep_etherpad-lite/node/handler/PadMessageHandler');
+const sharp = require('sharp');
+
 const emailService = require('../services/email');
-const getContributors_limit = 25 ;
 const staticVars = require('../helpers/statics');
 const shared = require('../helpers/shared');
 const async = require('../../../../src/node_modules/async');
-const { resolve } = require('path');
+
+const getContributors_limit = 25 ;
+
 
 exports.expressConfigure = (hookName, context) => {
 
@@ -298,6 +301,7 @@ exports.expressConfigure = (hookName, context) => {
   context.app.post('/static/:padId/pluginfw/ep_profile_modal/upload/:userId', async (req, res, next) => {
     const padId = req.params.padId;
     const userId = req.params.userId;
+		const newFileName = uuid.v4();
 
     const s3 = new AWS.S3({
       accessKeyId: settings.ep_profile_modal.storage.accessKeyId,
@@ -317,53 +321,40 @@ exports.expressConfigure = (hookName, context) => {
     } catch (error) {
       return next(error);
     }
-    const done = function (error) {
-      if (error) {
-        return;
-      }
-      if (isDone) return;
-      isDone = true;
-      req.unpipe(busboy);
-      drainStream(req);
-      busboy.removeAllListeners();
-      const msg = error.stack.substring(0, error.stack.indexOf('\n'));
-
-      return res.status(201).json({error: msg});
-    };
-
-    const newFileName = uuid.v4();
 
     busboy.on('file', async (fieldname, file, filename, encoding, mimetype) => {
       const fileType = path.extname(filename);
-      const fileTypeWithoutDot = fileType.substr(1);
       const fileRead = [];
+			let savedFilename;
       const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
-      if (user.verified) { var savedFilename = path.join(user.email, padId, newFileName + fileType); } else { var savedFilename = path.join(userId, padId, newFileName + fileType); }
-      file.on('limit', () => res.status(201).json({error: 'File is too large'}));
-      file.on('error', (error) => {
-        busboy.emit('error', error);
-      });
-      file.on('data', async (chunk) => {
-        fileRead.push(chunk);
-      });
+
+      if (user.verified) { 
+				savedFilename = path.join(user.email, padId, newFileName + fileType); 
+			} else { 
+				savedFilename = path.join(userId, padId, newFileName + fileType); 
+			}
+      
+			file.on('limit', () => res.status(201).json({error: 'File is too large'}));
+      file.on('error', (error) => busboy.emit('error', error));
+      file.on('data', (chunk) => fileRead.push(chunk));
+
       file.on('end', async () => {
         const finalBuffer = Buffer.concat(fileRead);
-        const sizeImage = sizeOf(finalBuffer);
-        let selctedWidth = 128; let
-          selectedHeight = 128;
-        if (sizeImage) {
-          const result_resize = getBestImageReszie(sizeImage.width, sizeImage.height, 128);
-          selctedWidth = result_resize.width;
-          selectedHeight = result_resize.height;
-        }
+				let selctedWidth = 128; 
+				let selectedHeight = 128;
         try {
-          var newFile = await resizeImg(finalBuffer, {
-            width: selctedWidth,
-            height: selectedHeight,
-          });
+					// resize and reshape
+					newFile = await sharp(finalBuffer)
+						.resize({
+							width: selctedWidth,
+							height: selectedHeight,
+							position: sharp.position.centre,
+							fit: sharp.fit.outside,
+							background: { r: 0, g: 0, b: 0, alpha: 1} // black
+						})
+						.jpeg()
         } catch (error) {
-          var msg = error.message.substring(0, error.message.indexOf('\n'));
-
+          const msg = error.message.substring(0, error.message.indexOf('\n'));
           return res.status(201).json({error: msg});
         }
 
@@ -375,9 +366,7 @@ exports.expressConfigure = (hookName, context) => {
             Body: newFile,
           };
           try {
-
             s3.upload(params_upload, async (err, data) => {
-
               if (data) {
                 db.set(`ep_profile_modal_image:${userId}`, savedFilename);
                 const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};
@@ -399,14 +388,12 @@ exports.expressConfigure = (hookName, context) => {
                 sendToRoom(msg);
                 return res.status(201).json({type: settings.ep_profile_modal.storage.type, error: false, fileName: savedFilename, fileType, data});
               } else {
-                var msg = err.stack.substring(0, err.stack.indexOf('\n'));
-
+                const msg = err.stack.substring(0, err.stack.indexOf('\n'));
                 return res.status(201).json({error: msg});
               }
             });
           } catch (error) {
-            var msg = error.message.substring(0, error.message.indexOf('\n'));
-
+            const msg = error.message.substring(0, error.message.indexOf('\n'));
             return res.status(201).json({error: msg});
           }
         }
