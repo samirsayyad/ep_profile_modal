@@ -7,14 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp js minify-css minify-image",
     "build:prod": "gulp build --production",
-    "lint": "eslint --fix .",
-    "lint:dry": "eslint --fix-dry-run ."
-  },
-  "peerDependencies": {
-    "ep_etherpad-lite": ">=1.8.6"
-  },
-  "engines": {
-    "node": ">=10.13.0"
+    "lint:fix": "eslint --fix ."
   },
   "eslintConfig": {
     "root": true,
@@ -57,7 +50,7 @@
     "aws-sdk": "^2.1075.0",
     "busboy": "^1.4.0",
     "gravatar": "^1.8.2",
-    "node-fetch": "^3.2.0",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.7.2",
     "sharp": "^0.30.1",
     "uuid": "^8.3.2"
@@ -65,10 +58,12 @@
   "devDependencies": {
     "eslint": "^7.18.0",
     "eslint-config-etherpad": "^1.0.23",
+    "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.2",
     "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-you-dont-need-lodash-underscore": "^6.12.0",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
     "gulp-clean-css": "^4.3.0",

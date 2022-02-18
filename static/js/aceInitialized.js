@@ -1,3 +1,5 @@
+'use strict';
+
 // var contributors = require('./contributors/contributors');
 // var profileForm = require('./profileForm/main');
 // var usersProfileSection = require('./userProfileSection/userProfileSection');
@@ -5,46 +7,41 @@
 
 const aceInitialized = (() => {
   const aceInitialized = (hook, context) => {
-
-    const bindEvent= function(element, eventName, eventHandler) {
-      if (element.addEventListener){
-          element.addEventListener(eventName, eventHandler, false);
+    const bindEvent = (element, eventName, eventHandler) => {
+      if (element.addEventListener) {
+        element.addEventListener(eventName, eventHandler, false);
       } else if (element.attachEvent) {
-          element.attachEvent('on' + eventName, eventHandler);
+        element.attachEvent(`on${eventName}`, eventHandler);
       }
-    }
-    bindEvent(window,'message',
-    function(e) {
-      const eventName = e.data.eventName;
-      const data = e.data.data;
+    };
+    bindEvent(window, 'message',
+        (e) => {
+          const eventName = e.data.eventName;
+          const data = e.data.data;
 
-      if(eventName=='showEtherpadModal'){
-        profileForm.showModal()
-      }
-      if(eventName=='showProfileDetailModal'){
-        $('#usersIconList').trigger('avatarClick', data.userId);
-      }
-    })
+          if (eventName === 'showEtherpadModal') {
+            profileForm.showModal();
+          }
+          if (eventName === 'showProfileDetailModal') {
+            $('#usersIconList').trigger('avatarClick', data.userId);
+          }
+        });
 
 
     const userId = pad.getUserId();
     // if (!window.matchMedia('(max-width: 720px)').matches) {
     profileForm.initModal(clientVars);
-    // if (clientVars.ep_profile_modal.form_passed !== true) {
+    // if (clientVars.ep_profile_modal.formPassed !== true) {
     //   profileForm.showModal();
     // }
-    if (localStorage.getItem("formPassed") != "yes")
-      profileForm.allEventListener()
+    if (localStorage.getItem('formPassed') !== 'yes') profileForm.allEventListener();
     //   profileForm.showModal();
-    
+
     // / user profile section
     usersProfileSection.initiate(clientVars);
     // / user profile section
 
-    //template generate 
-    $('body').append(modal);
-    // /
-    var modal = $('#ep_profile_modal_script').tmpl(clientVars);
+    let modal = $('#ep_profile_modal_script').tmpl(clientVars);
     $('body').append(modal);
     // /
     modal = $('#ep_profile_modal_user_list_script').tmpl(clientVars);
@@ -52,19 +49,19 @@ const aceInitialized = (() => {
     // /general
     modal = $('#ep_profile_modal_general_script').tmpl();
     $('body').append(modal);
-    //template generate 
+    // template generate
 
     const style = `background : url(/static/getUserProfileImage/${userId}/${clientVars.padId}) no-repeat 50% 50% ; background-size :32px`;
     const onlineUsers = pad.collabClient.getConnectedUsers();
-    const usersListHTML = contributors.createHTMLforUserList(clientVars.ep_profile_modal.contributed_authors_count, onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified);
+    const usersListHTML = contributors.createHTMLforUserList(clientVars.ep_profile_modal.contributedAuthorsCount, onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified);
 
     $('#pad_title').append(`<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>${usersListHTML}</div><div class='ep-profile-button' id='ep-profile-button'><div id='ep-profile-image' style='${style}' /></div></div>`);
 
-    if (clientVars.ep_profile_modal.user_status == '2') {
-      window.user_status = 'login';
+    if (clientVars.ep_profile_modal.userStatus === '2') {
+      window.userStatus = 'login';
     } else {
-      window.user_status = 'out';
-      // if (clientVars.ep_profile_modal.form_passed == true) {
+      window.userStatus = 'out';
+      // if (clientVars.ep_profile_modal.formPassed == true) {
       //   setTimeout(() => {
       //     profileForm.showModal();
 
@@ -81,7 +78,7 @@ const aceInitialized = (() => {
       data: clientVars.ep_profile_modal,
     };
     pad.collabClient.sendMessage(message);
-    if (clientVars.ep_profile_modal.userName == 'Anonymous') {
+    if (clientVars.ep_profile_modal.userName === 'Anonymous') {
       pad.collabClient.updateUserInfo({
         userId,
         name: 'Anonymous',

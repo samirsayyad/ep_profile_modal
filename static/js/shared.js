@@ -1,35 +1,54 @@
-// var helper = require('./helper');
+'use strict';
+
 const shared = (() => {
-  const resetAllProfileImage = function (userId, padId) {
+  const LOGIN = '2';
+  const resetAllProfileImage = (userId, padId) => {
     $.ajax({
       url: `/static/${padId}/pluginfw/ep_profile_modal/resetProfileImage/${userId}`,
       type: 'get',
       data: {},
       contentType: false,
       processData: false,
-      beforeSend() {
+      beforeSend: () => {
         helper.refreshLoadingImage(userId, padId);
       },
-      error(xhr) { // if error occured
+      error: (xhr) => { // if error occured
         helper.refreshUserImage(userId, padId);
       },
-      success(response) {
+      success: (response) => {
         helper.refreshUserImage(userId, padId);
       },
-
     });
   };
-  const sendSignOutMessage = function (userId, padId) {
+
+  const isEmail = (email) => {
+    const regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (email === '') return true;
+    else return regex.test(email);
+  };
+
+  const IsValid = (url) => {
+    const pattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+    return pattern.test(url);
+  };
+
+  const sendSignOutMessage = (userId, padId) => {
     const message = {
       type: 'ep_profile_modal',
       action: 'ep_profile_modal_send_signout_message',
       userId,
       padId,
-
     };
     pad.collabClient.sendMessage(message); // Send the chat position message to the server
   };
-  const addTextChatMessage = function (msg) {
+
+  const scrollDownToLastChatText = (selector) => {
+    const $element = $(selector);
+    if ($element.length <= 0 || !$element[0]) return true;
+    $element.animate({scrollTop: $element[0].scrollHeight}, {duration: 400, queue: false});
+  };
+
+  const addTextChatMessage = (msg) => {
     const authorClass = `author-${msg.userId.replace(/[^a-y0-9]/g, (c) => {
       if (c === '.') return '-';
       return `z${c.charCodeAt(0)}z`;
@@ -47,16 +66,10 @@ const shared = (() => {
     $(document).find('#chatbox #chattext').append(html);
     scrollDownToLastChatText('#chatbox #chattext');
   };
-  const scrollDownToLastChatText = function scrollDownToLastChatText(selector) {
-    const $element = $(selector);
-    if ($element.length <= 0 || !$element[0]) return true;
-    $element.animate({scrollTop: $element[0].scrollHeight}, {duration: 400, queue: false});
-  };
 
-  const loginByEmailAndUsernameWithoutValidation = function (username, email, suggestData) {
-    clientVars.ep_profile_modal.user_status = __LOGIN
-
-    window.user_status = 'login';
+  const loginByEmailAndUsernameWithoutValidation = (username, email, suggestData) => {
+    clientVars.ep_profile_modal.userStatus = LOGIN;
+    window.userStatus = 'login';
     const message = {
       type: 'ep_profile_modal',
       action: 'ep_profile_modal_login',
@@ -68,8 +81,9 @@ const shared = (() => {
     };
     pad.collabClient.sendMessage(message); // Send the chat position message to the server
   };
-  const loginByEmailAndUsername = function (username, email) {
-    if (username == '' || !isEmail(email)) {
+
+  const loginByEmailAndUsername = (username, email) => {
+    if (username === '' || !isEmail(email)) {
       if (!isEmail(email)) {
         $('#ep_profile_modal_email').focus();
         $('#ep_profile_modal_email').addClass('ep_profile_modal_validation_error');
@@ -77,14 +91,9 @@ const shared = (() => {
       return false;
     } else {
       $('#ep_profile_modal_email').removeClass('ep_profile_modal_validation_error');
-      clientVars.ep_profile_modal.user_status = __LOGIN
+      clientVars.ep_profile_modal.userStatus = LOGIN;
 
-      window.user_status = 'login';
-      // pad.collabClient.updateUserInfo({
-      //     userId :  pad.getUserId() ,
-      //     name: username,
-      //     colorId: "#b4b39a"
-      // } )
+      window.userStatus = 'login';
       const message = {
         type: 'ep_profile_modal',
         action: 'ep_profile_modal_login',
@@ -96,7 +105,6 @@ const shared = (() => {
 
       };
       pad.collabClient.sendMessage(message); // Send the chat position message to the server
-      // $('#ep_profile_modal').addClass('ep_profile_modal-show')
       helper.userLogin({
         email,
         username,
@@ -104,50 +112,35 @@ const shared = (() => {
 
       $('#online_ep_profile_modal_status').show();
       $('#offline_ep_profile_modal_status').hide();
-      // $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
-      // $("#ep_profile_modal_section_info_email").text(email)
-      // $("#ep_profile_modal_section_info_name").text(username)
     }
   };
 
-
-  const isEmail = function (email) {
-    const regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (email == '') { return true; } else { return regex.test(email); }
-  };
-
-  const IsValid = function (url) {
-    const pattern = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-    return pattern.test(url);
-  };
-
-
-  const getFormData = function ($form) {
+  const getFormData = ($form) => {
     const unindexed_array = $form.serializeArray();
-    const indexed_array = {};
-
+    const indexedArray = {};
     $.map(unindexed_array, (n, i) => {
-      indexed_array[n.name] = n.value;
+      indexedArray[n.name] = n.value;
     });
-
-    return indexed_array;
+    return indexedArray;
   };
-  const setFormData = function ($form, indexed_array) {
-    $.map(indexed_array, (n, i) => {
+
+  const setFormData = ($form, indexedArray) => {
+    $.map(indexedArray, (n, i) => {
       $(`#${i}`).val(n);
     });
   };
 
-  const isUsername = function (username) {
+  const isUsername = (username) => {
     const regex = /^([a-zA-Z0-9_.+-])/;
     return regex.test(username);
   };
-  const showGeneralOverlay = function () {
+
+  const showGeneralOverlay = () => {
     $('#ep_profile_general_overlay').addClass('ep_profile_formModal_overlay_show');
     $('#ep_profile_general_overlay').css({display: 'block'});
   };
 
-  const hideGeneralOverlay = function () {
+  const hideGeneralOverlay = () => {
     $('#ep_profile_general_overlay').removeClass('ep_profile_formModal_overlay_show');
     $('#ep_profile_general_overlay').css({display: 'none'});
     $('#ep_profile_modal').removeClass('ep_profile_modal-show');
@@ -155,8 +148,8 @@ const shared = (() => {
     $('#ep_profile_users_profile').removeClass('ep_profile_formModal_show');
   };
 
-  const getValidUrl = function (url) {
-    if (url == '' || !url) return '';
+  const getValidUrl = (url) => {
+    if (url === '' || !url) return '';
     let newUrl = window.decodeURIComponent(url);
     newUrl = newUrl.trim().replace(/\s/g, '');
 
@@ -170,19 +163,20 @@ const shared = (() => {
     return newUrl;
   };
 
-  const getMonthName = function (monthNumber) {
+  const getMonthName = (monthNumber) => {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return months[monthNumber - 1];
   };
-  const getCustomeFormatDate = function (date) {
-    if (date == 'today' || date == 'yesterday') return `Last seen ${date}`;
+
+  const getCustomeFormatDate = (date) => {
+    if (date === 'today' || date === 'yesterday') return `Last seen ${date}`;
     date = date.split('-');
     return `Last seen ${date[2]} ${getMonthName(date[1])} ${date[0]}`;
   };
-  const getCustomDate = function (date) {
-    if (date == 'today' || date == 'yesterday') return `Last seen ${date}`;
+
+  const getCustomDate = (date) => {
+    if (date === 'today' || date === 'yesterday') return `Last seen ${date}`;
     date = date.split('-');
-    console.log("date",date)
     return `Last seen ${date[2]}/${date[1]}/${date[0]}`;
   };
 

@@ -1,10 +1,10 @@
 'use strict';
 const nodemailer = require('nodemailer');
-const settings = require('ep_etherpad-lite/node/utils/Settings');
-const db = require('ep_etherpad-lite/node/db/DB');
+// const settings = require('ep_etherpad-lite/node/utils/Settings');
+// const db = require('ep_etherpad-lite/node/db/DB');
 
 module.exports = {
-  sendMail: async (settings, message) => new Promise(async (resolve, reject) => {
+  sendMail: (settings, message) => new Promise(async (resolve, reject) => {
     try {
       const transporter = nodemailer.createTransport({
         host: settings.settingsEmailSmtp,

@@ -2,7 +2,7 @@
     <div id='usersIconList' class='ep_profile_inlineAvatars'>
         {{each(val) onlineUsers}}
             <div class='avatar' 
-    style="background: url(/static/getUserProfileImage/${val.userId}/${padId}) no-repeat 50% 50% ; background-size : 26px; ${isInArray($verified_users,$val.userId)}">
+    style="background: url(/static/getUserProfileImage/${val.userId}/${padId}) no-repeat 50% 50% ; background-size : 26px; ${isInArray($verifiedUsers,$val.userId)}">
     </div>
 
 

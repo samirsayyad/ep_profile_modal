@@ -1,3 +1,5 @@
+'use strict';
+
 const epProfileModel = require('../dist/js/ep.profile.modal.mini').moduleList;
 
 exports.postAceInit = epProfileModel.postAceInit;
