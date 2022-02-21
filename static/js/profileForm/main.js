@@ -52,7 +52,6 @@ const profileForm = (() => {
     const msg = {};
     localStorage.setItem("formPassed","yes")
     removeEventListener()
-    console.log(localStorage.getItem("formStatus"),'ssssss')
     if (data.ep_profile_modalForm_name == '' || ['',null,undefined].includes(localStorage.getItem("formStatus"))) { return false; }
     // var message = {
     //     type : 'ep_profile_modal',

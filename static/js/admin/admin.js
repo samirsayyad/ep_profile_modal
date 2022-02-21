@@ -22,7 +22,6 @@ const documentReady = (() => {
         // connect 
         socket = io.connect(room, {path: `${baseURL}socket.io`, resource});
         socket.on('load-settings-result', (data) => {
-          console.log(data);
           shared.setFormData($('#settings-form'), data);
         });
 

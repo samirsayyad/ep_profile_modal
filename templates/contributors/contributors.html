@@ -13,12 +13,12 @@
 
                 <div data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
            
-                    <div class="ep_profile_user_img" style="background: url(/static/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ;" ></div>
+                    <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/static/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ;" ></div>
             
                     <div class="ep_profile_user_list_profile_userDesc">
             
                         <div class="ep_profile_user_list_username">
-                            <div class="ep_profile_user_list_username_text" >
+                            <div class="ep_profile_user_list_username_text"  id="ep_profile_users_profile_name" >
                                 ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
                             </div>
                             
@@ -26,7 +26,7 @@
                                 Online
                             </div>
                         </div>
-                        <p class="ep_profile_user_list_profile_desc">
+                        <p class="ep_profile_user_list_profile_desc" id="ep_profile_users_profile_desc">
                             ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
     
                         </p>

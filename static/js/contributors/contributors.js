@@ -248,23 +248,23 @@ const contributors = (() => {
       style = `background: url(${img}) no-repeat 50% 50% ; background-size : 69px ;`;
 
       return (`<div  data-user-ids='${userId}' data-anonymouseCount='1' data-id='user_list_${anonymous_handler}' class='ep_profile_user_row'>` +
-					`<div style='${style}' class='ep_profile_user_img'></div>` +
+					`<div style='${style}' class='ep_profile_user_img' id='ep_profile_user_img'></div>` +
 					'<div class=\'ep_profile_user_list_profile_userDesc\'>' +
-							`<div class='ep_profile_user_list_username'><div class='ep_profile_user_list_username_text' >${username}</div>` +
+							`<div class='ep_profile_user_list_username'><div class='ep_profile_user_list_username_text' id='ep_profile_users_profile_name'  >${username}</div>` +
 							`<div class='ep_profile_contributor_status'>${seenStatus}</div>` +
 							'</div>' +
-							`<p class='ep_profile_user_list_profile_desc'>${about}</p>` +
+							`<p class='ep_profile_user_list_profile_desc' id='ep_profile_users_profile_desc'>${about}</p>` +
 					'</div> </div>');
     } else {
       style = `background: url(${img}) no-repeat 50% 50% ; background-size : 69px ;`;
       return (`<div data-id='user_list_${userId}' class='ep_profile_user_row'>` +
-					`<div style='${style}' class='ep_profile_user_img'></div>` +
+					`<div style='${style}' class='ep_profile_user_img'  id='ep_profile_user_img'></div>` +
 					'<div class=\'ep_profile_user_list_profile_userDesc\'>' +
-							`<div class='ep_profile_user_list_username'><div class='ep_profile_user_list_username_text' >${username}</div>` +
+							`<div class='ep_profile_user_list_username'><div class='ep_profile_user_list_username_text' id='ep_profile_users_profile_name'>${username}</div>` +
 							`<a target='_blank' style='${(homepage == "" || homepage == "#" || homepage == undefined || homepage == null ) ? "display : none" : ""}'  class='ep_profile_contributor_link_container' title='${shared.getValidUrl(homepage)}' href='${shared.getValidUrl(homepage)}'> </a>` +
 							`<div class='ep_profile_contributor_status'>${seenStatus}</div>` +
 							'</div>' +
-							`<p class='ep_profile_user_list_profile_desc'>${about}</p>` +
+							`<p class='ep_profile_user_list_profile_desc' id='ep_profile_users_profile_desc'>${about}</p>` +
 					'</div> </div>');
     }
   };

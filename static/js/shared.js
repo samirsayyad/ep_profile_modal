@@ -182,7 +182,6 @@ const shared = (() => {
   const getCustomDate = function (date) {
     if (date == 'today' || date == 'yesterday') return `Last seen ${date}`;
     date = date.split('-');
-    console.log("date",date)
     return `Last seen ${date[2]}/${date[1]}/${date[0]}`;
   };
 
