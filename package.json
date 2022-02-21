@@ -61,7 +61,7 @@
     "nodemailer": "^6.4.11",
     "path": "^0.12.7",
     "resize-img": "^2.0.0",
-    "sharp": "^0.26.1"
+    "sharp": "^0.22.1"
   },
   "devDependencies": {
     "eslint": "^7.18.0",
