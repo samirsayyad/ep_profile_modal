@@ -493,8 +493,8 @@
     float: left;
     padding-left: 26px;
     width: 440px;
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
     /* margin-top: 20px;
     margin-left: 20px;
     width: 161px; */
@@ -691,8 +691,8 @@
         width: 76%;
         padding-left: 11px;
         padding-top: 5px;
-        display: flex;
-        align-items: center;
+        /* display: flex;
+        align-items: center; */
     }
     .ep_profile_users_profile{
         width: 100% !important;
@@ -732,8 +732,8 @@
         width: 76%;
         padding-left: 11px;
         padding-top: 5px;
-        display: flex;
-        align-items: center;
+        /* display: flex;
+        align-items: center; */
     }
     .ep_profile_users_profile{
         width: 100% !important;
