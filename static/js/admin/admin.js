@@ -1,11 +1,11 @@
-// var shared = require('../shared');
+'use strict';
 
-const documentReady = (() => {
+
+(() => {
   const documentReady = (hooks, context, cb) => {
-   
     let socket;
     const loc = document.location;
-    const port = loc.port == '' ? (loc.protocol == 'https:' ? 443 : 80) : loc.port;
+    const port = loc.port === '' ? (loc.protocol === 'https:' ? 443 : 80) : loc.port;
     const url = `${loc.protocol}//${loc.hostname}:${port}/`;
     const pathComponents = location.pathname.split('/');
     // Strip admin/plugins
@@ -14,12 +14,9 @@ const documentReady = (() => {
 
     const room = `${url}pluginfw/admin/ep_profile_modal`;
 
-    let changeTimer;
-
-
-    switch (context){
-      case "admin/ep_profile_modal" : {
-        // connect 
+    switch (context) {
+      case 'admin/ep_profile_modal': {
+        // connect
         socket = io.connect(room, {path: `${baseURL}socket.io`, resource});
         socket.on('load-settings-result', (data) => {
           shared.setFormData($('#settings-form'), data);
@@ -33,66 +30,47 @@ const documentReady = (() => {
 
         socket.emit('load-settings');
         break;
-
       }
-      case "admin/ep_profile_modal_analytics" :{
+      case 'admin/ep_profile_modal_analytics': {
         socket = io.connect(room, {path: `${baseURL}socket.io`, resource});
- 
+
 
         socket.on('load-pads-result', (data) => {
-          console.log("load-pads",data);
-          $.each(data, function(index,value){
-            $('#pads').append(`<option value="${value}">${value}</option>`)
-          })
-       
+          console.log('load-pads', data);
+          $.each(data, (index, value) => {
+            $('#pads').append(`<option value="${value}">${value}</option>`);
+          });
         });
         socket.on('load-analytics-result', (data) => {
-          console.log("load-analytics",data);
-          // $.each(data.email_contributed_users, function(index,value){
-          //   $('#users').append(`
-          //   <tr>
-          //     <td>${value.email}</td>
-          //     <td>${value.data.created_at_date}</td>
-          //     <td>-</td>
-          //   </tr>
-          //   `)
-          // })
-
-          $.each(data.pad_users_data, function(index,value){
-            if(value.userId){
+          console.log('load-analytics', data);
+          $.each(data.pad_users_data, (index, value) => {
+            if (value.userId) {
               $('#users').append(`
               <tr style="height: 0;">
                 <td>${value.email || value.userId}</td>
                 <td>${value.username}</td>
                 <td>${value.createDate}</td>
                 <td>${value.last_seen_date}</td>
-                <td>${value.verifiedDate || "-"}</td>
-                <td>${(value.verified) ? "Verified" : "unconfirmed"}</td>
+                <td>${value.verifiedDate || '-'}</td>
+                <td>${(value.verified) ? 'Verified' : 'unconfirmed'}</td>
               </tr>
-              `)
+              `);
             }
-
-          })
-
+          });
         });
-        
 
-        $('#pads').on('change', function() {
-          socket.emit('load-analytics',{pad:this.value});
 
-          
+        $('#pads').on('change', function () {
+          socket.emit('load-analytics', {pad: this.value});
         });
 
         socket.emit('load-pads');
         break;
-
       }
-      default : {
+      default: {
         return [];
       }
-
     }
-
   };
   return documentReady;
 })();

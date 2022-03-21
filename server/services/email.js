@@ -1,10 +1,8 @@
 'use strict';
 const nodemailer = require('nodemailer');
-const settings = require('ep_etherpad-lite/node/utils/Settings');
-const db = require('ep_etherpad-lite/node/db/DB');
 
 module.exports = {
-  sendMail: async (settings, message) => new Promise(async (resolve, reject) => {
+  sendMail: async (settings, message) => new Promise((resolve, reject) => {
     try {
       const transporter = nodemailer.createTransport({
         host: settings.settingsEmailSmtp,
@@ -16,8 +14,9 @@ module.exports = {
         },
       });
       // send mail with defined transport object
-      const info = await transporter.sendMail({
-        from: `${settings.settingsEmailFromName} <${settings.settingsEmailFromEmail}>`, // sender address
+      const info = transporter.sendMail({
+        from: `${settings.settingsEmailFromName} <
+        ${settings.settingsEmailFromEmail}>`, // sender address
         to: message.to, // list of receivers
         subject: message.subject, // Subject line
         // text: message.text,"Hello world?", // plain text body

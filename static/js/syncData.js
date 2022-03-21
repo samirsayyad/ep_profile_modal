@@ -1,42 +1,31 @@
+'use strict';
+
 // var shared = require('./shared');
 
 
-const syncData = (() => {
-  const syncAllFormsData = function (userId, data) {
-    if (data === undefined)
-      return;
+(() => {
+  const syncAllFormsData = (userId, data) => {
+    if (data === undefined) return;
     // users List
-    const user_selector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
-    if (user_selector.length) {
-      const usernameBox = user_selector.children('.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_username');
+    const userSelector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
+    if (userSelector.length) {
+      const usernameBox = userSelector.children('.ep_profile_user_list_profile_userDesc').children(
+          '.ep_profile_user_list_username');
       usernameBox.children('.ep_profile_user_list_username_text').text(data.username);
 
-      user_selector.children('.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_profile_desc').text(data.about);
+      userSelector.children('.ep_profile_user_list_profile_userDesc').children(
+          '.ep_profile_user_list_profile_desc').text(data.about);
       if (data.homepage) {
         const homepageElem = usernameBox.children('.ep_profile_contributor_link_container');
         homepageElem.attr({href: shared.getValidUrl(data.homepage)});
       }
       usernameBox.children('.ep_profile_contributor_status').text('Online');
     }
-    // users list
-
-
-    // profile card
-
-    // $("#ep_profile_users_profile_name").text(data.username)
-    // $("#ep_profile_users_profile_desc").text(data.about)
-    // $("#ep_profile_users_profile_homepage").attr({"href":data.homepage})
-    // $("#ep_profile_users_profile_homepage").text(data.homepage)
-
-    // profile card
-
-    // profile modal
-
     $('#ep_profile_modal-username').val(data.username);
     $('#ep_profile_modal-about').val(data.about);
     $('#ep_profile_modal-homepage').val(data.homepage);
     $('#ep_profile_modal-email').val(data.email);
-    if (data.verified == true) {
+    if (data.verified === true) {
       $('#ep_profile_modal_verification').attr('data-verification-status', 'true');
       $('#ep_profile_modal_verification').text('Verified');
     } else {
@@ -51,13 +40,15 @@ const syncData = (() => {
 
     // profile modal
   };
-  const syncGeneralFormsData = function (userId, data) {
-    const user_selector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
-    if (user_selector.length) {
-      const usernameBox = user_selector.children('.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_username');
+  const syncGeneralFormsData = (userId, data) => {
+    const userSelector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
+    if (userSelector.length) {
+      const usernameBox = userSelector.children('.ep_profile_user_list_profile_userDesc').children(
+          '.ep_profile_user_list_username');
       usernameBox.children('.ep_profile_user_list_username_text').text(data.username);
 
-      user_selector.children('.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_profile_desc').text(data.about);
+      userSelector.children('.ep_profile_user_list_profile_userDesc').children(
+          '.ep_profile_user_list_profile_desc').text(data.about);
 
       const homepageElem = usernameBox.children('.ep_profile_contributor_link_container');
       homepageElem.attr({href: shared.getValidUrl(data.homepage)});
@@ -68,7 +59,7 @@ const syncData = (() => {
   };
 
 
-  const resetProfileModalFields = function () {
+  const resetProfileModalFields = () => {
     $('#ep_profile_modal-username').val('');
     $('#ep_profile_modal-about').val('');
     $('#ep_profile_modal-homepage').val('');
@@ -79,12 +70,14 @@ const syncData = (() => {
     $('#ep_profile_modal_homepage').val('');
     $('#ep_profile_modalForm_about_yourself').val('');
   };
-  const resetGeneralFields = function (userId) {
-    const user_selector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
-    if (user_selector.length) {
-      const usernameBox = user_selector.children('.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_username');
+  const resetGeneralFields = (userId) => {
+    const userSelector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
+    if (userSelector.length) {
+      const usernameBox = userSelector.children('.ep_profile_user_list_profile_userDesc').children(
+          '.ep_profile_user_list_username');
       usernameBox.children('.ep_profile_user_list_username_text').text('');
-      user_selector.children('.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_profile_desc').text('');
+      userSelector.children('.ep_profile_user_list_profile_userDesc').children(
+          '.ep_profile_user_list_profile_desc').text('');
       const homepageElem = usernameBox.children('.ep_profile_contributor_link_container');
       homepageElem.attr({href: ''});
       usernameBox.children('.ep_profile_contributor_status').text('');

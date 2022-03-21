@@ -1,3 +1,7 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable node/no-unpublished-require */
+'use strict';
+
 const gulp = require('gulp');
 const concat = require('gulp-concat');
 const inject = require('gulp-inject-string');
@@ -22,7 +26,7 @@ const jsfiles = {
   syncData: './static/js/syncData.js',
 };
 
-const cssFiles = ['./static/css/**/*.css']
+const cssFiles = ['./static/css/**/*.css'];
 
 const gulpifyJs = () => gulp.src(Object.entries(jsfiles).map((x) => x[1]))
     .pipe(mode.production(sourcemaps.init()))
@@ -35,17 +39,13 @@ const gulpifyJs = () => gulp.src(Object.entries(jsfiles).map((x) => x[1]))
 
 gulp.task('js', gulpifyJs);
 
-gulp.task('minify-css', () => {
-  return gulp.src('static/css/**/*.css')
+gulp.task('minify-css', () => gulp.src('static/css/**/*.css')
     .pipe(cleanCSS({compatibility: 'ie8'}))
-    .pipe(gulp.dest('static/dist/css'));
-});
+    .pipe(gulp.dest('static/dist/css')));
 
-gulp.task('minify-image', () => {
-	return gulp.src('static/img/*')
-        .pipe(imagemin())
-        .pipe(gulp.dest('static/dist/img'))
-})
+gulp.task('minify-image', () => gulp.src('static/img/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('static/dist/img')));
 
 gulp.task('bump', () => gulp.src('./package.json')
     .pipe(bump())
@@ -67,11 +67,16 @@ gulp.task('git:push', (cb) => {
 });
 
 gulp.task('watch', () => {
-	const watchFiles = [
-		...Object.entries(jsfiles).map((x) => x[1]),
-		...cssFiles
-	]
+  const watchFiles = [
+    ...Object.entries(jsfiles).map((x) => x[1]),
+    ...cssFiles,
+  ];
   gulp.watch(watchFiles, gulp.series(['js', 'minify-css']));
 });
 
-gulp.task('build', gulp.series(['js','minify-css', 'minify-image', 'bump', 'git:publish', 'git:push']));
+gulp.task('build', gulp.series(['js',
+  'minify-css',
+  'minify-image',
+  'bump',
+  'git:publish',
+  'git:push']));
