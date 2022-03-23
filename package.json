@@ -63,7 +63,7 @@
     "gravatar": "^1.8.2",
     "image-size": "^1.0.1 ",
     "node-fetch": "^2",
-    "nodemailer": "^6.7.3",
+    "nodemailer": "^6.6.1",
     "path": "^0.12.7",
     "resize-img": "^2.0.0",
     "sharp": "^0.30.3",
