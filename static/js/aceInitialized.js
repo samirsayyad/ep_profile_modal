@@ -50,19 +50,19 @@ const aceInitialized = (() => {
     $('body').append(modal);
     // template generate
 
-    const style = `background : url(/static/getUserProfileImage/
-    ${userId}/${clientVars.padId}) no-repeat 50% 50% ; background-size :32px`;
+    const style = `background : url(/static/getUserProfileImage/${
+      userId}/${clientVars.padId}) no-repeat 50% 50% ; background-size :32px`;
     const onlineUsers = pad.collabClient.getConnectedUsers();
     const usersListHTML = contributors.createHTMLforUserList(
         clientVars.ep_profile_modal.contributed_authors_count,
         onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified);
 
     $('#pad_title').append(
-        `<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>
-      ${usersListHTML}</div><div class='ep-profile-button' id='ep-profile-button'>
+        `<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>${
+          usersListHTML}</div><div class='ep-profile-button' id='ep-profile-button'>
       <div id='ep-profile-image' style='${style}' /></div></div>`);
 
-    if (clientVars.ep_profile_modal.usertatus === '2') {
+    if (clientVars.ep_profile_modal.userStatus === '2') {
       window.userStatus = 'login';
     } else {
       window.userStatus = 'out';
