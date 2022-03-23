@@ -1,3 +1,5 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable camelcase */
 'use strict';
 
 const shared = require('../helpers/shared');
@@ -161,12 +163,12 @@ const statisticsHandling = async (message) => {
   if (contributor === -1) {
     const newContributor = {};
     newContributor.userId = message.userId;
-    newContributor.data = {lastSeenTimestamp: datetime.getTime(),
-      lastSeenDate: datetime.toISOString().slice(0, 10)};
+    newContributor.data = {last_seen_timestamp: datetime.getTime(),
+      last_seen_date: datetime.toISOString().slice(0, 10)};
     contrubutedUsers.push(newContributor);
   } else {
     contrubutedUsers[contributor].data =
-    {lastSeenTimestamp: datetime.getTime(), lastSeenDate: datetime.toISOString().slice(0, 10)};
+    {last_seen_timestamp: datetime.getTime(), last_seen_date: datetime.toISOString().slice(0, 10)};
   }
   await db.set(`ep_profile_modal_contributedList_${message.padId}`, contrubutedUsers);
 
@@ -180,16 +182,16 @@ const statisticsHandling = async (message) => {
   const padsOfUser = await db.get(`ep_profile_modal_pads_of_user_${message.userId}`) || [];
   const lastUserIndex = padsOfUser.findIndex((i) => i.padId === message.padId);
   if (lastUserIndex !== -1) {
-    padsOfUser[lastUserIndex].data.lastSeenDate = _date;
-    padsOfUser[lastUserIndex].data.lastSeenTimestamp = _timestamp;
+    padsOfUser[lastUserIndex].data.last_seen_date = _date;
+    padsOfUser[lastUserIndex].data.last_seen_timestamp = _timestamp;
   } else {
     padsOfUser.push({
       padId: message.padId,
       data: {
-        lastSeenTimestamp: _timestamp,
-        lastSeenDate: _date,
-        createdAtTimestamp: _timestamp,
-        createdAtDate: _date,
+        last_seen_timestamp: _timestamp,
+        last_seen_date: _date,
+        created_at_timestamp: _timestamp,
+        created_at_date: _date,
       },
     });
   }

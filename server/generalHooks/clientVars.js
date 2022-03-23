@@ -1,3 +1,5 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable camelcase */
 'use strict';
 
 const db = require('ep_etherpad-lite/node/db/DB');
@@ -17,8 +19,8 @@ exports.clientVars = async (hook, context, callback) => {
   const defaultImg = `/static/getUserProfileImage/
   ${context.clientVars.userId}/${padId}t=${context.clientVars.serverTimestamp}`;
   const datetime = new Date();
-  user.lastSeenTimestamp = datetime.getTime();
-  user.lastSeenDate = datetime.toISOString().slice(0, 10);
+  user.last_seen_timestamp = datetime.getTime();
+  user.last_seen_date = datetime.toISOString().slice(0, 10);
   db.set(`ep_profile_modal:${context.clientVars.userId}_${padId}`, user);
   //* collect user If just enter to pad */
   // // counting how many email input
@@ -33,8 +35,6 @@ exports.clientVars = async (hook, context, callback) => {
   // // counting how many email input
 
   return {
-    // eslint-disable-next-line eslint-comments/disable-enable-pair
-    /* eslint-disable camelcase */
     ep_profile_modal: {
       profileImageUrl: defaultImg,
       userEmail: user.email || '',

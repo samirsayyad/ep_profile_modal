@@ -1,3 +1,5 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable camelcase */
 'use strict';
 
 const db = require('ep_etherpad-lite/node/db/DB');
@@ -240,16 +242,16 @@ exports.expressConfigure = (hookName, context) => {
           await db.get(`ep_profile_modal_email_contributed_${padId}`) || [];
           const lastUserIndex = emailContributedUsers.findIndex((i) => i.email === user.email);
           if (lastUserIndex !== -1) {
-            emailContributedUsers[lastUserIndex].data.lastSeenTimestamp = _timestamp;
-            emailContributedUsers[lastUserIndex].data.lastSeenDate = _date;
+            emailContributedUsers[lastUserIndex].data.last_seen_timestamp = _timestamp;
+            emailContributedUsers[lastUserIndex].data.last_seen_date = _date;
           } else {
             emailContributedUsers.push({
               email: user.email,
               data: {
-                lastSeenTimestamp: _timestamp,
-                lastSeenDate: _date,
-                createdAtTimestamp: _timestamp,
-                createdAtDate: _date,
+                last_seen_timestamp: _timestamp,
+                last_seen_date: _date,
+                created_at_timestamp: _timestamp,
+                created_at_date: _date,
               },
             });
           }
