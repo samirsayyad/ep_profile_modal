@@ -57,16 +57,16 @@
   "homepage": "https://github.com/samirsayyad/ep_profile_modal#readme",
   "dependencies": {
     "async": "^3.2.3",
-    "aws-sdk": "^2.1097.0",
+    "aws-sdk": "^2.1098.0",
     "buffer-image-size": "^0.6.4",
-    "busboy": "^1.4.0",
-    "gravatar": "^1.8.0",
-    "image-size": "^0.9.1",
-    "node-fetch": "^2.6.0",
-    "nodemailer": "^6.4.11",
+    "busboy": "^1.5.0",
+    "gravatar": "^1.8.2",
+    "image-size": "^1.0.1 ",
+    "node-fetch": "^2",
+    "nodemailer": "^6.7.3",
     "path": "^0.12.7",
     "resize-img": "^2.0.0",
-    "sharp": "^0.30.1",
+    "sharp": "^0.30.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
