@@ -415,7 +415,8 @@ exports.expressConfigure = (hookName, context) => {
         });
         const newFileName = uuid.v4();
 
-        bb.on('file', async (fieldname, file, filename, encoding, mimetype) => {
+        bb.on('file', async (name, file, info) => {
+          const {filename} = info;
           const fileType = path.extname(filename);
           const fileRead = [];
           const user = await db.get(`ep_profile_modal:${userId}_${padId}`) || {};

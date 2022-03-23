@@ -1,6 +1,9 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 
-(() => {
+const postAceInit = (() => {
   const __LOGOUT = '1';
   const postAceInit = (hook, context) => {
     usersProfileSection.initiateListeners();
@@ -170,7 +173,7 @@
     });
 
     $('#ep-profile-button').on('click', () => {
-      if (window.user_status === 'login') {
+      if (window.userStatus === 'login') {
         if ($('#ep_profile_modal').hasClass('ep_profile_modal-show')) {
           $('#ep_profile_modal').removeClass('ep_profile_modal-show');
         } else {

@@ -1,8 +1,11 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 const __LOGIN = '2';
 const __LOGOUT = '1';
 
-(() => {
+const helper = (() => {
   const userLogin = (data) => {
     window.userStatus = 'login';
     clientVars.ep_profile_modal.userStatus = __LOGIN;

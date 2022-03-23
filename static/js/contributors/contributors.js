@@ -1,7 +1,10 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 
 
-(() => {
+const contributors = (() => {
   const defaultImg = '../static/plugins/ep_profile_modal/static/dist/img/user.png';
 
   const createHTMLforUserList = (total, online, padId, userVerify) => { // generate avatar too
@@ -153,9 +156,10 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
       if (value.lastSeenDate !== '') {
         if (value.userName !== 'Anonymous') {
           if (!$(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).length) {
+            console.log('value', value);
             const userListHtml = getHtmlOfUsersList(
                 value.userId, value.userName, value.imageUrl,
-                false, value.about, value.homepage, shared.getCustomDate(value.last_seen_date));
+                false, value.about, value.homepage, shared.getCustomDate(value.lastSeenDate));
             const offlinesDateSelector = $('#ep_profile_user_list_offline');
             if (offlinesDateSelector.length) {
               offlinesDateSelector.append(userListHtml);
@@ -199,7 +203,7 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
           } else {
             const userListHtml = getHtmlOfUsersList(
                 value.userId, 'Anonymous', value.imageUrl, 'off_Anonymous',
-                value.about, value.homepage, shared.getCustomDate(value.last_seen_date));
+                value.about, value.homepage, shared.getCustomDate(value.lastSeenDate));
             const selectorOfflinesDate = $('#ep_profile_user_list_offline');
             if (selectorOfflinesDate.length) {
               selectorOfflinesDate.append(userListHtml);
@@ -408,11 +412,11 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     $.each(allUsersList, (key, value) => {
       const result = $.grep(onlineUsers, (e) => e.userId === value.userId);
 
-      if (value.last_seen_date !== '' && value.userName !== 'Anonymous') {
+      if (value.lastSeenDate !== '' && value.userName !== 'Anonymous') {
         const userListHtml = getHtmlOfUsersList(
             value.userId, value.userName,
             value.imageUrl, false, value.about, value.homepage,
-            (result.length) ? 'Online' : shared.getCustomDate(value.last_seen_date)
+            (result.length) ? 'Online' : shared.getCustomDate(value.lastSeenDate)
         );
 
         containerPaginationList.append(userListHtml);

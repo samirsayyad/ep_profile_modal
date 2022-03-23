@@ -33,7 +33,9 @@
       "handleClientMessage": true,
       "helper": true,
       "shared": true,
-      "syncData": true
+      "syncData": true,
+      "__LOGIN" : true,
+      "__LOGOUT" : true
     }
   },
   "repository": {

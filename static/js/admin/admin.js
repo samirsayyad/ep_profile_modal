@@ -1,7 +1,10 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 
 
-(() => {
+const documentReady = (() => {
   const documentReady = (hooks, context, cb) => {
     let socket;
     const loc = document.location;
@@ -50,7 +53,7 @@
                 <td>${value.email || value.userId}</td>
                 <td>${value.username}</td>
                 <td>${value.createDate}</td>
-                <td>${value.last_seen_date}</td>
+                <td>${value.lastSeenDate}</td>
                 <td>${value.verifiedDate || '-'}</td>
                 <td>${(value.verified) ? 'Verified' : 'unconfirmed'}</td>
               </tr>

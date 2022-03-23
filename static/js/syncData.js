@@ -1,9 +1,12 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 
 // var shared = require('./shared');
 
 
-(() => {
+const syncData = (() => {
   const syncAllFormsData = (userId, data) => {
     if (data === undefined) return;
     // users List

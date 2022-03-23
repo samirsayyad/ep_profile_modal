@@ -1,7 +1,10 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 
 
-(() => {
+const handleClientMessage = (() => {
   const handleClientMessage_USER_NEWINFO = (hook, context) => {
     const padId = pad.getPadId();
 

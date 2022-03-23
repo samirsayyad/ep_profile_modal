@@ -1,11 +1,13 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-escape */
 'use strict';
 
-const __LOGIN = '2';
+// const __LOGIN = '2';
 // var helper = require('./helper');
 
-(() => {
+const shared = (() => {
   const resetAllProfileImage = (userId, padId) => {
     $.ajax({
       url: `/static/${padId}/pluginfw/ep_profile_modal/resetProfileImage/${userId}`,
@@ -190,6 +192,7 @@ const __LOGIN = '2';
     return `Last seen ${date[2]} ${getMonthName(date[1])} ${date[0]}`;
   };
   const getCustomDate = (date) => {
+    console.log(date, 'date');
     if (date === 'today' || date === 'yesterday') return `Last seen ${date}`;
     date = date.split('-');
     return `Last seen ${date[2]}/${date[1]}/${date[0]}`;

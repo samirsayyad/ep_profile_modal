@@ -1,7 +1,10 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 
 
-(() => {
+const aceInitialized = (() => {
   const aceInitialized = (hook, context) => {
     const bindEvent = (element, eventName, eventHandler) => {
       if (element.addEventListener) {
@@ -59,7 +62,7 @@
       ${usersListHTML}</div><div class='ep-profile-button' id='ep-profile-button'>
       <div id='ep-profile-image' style='${style}' /></div></div>`);
 
-    if (clientVars.ep_profile_modal.user_status === '2') {
+    if (clientVars.ep_profile_modal.usertatus === '2') {
       window.userStatus = 'login';
     } else {
       window.userStatus = 'out';

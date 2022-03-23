@@ -1,9 +1,13 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
+
 
 // var shared = require('../shared');
 // var helper = require('../helper');
 
-(() => {
+const profileForm = (() => {
   const showModal = () => {
     $('#ep_profile_formModal').addClass('ep_profile_formModal_show');
     $('#ep_profile_formModal_overlay').addClass('ep_profile_formModal_overlay_show');
@@ -321,9 +325,10 @@
       if (e.keyCode === 13) {
         // Cancel the default action on keypress event
         e.preventDefault();
-        currentFs = $(this);
-        nextFs = $(this).next();
-        nextHandler(currentFs, nextFs);
+        // currentFs = $(this);
+        // nextFs = $(this).next();
+        // nextHandler(currentFs, nextFs);
+        $('.next').click();
       }
     });
     $('.next').click(function () {

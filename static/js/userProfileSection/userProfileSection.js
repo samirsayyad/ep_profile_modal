@@ -1,8 +1,11 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 'use strict';
 
 // var shared = require('../shared');
 
-(() => {
+const usersProfileSection = (() => {
   const initiate = (clientVars) => {
     const modal = $('#ep_profile_users_profile_script').tmpl(clientVars);
     $('body').append(modal);
