@@ -13,18 +13,18 @@ const aceInitialized = (() => {
         element.attachEvent(`on${eventName}`, eventHandler);
       }
     };
-    bindEvent(window, 'message',
-        (e) => {
-          const eventName = e.data.eventName;
-          const data = e.data.data;
 
-          if (eventName === 'showEtherpadModal') {
-            profileForm.showModal();
-          }
-          if (eventName === 'showProfileDetailModal') {
-            $('#usersIconList').trigger('avatarClick', data.userId);
-          }
-        });
+    bindEvent(window, 'message', (e) => {
+      const eventName = e.data.eventName;
+      const data = e.data.data;
+
+      if (eventName === 'showEtherpadModal') {
+        profileForm.showModal();
+      }
+      if (eventName === 'showProfileDetailModal') {
+        $('#usersIconList').trigger('avatarClick', data.userId);
+      }
+    });
 
 
     const userId = pad.getUserId();
@@ -50,17 +50,39 @@ const aceInitialized = (() => {
     $('body').append(modal);
     // template generate
 
-    const style = `background : url(/static/getUserProfileImage/${
-      userId}/${clientVars.padId}) no-repeat 50% 50% ; background-size :32px`;
+    const style = `
+      background : url(/static/getUserProfileImage/${userId}/${clientVars.padId}) no-repeat 50% 50%;
+      background-size :32px
+    `;
+
     const onlineUsers = pad.collabClient.getConnectedUsers();
     const usersListHTML = contributors.createHTMLforUserList(
         clientVars.ep_profile_modal.contributed_authors_count,
-        onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified);
+        onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified
+    );
 
-    $('#pad_title').append(
-        `<div class='ep_profile_modal_header'><div class='userlist' id='userlist'>${
-          usersListHTML}</div><div class='ep-profile-button' id='ep-profile-button'>
-      <div id='ep-profile-image' style='${style}' /></div></div>`);
+    if (!$('body').hasClass('mobileView')) {
+      if ($('#pad_title').length === 0) {
+        $('body').prepend(`
+          <div id='pad_title'>
+            <div class="title_container">
+              <span contenteditable style="color:#000" id='title'>Loading...</span>
+            </div>
+            <button id='save_title'></button>
+          </div>
+        `);
+      }
+      $('#pad_title').append(`
+        <div class='ep_profile_modal_header'>
+          <div class='userlist' id='userlist'>
+          ${usersListHTML}
+          </div>
+          <div class='ep-profile-button' id='ep-profile-button'>
+          <div id='ep-profile-image' style='${style}' /></div>
+        </div>
+      `);
+    }
+
 
     if (clientVars.ep_profile_modal.userStatus === '2') {
       window.userStatus = 'login';
@@ -77,7 +99,9 @@ const aceInitialized = (() => {
       padId: clientVars.padId,
       data: clientVars.ep_profile_modal,
     };
+
     pad.collabClient.sendMessage(message);
+
     if (clientVars.ep_profile_modal.userName === 'Anonymous') {
       pad.collabClient.updateUserInfo({
         userId,
@@ -85,8 +109,6 @@ const aceInitialized = (() => {
         colorId: '#b4b39a',
       });
     }
-    // }
-
 
     return [];
   };

@@ -2,6 +2,7 @@
 	"parts":[
 		{
 			"name":"profile_modal",
+			"pre": ["ep_set_title_on_pad/static", "ep_mobileView/static"],
 			"client_hooks":{
 				"postAceInit":"ep_profile_modal/static/js/index",
 				"aceInitialized":"ep_profile_modal/static/js/index",
