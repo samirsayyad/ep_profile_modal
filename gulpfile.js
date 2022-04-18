@@ -28,10 +28,15 @@ const jsfiles = {
 
 const cssFiles = ['./static/css/**/*.css'];
 
-const gulpifyJs = () => gulp.src(Object.entries(jsfiles).map((x) => x[1]))
+const gulpifyJs = () => gulp
+    .src(Object.entries(jsfiles).map((x) => x[1]))
     .pipe(mode.production(sourcemaps.init()))
     .pipe(concat('ep.profile.modal.mini.js'))
-    .pipe(inject.append(`return {\n${Object.entries(jsfiles).map((x) => `${x[0]}\n`)}}\n`))
+    .pipe(
+        inject.append(
+            `return {\n${Object.entries(jsfiles).map((x) => `${x[0]}\n`)}}\n`
+        )
+    )
     .pipe(inject.wrap('exports.moduleList = (()=>{\n', '})();'))
     .pipe(mode.production(uglify(/* options */)))
     .pipe(mode.production(sourcemaps.write('.')))
@@ -39,25 +44,28 @@ const gulpifyJs = () => gulp.src(Object.entries(jsfiles).map((x) => x[1]))
 
 gulp.task('js', gulpifyJs);
 
-gulp.task('minify-css', () => gulp.src('static/css/**/*.css')
+gulp.task('minify-css', () => gulp
+    .src('static/css/**/*.css')
     .pipe(cleanCSS({compatibility: 'ie8'}))
-    .pipe(gulp.dest('static/dist/css')));
+    .pipe(gulp.dest('static/dist/css'))
+);
 
-gulp.task('minify-image', () => gulp.src('static/img/*')
-    .pipe(imagemin())
-    .pipe(gulp.dest('static/dist/img')));
+gulp.task('minify-image', () => gulp.src(
+    'static/img/*').pipe(imagemin()).pipe(gulp.dest('static/dist/img'))
+);
 
-gulp.task('bump', () => gulp.src('./package.json')
-    .pipe(bump())
-    .pipe(gulp.dest('./')));
+gulp.task('bump', () => gulp.src('./package.json').pipe(bump()).pipe(gulp.dest('./'))
+);
 
-gulp.task('git:publish', () => gulp.src([
-  './static/dist/js/ep.profile.modal.mini.js',
-  './static/dist/js/ep.profile.modal.mini.js.map',
-  './package.json',
-])
+gulp.task('git:publish', () => gulp
+    .src([
+      './static/dist/js/ep.profile.modal.mini.js',
+      './static/dist/js/ep.profile.modal.mini.js.map',
+      './package.json',
+    ])
     .pipe(git.add())
-    .pipe(git.commit('build, version')));
+    .pipe(git.commit('build, version'))
+);
 
 gulp.task('git:push', (cb) => {
   git.push('origin', (err) => {
@@ -67,16 +75,18 @@ gulp.task('git:push', (cb) => {
 });
 
 gulp.task('watch', () => {
-  const watchFiles = [
-    ...Object.entries(jsfiles).map((x) => x[1]),
-    ...cssFiles,
-  ];
+  const watchFiles = [...Object.entries(jsfiles).map((x) => x[1]), ...cssFiles];
   gulp.watch(watchFiles, gulp.series(['js', 'minify-css']));
 });
 
-gulp.task('build', gulp.series(['js',
-  'minify-css',
-  'minify-image',
-  'bump',
-  'git:publish',
-  'git:push']));
+gulp.task(
+    'build',
+    gulp.series([
+      'js',
+      'minify-css',
+      'minify-image',
+      'bump',
+      'git:publish',
+      'git:push',
+    ])
+);

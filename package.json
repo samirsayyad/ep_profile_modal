@@ -34,8 +34,8 @@
       "helper": true,
       "shared": true,
       "syncData": true,
-      "__LOGIN" : true,
-      "__LOGOUT" : true
+      "__LOGIN": true,
+      "__LOGOUT": true
     }
   },
   "repository": {
@@ -87,6 +87,7 @@
     "gulp-inject-string": "^1.1.2",
     "gulp-mode": "^1.0.2",
     "gulp-sourcemaps": "^3.0.0",
-    "gulp-uglify-es": "^2.0.0"
+    "gulp-uglify-es": "^2.0.0",
+    "prettier": "2.6.2"
   }
 }

@@ -9,9 +9,12 @@ const staticVars = require('../helpers/statics');
 exports.clientVars = async (hook, context, callback) => {
   const padId = context.pad.id;
   let formPassed = null;
-  let user = await db.get(`ep_profile_modal:${context.clientVars.userId}_${padId}`) || false;
+  let user =
+    (await db.get(`ep_profile_modal:${context.clientVars.userId}_${padId}`)) ||
+    false;
   if (!user) {
-    user = await db.get(`ep_profile_modal:${context.clientVars.userId}`) || {};
+    user =
+      (await db.get(`ep_profile_modal:${context.clientVars.userId}`)) || {};
     formPassed = false;
   } else {
     formPassed = user.form_passed || false;
@@ -27,11 +30,12 @@ exports.clientVars = async (hook, context, callback) => {
 
   const emailVerified = false;
 
-
   //* collect user If just enter to pad */
-  const padUsers = await db.get(`ep_profile_modal_contributed_${padId}`) || [];
+  const padUsers =
+    (await db.get(`ep_profile_modal_contributed_${padId}`)) || [];
   // // counting how many email input
-  const emailContributedUsers = await db.get(`ep_profile_modal_email_contributed_${padId}`) || [];
+  const emailContributedUsers =
+    (await db.get(`ep_profile_modal_email_contributed_${padId}`)) || [];
   // // counting how many email input
 
   return {
@@ -46,7 +50,6 @@ exports.clientVars = async (hook, context, callback) => {
       formPassed,
       verified: user.verified || emailVerified,
       // verified_users,
-
     },
   };
 };

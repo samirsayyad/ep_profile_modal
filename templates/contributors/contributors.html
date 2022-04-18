@@ -1,56 +1,89 @@
 <script id="ep_profile_modal_user_list_script" type="text/html">
-    <div class='ep_profile_modal_user_list' id='ep_profile_modal_user_list' data-page="1" data-pageLoaded="false">
-        <div class="ep_profile_user_list_date_title_header" id="ep_profile_user_list_date_title">
-            <div class='ep_profile_header_of_contributors'> Contributors 
-            </div>
-            <div id='ep_profile_modal_user_list_close' class="ep_prfile_close_icon"></div>
-        </div>
-        <div id="contributorsLoading" class="loadingLogo animationOn" style="width: 25%;margin:auto"></div>
-
-        <div id="ep_profile_contributors_scroll" class="ep_profile_contributors_scroll">
-
-            <div id="ep_profile_user_list_container" class="ep_profile_user_list_container" >
-
-                <div data-anonymouseCount="1" data-user-ids='${userId}' data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}" class='ep_profile_user_row'>
-           
-                    <div id="ep_profile_user_img" class="ep_profile_user_img" style="background: url(/static/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ;" ></div>
-            
-                    <div class="ep_profile_user_list_profile_userDesc">
-            
-                        <div class="ep_profile_user_list_username">
-                            <div class="ep_profile_user_list_username_text"  id="ep_profile_users_profile_name" >
-                                ${(ep_profile_modal.userName) ? ep_profile_modal.userName : "Anonymous" } 
-                            </div>
-                            
-                            <div class="ep_profile_contributor_status">
-                                Online
-                            </div>
-                        </div>
-                        <p class="ep_profile_user_list_profile_desc" id="ep_profile_users_profile_desc">
-                            ${(ep_profile_modal.about) ? ep_profile_modal.about : "" } 
-    
-                        </p>
-            
-                    </div>
-                </div>
-                
-    
-            </div>
-    
-    
-            <div id="ep_profile_user_list_container_off" class="ep_profile_user_list_container_off" >
-    
-            </div>
-            <div id="ep_profile_user_list_container_pagination" class="ep_profile_user_list_container_off" >
-    
-            </div>
-            <div class="loadMoreContainer">
-                <div id="loadMoreLoading" class="loadingLogo animationOn" style="height: 48px;margin:auto;display:none"></div>
-                <input value="Load more"  id="ep_profile_modal_load_more_contributors" type="button" class="ep_profile_modal_load_more_contributors"> 
-            </div>
-            
-
-        </div>
-
+  <div
+    class="ep_profile_modal_user_list"
+    id="ep_profile_modal_user_list"
+    data-page="1"
+    data-pageLoaded="false"
+  >
+    <div
+      class="ep_profile_user_list_date_title_header"
+      id="ep_profile_user_list_date_title"
+    >
+      <div class="ep_profile_header_of_contributors">Contributors</div>
+      <div
+        id="ep_profile_modal_user_list_close"
+        class="ep_prfile_close_icon"
+      ></div>
     </div>
+    <div
+      id="contributorsLoading"
+      class="loadingLogo animationOn"
+      style="width: 25%;margin:auto"
+    ></div>
+
+    <div
+      id="ep_profile_contributors_scroll"
+      class="ep_profile_contributors_scroll"
+    >
+      <div
+        id="ep_profile_user_list_container"
+        class="ep_profile_user_list_container"
+      >
+        <div
+          data-anonymouseCount="1"
+          data-user-ids="${userId}"
+          data-id="user_list_${(ep_profile_modal.userName=='Anonymous') ? 'on_Anonymous' : userId}"
+          class="ep_profile_user_row"
+        >
+          <div
+            id="ep_profile_user_img"
+            class="ep_profile_user_img"
+            style="background: url(/static/getUserProfileImage/${clientVars.userId}/${clientVars.padId}?t=${clientVars.serverTimestamp}) no-repeat 50% 50% ; background-size : 69px ;"
+          ></div>
+
+          <div class="ep_profile_user_list_profile_userDesc">
+            <div class="ep_profile_user_list_username">
+              <div
+                class="ep_profile_user_list_username_text"
+                id="ep_profile_users_profile_name"
+              >
+                ${(ep_profile_modal.userName) ? ep_profile_modal.userName :
+                "Anonymous" }
+              </div>
+
+              <div class="ep_profile_contributor_status">Online</div>
+            </div>
+            <p
+              class="ep_profile_user_list_profile_desc"
+              id="ep_profile_users_profile_desc"
+            >
+              ${(ep_profile_modal.about) ? ep_profile_modal.about : "" }
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="ep_profile_user_list_container_off"
+        class="ep_profile_user_list_container_off"
+      ></div>
+      <div
+        id="ep_profile_user_list_container_pagination"
+        class="ep_profile_user_list_container_off"
+      ></div>
+      <div class="loadMoreContainer">
+        <div
+          id="loadMoreLoading"
+          class="loadingLogo animationOn"
+          style="height: 48px;margin:auto;display:none"
+        ></div>
+        <input
+          value="Load more"
+          id="ep_profile_modal_load_more_contributors"
+          type="button"
+          class="ep_profile_modal_load_more_contributors"
+        />
+      </div>
+    </div>
+  </div>
 </script>

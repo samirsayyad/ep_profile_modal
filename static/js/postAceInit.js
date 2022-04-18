@@ -53,7 +53,8 @@ const postAceInit = (() => {
 
     $('#userlist_count').on('click', () => {
       const page = $('#ep_profile_modal_user_list').attr('data-page') || 1;
-      const pageLoaded = $('#ep_profile_modal_user_list').attr('data-pageLoaded') || false;
+      const pageLoaded =
+        $('#ep_profile_modal_user_list').attr('data-pageLoaded') || false;
       const onlineListSelector = $('#ep_profile_user_list_container');
 
       if (pageLoaded !== 'true') {
@@ -67,10 +68,13 @@ const postAceInit = (() => {
             // setting a timeout
             // $('#contributorsLoading').show();
             $('#ep_profile_user_list_container').css({display: 'none'});
-            $('#ep_profile_modal_load_more_contributors').css({display: 'none'});
+            $('#ep_profile_modal_load_more_contributors').css({
+              display: 'none',
+            });
             onlineListSelector.css({display: 'none'});
           },
-          error: (xhr) => { // if error occured
+          error: (xhr) => {
+            // if error occured
             $('#contributorsLoading').css({display: 'none'});
             onlineListSelector.css({display: 'block'});
           },
@@ -81,9 +85,12 @@ const postAceInit = (() => {
             $('#ep_profile_modal_user_list').attr('data-pageLoaded', 'true');
             const onlineUsers = pad.collabClient.getConnectedUsers();
             contributors.manageOnlineOfflineUsers(
-                response.data, onlineUsers, pad.getUserId(), response.lastPage);
+                response.data,
+                onlineUsers,
+                pad.getUserId(),
+                response.lastPage
+            );
           },
-
         });
       }
     });
@@ -100,21 +107,31 @@ const postAceInit = (() => {
         beforeSend: () => {
           // setting a timeout
           $('#loadMoreLoading').show();
-          $('#ep_profile_modal_load_more_contributors').css({display: 'none'});
+          $('#ep_profile_modal_load_more_contributors').css({
+            display: 'none',
+          });
         },
-        error: (xhr) => { // if error occured
+        error: (xhr) => {
+          // if error occured
           $('#loadMoreLoading').hide();
-          $('#ep_profile_modal_load_more_contributors').css({display: 'block'});
+          $('#ep_profile_modal_load_more_contributors').css({
+            display: 'block',
+          });
         },
         success: (response) => {
-          $('#ep_profile_modal_load_more_contributors').css({display: 'block'});
+          $('#ep_profile_modal_load_more_contributors').css({
+            display: 'block',
+          });
           $('#loadMoreLoading').hide();
           $('#ep_profile_modal_user_list').attr('data-page', page);
           const onlineUsers = pad.collabClient.getConnectedUsers();
           contributors.manageOnlineOfflineUsers(
-              response.data, onlineUsers, pad.getUserId(), response.lastPage);
+              response.data,
+              onlineUsers,
+              pad.getUserId(),
+              response.lastPage
+          );
         },
-
       });
     });
 
@@ -133,8 +150,8 @@ const postAceInit = (() => {
       const oldText = $(this).text();
       if (verificationStatus !== 'true') {
         $.ajax({
-          url: `/static/${pad.getPadId()}/pluginfw/ep_profile_modal/sendVerificationEmail/${
-            pad.getUserId()}/null/null`,
+          url: `/static/${pad.getPadId()
+          }/pluginfw/ep_profile_modal/sendVerificationEmail/${pad.getUserId()}/null/null`,
           type: 'get',
           data: {},
           contentType: false,
@@ -143,17 +160,22 @@ const postAceInit = (() => {
             // setting a timeout
             $('#ep_profile_modal_verification').text('Sending...');
           },
-          error: (xhr) => { // if error occured
+          error: (xhr) => {
+            // if error occured
             $('#ep_profile_modal_verification').text('Error');
             setTimeout(() => {
               $('#ep_profile_modal_verification').text(oldText);
             }, 2000);
           },
           success: (response) => {
-            $('#ep_profile_modal_verification').text('Verification email has been sent.');
-            $('#ep_profile_modal_verification').attr('data-verification-status', 'true');
+            $('#ep_profile_modal_verification').text(
+                'Verification email has been sent.'
+            );
+            $('#ep_profile_modal_verification').attr(
+                'data-verification-status',
+                'true'
+            );
           },
-
         });
       }
       return false;
@@ -198,11 +220,10 @@ const postAceInit = (() => {
       }
     });
     $('#ep_profile_modal_close_ask').on('click', () => {
-      ($('#ep_profile_modal_ask').hasClass('ep_profile_modal-show'))
+      $('#ep_profile_modal_ask').hasClass('ep_profile_modal-show')
         ? $('#ep_profile_modal_ask').removeClass('ep_profile_modal-show')
         : $('#ep_profile_modal_ask').addClass('ep_profile_modal-show');
     });
-
 
     $('#ep_profile_modal_signout').on('click', () => {
       profileForm.resetModal();
@@ -219,7 +240,6 @@ const postAceInit = (() => {
         email: $('#ep_profile_hidden_email').val(),
         userId,
         padId,
-
       };
       clientVars.ep_profile_modal.userStatus = __LOGOUT;
       pad.collabClient.sendMessage(message); // Send the chat position message to the server
@@ -231,7 +251,6 @@ const postAceInit = (() => {
       $(`.avatar[data-id="user_${userId}"]`).attr({style: ''});
       helper.userLogout();
     });
-
 
     // upload image profile
     $('#profile_file').on('change', (e) => {
@@ -250,13 +269,13 @@ const postAceInit = (() => {
           // setting a timeout
           helper.refreshLoadingImage(userId, clientVars.padId);
         },
-        error: (xhr) => { // if error occured
+        error: (xhr) => {
+          // if error occured
           helper.refreshUserImage(userId, clientVars.padId);
         },
         success: (response) => {
           helper.refreshUserImage(userId, clientVars.padId);
         },
-
       });
     });
 

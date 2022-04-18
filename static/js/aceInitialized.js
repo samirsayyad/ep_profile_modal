@@ -3,7 +3,6 @@
 /* eslint-disable no-unused-vars */
 'use strict';
 
-
 const aceInitialized = (() => {
   const aceInitialized = (hook, context) => {
     const bindEvent = (element, eventName, eventHandler) => {
@@ -25,7 +24,6 @@ const aceInitialized = (() => {
         $('#usersIconList').trigger('avatarClick', data.userId);
       }
     });
-
 
     const userId = pad.getUserId();
     // if (!window.matchMedia('(max-width: 720px)').matches) {
@@ -58,7 +56,9 @@ const aceInitialized = (() => {
     const onlineUsers = pad.collabClient.getConnectedUsers();
     const usersListHTML = contributors.createHTMLforUserList(
         clientVars.ep_profile_modal.contributed_authors_count,
-        onlineUsers, clientVars.padId, clientVars.ep_profile_modal.verified
+        onlineUsers,
+        clientVars.padId,
+        clientVars.ep_profile_modal.verified
     );
 
     if (!$('body').hasClass('mobileView')) {
@@ -82,7 +82,6 @@ const aceInitialized = (() => {
         </div>
       `);
     }
-
 
     if (clientVars.ep_profile_modal.userStatus === '2') {
       window.userStatus = 'login';

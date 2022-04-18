@@ -1,11 +1,11 @@
 <script id="ep_profile_modal_avatar" type="text/html">
-    <div id='usersIconList' class='ep_profile_inlineAvatars'>
-        {{each(val) onlineUsers}}
-            <div class='avatar' 
-    style="background: url(/static/getUserProfileImage/${val.userId}/${padId}) no-repeat 50% 50% ; background-size : 26px; ${isInArray($verified_users,$val.userId)}">
-    </div>
+  <div id="usersIconList" class="ep_profile_inlineAvatars">
+    {{each(val) onlineUsers}}
+    <div
+      class="avatar"
+      style="background: url(/static/getUserProfileImage/${val.userId}/${padId}) no-repeat 50% 50% ; background-size : 26px; ${isInArray($verified_users,$val.userId)}"
+    ></div>
 
-
-        {{/each}}
-    </div>
+    {{/each}}
+  </div>
 </script>

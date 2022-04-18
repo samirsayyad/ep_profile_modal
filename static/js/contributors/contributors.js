@@ -3,26 +3,29 @@
 /* eslint-disable no-unused-vars */
 'use strict';
 
-
 const contributors = (() => {
-  const defaultImg = '../static/plugins/ep_profile_modal/static/dist/img/user.png';
+  const defaultImg =
+    '../static/plugins/ep_profile_modal/static/dist/img/user.png';
 
-  const createHTMLforUserList = (total, online, padId, userVerify) => { // generate avatar too
+  const createHTMLforUserList = (total, online, padId, userVerify) => {
+    // generate avatar too
     let html = "<div id='usersIconList' class='ep_profile_inlineAvatars'>";
     let style;
     let borderStyle = '';
     $.each(online.reverse(), (key, value) => {
-      style = `background: url(/static/getUserProfileImage/${
-        value.userId}/${padId}) no-repeat 50% 50% ; background-size : 28px;background-color: #fff;`;
+      style = `background: url(/static/getUserProfileImage/${value.userId
+      }/${padId}) no-repeat 50% 50% ; background-size : 28px;background-color: #fff;`;
       if (userVerify) {
-        borderStyle = 'box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;';
-      } else { borderStyle = ''; }
+        borderStyle =
+          'box-shadow: 0px 0px 1px 1px rgba(38,121,255,1);margin: 1px;';
+      } else {
+        borderStyle = '';
+      }
 
       style += borderStyle;
-      html += `<div class='avatar' data-userId="${value.userId}" data-id="user_${
-        value.userId}"  id="user_${value.userId}" ><div data-userId="${
-        value.userId}"  class='avatarImg' style='${
-        style}' data-id="user_${value.userId}"></div></div>`;
+      html += `<div class='avatar' data-userId="${value.userId}" data-id="user_${value.userId
+      }"  id="user_${value.userId}" ><div data-userId="${value.userId
+      }"  class='avatarImg' style='${style}' data-id="user_${value.userId}"></div></div>`;
     });
     html += ' </div>';
     return `${html}<span class='slash_profile'>⧸</span><span 
@@ -31,60 +34,77 @@ const contributors = (() => {
   };
 
   const increaseUserFromList = (userId, padId) => {
-    const style = `background: url(/static/getUserProfileImage/${
-      userId}/${padId}) no-repeat 50% 50% ; background-size : 26px;background-color: #fff;`;
-
+    const style = `background: url(/static/getUserProfileImage/${userId}/${padId
+    }) no-repeat 50% 50% ; background-size : 26px;background-color: #fff;`;
 
     if (!$(`.avatar[data-id="user_${userId}"]`).length) {
-      const $image = $(`<div class='avatar' data-userId="${
-        userId}"  data-id="user_${userId}" id="user_${
-        userId}" ><div class='avatarImg' data-userId="${
-        userId}"  data-id="user_${userId}" style='${style}'></div></div>`);
+      const $image = $(
+          `<div class='avatar' data-userId="${userId}"  data-id="user_${userId}" id="user_${userId
+          }" ><div class='avatarImg' data-userId="${userId}"  data-id="user_${userId
+          }" style='${style}'></div></div>`
+      );
       $image.prependTo('#usersIconList');
       $image.hide().slideDown(200);
     }
   };
 
-
   // @todo rewrite and use template
-  const getHtmlOfUsersList = (userId, username,
-      img, anonymousHandler, about, homepage, seenStatus) => {
+  const getHtmlOfUsersList = (
+      userId,
+      username,
+      img,
+      anonymousHandler,
+      about,
+      homepage,
+      seenStatus
+  ) => {
     about = about || '';
     homepage = homepage || '';
     let style;
     if (anonymousHandler && username === 'Anonymous') {
       style = `background: url(${img}) no-repeat 50% 50% ; background-size : 69px ;`;
 
-      return (`<div  data-user-ids='${userId
-      }' data-anonymouseCount='1' data-id='user_list_${anonymousHandler
-      }' class='ep_profile_user_row'>` +
-`<div style='${style
-}' class='ep_profile_user_img' id='ep_profile_user_img'></div>` +
-'<div class=\'ep_profile_user_list_profile_userDesc\'>' +
-`<div class='ep_profile_user_list_username'>
+      return (
+        `<div  data-user-ids='${userId}' data-anonymouseCount='1' data-id='user_list_${
+          anonymousHandler}' class='ep_profile_user_row'>` +
+        `<div style='${style}' class='ep_profile_user_img' id='ep_profile_user_img'></div>` +
+        "<div class='ep_profile_user_list_profile_userDesc'>" +
+        `<div class='ep_profile_user_list_username'>
 <div class='ep_profile_user_list_username_text' id='ep_profile_users_profile_name'>${
         username}</div>` +
-`<div class='ep_profile_contributor_status'>${seenStatus}</div>` +
-'</div>' +
-`<p class='ep_profile_user_list_profile_desc' id='ep_profile_users_profile_desc'>
+        `<div class='ep_profile_contributor_status'>${seenStatus}</div>` +
+        '</div>' +
+        `<p class='ep_profile_user_list_profile_desc' id='ep_profile_users_profile_desc'>
 ${about}</p>` +
-'</div> </div>');
+        '</div> </div>'
+      );
     } else {
       style = `background: url(${img}) no-repeat 50% 50% ; background-size : 69px ;`;
-      return (`<div data-id='user_list_${userId}' class='ep_profile_user_row'>` +
-`<div style='${style}' class='ep_profile_user_img'  id='ep_profile_user_img'></div>` +
-'<div class=\'ep_profile_user_list_profile_userDesc\'>' +
-`<div class='ep_profile_user_list_username'>
+      return (
+        `<div data-id='user_list_${userId}' class='ep_profile_user_row'>` +
+        `<div style='${style}' class='ep_profile_user_img'  id='ep_profile_user_img'></div>` +
+        "<div class='ep_profile_user_list_profile_userDesc'>" +
+        `<div class='ep_profile_user_list_username'>
 <div class='ep_profile_user_list_username_text' id='ep_profile_users_profile_name'>
 ${username}</div>` +
-`<a target='_blank' style='
-${(homepage === '' || homepage === '#' || homepage === undefined || homepage == null)
-          ? 'display : none' : ''}'  class='ep_profile_contributor_link_container' title='
-        ${shared.getValidUrl(homepage)}' href='${shared.getValidUrl(homepage)}'> </a>` +
-`<div class='ep_profile_contributor_status'>${seenStatus}</div>` +
-'</div>' +
-`<p class='ep_profile_user_list_profile_desc' id='ep_profile_users_profile_desc'>${about}</p>` +
-'</div> </div>');
+        `<a target='_blank' style='
+${
+        homepage === '' ||
+  homepage === '#' ||
+  homepage === undefined ||
+  homepage == null
+          ? 'display : none'
+          : ''
+        }'  class='ep_profile_contributor_link_container' title='
+        ${shared.getValidUrl(homepage)}' href='${shared.getValidUrl(
+            homepage
+        )}'> </a>` +
+        `<div class='ep_profile_contributor_status'>${seenStatus}</div>` +
+        '</div>' +
+        `<p class='ep_profile_user_list_profile_desc' id='ep_profile_users_profile_desc'>${
+          about}</p>` +
+        '</div> </div>'
+      );
     }
   };
   const increaseToOnlineAnonymous = (selectorOn, userId) => {
@@ -96,13 +116,20 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
       selectorOn.attr('data-user-ids', idsDataArray.join(','));
       const newAnonymouseCount = parseInt(anonymouseCount) + 1;
       selectorOn.attr('data-anonymouseCount', newAnonymouseCount);
-      selectorOn.children('.ep_profile_user_list_profile_userDesc').children(
-          '.ep_profile_user_list_username')
-          .children('.ep_profile_user_list_username_text').text(`Anonymous ×${newAnonymouseCount}`);
+      selectorOn
+          .children('.ep_profile_user_list_profile_userDesc')
+          .children('.ep_profile_user_list_username')
+          .children('.ep_profile_user_list_username_text')
+          .text(`Anonymous ×${newAnonymouseCount}`);
     }
   };
 
-  const manageOnlineOfflineUsers = (allUsersList, onlineUsers, currentUserId, lastPage) => {
+  const manageOnlineOfflineUsers = (
+      allUsersList,
+      onlineUsers,
+      currentUserId,
+      lastPage
+  ) => {
     const onlineListSelector = $('#ep_profile_user_list_container');
     const offlineListSelector = $('#ep_profile_user_list_container_off');
     if (lastPage) {
@@ -114,52 +141,84 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     $.each(allUsersList, (key, value) => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId === value.userId);
-      if (result.length) { // online
+      if (result.length) {
+        // online
         if (value.userName === 'Anonymous') {
-          const selectorOn = $('.ep_profile_user_row[data-id="user_list_on_Anonymous"]');
+          const selectorOn = $(
+              '.ep_profile_user_row[data-id="user_list_on_Anonymous"]'
+          );
 
           if (selectorOn.length) {
             increaseToOnlineAnonymous(selectorOn, value.userId);
           } else {
             const userListHtml = getHtmlOfUsersList(
-                value.userId, value.userName, value.imageUrl, 'on_Anonymous',
-                value.about, value.homepage, 'Online');
+                value.userId,
+                value.userName,
+                value.imageUrl,
+                'on_Anonymous',
+                value.about,
+                value.homepage,
+                'Online'
+            );
             onlineListSelector.append(userListHtml);
           }
           if (currentUserId === value.userId) {
-            $(".ep_profile_user_row[data-id='user_list_on_Anonymous']").css(
-                {'margin-top': '28px'});
+            $(".ep_profile_user_row[data-id='user_list_on_Anonymous']").css({
+              'margin-top': '28px',
+            });
           }
         } else {
-          if (!$(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).length) {
-            const userListHtml = getHtmlOfUsersList(value.userId, value.userName,
-                value.imageUrl, false, value.about, value.homepage, 'Online');
+          if (
+            !$(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`)
+                .length
+          ) {
+            const userListHtml = getHtmlOfUsersList(
+                value.userId,
+                value.userName,
+                value.imageUrl,
+                false,
+                value.about,
+                value.homepage,
+                'Online'
+            );
             try {
               onlineListSelector.append(userListHtml);
             } catch (error) {
               console.log(error);
             }
           } else if (currentUserId === value.userId) {
-            $(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).prependTo(
-                onlineListSelector);
+            $(
+                `.ep_profile_user_row[data-id="user_list_${value.userId}"]`
+            ).prependTo(onlineListSelector);
           } else {
-            $(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).appendTo(
-                onlineListSelector);
+            $(
+                `.ep_profile_user_row[data-id="user_list_${value.userId}"]`
+            ).appendTo(onlineListSelector);
           }
           if (currentUserId === value.userId) {
-            $(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).css(
-                {'margin-top': '28px'});
+            $(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).css({
+              'margin-top': '28px',
+            });
           }
         }
       }
       // offline
       if (value.lastSeenDate !== '') {
         if (value.userName !== 'Anonymous') {
-          if (!$(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).length) {
+          if (
+            !$(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`)
+                .length
+          ) {
             console.log('value', value);
             const userListHtml = getHtmlOfUsersList(
-                value.userId, value.userName, value.imageUrl,
-                false, value.about, value.homepage, shared.getCustomDate(value.lastSeenDate));
+                value.userId,
+                value.userName,
+                value.imageUrl,
+                false,
+                value.about,
+                value.homepage,
+                shared.getCustomDate(value.lastSeenDate)
+            );
             const offlinesDateSelector = $('#ep_profile_user_list_offline');
             if (offlinesDateSelector.length) {
               offlinesDateSelector.append(userListHtml);
@@ -170,12 +229,12 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
               );
             }
           } else {
-            $(`.ep_profile_user_row[data-id="user_list_${value.userId}"]`).appendTo(
-                offlineListSelector);
+            $(
+                `.ep_profile_user_row[data-id="user_list_${value.userId}"]`
+            ).appendTo(offlineListSelector);
           }
         }
       }
-
 
       // }
     });
@@ -184,9 +243,12 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     $.each(allUsersList, (key, value) => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId === value.userId);
-      if (!result.length) { // offline
+      if (!result.length) {
+        // offline
         if (value.userName === 'Anonymous') {
-          const selectorOff = $('.ep_profile_user_row[data-id="user_list_off_Anonymous"]');
+          const selectorOff = $(
+              '.ep_profile_user_row[data-id="user_list_off_Anonymous"]'
+          );
           if (selectorOff.length) {
             const anonymouseCount = selectorOff.attr('data-anonymouseCount');
             const newAnonymouseCount = parseInt(anonymouseCount) + 1;
@@ -197,13 +259,20 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
             selectorOff.attr('data-user-ids', idsDataOffArray.join(','));
 
             selectorOff.attr('data-anonymouseCount', newAnonymouseCount);
-            selectorOff.children(
-                '.ep_profile_user_list_profile_userDesc').children('.ep_profile_user_list_username'
-            ).text(`Anonymous ×${newAnonymouseCount}`);
+            selectorOff
+                .children('.ep_profile_user_list_profile_userDesc')
+                .children('.ep_profile_user_list_username')
+                .text(`Anonymous ×${newAnonymouseCount}`);
           } else {
             const userListHtml = getHtmlOfUsersList(
-                value.userId, 'Anonymous', value.imageUrl, 'off_Anonymous',
-                value.about, value.homepage, shared.getCustomDate(value.lastSeenDate));
+                value.userId,
+                'Anonymous',
+                value.imageUrl,
+                'off_Anonymous',
+                value.about,
+                value.homepage,
+                shared.getCustomDate(value.lastSeenDate)
+            );
             const selectorOfflinesDate = $('#ep_profile_user_list_offline');
             if (selectorOfflinesDate.length) {
               selectorOfflinesDate.append(userListHtml);
@@ -219,27 +288,28 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     });
   };
 
-
   const decreaseFromOnlineAnonymous = (selectorOn, userId) => {
     const anonymouseCount = selectorOn.attr('data-anonymouseCount');
     const idsData = selectorOn.attr('data-user-ids');
     let idsDataArray = idsData.split(',');
 
-
     idsDataArray = $.grep(idsDataArray, (value) => value !== userId);
-
 
     selectorOn.attr('data-user-ids', idsDataArray.join(','));
     const newAnonymouseCount = parseInt(anonymouseCount) - 1;
     selectorOn.attr('data-anonymouseCount', newAnonymouseCount);
     if (newAnonymouseCount > 1) {
-      selectorOn.children('.ep_profile_user_list_profile_userDesc').children(
-          '.ep_profile_user_list_username')
-          .children('.ep_profile_user_list_username_text').text(`Anonymous ×${newAnonymouseCount}`);
+      selectorOn
+          .children('.ep_profile_user_list_profile_userDesc')
+          .children('.ep_profile_user_list_username')
+          .children('.ep_profile_user_list_username_text')
+          .text(`Anonymous ×${newAnonymouseCount}`);
     } else {
-      selectorOn.children('.ep_profile_user_list_profile_userDesc').children(
-          '.ep_profile_user_list_username')
-          .children('.ep_profile_user_list_username_text').text('Anonymous');
+      selectorOn
+          .children('.ep_profile_user_list_profile_userDesc')
+          .children('.ep_profile_user_list_username')
+          .children('.ep_profile_user_list_username_text')
+          .text('Anonymous');
     }
 
     if (newAnonymouseCount < 1) {
@@ -247,7 +317,6 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     }
     return newAnonymouseCount;
   };
-
 
   const increaseToOfflineAnonymous = (selectorOff, userId) => {
     const anonymouseCount = selectorOff.attr('data-anonymouseCount');
@@ -258,19 +327,35 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     selectorOff.attr('data-user-ids', idsData);
     const newAnonymouseCount = parseInt(anonymouseCount) + 1;
     selectorOff.attr('data-anonymouseCount', newAnonymouseCount);
-    selectorOff.children('.ep_profile_user_list_profile_userDesc').children(
-        '.ep_profile_user_list_username').children('.ep_profile_user_list_username_text')
+    selectorOff
+        .children('.ep_profile_user_list_profile_userDesc')
+        .children('.ep_profile_user_list_username')
+        .children('.ep_profile_user_list_username_text')
         .text(`Anonymous ×${newAnonymouseCount}`);
   };
 
-
-  const createOfflineAnonymousElement = (userId, img, about, homepage, userElement) => {
+  const createOfflineAnonymousElement = (
+      userId,
+      img,
+      about,
+      homepage,
+      userElement
+  ) => {
     const userListHtml = getHtmlOfUsersList(
-        userId, 'Anonymous', img, 'off_Anonymous', about, homepage, 'Today');
+        userId,
+        'Anonymous',
+        img,
+        'off_Anonymous',
+        about,
+        homepage,
+        'Today'
+    );
     const offlineListSelector = $('#ep_profile_user_list_offline');
     if (offlineListSelector.length) {
       // because need anonymous offline be last one
-      const userSelector = $(".ep_profile_user_row[data-id='user_list_off_Anonymous']");
+      const userSelector = $(
+          ".ep_profile_user_row[data-id='user_list_off_Anonymous']"
+      );
       if (userSelector.length) {
         userElement.insertBefore(userSelector);
       } else {
@@ -279,18 +364,34 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     } else {
       const offlineContainer = $('#ep_profile_user_list_container_off');
       offlineContainer.prepend(
-          "<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'></div>");
+          "<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'></div>"
+      );
       offlineListSelector.append(userListHtml);
     }
   };
 
-
-  const createOnlineUserElementInUserList = (userId, userName, img, currentUserId, user) => {
-    const userSelector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
+  const createOnlineUserElementInUserList = (
+      userId,
+      userName,
+      img,
+      currentUserId,
+      user
+  ) => {
+    const userSelector = $(
+        `.ep_profile_user_row[data-id="user_list_${userId}"]`
+    );
     if (!userSelector.length) {
       const userListHtml = getHtmlOfUsersList(
-          userId, userName, img, false, user.about, user.homepage, 'Online');
-      if (userId === currentUserId) { // it is owner
+          userId,
+          userName,
+          img,
+          false,
+          user.about,
+          user.homepage,
+          'Online'
+      );
+      if (userId === currentUserId) {
+        // it is owner
         const titleOfContributors = $('#ep_profile_user_list_date_title');
         if (titleOfContributors.length) {
           $(userListHtml).insertAfter(titleOfContributors);
@@ -301,18 +402,29 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
         $('#ep_profile_user_list_container').append(userListHtml);
       }
     } else {
-      userSelector.children('.ep_profile_user_list_profile_userDesc').children(
-          '.ep_profile_user_list_username').children('.ep_profile_user_list_username_text')
+      userSelector
+          .children('.ep_profile_user_list_profile_userDesc')
+          .children('.ep_profile_user_list_username')
+          .children('.ep_profile_user_list_username_text')
           .text(userName);
-      userSelector.children('.ep_profile_user_img').css({'background-position': '50% 50%',
+      userSelector.children('.ep_profile_user_img').css({
+        'background-position': '50% 50%',
         'background-image': `url(${img})`,
-        'background-repeat': 'no-repeat', 'background-size': '69px'});
+        'background-repeat': 'no-repeat',
+        'background-size': '69px',
+      });
     }
   };
 
   const isThereOnlineAnonymous = () => {
-    const selector = $('.ep_profile_user_row[data-id="user_list_on_Anonymous"]');
-    if (selector.length) { return selector; } else { return false; }
+    const selector = $(
+        '.ep_profile_user_row[data-id="user_list_on_Anonymous"]'
+    );
+    if (selector.length) {
+      return selector;
+    } else {
+      return false;
+    }
   };
   const checkUserExistInOnlineAnonymous = (selectorOn, userId) => {
     const idsData = selectorOn.attr('data-user-ids');
@@ -326,8 +438,15 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
 
   const createOnlineAnonymousElement = (userId, userName, imageUrl, user) => {
     const onlineListSelector = $('#ep_profile_user_list_container');
-    const userListHtml = getHtmlOfUsersList(userId, userName,
-        imageUrl, 'on_Anonymous', user.about, user.homepage, 'Online');
+    const userListHtml = getHtmlOfUsersList(
+        userId,
+        userName,
+        imageUrl,
+        'on_Anonymous',
+        user.about,
+        user.homepage,
+        'Online'
+    );
     onlineListSelector.append(userListHtml);
   };
 
@@ -335,7 +454,9 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     const offlineListSelector = $('#ep_profile_user_list_offline');
     if (offlineListSelector.length) {
       // because need anonymous offline be last one
-      const userSelector = $(".ep_profile_user_row[data-id='user_list_off_Anonymous']");
+      const userSelector = $(
+          ".ep_profile_user_row[data-id='user_list_off_Anonymous']"
+      );
       if (userSelector.length) {
         userElement.insertBefore(userSelector);
       } else {
@@ -344,39 +465,59 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     } else {
       const offlineContainer = $('#ep_profile_user_list_container_off');
       offlineContainer.prepend(
-          "<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'></div>");
+          "<div class='ep_profile_user_list_date_title' id='ep_profile_user_list_offline'></div>"
+      );
       offlineListSelector.append(userElement);
     }
 
-    userElement.children('.ep_profile_user_list_profile_userDesc').children(
-        '.ep_profile_user_list_username').children(
-        '.ep_profile_contributor_status').text(
-        'Last seen today');
+    userElement
+        .children('.ep_profile_user_list_profile_userDesc')
+        .children('.ep_profile_user_list_username')
+        .children('.ep_profile_contributor_status')
+        .text('Last seen today');
   };
 
   const decreaseUserFromList = function (userId, padId) {
-    $(`.avatar[data-id="user_${userId}"]`).animate({opacity: 0}, 1000, 'linear', function () {
-      $(this).remove();
-    }
+    $(`.avatar[data-id="user_${userId}"]`).animate(
+        {opacity: 0},
+        1000,
+        'linear',
+        function () {
+          $(this).remove();
+        }
     );
 
-    const selectorUser = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
+    const selectorUser = $(
+        `.ep_profile_user_row[data-id="user_list_${userId}"]`
+    );
     if (selectorUser.length) {
       moveOnlineUserToOffline(selectorUser);
     } else {
-      const selectorOn = $('.ep_profile_user_row[data-id="user_list_on_Anonymous"]');
+      const selectorOn = $(
+          '.ep_profile_user_row[data-id="user_list_on_Anonymous"]'
+      );
       if (selectorOn.length) {
-        const selectorOff = $('.ep_profile_user_row[data-id="user_list_off_Anonymous"]');
+        const selectorOff = $(
+            '.ep_profile_user_row[data-id="user_list_off_Anonymous"]'
+        );
         decreaseFromOnlineAnonymous(selectorOn, userId);
         if (selectorOff.length) {
           increaseToOfflineAnonymous(selectorOff, userId);
         } else {
-          createOfflineAnonymousElement(userId, defaultImg, null, null, selectorUser);
+          createOfflineAnonymousElement(
+              userId,
+              defaultImg,
+              null,
+              null,
+              selectorUser
+          );
         }
       } else {
         let offlineListSelector = $('#ep_profile_user_list_offline');
         if (offlineListSelector.length) {
-          offlineListSelector.append($(`.ep_profile_user_row[data-id="user_list_${userId}"]`));
+          offlineListSelector.append(
+              $(`.ep_profile_user_row[data-id="user_list_${userId}"]`)
+          );
         } else {
           const offlineContainer = $('#ep_profile_user_list_container_off');
           offlineContainer.prepend(
@@ -384,18 +525,25 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
               id="ep_profile_user_list_offline"></div>`
           );
           offlineListSelector = $('#ep_profile_user_list_offline');
-          $(`.ep_profile_user_row[data-id="user_list_${userId}"]`).appendTo(offlineListSelector);
+          $(`.ep_profile_user_row[data-id="user_list_${userId}"]`).appendTo(
+              offlineListSelector
+          );
         }
       }
     }
 
     // user img update
     const imageUrl = `/static/getUserProfileImage/${userId}/${padId}?t=${new Date().getTime()}`;
-    const userSelector = $(`.ep_profile_user_row[data-id="user_list_${userId}"]`);
+    const userSelector = $(
+        `.ep_profile_user_row[data-id="user_list_${userId}"]`
+    );
     if (userSelector.length) {
-      userSelector.children('.ep_profile_user_img').css({'background-position': '50% 50%',
-        'background-image':
-        `url(${imageUrl})`, 'background-repeat': 'no-repeat', 'background-size': '69px'});
+      userSelector.children('.ep_profile_user_img').css({
+        'background-position': '50% 50%',
+        'background-image': `url(${imageUrl})`,
+        'background-repeat': 'no-repeat',
+        'background-size': '69px',
+      });
     }
   };
 
@@ -403,9 +551,15 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     $(`.ep_profile_user_row[data-id="user_list_${userId}"]`).remove();
   };
 
-
-  const paginateContributors = (allUsersList, onlineUsers, currentUserId, lastPage) => {
-    const containerPaginationList = $('#ep_profile_user_list_container_pagination');
+  const paginateContributors = (
+      allUsersList,
+      onlineUsers,
+      currentUserId,
+      lastPage
+  ) => {
+    const containerPaginationList = $(
+        '#ep_profile_user_list_container_pagination'
+    );
     if (lastPage) {
       $('#ep_profile_modal_load_more_contributors').css({display: 'none'});
     }
@@ -414,29 +568,43 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
 
       if (value.lastSeenDate !== '' && value.userName !== 'Anonymous') {
         const userListHtml = getHtmlOfUsersList(
-            value.userId, value.userName,
-            value.imageUrl, false, value.about, value.homepage,
-            (result.length) ? 'Online' : shared.getCustomDate(value.lastSeenDate)
+            value.userId,
+            value.userName,
+            value.imageUrl,
+            false,
+            value.about,
+            value.homepage,
+            result.length ? 'Online' : shared.getCustomDate(value.lastSeenDate)
         );
 
         containerPaginationList.append(userListHtml);
       }
 
-      if (result.length) { // online
+      if (result.length) {
+        // online
         if (value.userName === 'Anonymous') {
-          const selectorOn = $('.ep_profile_user_row[data-id="user_list_on_Anonymous"]');
+          const selectorOn = $(
+              '.ep_profile_user_row[data-id="user_list_on_Anonymous"]'
+          );
 
           if (selectorOn.length) {
             increaseToOnlineAnonymous(selectorOn, value.userId);
           } else {
             const userListHtml = getHtmlOfUsersList(
-                value.userId, value.userName, value.imageUrl,
-                'on_Anonymous', value.about, value.homepage, 'Online');
+                value.userId,
+                value.userName,
+                value.imageUrl,
+                'on_Anonymous',
+                value.about,
+                value.homepage,
+                'Online'
+            );
             containerPaginationList.append(userListHtml);
           }
           if (currentUserId === value.userId) {
-            $(".ep_profile_user_row[data-id='user_list_on_Anonymous']").css(
-                {'margin-top': '28px'});
+            $(".ep_profile_user_row[data-id='user_list_on_Anonymous']").css({
+              'margin-top': '28px',
+            });
           }
         }
       }
@@ -446,9 +614,12 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
     $.each(allUsersList, (key, value) => {
       // if (value.userId != currentUserId){
       const result = $.grep(onlineUsers, (e) => e.userId === value.userId);
-      if (!result.length) { // offline
+      if (!result.length) {
+        // offline
         if (value.userName === 'Anonymous') {
-          const selectorOff = $('.ep_profile_user_row[data-id="user_list_off_Anonymous"]');
+          const selectorOff = $(
+              '.ep_profile_user_row[data-id="user_list_off_Anonymous"]'
+          );
           if (selectorOff.length) {
             const anonymouseCount = selectorOff.attr('data-anonymouseCount');
             const newAnonymouseCount = parseInt(anonymouseCount) + 1;
@@ -459,12 +630,19 @@ ${(homepage === '' || homepage === '#' || homepage === undefined || homepage == 
             selectorOff.attr('data-user-ids', idsDataOffArray.join(','));
 
             selectorOff.attr('data-anonymouseCount', newAnonymouseCount);
-            selectorOff.children('.ep_profile_user_list_profile_userDesc').children(
-                '.ep_profile_user_list_username').text(`Anonymous ×${newAnonymouseCount}`);
+            selectorOff
+                .children('.ep_profile_user_list_profile_userDesc')
+                .children('.ep_profile_user_list_username')
+                .text(`Anonymous ×${newAnonymouseCount}`);
           } else {
             const userListHtml = getHtmlOfUsersList(
-                value.userId, 'Anonymous', value.imageUrl,
-                'off_Anonymous', value.about, value.homepage);
+                value.userId,
+                'Anonymous',
+                value.imageUrl,
+                'off_Anonymous',
+                value.about,
+                value.homepage
+            );
             containerPaginationList.append(userListHtml);
           }
         }

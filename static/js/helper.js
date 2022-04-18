@@ -20,7 +20,6 @@ const helper = (() => {
     window.userStatus = 'logout';
     clientVars.ep_profile_modal.userStatus = __LOGOUT;
 
-
     pad.collabClient.updateUserInfo({
       userId: pad.getUserId(),
       name: 'Anonymous',
@@ -67,19 +66,15 @@ const helper = (() => {
         `.ep_profile_user_row[data-id="user_list_${userId}"]`
     );
     if (userSelector.length) {
-      userSelector
-          .children('.ep_profile_user_img')
-          .css({
-            'background-position': '50% 50%',
-            'background-image': `url(${imageUrl})`,
-            'background-repeat': 'no-repeat',
-            'background-size': '69px',
-          });
+      userSelector.children('.ep_profile_user_img').css({
+        'background-position': '50% 50%',
+        'background-image': `url(${imageUrl})`,
+        'background-repeat': 'no-repeat',
+        'background-size': '69px',
+      });
     }
 
-    const rocketChatOnlineUser = $(
-        `.avatar[data-id="${userId}"]`
-    );
+    const rocketChatOnlineUser = $(`.avatar[data-id="${userId}"]`);
     if (rocketChatOnlineUser.length) {
       rocketChatOnlineUser
           .children('.ep_rocketchat_onlineUsersList_avatarImg')
@@ -94,7 +89,7 @@ const helper = (() => {
 
   const refreshLoadingImage = (userId, padId) => {
     const imageUrl =
-    '../static/plugins/ep_profile_modal/static/dist/img/loading.gif';
+      '../static/plugins/ep_profile_modal/static/dist/img/loading.gif';
     const avatar = $(`.avatarImg[data-id="user_${userId}"]`);
     if (avatar.length) {
       avatar.css({
@@ -127,14 +122,12 @@ const helper = (() => {
         `.ep_profile_user_row[data-id="user_list_${userId}"]`
     );
     if (userSelector.length) {
-      userSelector
-          .children('.ep_profile_user_img')
-          .css({
-            'background-position': '50% 50%',
-            'background-image': `url(${imageUrl})`,
-            'background-repeat': 'no-repeat',
-            'background-size': '69px',
-          });
+      userSelector.children('.ep_profile_user_img').css({
+        'background-position': '50% 50%',
+        'background-image': `url(${imageUrl})`,
+        'background-repeat': 'no-repeat',
+        'background-size': '69px',
+      });
     }
   };
 
@@ -154,14 +147,12 @@ const helper = (() => {
         `.ep_profile_user_row[data-id="user_list_${userId}"]`
     );
     if (userSelector.length) {
-      userSelector
-          .children('.ep_profile_user_img')
-          .css({
-            'background-position': '50% 50%',
-            'background-image': `url(${imageUrl})`,
-            'background-repeat': 'no-repeat',
-            'background-size': '69px',
-          });
+      userSelector.children('.ep_profile_user_img').css({
+        'background-position': '50% 50%',
+        'background-image': `url(${imageUrl})`,
+        'background-repeat': 'no-repeat',
+        'background-size': '69px',
+      });
     }
   };
 

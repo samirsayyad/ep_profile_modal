@@ -9,17 +9,19 @@ const etherpadFuncs = require('../helpers/etherpadSharedFunc');
 const db = require('ep_etherpad-lite/node/db/DB');
 
 const prefill = async (message) => {
-  const user = await db.get(`ep_profile_modal:${message.userId}_${message.padId}`) || {};
+  const user =
+    (await db.get(`ep_profile_modal:${message.userId}_${message.padId}`)) || {};
   user.image = message.data.image;
   await db.set(`ep_profile_modal:${message.userId}_${message.padId}`, user);
 };
 
 const login = async (message) => {
-  const user = await db.get(`ep_profile_modal:${message.userId}_${message.padId}`) || {};
+  const user =
+    (await db.get(`ep_profile_modal:${message.userId}_${message.padId}`)) || {};
   const defaultImg = `/static/getUserProfileImage/
   ${message.userId}/${message.padId}t=${new Date().getTime()}`;
 
-  user.createDate = (user.createDate) ? user.createDate : new Date();
+  user.createDate = user.createDate ? user.createDate : new Date();
   user.updateDate = new Date();
   user.email = message.email || '';
   user.status = '2';
@@ -38,26 +40,27 @@ const login = async (message) => {
         email: message.email,
         userName: message.name,
         user,
-
       },
     },
   };
   etherpadFuncs.sendToRoom(msg);
 
-
   await db.set(`ep_profile_modal:${message.userId}_${message.padId}`, user);
 };
 
 const info = async (message) => {
-  const user = await db.get(`ep_profile_modal:${message.userId}_${message.padId}`) || {};
+  const user =
+    (await db.get(`ep_profile_modal:${message.userId}_${message.padId}`)) || {};
   const defaultImg = `/static/getUserProfileImage/
   ${message.userId}/${message.padId}t=${new Date().getTime()}`;
   let formPassed = true;
   user.about = message.data.ep_profile_modalForm_about_yourself;
   user.email = message.data.ep_profile_modalForm_email;
-  user.homepage = shared.getValidUrl(message.data.ep_profile_modalForm_homepage);
+  user.homepage = shared.getValidUrl(
+      message.data.ep_profile_modalForm_homepage
+  );
   user.username = message.data.ep_profile_modalForm_name;
-  user.createDate = (user.createDate) ? user.createDate : new Date();
+  user.createDate = user.createDate ? user.createDate : new Date();
   user.updateDate = new Date();
 
   user.status = '2';
@@ -65,10 +68,17 @@ const info = async (message) => {
     const profileUrl = gravatar.profile_url(user.email, {protocol: 'https'});
     let profileJson = await fetch(profileUrl);
     profileJson = await profileJson.json();
-    if (profileJson === 'User not found') { formPassed = false; }
+    if (profileJson === 'User not found') {
+      formPassed = false;
+    }
   }
-  formPassed = (user.about === '' || user.email === '' ||
-   user.homepage === '' || user.username === '') ? false : formPassed;
+  formPassed =
+    user.about === '' ||
+    user.email === '' ||
+    user.homepage === '' ||
+    user.username === ''
+      ? false
+      : formPassed;
   user.formPassed = formPassed;
 
   // send everybody
@@ -91,19 +101,25 @@ const info = async (message) => {
   await db.set(`ep_profile_modal:${message.userId}_${message.padId}`, user);
 };
 
-
 const logout = async (message) => {
-  const user = await db.get(`ep_profile_modal:${message.userId}_${message.padId}`) || {};
+  const user =
+    (await db.get(`ep_profile_modal:${message.userId}_${message.padId}`)) || {};
   user.status = '1';
   user.lastLogoutDate = new Date();
   let messageChatText = '';
 
   if (user.username !== '' && user.username) {
-    messageChatText = `${user.username}${(user.about) ? `, ${user.about}` : ''} has left. 
-    ${(user.homepage !== '' && user.homepage && typeof user.homepage !== undefined)
-    ? ` Find them at ${shared.getValidUrl(user.homepage)}'${user.homepage}` : ''}`;
+    messageChatText = `${user.username}${
+      user.about ? `, ${user.about}` : ''
+    } has left. 
+    ${
+  user.homepage !== '' &&
+      user.homepage &&
+      typeof user.homepage !== undefined
+    ? ` Find them at ${shared.getValidUrl(user.homepage)}'${user.homepage}`
+    : ''
+}`;
   }
-
 
   const msg = {
     type: 'COLLABROOM',
@@ -118,11 +134,11 @@ const logout = async (message) => {
     },
   };
 
-
   etherpadFuncs.sendToRoom(msg);
   await db.set(`ep_profile_modal:${message.userId}_${message.padId}`, {}); // empty session
   // remove user id from verified users
-  const padUsers = await db.get(`ep_profile_modal_verified_${message.padId}`) || [];
+  const padUsers =
+    (await db.get(`ep_profile_modal_verified_${message.padId}`)) || [];
   const indexOfUserId = padUsers.indexOf(message.userId);
   if (indexOfUserId !== -1) {
     padUsers.splice(indexOfUserId, 1);
@@ -130,13 +146,14 @@ const logout = async (message) => {
   }
 };
 
-
 const statisticsHandling = async (message) => {
-  let padUsers = await db.get(`ep_profile_modal_contributed_${message.padId}`) || [];
-  const contrubutedUsers = await db.get(`ep_profile_modal_contributedList_${message.padId}`) || [];
+  let padUsers =
+    (await db.get(`ep_profile_modal_contributed_${message.padId}`)) || [];
+  const contrubutedUsers =
+    (await db.get(`ep_profile_modal_contributedList_${message.padId}`)) || [];
 
   const emailContributedUsers =
-  await db.get(`ep_profile_modal_email_contributed_${message.padId}`) || [];
+    (await db.get(`ep_profile_modal_email_contributed_${message.padId}`)) || [];
   // // counting how many email input
 
   if (padUsers) {
@@ -156,30 +173,38 @@ const statisticsHandling = async (message) => {
   }
   //* collect user If just enter to pad */
 
-
   // collect contributor list with last seen timestamp
-  const contributor = contrubutedUsers.findIndex((o) => o.userId === message.userId);
+  const contributor = contrubutedUsers.findIndex(
+      (o) => o.userId === message.userId
+  );
   const datetime = new Date();
   if (contributor === -1) {
     const newContributor = {};
     newContributor.userId = message.userId;
-    newContributor.data = {last_seen_timestamp: datetime.getTime(),
-      last_seen_date: datetime.toISOString().slice(0, 10)};
+    newContributor.data = {
+      last_seen_timestamp: datetime.getTime(),
+      last_seen_date: datetime.toISOString().slice(0, 10),
+    };
     contrubutedUsers.push(newContributor);
   } else {
-    contrubutedUsers[contributor].data =
-    {last_seen_timestamp: datetime.getTime(), last_seen_date: datetime.toISOString().slice(0, 10)};
+    contrubutedUsers[contributor].data = {
+      last_seen_timestamp: datetime.getTime(),
+      last_seen_date: datetime.toISOString().slice(0, 10),
+    };
   }
-  await db.set(`ep_profile_modal_contributedList_${message.padId}`, contrubutedUsers);
+  await db.set(
+      `ep_profile_modal_contributedList_${message.padId}`,
+      contrubutedUsers
+  );
 
   // collect contributor list with last seen timestamp
-
 
   // /////////
   const _timestamp = datetime.getTime();
   const _date = datetime.toISOString().slice(0, 10);
   // //// store pads of users
-  const padsOfUser = await db.get(`ep_profile_modal_pads_of_user_${message.userId}`) || [];
+  const padsOfUser =
+    (await db.get(`ep_profile_modal_pads_of_user_${message.userId}`)) || [];
   const lastUserIndex = padsOfUser.findIndex((i) => i.padId === message.padId);
   if (lastUserIndex !== -1) {
     padsOfUser[lastUserIndex].data.last_seen_date = _date;
@@ -197,10 +222,11 @@ const statisticsHandling = async (message) => {
   }
   db.set(`ep_profile_modal_pads_of_user_${message.userId}`, padsOfUser);
 
-
   // //// store pads of users
 
-  const verifiedUsers = await db.get(`ep_profile_modal_verified_${message.padId}`);
+  const verifiedUsers = await db.get(
+      `ep_profile_modal_verified_${message.padId}`
+  );
 
   // tell everybody that total user has been changed
   const msg = {
@@ -218,7 +244,6 @@ const statisticsHandling = async (message) => {
   etherpadFuncs.sendToRoom(msg);
   // tell everybody that total user has been changed
 };
-
 
 exports.handleMessage = (hookName, context, callback) => {
   let isProfileMessage = false;
@@ -238,7 +263,6 @@ exports.handleMessage = (hookName, context, callback) => {
   if (!isProfileMessage) {
     return false;
   }
-
 
   const message = context.message.data;
 

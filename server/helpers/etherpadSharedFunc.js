@@ -1,7 +1,8 @@
 'use strict';
 
 const padMessageHandler = require('ep_etherpad-lite/node/handler/PadMessageHandler');
-const sessioninfos = require('ep_etherpad-lite/node/handler/PadMessageHandler').sessioninfos;
+const sessioninfos =
+  require('ep_etherpad-lite/node/handler/PadMessageHandler').sessioninfos;
 
 exports.sendToRoom = (msg) => {
   // Todo write some buffer handling for protection and to stop DDoS
@@ -18,8 +19,7 @@ exports.sendToRoom = (msg) => {
       } catch (error) {
         console.log(error);
       }
-    }
-    , 100);
+    }, 100);
   }
 };
 
@@ -37,7 +37,6 @@ exports.sendToUser = (msg, client) => {
         // console.log(error)
         // TODO: Error handling.
       });
-    }
-    , 100);
+    }, 100);
   }
 };

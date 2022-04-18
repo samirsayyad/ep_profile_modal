@@ -3,16 +3,19 @@
 /* eslint-disable no-unused-vars */
 'use strict';
 
-
 // var shared = require('../shared');
 // var helper = require('../helper');
 
 const profileForm = (() => {
   const showModal = () => {
     $('#ep_profile_formModal').addClass('ep_profile_formModal_show');
-    $('#ep_profile_formModal_overlay').addClass('ep_profile_formModal_overlay_show');
+    $('#ep_profile_formModal_overlay').addClass(
+        'ep_profile_formModal_overlay_show'
+    );
     $('#ep_profile_formModal_overlay').css({display: 'block'});
-    setTimeout(() => { $('#ep_profile_modalForm_name').focus(); }, 1000);
+    setTimeout(() => {
+      $('#ep_profile_modalForm_name').focus();
+    }, 1000);
   };
 
   const allEventListener = () => {
@@ -29,7 +32,6 @@ const profileForm = (() => {
       }
     });
   };
-
 
   const removeEventListener = () => {
     const padOuter = $('iframe[name="ace_outer"]').contents();
@@ -57,8 +59,12 @@ const profileForm = (() => {
     const msg = {};
     localStorage.setItem('formPassed', 'yes');
     removeEventListener();
-    if (data.ep_profile_modalForm_name === '' ||
-    ['', null, undefined].includes(localStorage.getItem('formStatus'))) { return false; }
+    if (
+      data.ep_profile_modalForm_name === '' ||
+      ['', null, undefined].includes(localStorage.getItem('formStatus'))
+    ) {
+      return false;
+    }
     let text = `Please welcome ${data.ep_profile_modalForm_name}`;
     if (data.ep_profile_modalForm_about_yourself !== '') {
       text += `, ${data.ep_profile_modalForm_about_yourself}`;
@@ -83,7 +89,9 @@ const profileForm = (() => {
     pad.collabClient.sendMessage(message); // Send the chat position message to the server
   };
   const hideFormModalOverlay = () => {
-    $('#ep_profile_formModal_overlay').removeClass('ep_profile_formModal_overlay_show');
+    $('#ep_profile_formModal_overlay').removeClass(
+        'ep_profile_formModal_overlay_show'
+    );
     $('#ep_profile_formModal_overlay').css({display: 'none'});
 
     handleOnCloseOverlay();
@@ -91,7 +99,8 @@ const profileForm = (() => {
   const resetModal = function () {
     const fieldsets = $('#ep_profile_formModal_msform fieldset');
     fieldsets.each(function (index) {
-      if (index === 0) $(this).show(); else $(this).hide();
+      if (index === 0) $(this).show();
+      else $(this).hide();
     });
   };
 
@@ -102,7 +111,6 @@ const profileForm = (() => {
     // jQuery time
     let currentFs, nextFs, previousFs; // fieldsets
     let animating; // flag to prevent quick multi-click glitches
-
 
     $('.skip').click(function () {
       if (animating) return false;
@@ -122,8 +130,9 @@ const profileForm = (() => {
       animating = false;
     });
 
-
-    $('.close , #ep_profile_formModal_overlay , .ep_profile_formModal_topClose').click(() => {
+    $(
+        '.close , #ep_profile_formModal_overlay , .ep_profile_formModal_topClose'
+    ).click(() => {
       $('#ep_profile_formModal').removeClass('ep_profile_formModal_show');
 
       hideFormModalOverlay();
@@ -145,7 +154,10 @@ const profileForm = (() => {
     });
 
     $('.clear').click(function () {
-      shared.resetAllProfileImage($(this).attr('data-userId'), $(this).attr('data-padId'));
+      shared.resetAllProfileImage(
+          $(this).attr('data-userId'),
+          $(this).attr('data-padId')
+      );
     });
 
     const sendFormDataToServer = () => {
@@ -163,7 +175,6 @@ const profileForm = (() => {
       pad.collabClient.sendMessage(message); // Send the chat position message to the server
     };
 
-
     const sendEmailVerification = (email, username) => {
       const oldText = $('#ep_profile_modal_verification').text();
       $.ajax({
@@ -177,20 +188,24 @@ const profileForm = (() => {
           // setting a timeout
           $('#ep_profile_modal_verification').text('Sending...');
         },
-        error: (xhr) => { // if error occured
+        error: (xhr) => {
+          // if error occured
           $('#ep_profile_modal_verification').text('Error');
           setTimeout(() => {
             $('#ep_profile_modal_verification').text(oldText);
           }, 2000);
         },
         success: (response) => {
-          $('#ep_profile_modal_verification').text('Verification email has been sent.');
-          $('#ep_profile_modal_verification').attr('data-verification-status', 'true');
+          $('#ep_profile_modal_verification').text(
+              'Verification email has been sent.'
+          );
+          $('#ep_profile_modal_verification').attr(
+              'data-verification-status',
+              'true'
+          );
         },
-
       });
     };
-
 
     const uploadImg = () => {
       const userId = pad.getUserId();
@@ -209,10 +224,13 @@ const profileForm = (() => {
 
           helper.refreshLoadingImage(userId, clientVars.padId);
         },
-        error: (xhr) => { // if error occured
+        error: (xhr) => {
+          // if error occured
           helper.refreshUserImage(userId, clientVars.padId);
-          $('#profile_modal_selected_image').attr('style',
-              (i, style) => style && style.replace(/background-image[^;]+;?/g, ''));
+          $('#profile_modal_selected_image').attr(
+              'style',
+              (i, style) => style && style.replace(/background-image[^;]+;?/g, '')
+          );
 
           switch (xhr.status) {
             case 413:
@@ -223,16 +241,17 @@ const profileForm = (() => {
                 // eslint-disable-next-line camelcase
                 class_name: 'error',
               });
-                 // Take action, referencing xhr.responseText as needed.
+            // Take action, referencing xhr.responseText as needed.
           }
         },
         success: (response) => {
           helper.refreshUserImage(userId, clientVars.padId);
 
-          $('#profile_modal_selected_image').attr('style',
-              (i, style) => style && style.replace(/background-image[^;]+;?/g, ''));
+          $('#profile_modal_selected_image').attr(
+              'style',
+              (i, style) => style && style.replace(/background-image[^;]+;?/g, '')
+          );
         },
-
       });
     };
 
@@ -284,7 +303,11 @@ const profileForm = (() => {
           return false;
         }
         const username = $('#ep_profile_modalForm_name').val();
-        shared.loginByEmailAndUsernameWithoutValidation(username, userEmail, true);
+        shared.loginByEmailAndUsernameWithoutValidation(
+            username,
+            userEmail,
+            true
+        );
         sendEmailVerification(userEmail, username);
         $('#ep_profile_modalForm_email').css({border: '0px solid gray'});
       }
@@ -304,7 +327,6 @@ const profileForm = (() => {
       //   uploadImg();
       // }
 
-
       animating = true;
       currentFs.hide();
       if (nextFs.length) {
@@ -312,10 +334,17 @@ const profileForm = (() => {
 
         // focus handling
         const nextSelection = nextFs.attr('data-section');
-        if (nextSelection === 'email') { $('#ep_profile_modalForm_email').focus().select(); }
-        if (nextSelection === 'homepage') { $('#ep_profile_modal_homepage').focus().select(); }
-        if (nextSelection === 'bio') { $('#ep_profile_modalForm_about_yourself').focus().select(); }
-      } else { // seems last fieldset
+        if (nextSelection === 'email') {
+          $('#ep_profile_modalForm_email').focus().select();
+        }
+        if (nextSelection === 'homepage') {
+          $('#ep_profile_modal_homepage').focus().select();
+        }
+        if (nextSelection === 'bio') {
+          $('#ep_profile_modalForm_about_yourself').focus().select();
+        }
+      } else {
+        // seems last fieldset
         submitHandle();
       }
       animating = false;
@@ -346,12 +375,14 @@ const profileForm = (() => {
       const files = $('#profile_file_modal')[0].files[0];
 
       const url = URL.createObjectURL(files);
-      $('#profile_modal_selected_image').css({'background-position': '50% 50%',
-        'background-image':
-        `url(${url})`, 'background-repeat': 'no-repeat', 'background-size': '64px'});
+      $('#profile_modal_selected_image').css({
+        'background-position': '50% 50%',
+        'background-image': `url(${url})`,
+        'background-repeat': 'no-repeat',
+        'background-size': '64px',
+      });
     });
   };
-
 
   return {
     showModal,

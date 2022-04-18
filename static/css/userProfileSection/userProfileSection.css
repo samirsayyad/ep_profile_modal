@@ -1,93 +1,90 @@
-.ep_profile_users_profile{
-    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    width: 587px;
-    height: 207px;
-    background-color: #fff;
-    position: absolute;
+.ep_profile_users_profile {
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  width: 587px;
+  height: 207px;
+  background-color: #fff;
+  position: absolute;
 
-    visibility: hidden;
-    overflow: hidden;
-    color: rgb(32, 33, 36);
-    z-index: 500;
-    transition: all .3s;
-    box-shadow: 1px 1px 4px rgb(87, 98, 115, .1);
-    font-size: 14px;
-    transform: scale(.7);
-    opacity: 0;
-    transition: all .3s cubic-bezier(.74,-.05,.27,1.75);
-    z-index: 9999;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    left: 0;
-    right: 0;
+  visibility: hidden;
+  overflow: hidden;
+  color: rgb(32, 33, 36);
+  z-index: 500;
+  transition: all 0.3s;
+  box-shadow: 1px 1px 4px rgb(87, 98, 115, 0.1);
+  font-size: 14px;
+  transform: scale(0.7);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.74, -0.05, 0.27, 1.75);
+  z-index: 9999;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: 0;
+  right: 0;
 }
 .ep_profile_users_profile_show {
-    transform: scale(1) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+  transform: scale(1) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 .ep_profile_users_profile_userImage {
-    width:69px;
-    height:69px;
-    float: left;
-    border-radius: 145.833px;
-
+  width: 69px;
+  height: 69px;
+  float: left;
+  border-radius: 145.833px;
 }
-.ep_profile_users_profile_close{
-    background-image: url("../../img/close.png");
-	width: 14px;
-	height: 14px;
-	float: right;
-	cursor: pointer;
-    
+.ep_profile_users_profile_close {
+  background-image: url('../../img/close.png');
+  width: 14px;
+  height: 14px;
+  float: right;
+  cursor: pointer;
 }
-.ep_profile_users_row{
-    width: 100%;
-    height: 69px;
-    margin: 26px 26px 30px 26px;
-    display: flex;
+.ep_profile_users_row {
+  width: 100%;
+  height: 69px;
+  margin: 26px 26px 30px 26px;
+  display: flex;
 }
-#ep_profile_users_profile_close{
-    float: right;
-    margin-top: 38px;
-    margin-right: 31px;
-    width: 14px;
-    height: 14px;
-    background-repeat: no-repeat;
+#ep_profile_users_profile_close {
+  float: right;
+  margin-top: 38px;
+  margin-right: 31px;
+  width: 14px;
+  height: 14px;
+  background-repeat: no-repeat;
 }
 
-.ep_profile_users_profile_name{
-    text-align: left;
-    font-weight: bold;
-    font-size: 14pt;
-    color: black;
-    margin-bottom: 5px;
-    text-align: left;
-    word-break: break-all;
-    height: 22px;
-    overflow: hidden;
-
+.ep_profile_users_profile_name {
+  text-align: left;
+  font-weight: bold;
+  font-size: 14pt;
+  color: black;
+  margin-bottom: 5px;
+  text-align: left;
+  word-break: break-all;
+  height: 22px;
+  overflow: hidden;
 }
-.ep_profile_users_profile_desc{
-    text-align: left;
-    font-style: italic;
-    text-align: left;
-    word-break: break-all;
-    height: 22px;
-    overflow: hidden;
+.ep_profile_users_profile_desc {
+  text-align: left;
+  font-style: italic;
+  text-align: left;
+  word-break: break-all;
+  height: 22px;
+  overflow: hidden;
 }
-.ep_profile_users_profile_homepage{
-    /* text-align:justify;
+.ep_profile_users_profile_homepage {
+  /* text-align:justify;
         position: absolute;
     bottom: 16px; */
-    /* white-space: nowrap; */
-    /* left: 0; */
-    text-align: left;
-    word-break: break-all;
+  /* white-space: nowrap; */
+  /* left: 0; */
+  text-align: left;
+  word-break: break-all;
 
-    margin-top: 20px;
-    height: 22px;
+  margin-top: 20px;
+  height: 22px;
 
-    overflow: hidden;
+  overflow: hidden;
 }

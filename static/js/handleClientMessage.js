@@ -3,7 +3,6 @@
 /* eslint-disable no-unused-vars */
 'use strict';
 
-
 const handleClientMessage = (() => {
   const handleClientMessage_USER_NEWINFO = (hook, context) => {
     const padId = pad.getPadId();
@@ -32,13 +31,17 @@ const handleClientMessage = (() => {
 
     if (context.payload.action === 'EP_PROFILE_USER_LOGOUT_UPDATE') {
       const imageUrl = `/static/getUserProfileImage/${context.payload.userId}/${
-        context.payload.padId}?t=${new Date().getTime()}`;
+        context.payload.padId
+      }?t=${new Date().getTime()}`;
 
       if (currentUserId === context.payload.userId) {
         helper.refreshUserImage(currentUserId, context.payload.padId);
         helper.logoutCssFix(currentUserId);
       } else {
-        helper.refreshGeneralImage(context.payload.userId, context.payload.padId);
+        helper.refreshGeneralImage(
+            context.payload.userId,
+            context.payload.padId
+        );
       }
 
       syncData.resetGeneralFields(context.payload.userId);
@@ -46,10 +49,17 @@ const handleClientMessage = (() => {
       // making user as anonymous
       const onlineAnonymousSelector = contributors.isThereOnlineAnonymous();
       if (onlineAnonymousSelector) {
-        contributors.increaseToOnlineAnonymous(onlineAnonymousSelector, context.payload.userId);
+        contributors.increaseToOnlineAnonymous(
+            onlineAnonymousSelector,
+            context.payload.userId
+        );
       } else {
-        contributors.createOnlineAnonymousElement(context.payload.userId,
-            'Anonymous', imageUrl, {});
+        contributors.createOnlineAnonymousElement(
+            context.payload.userId,
+            'Anonymous',
+            imageUrl,
+            {}
+        );
       }
 
       contributors.removeUserElementInUserList(context.payload.userId);
@@ -60,26 +70,42 @@ const handleClientMessage = (() => {
       const onlineAnonymousSelector = contributors.isThereOnlineAnonymous();
       if (context.payload.userName === 'Anonymous') {
         if (onlineAnonymousSelector) {
-          contributors.increaseToOnlineAnonymous(onlineAnonymousSelector, context.payload.userId);
+          contributors.increaseToOnlineAnonymous(
+              onlineAnonymousSelector,
+              context.payload.userId
+          );
         } else {
-          contributors.createOnlineAnonymousElement(context.payload.userId,
-              context.payload.userName, context.payload.img, context.payload.user);
+          contributors.createOnlineAnonymousElement(
+              context.payload.userId,
+              context.payload.userName,
+              context.payload.img,
+              context.payload.user
+          );
         }
 
         contributors.removeUserElementInUserList(context.payload.userId);
       } else {
         if (onlineAnonymousSelector) {
-          if (contributors.checkUserExistInOnlineAnonymous(
-              onlineAnonymousSelector, context.payload.userId)) {
+          if (
+            contributors.checkUserExistInOnlineAnonymous(
+                onlineAnonymousSelector,
+                context.payload.userId
+            )
+          ) {
             contributors.decreaseFromOnlineAnonymous(
-                onlineAnonymousSelector, context.payload.userId);
+                onlineAnonymousSelector,
+                context.payload.userId
+            );
           }
         }
         contributors.createOnlineUserElementInUserList(
-            context.payload.userId, context.payload.userName,
-            context.payload.img, currentUserId, context.payload.user);
+            context.payload.userId,
+            context.payload.userName,
+            context.payload.img,
+            currentUserId,
+            context.payload.user
+        );
       }
-
 
       // change owner loginned img at top of page
       if (currentUserId === context.payload.userId) {
@@ -88,8 +114,14 @@ const handleClientMessage = (() => {
 
         // $("#ep_profile_modal_section_info_name").text(context.payload.userName);
       } else {
-        helper.refreshGeneralImage(context.payload.userId, context.payload.padId);
-        syncData.syncGeneralFormsData(context.payload.userId, context.payload.user);
+        helper.refreshGeneralImage(
+            context.payload.userId,
+            context.payload.padId
+        );
+        syncData.syncGeneralFormsData(
+            context.payload.userId,
+            context.payload.user
+        );
       }
     }
 
@@ -99,6 +131,5 @@ const handleClientMessage = (() => {
     handleClientMessage_USER_NEWINFO,
     handleClientMessage_USER_LEAVE,
     handleClientMessage_CUSTOM,
-
   };
 })();

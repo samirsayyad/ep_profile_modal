@@ -13,7 +13,7 @@ module.exports = {
           pass: settings.settingsEmailPassword, // generated ethereal password
         },
       });
-      // send mail with defined transport object
+        // send mail with defined transport object
       const info = transporter.sendMail({
         from: `${settings.settingsEmailFromName} <
         ${settings.settingsEmailFromEmail}>`, // sender address
