@@ -49,7 +49,6 @@ const syncData = (() => {
       );
       $('#ep_profile_modal_verification').text('Send verification email');
     }
-
     // if(data.push_notification == false)
     //     $("#ep_profile_modal_push_notification").attr('checked','')
     // else

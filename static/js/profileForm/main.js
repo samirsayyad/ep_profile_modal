@@ -323,6 +323,11 @@ const profileForm = (() => {
         sendFormDataToServer();
       }
 
+      if (currentSection === 'push') {
+        $('#ep_profile_modal_push').val(true);
+        sendFormDataToServer();
+      }
+
       // if (currentSection == 'image') {
       //   uploadImg();
       // }
@@ -354,9 +359,6 @@ const profileForm = (() => {
       if (e.keyCode === 13) {
         // Cancel the default action on keypress event
         e.preventDefault();
-        // currentFs = $(this);
-        // nextFs = $(this).next();
-        // nextHandler(currentFs, nextFs);
         $('.next').click();
       }
     });

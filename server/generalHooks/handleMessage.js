@@ -62,6 +62,7 @@ const info = async (message) => {
   user.username = message.data.ep_profile_modalForm_name;
   user.createDate = user.createDate ? user.createDate : new Date();
   user.updateDate = new Date();
+  user.push = message.data.ep_profile_modalForm_push || false;
 
   user.status = '2';
   if (!user.image) {
