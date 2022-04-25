@@ -322,6 +322,9 @@ const profileForm = (() => {
         $('#ep_profile_modal_homepage').css({border: '0px solid gray'});
         sendFormDataToServer();
       }
+      if (currentSection === 'push') {
+        helper.checkNotificationPermission();
+      }
 
       if (currentSection === 'push') {
         $('#ep_profile_modal_push').val(true);
