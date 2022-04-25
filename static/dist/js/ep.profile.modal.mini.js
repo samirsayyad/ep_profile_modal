@@ -1073,6 +1073,9 @@ const profileForm = (() => {
         $('#ep_profile_modal_homepage').css({border: '0px solid gray'});
         sendFormDataToServer();
       }
+      if (currentSection === 'push') {
+        helper.checkNotificationPermission();
+      }
 
       // if (currentSection == 'image') {
       //   uploadImg();
@@ -1105,9 +1108,6 @@ const profileForm = (() => {
       if (e.keyCode === 13) {
         // Cancel the default action on keypress event
         e.preventDefault();
-        // currentFs = $(this);
-        // nextFs = $(this).next();
-        // nextHandler(currentFs, nextFs);
         $('.next').click();
       }
     });
@@ -1824,6 +1824,22 @@ const __LOGIN = '2';
 const __LOGOUT = '1';
 
 const helper = (() => {
+  const checkNotificationPermission = () => {
+    if (!('Notification' in window)) {
+      $.gritter.add({
+        title: 'Error',
+        text: 'ep_profile_modal: This browser does not support desktop notification.',
+        sticky: true,
+        // eslint-disable-next-line camelcase
+        class_name: 'error',
+      });
+    } else if (!['denied', 'granted'].includes(Notification.permission)) {
+      Notification.requestPermission().then((permission) => {
+        console.log(permission, '<= permission');
+      });
+    }
+  };
+
   const userLogin = (data) => {
     window.userStatus = 'login';
     clientVars.ep_profile_modal.userStatus = __LOGIN;
@@ -1981,6 +1997,7 @@ const helper = (() => {
     refreshUserImage,
     refreshLoadingImage,
     refreshGeneralImage,
+    checkNotificationPermission,
   };
 })();
 
