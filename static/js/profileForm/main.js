@@ -165,6 +165,13 @@ const profileForm = (() => {
       const padId = pad.getPadId();
       const $form = $('#ep_profile_formModal_msform');
       const data = getFormData($form);
+      // send to ep_push_notification
+      if (data.ep_profile_modalForm_push === 'Yes') {
+        const event = new CustomEvent('ep_push_notification',
+            {detail: {eventName: 'checkPermission'}});
+        // Dispatch/Trigger/Fire the event
+        window.dispatchEvent(event);
+      }
       const message = {
         type: 'ep_profile_modal',
         action: 'ep_profile_modal_info',
@@ -322,12 +329,12 @@ const profileForm = (() => {
         $('#ep_profile_modal_homepage').css({border: '0px solid gray'});
         sendFormDataToServer();
       }
-      if (currentSection === 'push') {
-        helper.checkNotificationPermission();
-      }
+      // if (currentSection === 'push') {
+      //   helper.checkNotificationPermission();
+      // }
 
       if (currentSection === 'push') {
-        $('#ep_profile_modal_push').val(true);
+        $('#ep_profile_modal_push').val('Yes');
         sendFormDataToServer();
       }
 

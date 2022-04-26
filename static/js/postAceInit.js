@@ -7,6 +7,14 @@ const postAceInit = (() => {
   const __LOGOUT = '1';
   const postAceInit = (hook, context) => {
     usersProfileSection.initiateListeners();
+
+    $('#ep_profile_modalForm_push').on('change', (e) => {
+      const elem = $('#ep_profile_modalForm_push');
+      const checked = elem.is(':checked');
+      elem.attr('checked', checked);
+      elem.val(checked);
+    });
+
     $('#ep_profile_modal_save').on('click', () => {
       const userId = pad.getUserId();
       const padId = pad.getPadId();
@@ -21,6 +29,16 @@ const postAceInit = (() => {
 
       const $form = $('#ep_profile_modal_one');
       const data = shared.getFormData($form);
+
+
+      // send to ep_push_notification
+      if (data.ep_profile_modalForm_push) {
+        const event = new CustomEvent('ep_push_notification',
+            {detail: {eventName: 'checkPermission'}});
+        // Dispatch/Trigger/Fire the event
+        window.dispatchEvent(event);
+      }
+
 
       const message = {
         type: 'ep_profile_modal',

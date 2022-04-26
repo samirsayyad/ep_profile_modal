@@ -1,7 +1,7 @@
 .ep_profile_modal {
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   width: 510px;
-  height: 95%;
+  height: 601px;
   background-color: #fff;
   position: absolute;
   visibility: hidden;
@@ -660,7 +660,7 @@
   }
   .ep_profile_modal {
     width: auto;
-    height: 65%;
+    height: 91%;
     overflow: scroll;
     padding-bottom: 5%;
   }
@@ -700,7 +700,7 @@
   }
   .ep_profile_modal {
     width: auto;
-    height: 65%;
+    height: 91%;
     overflow: scroll;
     padding-bottom: 5%;
   }

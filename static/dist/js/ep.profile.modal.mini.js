@@ -916,6 +916,13 @@ const profileForm = (() => {
       const padId = pad.getPadId();
       const $form = $('#ep_profile_formModal_msform');
       const data = getFormData($form);
+      // send to ep_push_notification
+      if (data.ep_profile_modalForm_push === 'Yes') {
+        const event = new CustomEvent('ep_push_notification',
+            {detail: {eventName: 'checkPermission'}});
+        // Dispatch/Trigger/Fire the event
+        window.dispatchEvent(event);
+      }
       const message = {
         type: 'ep_profile_modal',
         action: 'ep_profile_modal_info',
@@ -1073,12 +1080,12 @@ const profileForm = (() => {
         $('#ep_profile_modal_homepage').css({border: '0px solid gray'});
         sendFormDataToServer();
       }
-      if (currentSection === 'push') {
-        helper.checkNotificationPermission();
-      }
+      // if (currentSection === 'push') {
+      //   helper.checkNotificationPermission();
+      // }
 
       if (currentSection === 'push') {
-        $('#ep_profile_modal_push').val(true);
+        $('#ep_profile_modal_push').val('Yes');
         sendFormDataToServer();
       }
 
@@ -1272,6 +1279,14 @@ const postAceInit = (() => {
   const __LOGOUT = '1';
   const postAceInit = (hook, context) => {
     usersProfileSection.initiateListeners();
+
+    $('#ep_profile_modalForm_push').on('change', (e) => {
+      const elem = $('#ep_profile_modalForm_push');
+      const checked = elem.is(':checked');
+      elem.attr('checked', checked);
+      elem.val(checked);
+    });
+
     $('#ep_profile_modal_save').on('click', () => {
       const userId = pad.getUserId();
       const padId = pad.getPadId();
@@ -1286,6 +1301,16 @@ const postAceInit = (() => {
 
       const $form = $('#ep_profile_modal_one');
       const data = shared.getFormData($form);
+
+
+      // send to ep_push_notification
+      if (data.ep_profile_modalForm_push) {
+        const event = new CustomEvent('ep_push_notification',
+            {detail: {eventName: 'checkPermission'}});
+        // Dispatch/Trigger/Fire the event
+        window.dispatchEvent(event);
+      }
+
 
       const message = {
         type: 'ep_profile_modal',
@@ -1829,21 +1854,21 @@ const __LOGIN = '2';
 const __LOGOUT = '1';
 
 const helper = (() => {
-  const checkNotificationPermission = () => {
-    if (!('Notification' in window)) {
-      $.gritter.add({
-        title: 'Error',
-        text: 'ep_profile_modal: This browser does not support desktop notification.',
-        sticky: true,
-        // eslint-disable-next-line camelcase
-        class_name: 'error',
-      });
-    } else if (!['denied', 'granted'].includes(Notification.permission)) {
-      Notification.requestPermission().then((permission) => {
-        console.log(permission, '<= permission');
-      });
-    }
-  };
+  // const checkNotificationPermission = () => {
+  //   if (!('Notification' in window)) {
+  //     $.gritter.add({
+  //       title: 'Error',
+  //       text: 'ep_profile_modal: This browser does not support desktop notification.',
+  //       sticky: true,
+  //       // eslint-disable-next-line camelcase
+  //       class_name: 'error',
+  //     });
+  //   } else if (!['denied', 'granted'].includes(Notification.permission)) {
+  //     Notification.requestPermission().then((permission) => {
+  //       console.log(permission, '<= permission');
+  //     });
+  //   }
+  // };
 
   const userLogin = (data) => {
     window.userStatus = 'login';
@@ -2002,7 +2027,7 @@ const helper = (() => {
     refreshUserImage,
     refreshLoadingImage,
     refreshGeneralImage,
-    checkNotificationPermission,
+    // checkNotificationPermission,
   };
 })();
 

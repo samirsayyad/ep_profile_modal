@@ -41,6 +41,7 @@ exports.clientVars = async (hook, context, callback) => {
   return {
     ep_profile_modal: {
       profileImageUrl: defaultImg,
+      push: user.push || false,
       userEmail: user.email || '',
       userStatus: user.status || '1',
       userName: user.username || staticVars.defaultUserName,

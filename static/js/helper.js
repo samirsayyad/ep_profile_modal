@@ -6,21 +6,21 @@ const __LOGIN = '2';
 const __LOGOUT = '1';
 
 const helper = (() => {
-  const checkNotificationPermission = () => {
-    if (!('Notification' in window)) {
-      $.gritter.add({
-        title: 'Error',
-        text: 'ep_profile_modal: This browser does not support desktop notification.',
-        sticky: true,
-        // eslint-disable-next-line camelcase
-        class_name: 'error',
-      });
-    } else if (!['denied', 'granted'].includes(Notification.permission)) {
-      Notification.requestPermission().then((permission) => {
-        console.log(permission, '<= permission');
-      });
-    }
-  };
+  // const checkNotificationPermission = () => {
+  //   if (!('Notification' in window)) {
+  //     $.gritter.add({
+  //       title: 'Error',
+  //       text: 'ep_profile_modal: This browser does not support desktop notification.',
+  //       sticky: true,
+  //       // eslint-disable-next-line camelcase
+  //       class_name: 'error',
+  //     });
+  //   } else if (!['denied', 'granted'].includes(Notification.permission)) {
+  //     Notification.requestPermission().then((permission) => {
+  //       console.log(permission, '<= permission');
+  //     });
+  //   }
+  // };
 
   const userLogin = (data) => {
     window.userStatus = 'login';
@@ -179,6 +179,6 @@ const helper = (() => {
     refreshUserImage,
     refreshLoadingImage,
     refreshGeneralImage,
-    checkNotificationPermission,
+    // checkNotificationPermission,
   };
 })();

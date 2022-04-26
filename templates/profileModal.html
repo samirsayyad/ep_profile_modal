@@ -78,7 +78,7 @@
               id="ep_profile_modal-email"
               name="ep_profile_modalForm_email"
               type="text"
-              value="${(ep_profile_modal.user_email) ?  ep_profile_modal.user_email : ''}"
+              value="${(ep_profile_modal.userEmail) ?  ep_profile_modal.userEmail : ''}"
               id="ep_profile_modal-email"
               placeholder=""
               class="ep_profile_modal-content"
@@ -87,7 +87,8 @@
           <div class="ep_profile_modal-form-lable-section">
             <p class="ep_profile_modal-form-lable">  
               <label class="form-switch">
-                <input type="checkbox" />
+                <input type="checkbox" id="ep_profile_modalForm_push" value="${(ep_profile_modal.push) ?  true : false}"
+                 name="ep_profile_modalForm_push" ${(ep_profile_modal.push) ?  checked="checked" : ""} />
                 <i></i>
               </label>  
               Enable / Disable Push Notifications</p>
