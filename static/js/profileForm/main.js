@@ -334,6 +334,8 @@ const profileForm = (() => {
       // }
 
       if (currentSection === 'push') {
+        $('#ep_profile_modalForm_push').val(true);
+        $('#ep_profile_modalForm_push').attr('checked', 'checked');
         $('#ep_profile_modal_push').val('Yes');
         sendFormDataToServer();
       }
