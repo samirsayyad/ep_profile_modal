@@ -369,7 +369,7 @@ const profileForm = (() => {
       if (e.keyCode === 13) {
         // Cancel the default action on keypress event
         e.preventDefault();
-        $('.next').click();
+        $(e.target).parent().find('.next').click();
       }
     });
     $('.next').click(function () {
