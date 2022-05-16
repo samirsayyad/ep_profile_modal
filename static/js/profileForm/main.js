@@ -87,6 +87,12 @@ const profileForm = (() => {
       padId,
     };
     pad.collabClient.sendMessage(message); // Send the chat position message to the server
+
+    // Dispatch/Trigger/Fire the event
+    const eventData = {title: 'Welcome', body: text};
+    const event = new CustomEvent('ep_push_notification',
+        {detail: {eventName: 'notifyAll', data: eventData}});
+    window.dispatchEvent(event);
   };
   const hideFormModalOverlay = () => {
     $('#ep_profile_formModal_overlay').removeClass(
