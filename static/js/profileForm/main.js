@@ -89,7 +89,7 @@ const profileForm = (() => {
     pad.collabClient.sendMessage(message); // Send the chat position message to the server
 
     // Dispatch/Trigger/Fire the event
-    const eventData = {title: 'Welcome', body: text};
+    const eventData = {userId, padId, title: 'Welcome', body: text};
     const event = new CustomEvent('ep_push_notification',
         {detail: {eventName: 'notifyAll', data: eventData}});
     window.dispatchEvent(event);
