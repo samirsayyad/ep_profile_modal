@@ -10,12 +10,6 @@
     "lint:fix": "eslint --fix .",
     "lint:dry": "eslint --fix-dry-run ."
   },
-  "peerDependencies": {
-    "ep_etherpad-lite": ">=1.8.6"
-  },
-  "engines": {
-    "node": ">=10.13.0"
-  },
   "eslintConfig": {
     "root": true,
     "extends": "etherpad/plugin",
