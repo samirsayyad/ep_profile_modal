@@ -738,3 +738,14 @@
     margin: 0 -22px 0 0;
   }
 }
+
+/* mobile view */
+body.mobileView #mainHeader .ep_profile_modal_header {
+  padding-right: inherit;
+  height: inherit;
+}
+body.mobileView #mainHeader .inlineAvatar #ep-profile-image{
+  margin-top: 0;
+  height: 30px;
+  width: 30px;
+}

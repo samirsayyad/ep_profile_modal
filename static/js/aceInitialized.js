@@ -81,6 +81,14 @@ const aceInitialized = (() => {
           <div id='ep-profile-image' style='${style}' /></div>
         </div>
       `);
+    } else {
+      // if mobile
+      $('#mainHeader .inlineAvatar').append(`
+        <div class='ep_profile_modal_header'>
+          <div class='ep-profile-button' id='ep-profile-button'>
+          <div id='ep-profile-image' style='${style}' /></div>
+        </div>
+      `);
     }
 
     if (clientVars.ep_profile_modal.userStatus === '2') {
