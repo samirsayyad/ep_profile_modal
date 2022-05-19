@@ -1,6 +1,6 @@
 {
   "name": "ep_profile_modal",
-  "version": "1.0.63",
+  "version": "1.0.64",
   "description": "profile modal for Etherpad",
   "main": "profile.js",
   "scripts": {
@@ -64,14 +64,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^7.18.0",
-    "eslint-config-etherpad": "^1.0.23",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-mocha": "^8.0.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prefer-arrow": "^1.2.2",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-you-dont-need-lodash-underscore": "^6.12.0",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
     "gulp-clean-css": "^4.3.0",
