@@ -133,17 +133,17 @@ exports.expressConfigure = (hookName, context) => {
 
         if (contributorList.length) {
           contributorList = contributorList.sort(
-              (a, b) => b.last_seen_timestamp - a.last_seen_timestamp
+              (a, b) => b.last_seen_timestamp - a.last_seen_timestamp,
           );
           const slicedArray = contributorList.splice(
               offset,
-              getContributorsLimit
+              getContributorsLimit,
           );
           await async.map(slicedArray, async (row) => {
             const user =
             (await db.get(`ep_profile_modal:${row.userId}_${padId}`)) || {};
-            const userImage = `/static/getUserProfileImage/
-            ${row.userId}/${padId}?t=${new Date().getUTCDay()}`;
+            const userImage =
+            `/static/getUserProfileImage/${row.userId}/${padId}?t=${new Date().getUTCDay()}`;
 
             outputList.push({
               userId: row.userId,
@@ -165,7 +165,7 @@ exports.expressConfigure = (hookName, context) => {
         }
 
         return res.status(201).json({data: outputList, lastPage});
-      }
+      },
   );
   // ///////       getContributors         //////////////////////
 
@@ -177,7 +177,7 @@ exports.expressConfigure = (hookName, context) => {
         const user = (await db.get(`ep_profile_modal:${userId}_${padId}`)) || {};
         user.homepage = getValidUrl(user.homepage) || '';
         return res.status(201).json({user});
-      }
+      },
   );
   // comes from users email when they already recieved an email for this
   context.app.get(
@@ -188,7 +188,7 @@ exports.expressConfigure = (hookName, context) => {
         const padId = Buffer.from(req.params.padId, 'base64').toString('ascii');
         const confirmCode = Buffer.from(
             req.params.confirmCode,
-            'base64'
+            'base64',
         ).toString('ascii');
 
         const user = (await db.get(`ep_profile_modal:${userId}_${padId}`)) || {};
@@ -223,7 +223,7 @@ exports.expressConfigure = (hookName, context) => {
           // gathering verified email of pads
 
           let padVerifiedEmails = await db.get(
-              `ep_profile_modal_verified_email_${padId}`
+              `ep_profile_modal_verified_email_${padId}`,
           );
           if (padVerifiedEmails) {
             if (padVerifiedEmails.indexOf(user.email) === -1) {
@@ -237,7 +237,7 @@ exports.expressConfigure = (hookName, context) => {
 
           // gathering verified emails
           let allVerifiedEmails = await db.get(
-              'ep_profile_modal_verified_emails'
+              'ep_profile_modal_verified_emails',
           );
           if (allVerifiedEmails) {
             if (allVerifiedEmails.indexOf(user.email) === -1) {
@@ -272,7 +272,7 @@ exports.expressConfigure = (hookName, context) => {
           const emailContributedUsers =
           (await db.get(`ep_profile_modal_email_contributed_${padId}`)) || [];
           const lastUserIndex = emailContributedUsers.findIndex(
-              (i) => i.email === user.email
+              (i) => i.email === user.email,
           );
           if (lastUserIndex !== -1) {
             emailContributedUsers[lastUserIndex].data.last_seen_timestamp =
@@ -292,7 +292,7 @@ exports.expressConfigure = (hookName, context) => {
 
           db.set(
               `ep_profile_modal_email_contributed_${padId}`,
-              emailContributedUsers
+              emailContributedUsers,
           );
           // remove user id from contributed users because we have email now
           const padUsers = await db.get(`ep_profile_modal_contributed_${padId}`);
@@ -306,7 +306,7 @@ exports.expressConfigure = (hookName, context) => {
         }
         if (settings.redirectToPad) return res.redirect(`/${padId}`);
         else return res.redirect('/');
-      }
+      },
   );
   context.app.get(
       '/static/getUserProfileImage/:userId/:padId',
@@ -315,7 +315,7 @@ exports.expressConfigure = (hookName, context) => {
         let httpsUrl = null;
         const user =
         (await db.get(
-            `ep_profile_modal:${req.params.userId}_${req.params.padId}`
+            `ep_profile_modal:${req.params.userId}_${req.params.padId}`,
         )) || {};
         if (user.status === '2') {
         // logged in
@@ -360,7 +360,7 @@ exports.expressConfigure = (hookName, context) => {
         } else {
           return res.redirect(defaultImgUserOff);
         }
-      }
+      },
   );
   // for sending email validation
   context.app.get(
@@ -441,7 +441,7 @@ exports.expressConfigure = (hookName, context) => {
         }
 
         return res.status(201).json({status: 'ok'});
-      }
+      },
   );
   // for reset profile image
   context.app.get(
@@ -454,7 +454,7 @@ exports.expressConfigure = (hookName, context) => {
         user.image = 'reset';
         await db.set(`ep_profile_modal:${userId}_${padId}`, user);
         return res.status(201).json({status: 'ok'});
-      }
+      },
   );
   // for upload user image
   context.app.post(
@@ -491,7 +491,7 @@ exports.expressConfigure = (hookName, context) => {
           } else {
             savedFilename = path.join(userId, padId, newFileName + fileType);
           }
-          file.on('limit', () => res.status(201).json({error: 'File is too large'})
+          file.on('limit', () => res.status(201).json({error: 'File is too large'}),
           );
           file.on('error', (error) => {
             bb.emit('error', error);
@@ -508,7 +508,7 @@ exports.expressConfigure = (hookName, context) => {
               const resultResize = getBestImageReszie(
                   sizeImage.width,
                   sizeImage.height,
-                  128
+                  128,
               );
               selctedWidth = resultResize.width;
               selectedHeight = resultResize.height;
@@ -563,7 +563,7 @@ exports.expressConfigure = (hookName, context) => {
               } catch (error) {
                 const msg = error.message.substring(
                     0,
-                    error.message.indexOf('\n')
+                    error.message.indexOf('\n'),
                 );
 
                 return res.status(201).json({error: msg});
@@ -572,7 +572,7 @@ exports.expressConfigure = (hookName, context) => {
           });
         });
         req.pipe(bb);
-      }
+      },
   );
 
   return context;
