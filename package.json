@@ -8,29 +8,9 @@
     "build": "gulp js minify-css minify-image",
     "build:prod": "gulp build --production",
     "lint:fix": "eslint --fix .",
-    "lint:dry": "eslint --fix-dry-run ."
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": "etherpad/plugin",
-    "ignorePatterns": [
-      "/static/dist/**/*.js"
-    ],
-    "globals": {
-      "$": true,
-      "documentReady": true,
-      "contributors": true,
-      "profileForm": true,
-      "usersProfileSection": true,
-      "postAceInit": true,
-      "aceInitialized": true,
-      "handleClientMessage": true,
-      "helper": true,
-      "shared": true,
-      "syncData": true,
-      "__LOGIN": true,
-      "__LOGOUT": true
-    }
+    "lint:dry": "eslint --fix-dry-run .",
+    "rollup:build": "rollup -c rollup.config.js",
+    "rollup:watch": "rollup -c rollup.config.js --watch"
   },
   "repository": {
     "type": "git",
@@ -64,19 +44,18 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^8.15.0",
+    "@babel/preset-env": "^7.18.10",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "eslint": "^8.21.0",
     "eslint-config-etherpad": "^3.0.13",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
     "gulp-clean-css": "^4.3.0",
-    "gulp-concat": "^2.6.1",
     "gulp-git": "^2.10.1",
     "gulp-imagemin": "^7.1.0",
-    "gulp-inject-string": "^1.1.2",
-    "gulp-mode": "^1.0.2",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-uglify-es": "^2.0.0",
-    "prettier": "2.6.2",
-    "typescript": "^4.6.4"
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.7.4"
   }
 }

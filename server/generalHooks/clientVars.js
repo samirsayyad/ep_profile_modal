@@ -1,6 +1,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable camelcase */
-'use strict';
+
 
 const db = require('ep_etherpad-lite/node/db/DB');
 const shared = require('../helpers/shared');

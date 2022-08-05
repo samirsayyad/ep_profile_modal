@@ -1,5 +1,3 @@
-'use strict';
-
 const padMessageHandler = require('ep_etherpad-lite/node/handler/PadMessageHandler');
 const sessioninfos =
   require('ep_etherpad-lite/node/handler/PadMessageHandler').sessioninfos;

@@ -1,5 +1,3 @@
-'use strict';
-
 exports.getValidUrl = (url) => {
   if (url === '' || url === undefined) return '';
   let newUrl = decodeURIComponent(url);

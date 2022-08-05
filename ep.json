@@ -4,12 +4,12 @@
       "name": "profile_modal",
       "pre": ["ep_set_title_on_pad/static", "ep_mobileView/static"],
       "client_hooks": {
-        "postAceInit": "ep_profile_modal/static/js/index",
-        "aceInitialized": "ep_profile_modal/static/js/index",
-        "handleClientMessage_USER_NEWINFO": "ep_profile_modal/static/js/index",
-        "handleClientMessage_USER_LEAVE": "ep_profile_modal/static/js/index",
-        "handleClientMessage_CUSTOM": "ep_profile_modal/static/js/index",
-        "documentReady": "ep_profile_modal/static/js/index"
+        "postAceInit": "ep_profile_modal/static/dist/bundle",
+        "aceInitialized": "ep_profile_modal/static/dist/bundle",
+        "handleClientMessage_USER_NEWINFO": "ep_profile_modal/static/dist/bundle",
+        "handleClientMessage_USER_LEAVE": "ep_profile_modal/static/dist/bundle",
+        "handleClientMessage_CUSTOM": "ep_profile_modal/static/dist/bundle",
+        "documentReady": "ep_profile_modal/static/dist/bundle"
       },
       "hooks": {
         "eejsBlock_styles": "ep_profile_modal/server/generalHooks/blocks",

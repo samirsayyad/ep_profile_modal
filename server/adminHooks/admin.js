@@ -1,4 +1,3 @@
-'use strict';
 const eejs = require('ep_etherpad-lite/node/eejs');
 const db = require('ep_etherpad-lite/node/db/DB');
 const padManager = require('ep_etherpad-lite/node/db/PadManager');
@@ -10,7 +9,7 @@ exports.registerRoute = (hookName, args, cb) => {
       errors: [],
     };
     res.send(
-        eejs.require('ep_profile_modal/templates/admin/admin.html', renderArgs)
+        eejs.require('ep_profile_modal/templates/admin/admin.html', renderArgs),
     );
   });
   args.app.get('/admin/ep_profile_modal_analytics', (req, res) => {
@@ -20,8 +19,8 @@ exports.registerRoute = (hookName, args, cb) => {
     res.send(
         eejs.require(
             'ep_profile_modal/templates/admin/analytics.html',
-            renderArgs
-        )
+            renderArgs,
+        ),
     );
   });
   return [];
@@ -76,7 +75,7 @@ exports.socketio = (hookName, args, cb) => {
               emailContributedUsers,
               padUsersData,
             });
-          }
+          },
       );
     });
     socket.on('load-pads', async () => {

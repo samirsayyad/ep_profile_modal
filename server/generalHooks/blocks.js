@@ -1,12 +1,10 @@
-'use strict';
-
 const eejs = require('ep_etherpad-lite/node/eejs/');
 
 exports.eejsBlock_styles = (hookName, args, cb) => {
   args.content += eejs.require(
       'ep_profile_modal/templates/styles.html',
       {},
-      module
+      module,
   );
   return [];
 };
@@ -15,27 +13,27 @@ exports.eejsBlock_scripts = (hookName, args, cb) => {
   args.content += eejs.require(
       'ep_profile_modal/templates/profileModal.html',
       {},
-      module
+      module,
   );
   args.content += eejs.require(
       'ep_profile_modal/templates/contributors/contributors.html',
       {},
-      module
+      module,
   );
   args.content += eejs.require(
       'ep_profile_modal/templates/general.html',
       {},
-      module
+      module,
   );
   args.content += eejs.require(
       'ep_profile_modal/templates/profileForm/modalForm.html',
       {},
-      module
+      module,
   );
   args.content += eejs.require(
       'ep_profile_modal/templates/userProfileSection/userProfileSection.html',
       {},
-      module
+      module,
   );
 
   return [];

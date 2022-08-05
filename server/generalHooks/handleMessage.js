@@ -1,6 +1,6 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable camelcase */
-'use strict';
+
 
 const shared = require('../helpers/shared');
 const gravatar = require('gravatar');
@@ -57,7 +57,7 @@ const info = async (message) => {
   user.about = message.data.ep_profile_modalForm_about_yourself;
   user.email = message.data.ep_profile_modalForm_email;
   user.homepage = shared.getValidUrl(
-      message.data.ep_profile_modalForm_homepage
+      message.data.ep_profile_modalForm_homepage,
   );
   user.username = message.data.ep_profile_modalForm_name;
   user.createDate = user.createDate ? user.createDate : new Date();
@@ -112,11 +112,11 @@ const logout = async (message) => {
   if (user.username !== '' && user.username) {
     messageChatText = `${user.username}${
       user.about ? `, ${user.about}` : ''
-    } has left. 
+    } has left.
     ${
   user.homepage !== '' &&
       user.homepage &&
-      typeof user.homepage !== undefined
+      typeof user.homepage !== 'undefined'
     ? ` Find them at ${shared.getValidUrl(user.homepage)}'${user.homepage}`
     : ''
 }`;
@@ -176,7 +176,7 @@ const statisticsHandling = async (message) => {
 
   // collect contributor list with last seen timestamp
   const contributor = contrubutedUsers.findIndex(
-      (o) => o.userId === message.userId
+      (o) => o.userId === message.userId,
   );
   const datetime = new Date();
   if (contributor === -1) {
@@ -195,7 +195,7 @@ const statisticsHandling = async (message) => {
   }
   await db.set(
       `ep_profile_modal_contributedList_${message.padId}`,
-      contrubutedUsers
+      contrubutedUsers,
   );
 
   // collect contributor list with last seen timestamp
@@ -226,7 +226,7 @@ const statisticsHandling = async (message) => {
   // //// store pads of users
 
   const verifiedUsers = await db.get(
-      `ep_profile_modal_verified_${message.padId}`
+      `ep_profile_modal_verified_${message.padId}`,
   );
 
   // tell everybody that total user has been changed
